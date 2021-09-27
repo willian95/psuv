@@ -65,3 +65,5 @@ Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::c
 Route::post("raas/jefe-comunidad/search-by-cedula", [ElectorController::class, "searchByCedula"]);
 Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store"]);
 Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
+Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
+Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);

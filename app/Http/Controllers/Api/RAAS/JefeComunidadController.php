@@ -8,8 +8,8 @@ use App\Models\JefeUbch;
 use App\Models\JefeComunidad;
 use App\Models\PersonalCaracterizacion;
 use App\Http\Requests\RAAS\JefeComunidad\JefeComunidadStoreRequest;
-use App\Http\Requests\RAAS\UBCH\UBCHUpdateRequest;
-use App\Http\Requests\RAAS\UBCH\UBCHCedulaSearchRequest;
+use App\Http\Requests\RAAS\JefeComunidad\JefeComunidadUpdateRequest;
+//use App\Http\Requests\RAAS\UBCH\UBCHCedulaSearchRequest;
 use App\Traits\PersonalCaracterizacionTrait;
 
 class JefeComunidadController extends Controller
@@ -91,15 +91,15 @@ class JefeComunidadController extends Controller
     } 
 
 
-    function update(UBCHUpdateRequest $request){
+    function update(JefeComunidadUpdateRequest $request){
 
         try{
 
-            $jefeUbch = JefeUbch::find($request->id);
+            $jefeComunidad = JefeComunidad::find($request->id);
        
-            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
+            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeComunidad->personal_caracterizacion_id, $request);
 
-            return response()->json(["success" => true, "msg" => "Jefe de UBCH actualizado"]);
+            return response()->json(["success" => true, "msg" => "Jefe de Comunidad actualizado"]);
 
         }
         catch(\Exception $e){
@@ -111,16 +111,18 @@ class JefeComunidadController extends Controller
 
     }
 
-    function suspend(UBCHUpdateRequest $request){
+    function suspend(JefeComunidadUpdateRequest $request){
 
         try{
 
             if($this->verificarDuplicidadCedula($request->cedula) > 0){
-                return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de UBCH"]);
+                return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
             }
 
-            $jefeUbch = JefeUbch::find($request->id);
-            $jefeUbch->delete();
+            $jefeComunidad = JefeComunidad::find($request->id);
+            $jefeUbchId = $jefeComunidad->jefe_ubch_id;
+            $comunidadId = $jefeComunidad->comunidad_id;
+            $jefeComunidad->delete();
 
             $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
             
@@ -128,16 +130,15 @@ class JefeComunidadController extends Controller
                 $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
             }
 
-            $jefeUbch = new JefeUbch;
-            $jefeUbch->personal_caracterizacion_id = $personalCaracterizacion->id;
-            $jefeUbch->centro_votacion_id = $request->centro_votacion_id;
-            $jefeUbch->save();
+            $jefeComunidad = new JefeComunidad;
+            $jefeComunidad->personal_caracterizacion_id = $personalCaracterizacion->id;
+            $jefeComunidad->comunidad_id = $comunidadId;
+            $jefeComunidad->jefe_ubch_id = $jefeUbchId;
+            $jefeComunidad->save();
 
-            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
+            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeComunidad->personal_caracterizacion_id, $request);
 
-            //Actualizar también jefe de comunidad
-
-            return response()->json(["success" => true, "msg" => "Jefe de UBCH suspendido y sustituido"]);
+            return response()->json(["success" => true, "msg" => "Jefe de Comunidad suspendido y sustituido"]);
 
         }
         catch(\Exception $e){

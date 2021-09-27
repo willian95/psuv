@@ -67,7 +67,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="comunidad">Comunidad</label>
-                                <select class="form-control" v-model="selectedComunidad" id="comunidad">
+                                <select class="form-control" v-model="selectedComunidad" id="comunidad" :disabled="readonlyComunidad">
                                     <option value="">Seleccione</option>
                                     <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
                                 </select>

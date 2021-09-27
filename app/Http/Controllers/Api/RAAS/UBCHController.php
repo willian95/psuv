@@ -114,8 +114,6 @@ class UBCHController extends Controller
 
             $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
 
-            //Actualizar también jefe de comunidad
-
             return response()->json(["success" => true, "msg" => "Jefe de UBCH suspendido y sustituido"]);
 
         }
