@@ -15,7 +15,7 @@ class DeleteCentroVotacionIndexFromUbch extends Migration
     {
         Schema::table('ubch', function (Blueprint $table) {
             $table->dropForeign('ubch_centro_votacion_id_foreign');
-            $table->dropIndex('ubch_centro_votacion_id_foreign');
+            // $table->dropIndex('ubch_centro_votacion_id_foreign');
             $table->dropColumn('centro_votacion_id');
         });
     }

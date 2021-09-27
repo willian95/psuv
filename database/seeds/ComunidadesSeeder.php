@@ -17,8 +17,8 @@ class ComunidadesSeeder extends Seeder
     {
         
         $comunidades = [
-            ["parroquia_id" => Parroquia::where("nombre", "carirubana")->first()->id, "nombre" => "Comunidad 1"],
-            ["parroquia_id" => Parroquia::where("nombre", "carirubana")->first()->id, "nombre" => "Comunidad 2"],
+            ["parroquia_id" => Parroquia::where("nombre", "Carirubana")->first()->id, "nombre" => "Comunidad 1"],
+            ["parroquia_id" => Parroquia::where("nombre", "Carirubana")->first()->id, "nombre" => "Comunidad 2"],
         ];
 
         foreach($comunidades as $comunidad){
