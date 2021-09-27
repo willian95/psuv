@@ -9,4 +9,11 @@ class Comunidad extends Model
 {
     protected $table="comunidad";
     use HasFactory;
+
+    public function jefeComunidads(){
+
+        return $this->belongsTo(JefeComunidad::class);
+
+    }
+
 }

@@ -1,0 +1,15 @@
+.aside{
+    width: 180px;
+}
+
+.aside-menu .menu-nav > .menu-item > .menu-submenu .menu-subnav > .menu-item > .menu-link{
+    padding-left: 10px;
+}
+
+.bg-main{
+    background-color: #c0392b
+}
+
+.text-danger{
+    color: red !important;
+}

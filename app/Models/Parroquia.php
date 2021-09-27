@@ -9,4 +9,10 @@ class Parroquia extends Model
 {
     protected $table="parroquia";
     use HasFactory;
+
+    public function personalCaracterizacions(){
+
+        return $this->hasMany(PersonalCaracterizacion::class);
+
+    }
 }

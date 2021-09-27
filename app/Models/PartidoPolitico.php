@@ -9,4 +9,11 @@ class PartidoPolitico extends Model
 {
     protected $table="partido_politico";
     use HasFactory;
+
+    public function personalCaracterizacions(){
+
+        return $this->hasMany(PersonalCaracterizacion::class);
+
+    }
+
 }

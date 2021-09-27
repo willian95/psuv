@@ -17,8 +17,8 @@ class CreateJefeUbchesTable extends Migration
             $table->id();
             $table->bigInteger('personal_caraterizacion_id')->unsigned();
             $table->foreign('personal_caraterizacion_id')->references('id')->on('personal_caracterizacion')->onDelete('cascade');
-            $table->bigInteger('ubch_id')->unsigned();
-            $table->foreign('ubch_id')->references('id')->on('ubch')->onDelete('cascade');
+            $table->bigInteger('centro_votacion_id')->unsigned();
+            $table->foreign('centro_votacion_id')->references('id')->on('centro_votacion')->onDelete('cascade');
             $table->timestamps();
         });
     }

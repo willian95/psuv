@@ -9,4 +9,10 @@ class Municipio extends Model
 {
     protected $table="municipio";
     use HasFactory;
+
+    public function personalCaracterizacions(){
+
+        return $this->hasMany(PersonalCaracterizacion::class);
+
+    }
 }

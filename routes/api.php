@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Api\Auth\{AuthenticationController, PasswordResetController};
 use App\Http\Controllers\Api\{
-    BankController, CourierTypeController, ManagerTypeController, RoleController
+    BankController, CourierTypeController, ManagerTypeController, RoleController, MunicipioController, ParroquiaController, CentroVotacionController, PartidoPoliticoController, MovilizacionController, ElectorController, ComunidadController
+};
+use App\Http\Controllers\Api\RAAS\{
+    UBCHController,
+    JefeComunidadController
 };
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -37,3 +41,27 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::get('/verify',[AuthenticationController::class,'getAuthenticatedUser']);
 });
+
+
+Route::get("municipios", [MunicipioController::class, "all"]);
+
+Route::get("parroquias/{municipio_id}", [ParroquiaController::class, "parroquiasByMunicipio"]);
+
+Route::get("comunidades/{parroquia}", [ComunidadController::class, "comunidadesByParroquia"]);
+
+Route::get("centro-votacion/{parroquia_id}", [CentroVotacionController::class, "centroVotacionByParroquia"]);
+
+Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"]);
+
+Route::get("movilizacion", [MovilizacionController::class, "all"]);
+
+Route::post("raas/ubch/search-by-cedula", [ElectorController::class, "searchByCedula"]);
+Route::post("raas/ubch/store", [UBCHController::class, "store"]);
+Route::post("raas/ubch/update", [UBCHController::class, "update"]);
+Route::post("raas/ubch/suspend", [UBCHController::class, "suspend"]);
+Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"]);
+
+Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::class, "jefeUbchByCedula"]);
+Route::post("raas/jefe-comunidad/search-by-cedula", [ElectorController::class, "searchByCedula"]);
+Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store"]);
+Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);

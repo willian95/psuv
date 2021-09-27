@@ -9,4 +9,10 @@ class CentroVotacion extends Model
 {
     protected $table="centro_votacion";
     use HasFactory;
+
+    public function personalCaracterizacions(){
+
+        return $this->hasMany(PersonalCaracterizacion::class);
+
+    }
 }

@@ -9,4 +9,10 @@ class Movilizacion extends Model
 {
     protected $table="movilizacion";
     use HasFactory;
+
+    public function personalCaracterizacions(){
+
+        return $this->hasMany(PersonalCaracterizacion::class);
+
+    }
 }

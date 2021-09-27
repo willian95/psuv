@@ -2,7 +2,15 @@
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\UsersSeeder;
-use Database\Seeders\RoleSeeder;
+use Database\Seeders\EstadoSeeder;
+use Database\Seeders\MunicipioSeeder;
+use Database\Seeders\ParroquiaSeeder;
+use Database\Seeders\CentroVotacionSeeder;
+use Database\Seeders\PartidoPoliticoSeeder;
+use Database\Seeders\TipoMovilizacionSeeder;
+use Database\Seeders\ElectorSeeder;
+use Database\Seeders\ComunidadesSeeder;
+//use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +24,14 @@ class DatabaseSeeder extends Seeder
         $seedersArray = [
             RoleSeeder::class,
             UsersSeeder::class,
+            EstadoSeeder::class,
+            MunicipioSeeder::class,
+            ParroquiaSeeder::class,
+            CentroVotacionSeeder::class,
+            PartidoPoliticoSeeder::class,
+            TipoMovilizacionSeeder::class,
+            ElectorSeeder::class,
+            ComunidadesSeeder::class
         ];
         //call seeders
         foreach ($seedersArray as $seeder) $this->call($seeder);

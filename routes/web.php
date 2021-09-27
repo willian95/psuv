@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthenticationController;
+use App\Http\Controllers\RAAS\UBCHController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
- Route::get('/', function () {
-     return view('welcome');
- });
+Route::get('/', function () {
+    return view('login');
+})->name("login");
+
+
+ Route::get('/dashboard', function () {
+    return view("dashboard");
+ })->name("home");
+
+ Route::view('/raas/ubch', 'RAAS.ubch')->name("raas.ubch");
+
+ Route::view('/raas/jefeComunidad', 'RAAS.jefeComunidad')->name("raas.jefe-comunidad");
+
 
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);
