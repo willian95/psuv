@@ -15,7 +15,7 @@ class DropRelationshipJefeComunidadUbch extends Migration
     {
         Schema::table('jefe_comunidad', function (Blueprint $table) {
             $table->dropForeign('jefe_comunidad_ubch_id_foreign');
-            $table->dropIndex('jefe_comunidad_ubch_id_foreign');
+            // $table->dropIndex('jefe_comunidad_ubch_id_foreign');
             $table->dropColumn('ubch_id');
         });
     }
