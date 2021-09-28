@@ -17,7 +17,7 @@ class AddCodigoCneToParroquia extends Migration
         if (!Schema::hasColumn('parroquia', 'codigo_cne'))
         {
             Schema::table('parroquia', function (Blueprint $table) {
-                $table->integer("codigo_cne");
+                $table->integer("codigo_cne")->nullable();
             });
         }
     }
