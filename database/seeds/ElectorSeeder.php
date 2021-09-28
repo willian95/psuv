@@ -47,6 +47,20 @@ class ElectorSeeder extends Seeder
                 "municipio_id" => Municipio::first()->id,
                 "parroquia_id" => Parroquia::first()->id,
                 "centro_votacion_id" => CentroVotacion::first()->id
+            ],
+            [
+                "nacionalidad" => "venezolano",
+                "cedula" => "23586157",
+                "primer_apellido" => "vega",
+                "segundo_apellido" => "Gonzalez",
+                "primer_nombre" => "sabas",
+                "segundo_nombre" => "carlos e",
+                "sexo" => "masculino",
+                "fecha_nacimiento" => "1998-05-01",
+                "estado_id" => Estado::first()->id,
+                "municipio_id" => Municipio::first()->id,
+                "parroquia_id" => Parroquia::first()->id,
+                "centro_votacion_id" => CentroVotacion::first()->id
             ]
         ];
 

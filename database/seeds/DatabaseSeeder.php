@@ -10,6 +10,7 @@ use Database\Seeders\PartidoPoliticoSeeder;
 use Database\Seeders\TipoMovilizacionSeeder;
 use Database\Seeders\ElectorSeeder;
 use Database\Seeders\ComunidadesSeeder;
+use Database\Seeders\CalleSeeder;
 //use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -31,7 +32,8 @@ class DatabaseSeeder extends Seeder
             PartidoPoliticoSeeder::class,
             TipoMovilizacionSeeder::class,
             ElectorSeeder::class,
-            ComunidadesSeeder::class
+            ComunidadesSeeder::class,
+            CalleSeeder::class,
         ];
         //call seeders
         foreach ($seedersArray as $seeder) $this->call($seeder);
