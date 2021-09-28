@@ -30,4 +30,6 @@ Route::get('/', function () {
 
  Route::view('/raas/jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
 
+ Route::view('/raas/jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
+
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);

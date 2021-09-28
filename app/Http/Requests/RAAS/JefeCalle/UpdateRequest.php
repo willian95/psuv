@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "jefe_comunidad_id" => "required|exists:personal_caracterizacion,id",
+            "jefe_comunidad_id" => "required|exists:jefe_comunidad,id",
             "personal_caraterizacion" => "required",
             "tipo_voto" => "required",
             "telefono_principal" => "required|max:11",

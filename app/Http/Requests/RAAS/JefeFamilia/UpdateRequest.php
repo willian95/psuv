@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\RAAS\JefeCalle;
+namespace App\Http\Requests\RAAS\JefeFamilia;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,13 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "jefe_comunidad_id" => "required|exists:jefe_comunidad,id",
-            "personal_caraterizacion" => "required",
+            "jefe_calle_id" => "required|exists:jefe_calle,id",
+            "personal_caracterizacion" => "required",
             "tipo_voto" => "required",
             "telefono_principal" => "required|max:11",
             "telefono_secundario" => "required|max:11",
             "partido_politico_id" => "required|exists:partido_politico,id",
             "movilizacion_id" => "required|exists:movilizacion,id",
-            "calle_id" => "required|exists:calle,id"
         ];
     }
 }

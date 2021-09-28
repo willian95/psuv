@@ -15,7 +15,8 @@ use App\Http\Controllers\Api\{
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
     JefeComunidadController,
-    JefeCalleController
+    JefeCalleController,
+    JefeFamiliaController
 };
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -54,8 +55,15 @@ Route::prefix('calles')->group(function () {
 //Calles Routes
 Route::prefix('raas/jefe-calle')->group(function () {
     Route::get("/", [JefeCalleController::class, "index"])->name('api.jefe-calle.index');
+    Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula');
     Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
     Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
+});
+Route::prefix('raas/jefe-familia')->group(function () {
+    Route::get("/", [JefeFamiliaController::class, "index"])->name('api.jefe-familia.index');
+    Route::get("/{cedula}", [JefeFamiliaController::class, "searchByCedulaField"])->name('api.jefe-familia.search-by-cedula');
+    Route::post("/", [JefeFamiliaController::class, "store"])->name('api.jefe-familia.store');
+    Route::put("/{id}", [JefeFamiliaController::class, "update"])->name('api.jefe-familia.update');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {

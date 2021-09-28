@@ -14,14 +14,14 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="cedula">Cédula Jefe de Comunidad</label>
+                                <label for="cedula">Cédula Jefe de Calle</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_comunidad" >
-                                        <small class="text-danger" v-if="cedula_jefe_comunidad_error">@{{ cedula_jefe_comunidad_error }}</small>
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_calle" >
+                                        <small class="text-danger" v-if="cedula_jefe_calle_error">@{{ cedula_jefe_calle_error }}</small>
                                     </div>
                                     <div >
-                                        <button class="btn btn-primary" @click="obtenerJefeComunidad()" v-if="!loading">
+                                        <button class="btn btn-primary" @click="obtenerJefeCalle()" v-if="!loading">
                                             <i class="fas fa-search"></i>
                                         </button>
                                         <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="loading"></div>
@@ -32,8 +32,8 @@
 
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="nombre">Nombre Jefe Comunidad</label>
-                                <input type="text" class="form-control" v-if="jefe_comunidad" v-model="jefe_comunidad.personal_caracterizacion.full_name" readonly>
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" v-if="jefe_calle" v-model="jefe_calle.personal_caracterizacion.full_name" readonly>
                                 <input type="text" class="form-control" v-else readonly>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="cedula">Cédula Jefe</label>
+                                <label for="cedula">Cédula Jefe de Familia</label>
                                 <div class="d-flex">
                                     <div>
                                         <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe">
@@ -59,29 +59,16 @@
 
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="nombre">Nombre Jefe</label>
-                                <input type="text" class="form-control" v-if="form.personal_caraterizacion" v-model="form.personal_caraterizacion.full_name" readonly>
+                                <label for="nombre">Nombre </label>
+                                <input type="text" class="form-control" v-if="form.personal_caracterizacion" v-model="form.personal_caracterizacion.full_name" readonly>
                                 <input type="text" class="form-control" v-else readonly>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="calle">Calle</label>
-                                <select class="form-control" v-model="form.calle_id" v-if="calles.length>0" >
-                                    <option value="0">Seleccione</option>
-                                    <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
-                                </select>
-                                <select class="form-control" v-else disabled>
-                                    <option value="" selected>Seleccione</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label for="tipoVoto">Tipo de voto</label>
-                                <select class="form-control" v-model="form.tipo_voto" v-if="form.personal_caraterizacion">
+                                <select class="form-control" v-model="form.tipo_voto" v-if="form.personal_caracterizacion">
                                     <option value="" selected>Seleccione</option>
                                     <option v-for="tipoVoto in tipoDeVotos" :value="tipoVoto">@{{tipoVoto}}</option>
                                 </select>
@@ -94,7 +81,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label >Teléfono principal</label>
-                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_principal">
+                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caracterizacion" v-model="form.telefono_principal">
                                 <input type="tel" class="form-control" v-else disabled>
                             </div>
                         </div>
@@ -102,7 +89,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoSecundario">Teléfono secundario</label>
-                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_secundario">
+                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caracterizacion" v-model="form.telefono_secundario">
                                 <input type="tel" class="form-control" v-else disabled>
                             </div>
                         </div>
@@ -110,7 +97,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="partidoPolitico">Partido político</label>
-                                <select class="form-control" v-model="form.partido_politico_id" v-if="form.personal_caraterizacion" >
+                                <select class="form-control" v-model="form.partido_politico_id" v-if="form.personal_caracterizacion" >
                                     <option value="" selected>Seleccione</option>
                                     <option :value="partidoPolitico.id" v-for="partidoPolitico in partidosPoliticos">@{{ partidoPolitico.nombre }}</option>
                                 </select>
@@ -123,7 +110,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="movilizacion">Tipo de movilización</label>
-                                <select class="form-control" v-model="form.movilizacion_id" v-if="form.personal_caraterizacion">
+                                <select class="form-control" v-model="form.movilizacion_id" v-if="form.personal_caracterizacion">
                                     <option value="" selected>Seleccione</option>
                                     <option :value="movilizacion.id" v-for="movilizacion in tiposDeMovilizacion">@{{ movilizacion.nombre }}</option>
                                 </select>

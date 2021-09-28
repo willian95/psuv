@@ -4,43 +4,37 @@ namespace App\Http\Controllers\api\RAAS;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\JefeCalle as Model;
-use App\Http\Requests\RAAS\JefeCalle\StoreRequest as StoreRequest;
-use App\Http\Requests\RAAS\JefeCalle\UpdateRequest as UpdateRequest;
+use App\Models\JefeFamilia as Model;
+use App\Http\Requests\RAAS\JefeFamilia\StoreRequest as StoreRequest;
+use App\Http\Requests\RAAS\JefeFamilia\UpdateRequest as UpdateRequest;
 use App\Traits\PersonalCaracterizacionTrait;
 use App\Models\PersonalCaracterizacion;
 use App\Models\Elector;
 use DB;
-class JefeCalleController extends Controller
+class JefeFamiliaController extends Controller
 {
     use PersonalCaracterizacionTrait;
 
     public function index( Request $request)
     {
         try {
-            $calle_id = $request->input('calle_id');
             $personal_caracterizacion_id = $request->input('personal_caracterizacion_id');
-            $jefe_comunidad_id = $request->input('jefe_comunidad_id');
+            $jefe_calle_id = $request->input('jefe_calle_id');
             $includes= $request->input('includes') ? $request->input('includes') : [
+                "jefeCalle.personalCaracterizacion",
                 "personalCaracterizacion.movilizacion",
-                "personalCaracterizacion.partidoPolitico",
-                "jefeComunidad.personalCaracterizacion",
-                "jefeComunidad.comunidad",
-                "calle"
+                "personalCaracterizacion.partidoPolitico"
             ];
             //Init query
             $query=Model::query();
             //Includes
             $query->with($includes);
             //Filters
-            if ($calle_id) {
-                $query->where('calle_id', $calle_id);
-            }
             if ($personal_caracterizacion_id) {
                 $query->where('personal_caracterizacion_id', $personal_caracterizacion_id);
             }
-            if ($jefe_comunidad_id) {
-                $query->where('jefe_comunidad_id', $jefe_comunidad_id);
+            if ($jefe_calle_id) {
+                $query->where('jefe_calle_id', $jefe_calle_id);
             }
             // $this->addFilters($request, $query);
             
@@ -67,11 +61,11 @@ class JefeCalleController extends Controller
             //Get data
             $data=$request->all();
             //Operations
-            $elector=PersonalCaracterizacion::whereCedula($data['personal_caraterizacion']['cedula'])->first();
+            $elector=PersonalCaracterizacion::whereCedula($data['personal_caracterizacion']['cedula'])->first();
             if(!$elector){
-                $elector=Elector::whereCedula($data['personal_caraterizacion']['cedula'])->first();
+                $elector=Elector::whereCedula($data['personal_caracterizacion']['cedula'])->first();
                 if(!$elector){
-                    throw new \Exception('Elector jefe de calle no encontrado.', 404);
+                    throw new \Exception('Elector jefe de familia no encontrado.', 404);
                 }else{
                     //Create
                     $elector=PersonalCaracterizacion::create([
@@ -98,9 +92,10 @@ class JefeCalleController extends Controller
             }else{
                 $data['personal_caraterizacion_id']=$elector->id;
             }
+            //validate exist
             $exist=Model::where('personal_caraterizacion_id',$elector->id)->first();
             if($exist){
-                throw new \Exception('Este jefe de calle ya fue registrado en otra ocasión.', 404);
+                throw new \Exception('Este jefe de familia ya fue registrado en otra ocasión.', 400);
             }
             //Create entity
             $entity=Model::create($data);
@@ -123,18 +118,17 @@ class JefeCalleController extends Controller
             //Find entity
             $entity=Model::find($id);
             if (!$entity) {
-                throw new \Exception('Jefe de calle no encontrado', 404);
+                throw new \Exception('Jefe de familia no encontrado', 404);
             }
-            //Preguntar validación: Si ya existe el mismo jefe de calle para esta calle.
             //Get data
             $data=$request->all();
             //Operations
-            $data['personal_caraterizacion']=json_decode($data['personal_caraterizacion']);
-            $elector=PersonalCaracterizacion::whereCedula($data['personal_caraterizacion']->cedula)->first();
+            $data['personal_caracterizacion']=json_decode($data['personal_caracterizacion']);
+            $elector=PersonalCaracterizacion::whereCedula($data['personal_caracterizacion']->cedula)->first();
             if(!$elector){
-                $elector=Elector::whereCedula($data['personal_caraterizacion']->cedula)->first();
+                $elector=Elector::whereCedula($data['personal_caracterizacion']->cedula)->first();
                 if(!$elector){
-                    throw new \Exception('Elector jefe de calle no encontrado.', 404);
+                    throw new \Exception('Elector jefe de familia no encontrado.', 404);
                 }else{
                     //Create
                     $elector=PersonalCaracterizacion::create([
@@ -160,7 +154,7 @@ class JefeCalleController extends Controller
                 }   
             }else{
                 $data['personal_caraterizacion_id']=$elector->id;
-                PersonalCaracterizacion::whereCedula($data['personal_caraterizacion']->cedula)->update([
+                PersonalCaracterizacion::whereCedula($data['personal_caracterizacion']->cedula)->update([
                     "telefono_principal"=>$request->telefono_principal,
                     "telefono_secundario"=>$request->telefono_secundario,
                     "tipo_voto"=>$request->tipo_voto,
@@ -226,7 +220,7 @@ class JefeCalleController extends Controller
             //Init query
             $query=Model::query();
             //includes
-            $query->with('personalCaracterizacion',"calle");
+            $query->with('personalCaracterizacion');
             if ($cedula) {
                 $query->whereHas('personalCaracterizacion', function($q) use($cedula){
                     $q->where('cedula', $cedula);

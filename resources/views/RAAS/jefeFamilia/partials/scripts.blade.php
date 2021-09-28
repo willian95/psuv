@@ -12,9 +12,8 @@
 
             //Form
             form:{
-                jefe_comunidad_id:null,
-                calle_id:"0",
-                personal_caraterizacion:null,
+                jefe_calle_id:null,
+                personal_caracterizacion:null,
                 tipo_voto:"",
                 telefono_principal:"",
                 telefono_secundario:"",
@@ -23,13 +22,12 @@
             },
             entityId:null,
             //search
-            cedula_jefe_comunidad:"",
-            cedula_jefe_comunidad_error:"",
-            jefe_comunidad:null,
+            cedula_jefe_calle:"",
+            cedula_jefe_calle_error:"",
+            jefe_calle:null,
             cedula_jefe:"",
             cedula_jefe_error:"",
             //Array data
-            calles:[],
             tipoDeVotos:[
                 "Duro",
                 "Blando"
@@ -40,7 +38,7 @@
 
 
             //paginate
-            modalTitle:"Crear Jefe de Calle",
+            modalTitle:"Crear Jefe de Familia",
             currentPage:1,
             links:"",
             totalPages:"",
@@ -56,7 +54,7 @@
         },
         methods: {
             async fetch(link = ""){
-                let res = await axios.get(link == "" ? "{{ route('api.jefe-calle.index') }}" : link.url)
+                let res = await axios.get(link == "" ? "{{ route('api.jefe-familia.index') }}" : link.url)
                 this.results = res.data.data
                 this.links = res.data.links
                 this.currentPage = res.data.current_page
@@ -64,21 +62,15 @@
             },
             async store(){
                 //Validations
-                if(this.form.jefe_comunidad_id==null){
-                    swal({
-                        text:"Debe indicar el jefe de comunidad",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.personal_caraterizacion==null){
+                if(this.form.jefe_calle_id==null){
                     swal({
                         text:"Debe indicar el jefe de calle",
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.calle_id=="0"){
+                }else if(this.form.personal_caracterizacion==null){
                     swal({
-                        text:"Debe seleccionar una calle",
+                        text:"Debe indicar el jefe de familia",
                         icon:"error"
                     });
                     return false;
@@ -118,7 +110,7 @@
                     const response = await axios({
                         method: 'POST',
                         responseType: 'json',
-                        url: "{{ route('api.jefe-calle.store') }}",
+                        url: "{{ route('api.jefe-familia.store') }}",
                         data: this.form
                     });
                     this.loading = false;
@@ -145,42 +137,32 @@
                 this.action="edit";
                 this.entityId=entity.id;
                 //Jefe comunidad
-                this.cedula_jefe_comunidad=entity.jefe_comunidad.personal_caracterizacion.cedula;
-                this.jefe_comunidad=entity.jefe_comunidad;
-                this.form.jefe_comunidad_id=entity.jefe_comunidad.id;
-                //Calle
-                this.form.calle_id=entity.calle_id;
+                this.cedula_jefe_calle=entity.jefe_calle.personal_caracterizacion.cedula;
+                this.jefe_calle=entity.jefe_calle;
+                this.form.jefe_calle_id=entity.jefe_calle.id;
                 //Jefe calle
                 this.cedula_jefe=entity.personal_caracterizacion.cedula;
-                this.form.personal_caraterizacion=entity.personal_caracterizacion;
+                this.form.personal_caracterizacion=entity.personal_caracterizacion;
                 this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto;
                 this.form.telefono_principal=entity.personal_caracterizacion.telefono_principal;
                 this.form.telefono_secundario=entity.personal_caracterizacion.telefono_secundario;
                 this.form.partido_politico_id=entity.personal_caracterizacion.partido_politico_id;
                 this.form.movilizacion_id=entity.personal_caracterizacion.movilizacion_id;
-                //obtener calles
-                this.obtenerCalles();
             },
             async suspend(){
 
             },
             async update(){
               //Validations
-                if(this.form.jefe_comunidad_id==null){
-                    swal({
-                        text:"Debe indicar el jefe de comunidad",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.personal_caraterizacion==null){
+                if(this.form.jefe_calle_id==null){
                     swal({
                         text:"Debe indicar el jefe de calle",
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.calle_id=="0"){
+                }else if(this.form.personal_caracterizacion==null){
                     swal({
-                        text:"Debe seleccionar una calle",
+                        text:"Debe indicar el jefe de familia",
                         icon:"error"
                     });
                     return false;
@@ -220,7 +202,7 @@
                     const response = await axios({
                         method: 'PUT',
                         responseType: 'json',
-                        url: "{{ url('api/raas/jefe-calle') }}"+"/"+this.entityId,
+                        url: "{{ url('api/raas/jefe-familia') }}"+"/"+this.entityId,
                         params: this.form
                     });
                     this.loading = false;
@@ -240,25 +222,23 @@
                 }
             },
             clearForm(){
-                this.form.jefe_comunidad_id=null;
-                this.form.calle_id="0";
-                this.form.personal_caraterizacion=null;
+                this.form.jefe_calle_id=null;
+                this.form.personal_caracterizacion=null;
                 this.form.tipo_voto="";
                 this.form.telefono_principal="";
                 this.form.telefono_secundario="";
                 this.form.partido_politico_id="";
                 this.form.movilizacion_id="";
                 this.cedula_jefe="";
-                this.cedula_jefe_comunidad="";
-                this.cedula_jefe_comunidad_error="";
                 this.cedula_jefe_error="";
+                this.cedula_jefe_calle="";
+                this.cedula_jefe_calle_error="";
                 this.entityId=null;
-                this.jefe_comunidad=null;
-                this.calles=[];
+                this.jefe_calle=null;
                 this.action="create";
             },
-            async obtenerJefeComunidad() {
-                if(this.cedula_jefe_comunidad==""){
+            async obtenerJefeCalle() {
+                if(this.cedula_jefe_calle==""){
                     swal({
                         text:"Debe ingresar una cédula válida",
                         icon:"error"
@@ -267,22 +247,18 @@
                 }
                 try {
                     this.loading = true;
-                    let filters = {
-                        cedula:this.cedula_jefe_comunidad
-                    }
+                    let filters = {}
                     const response = await axios({
                         method: 'Get',
                         responseType: 'json',
-                        url: "{{ url('api/raas/jefe-comunidad/search-by-cedula') }}",
+                        url: "{{ url('api/raas/jefe-calle') }}"+"/"+this.cedula_jefe_calle,
                         params: filters
                     });
                     this.loading = false;
-                    this.jefe_comunidad = response.data.data;
-                    this.form.jefe_comunidad_id = this.jefe_comunidad.id;
-                    this.obtenerCalles();
+                    this.jefe_calle = response.data.data;
+                    this.form.jefe_calle_id = this.jefe_calle.id;
                 } catch (err) {
                     this.loading = false;
-                    this.cedula_jefe_comunidad_error=err.response.data.message;
                     console.log(err)
                 }
             },
@@ -307,30 +283,12 @@
                     });
                     this.loading = false;
                     if(response.data.success==true){
-                        this.form.personal_caraterizacion=response.data.elector;
+                        this.form.personal_caracterizacion=response.data.elector;
+                        this.cedula_jefe_error="";
                     }else{
                         this.form.personal_caracterization=null;
                         this.cedula_jefe_error="Elector no encontrado";
                     }
-                } catch (err) {
-                    this.loading = false;
-                    console.log(err)
-                }
-            },
-            async obtenerCalles() {
-                try {
-                    this.loading = true;
-                    let filters = {
-                        comunidad_id:this.jefe_comunidad.comunidad_id
-                    }
-                    const response = await axios({
-                        method: 'Get',
-                        responseType: 'json',
-                        url: "{{ route('api.calles.index') }}",
-                        params: filters
-                    });
-                    this.loading = false;
-                    this.calles = response.data.data;
                 } catch (err) {
                     this.loading = false;
                     console.log(err)

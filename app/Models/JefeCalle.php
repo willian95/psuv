@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class JefeCalle extends Model
 {
+    use HasFactory;
     protected $table="jefe_calle";
     protected $fillable=[
         "calle_id",
         "personal_caraterizacion_id",
         "jefe_comunidad_id",
     ];
-    use HasFactory;
     public function calle(){
         return $this->belongsTo(Calle::class);
     }
