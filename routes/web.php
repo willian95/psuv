@@ -28,5 +28,6 @@ Route::get('/', function () {
 
  Route::view('/raas/jefeComunidad', 'RAAS.jefeComunidad')->name("raas.jefe-comunidad");
 
+ Route::view('/raas/jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
 
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);

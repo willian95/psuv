@@ -9,7 +9,9 @@ class PersonalCaracterizacion extends Model
 {
     protected $table="personal_caracterizacion";
     use HasFactory;
-
+    protected $appends=[
+        "full_name"
+      ];
     protected $fillable = [
         "cedula",
         "nacionalidad",
@@ -30,6 +32,21 @@ class PersonalCaracterizacion extends Model
         "partido_politico_id",
         "movilizacion_id"
     ];
+
+    public function getFullNameAttribute()
+    {
+        $name = $this->primer_nombre;
+        if (!empty($this->segundo_nombre)) {
+            $name .= ' ' .$this->segundo_nombre;
+        }
+        if (!empty($this->primer_apellido)) {
+            $name .= ' ' .$this->primer_apellido;
+        }
+        if (!empty($this->segundo_apellido)) {
+            $name .= ' ' .$this->segundo_apellido;
+        }
+        return $name;
+    }
 
     public function jefeUbchs(){
 

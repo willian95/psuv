@@ -2,11 +2,20 @@
 
 use App\Http\Controllers\Api\Auth\{AuthenticationController, PasswordResetController};
 use App\Http\Controllers\Api\{
-    BankController, CourierTypeController, ManagerTypeController, RoleController, MunicipioController, ParroquiaController, CentroVotacionController, PartidoPoliticoController, MovilizacionController, ElectorController, ComunidadController
+    RoleController, 
+    MunicipioController, 
+    ParroquiaController, 
+    CentroVotacionController, 
+    PartidoPoliticoController, 
+    MovilizacionController, 
+    ElectorController, 
+    ComunidadController
+
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
-    JefeComunidadController
+    JefeComunidadController,
+    JefeCalleController
 };
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +46,18 @@ Route::prefix('users')->group(function () {
     require base_path('routes/apiRoutes/UsersApiRoutes.php');
 });
 
+//Calles Routes
+Route::prefix('calles')->group(function () {
+    require base_path('routes/apiRoutes/CallesApiRoutes.php');
+});
+
+//Calles Routes
+Route::prefix('raas/jefe-calle')->group(function () {
+    Route::get("/", [JefeCalleController::class, "index"])->name('api.jefe-calle.index');
+    Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
+    Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
+});
+
 Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::get('/verify',[AuthenticationController::class,'getAuthenticatedUser']);
@@ -51,9 +72,9 @@ Route::get("comunidades/{parroquia}", [ComunidadController::class, "comunidadesB
 
 Route::get("centro-votacion/{parroquia_id}", [CentroVotacionController::class, "centroVotacionByParroquia"]);
 
-Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"]);
+Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->name('api.partidos-politicos.index');
 
-Route::get("movilizacion", [MovilizacionController::class, "all"]);
+Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.movilizacion.index');
 
 Route::post("raas/ubch/search-by-cedula", [ElectorController::class, "searchByCedula"]);
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
@@ -67,3 +88,8 @@ Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store
 Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
+
+
+Route::get("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedulaField"])->name('api.jefe-comunidad.search.by.cedula');
+
+

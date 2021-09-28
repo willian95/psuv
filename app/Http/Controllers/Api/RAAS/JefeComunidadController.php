@@ -16,6 +16,32 @@ class JefeComunidadController extends Controller
 {
     use PersonalCaracterizacionTrait;
 
+    public function searchByCedulaField( Request $request)
+    {
+        try {
+            $cedula = $request->input('cedula');
+            //Init query
+            $query=JefeComunidad::query();
+            //includes
+            $query->with('personalCaracterizacion');
+            //Filters
+            if ($cedula) {
+                $query->whereHas('personalCaracterizacion', function($q) use($cedula){
+                    $q->where('cedula', $cedula);
+                });
+            }
+            $entity=$query->first();
+            if (!$entity) {
+                throw new \Exception('Jefe de Comunidad no encontrado', 404);
+            }
+            $response = $this->getSuccessResponse($entity);
+        } catch (\Exception $e) {
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al Listar los registros');
+        }
+        return $this->response($response, $code ?? 200);
+    }//index()
+
     function store(JefeComunidadStoreRequest $request){
 
         try{
