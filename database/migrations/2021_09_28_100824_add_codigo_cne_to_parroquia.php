@@ -13,6 +13,7 @@ class AddCodigoCneToParroquia extends Migration
      */
     public function up()
     {
+        //
         if (!Schema::hasColumn('parroquia', 'codigo_cne'))
         {
             Schema::table('parroquia', function (Blueprint $table) {
