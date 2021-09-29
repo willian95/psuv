@@ -39,6 +39,6 @@ class REPImportTask extends Command
      */
     public function handle()
     {
-        Excel::import(new REPImport, 'rep.xlsx');
+        Excel::import(new REPImport, public_path('/').'rep.xlsx');
     }
 }
