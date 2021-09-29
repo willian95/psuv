@@ -14,36 +14,10 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="cedula">Cédula Jefe UBCH</label>
-                                <div class="d-flex">
-                                    <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedulaJefeUBCH" :readonly="readonlyJefeCedula">
-                                        <small class="text-danger" v-if="errors.hasOwnProperty('cedulaJefe')">@{{ errors['cedulaJefe'][0] }}</small>
-                                    </div>
-                                    <div >
-                                        <button class="btn btn-primary" @click="searchJefeCedula()" v-if="!cedulaJefeSearching">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                        <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="cedulaJefeSearching"></div>
-                                    </div>      
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="nombre">Nombre Jefe UBCH</label>
-                                <input type="text" class="form-control" id="nombre" v-model="nombreJefeUBCH" readonly>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label for="cedula">Cédula</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula">
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula" maxlength="8" @keypress="isNumber($event)">
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedula')">@{{ errors['cedula'][0] }}</small>
                                     </div>
                                     <div >
@@ -66,15 +40,35 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="comunidad">Comunidad</label>
-                                <select class="form-control" v-model="selectedComunidad" id="comunidad" :disabled="readonlyComunidad">
+                                <label for="municipio">Municipio</label>
+                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" disabled>
                                     <option value="">Seleccione</option>
-                                    <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
+                                    <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
                                 </select>
-                                <small class="text-danger" v-if="errors.hasOwnProperty('comunidad')">@{{ errors['comunidad'][0] }}</small>
+                                <small class="text-danger" v-if="errors.hasOwnProperty('municipio')">@{{ errors['municipio'][0] }}</small>
                             </div>
                         </div>
-                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="parroquia">Parroquia</label>
+                                <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()" disabled>
+                                    <option value="">Seleccione</option>
+                                    <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
+                                </select>
+                                <small class="text-danger" v-if="errors.hasOwnProperty('parroquia')">@{{ errors['parroquia'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="centroVotacion">Centro Votación</label>
+                                <select class="form-control" v-model="selectedCentroVotacion" id="centroVotacion" :disabled="readonlyCentroVotacion">
+                                    <option value="">Seleccione</option>
+                                    <option :value="centroVotacion.id" v-for="centroVotacion in centroVotaciones">@{{ centroVotacion.nombre }}</option>
+                                </select>
+                                <small  class="text-danger" v-if="errors.hasOwnProperty('centro_votacion_id')">@{{ errors['centro_votacion_id'][0] }}</small>
+                            </div>
+                        </div>
 
                         
 
@@ -84,6 +78,7 @@
                                 <select class="form-control" v-model="tipoVoto">
                                     <option value="duro">Duro</option>
                                     <option value="blando">Blando</option>
+                                    <option value="opositor">Opositor</option>
                                 </select>
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('tipo_voto')">@{{ errors['tipo_voto'][0] }}</small>
                             </div>
@@ -92,7 +87,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoPrincipal">Teléfono principal</label>
-                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal">
+                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
                             </div>
                         </div>
@@ -100,7 +95,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoSecundario">Teléfono secundario</label>
-                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario">
+                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario" maxlength="11" @keypress="isNumber($event)">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_secundario')">@{{ errors['telefono_secundario'][0] }}</small>
                             </div>
                         </div>

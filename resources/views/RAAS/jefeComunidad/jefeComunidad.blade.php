@@ -132,7 +132,7 @@
         </div>
         <!--end::Container-->
 
-        @include("RAAS.jefeComunidadPartials.modalFormCreateEditSuspend")
+        @include("RAAS.jefeComunidad.jefeComunidadPartials.modalFormCreateEditSuspend")
 
 
     </div>
@@ -198,7 +198,7 @@ const app = new Vue({
             segundoApellido:"",
             sexo:"",
 
-            modalTitle:"Crear Jefe de UBCH",
+            modalTitle:"Crear Jefe de Comunidad",
             currentPage:1,
             links:"",
             totalPages:"",
@@ -209,7 +209,7 @@ const app = new Vue({
         create(){
             this.selectedId = ""
             this.action = "create"
-            this.modalTitle = "Crear Jefe de UBCH",
+            this.modalTitle = "Crear Jefe de Comunidad",
             this.selecteMunicipio = ""
             this.selectedParroquia = ""
             this.selectedCentroVotacion = ""
@@ -232,12 +232,12 @@ const app = new Vue({
         async edit(elector, jefeId, model){
             this.selectedId = jefeId
             this.action = "edit"
-            this.modalTitle = "Editar Jefe de UBCH",
+            this.modalTitle = "Editar Jefe de Comunidad",
             this.readonlyCedula = true
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = false
-            this.readonlyJefeCedula = false
-            this.readonlyComunidad = false
+            this.readonlyCentroVotacion = true
+            this.readonlyJefeCedula = true
+            this.readonlyComunidad = true
     
             this.cedulaJefeUBCH = model.jefe_ubch.personal_caracterizacion.cedula
             this.nombreJefeUBCH = model.jefe_ubch.personal_caracterizacion.primer_nombre+" "+model.jefe_ubch.personal_caracterizacion.primer_apellido
@@ -252,7 +252,7 @@ const app = new Vue({
         async suspend(elector, jefeId, model){
             this.selectedId = jefeId
             this.action = "suspend"
-            this.modalTitle = "Suspender Jefe de UBCH",
+            this.modalTitle = "Suspender Jefe de Comunidad",
             this.readonlyJefeCedula = false
             this.readonlyCedula = false
             this.cedula = elector.cedula
@@ -278,7 +278,7 @@ const app = new Vue({
             try{
 
                 this.cedulaJefeSearching = true
-                this.readonlyJefeCedula = true
+                //this.readonlyJefeCedula = true
 
                 let res = await axios.post("{{ url('api/raas/jefe-comunidad/search-jefe-ubch-by-cedula') }}", {cedulaJefe: this.cedulaJefeUBCH})
                 this.cedulaJefeSearching = false 

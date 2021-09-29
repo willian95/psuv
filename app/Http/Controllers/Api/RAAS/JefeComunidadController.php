@@ -11,10 +11,12 @@ use App\Http\Requests\RAAS\JefeComunidad\JefeComunidadStoreRequest;
 use App\Http\Requests\RAAS\JefeComunidad\JefeComunidadUpdateRequest;
 //use App\Http\Requests\RAAS\UBCH\UBCHCedulaSearchRequest;
 use App\Traits\PersonalCaracterizacionTrait;
+use App\Traits\ElectorTrait;
 
 class JefeComunidadController extends Controller
 {
     use PersonalCaracterizacionTrait;
+    use ElectorTrait;
 
     public function searchByCedulaField( Request $request)
     {
@@ -41,6 +43,27 @@ class JefeComunidadController extends Controller
         }
         return $this->response($response, $code ?? 200);
     }//index()
+
+    function searchByCedula(Request $request){
+
+        if($this->verificarDuplicidadCedula($request->cedula) > 0){
+            return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
+        }
+
+        $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
+        
+        if($elector){
+            return response()->json(["success" => true, "elector" => $elector]);
+        }
+
+        $elector = $this->searchElectorByCedula($request->cedula);
+        if($elector){
+            return response()->json(["success" => true, "elector" => $elector]);
+        }
+
+        return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        
+    }
 
     function store(JefeComunidadStoreRequest $request){
 

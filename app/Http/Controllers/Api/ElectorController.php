@@ -25,7 +25,6 @@ class ElectorController extends Controller
         }
 
         return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
-
         
     }
 

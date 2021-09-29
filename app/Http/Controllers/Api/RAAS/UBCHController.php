@@ -6,15 +6,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JefeUbch;
 use App\Models\PersonalCaracterizacion;
+
 use App\Http\Requests\RAAS\UBCH\UBCHStoreRequest;
 use App\Http\Requests\RAAS\UBCH\UBCHUpdateRequest;
 use App\Http\Requests\RAAS\UBCH\UBCHCedulaSearchRequest;
+
 use App\Traits\PersonalCaracterizacionTrait;
+use App\Traits\ElectorTrait;
 
 class UBCHController extends Controller
 {
     
     use PersonalCaracterizacionTrait;
+    use ElectorTrait;
+
+    function searchByCedula(Request $request){
+
+        if($this->verificarDuplicidadCedula($request->cedula) > 0){
+            return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de UBCH"]);
+        }
+
+        $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
+        
+        if($elector){
+            return response()->json(["success" => true, "elector" => $elector]);
+        }
+
+        $elector = $this->searchElectorByCedula($request->cedula);
+        if($elector){
+            return response()->json(["success" => true, "elector" => $elector]);
+        }
+
+        return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        
+    }
 
     function store(UBCHStoreRequest $request){
 

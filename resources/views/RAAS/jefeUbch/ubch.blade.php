@@ -127,7 +127,7 @@
         </div>
         <!--end::Container-->
 
-        @include("RAAS.ubchPartials.modalFormCreateEditSuspend")
+        @include("RAAS.jefeUbch.ubchPartials.modalFormCreateEditSuspend")
 
 
     </div>
@@ -219,7 +219,7 @@ const app = new Vue({
             this.modalTitle = "Editar Jefe de UBCH",
             this.readonlyCedula = true
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = false
+            this.readonlyCentroVotacion = true
             this.setElectorData(elector)
         },
         suspend(elector, jefeId){
@@ -235,6 +235,17 @@ const app = new Vue({
             this.create()
         },
         async searchCedula(){
+
+            if(this.cedula == ""){
+                swal({
+                    text:"Debes ingresar una cédula",
+                    icon:"error"
+                })
+
+                this.cedula = ""
+
+                return
+            }
 
             this.cedulaSearching = true
             this.readonlyCedula = true
@@ -478,6 +489,15 @@ const app = new Vue({
             this.movilizaciones = res.data
 
         },
+        isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                evt.preventDefault();;
+            } else {
+                return true;
+            }
+        }
         
 
     },
