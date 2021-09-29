@@ -92,7 +92,7 @@
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefeUbch.personal_caracterizacion, jefeUbch.id)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary" data-toggle="modal" data-target=".marketModal" @click="suspend(jefeUbch.personal_caracterizacion, jefeUbch.id)">
+                                            <button class="btn btn-secondary" @click="remove(jefeUbch.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -217,18 +217,9 @@ const app = new Vue({
             this.selectedId = jefeId
             this.action = "edit"
             this.modalTitle = "Editar Jefe de UBCH",
-            this.readonlyCedula = true
-            this.cedula = elector.cedula
-            this.readonlyCentroVotacion = true
-            this.setElectorData(elector)
-        },
-        suspend(elector, jefeId){
-            this.selectedId = jefeId
-            this.action = "suspend"
-            this.modalTitle = "Suspender Jefe de UBCH",
             this.readonlyCedula = false
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = true
+            this.readonlyCentroVotacion = false
             this.setElectorData(elector)
         },
         clearForm(){
@@ -402,34 +393,23 @@ const app = new Vue({
             this.updateLoader = false
 
         },
-        async remove(){
+        async remove(id){
 
             try{
-                
-                this.errors = []
-                this.suspendLoader = true
 
-                let res = await axios.post("{{ url('api/raas/ubch/suspend') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, primer_apellido: this.primerApellido, segundo_apellido: this.segundoApellido, primer_nombre: this.primerNombre, segundo_nombre: this.segundoNombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, id: this.selectedId})
-                
-                this.suspendLoader = false
+                let res = await axios.post("{{ url('api/raas/ubch/suspend') }}", {id: id})
 
                 if(res.data.success == true){
 
                     swal({
                         text:res.data.msg,
                         icon: "success"
-                    }).then(ans => {
-
-                        $('.marketModal').modal('hide')
-                        $('.modal-backdrop').remove()
-                    
-
                     })
 
                     this.fetch(this.page)
 
                 }else{
-                    this.suspendLoader = false
+             
                     swal({
                         text:res.data.msg,
                         icon: "error"
@@ -438,7 +418,7 @@ const app = new Vue({
                 }
 
             }catch(err){
-                this.suspendLoader = false
+      
                 swal({
                     text:"Hay algunos campos que debes revisar",
                     icon: "error"
@@ -447,7 +427,7 @@ const app = new Vue({
                 this.errors = err.response.data.errors
 
             }
-            this.suspendLoader = false
+
 
         },
         

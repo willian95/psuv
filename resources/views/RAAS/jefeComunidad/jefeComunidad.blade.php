@@ -97,7 +97,7 @@
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefeComunidad.personal_caracterizacion, jefeComunidad.id, jefeComunidad)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary" data-toggle="modal" data-target=".marketModal" @click="suspend(jefeComunidad.personal_caracterizacion, jefeComunidad.id, jefeComunidad)">
+                                            <button class="btn btn-secondary" @click="remove(jefeComunidad.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -233,7 +233,7 @@ const app = new Vue({
             this.selectedId = jefeId
             this.action = "edit"
             this.modalTitle = "Editar Jefe de Comunidad",
-            this.readonlyCedula = true
+            this.readonlyCedula = false
             this.cedula = elector.cedula
             this.readonlyCentroVotacion = true
             this.readonlyJefeCedula = true
@@ -471,34 +471,25 @@ const app = new Vue({
             this.updateLoader = false
 
         },
-        async remove(){
+        async remove(id){
 
             try{
                 
                 this.errors = []
-                this.suspendLoader = true
 
-                let res = await axios.post("{{ url('api/raas/jefe-comunidad/suspend') }}", {cedulaJefe: this.cedulaJefeUBCH, cedula: this.cedula, nacionalidad: this.nacionalidad, primer_apellido: this.primerApellido, segundo_apellido: this.segundoApellido, primer_nombre: this.primerNombre, segundo_nombre: this.segundoNombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, id: this.selectedId, comunidad: this.selectedComunidad})
-                
-                this.suspendLoader = false
+                let res = await axios.post("{{ url('api/raas/jefe-comunidad/suspend') }}", {id: id})
 
                 if(res.data.success == true){
 
                     swal({
                         text:res.data.msg,
                         icon: "success"
-                    }).then(ans => {
-
-                        $('.marketModal').modal('hide')
-                        $('.modal-backdrop').remove()
-                    
-
                     })
 
                     this.fetch(this.page)
 
                 }else{
-                    this.suspendLoader = false
+                  
                     swal({
                         text:res.data.msg,
                         icon: "error"
@@ -507,7 +498,7 @@ const app = new Vue({
                 }
 
             }catch(err){
-                this.suspendLoader = false
+            
                 swal({
                     text:"Hay algunos campos que debes revisar",
                     icon: "error"
@@ -516,7 +507,7 @@ const app = new Vue({
                 this.errors = err.response.data.errors
 
             }
-            this.suspendLoader = false
+       
 
         },
         

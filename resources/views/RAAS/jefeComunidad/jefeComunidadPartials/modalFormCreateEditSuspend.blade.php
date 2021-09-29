@@ -21,7 +21,7 @@
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedulaJefe')">@{{ errors['cedulaJefe'][0] }}</small>
                                     </div>
                                     <div >
-                                        <button class="btn btn-primary" @click="searchJefeCedula()" v-if="!cedulaJefeSearching">
+                                        <button class="btn btn-primary" @click="searchJefeCedula()" v-if="!cedulaJefeSearching" :disabled="readonlyJefeCedula">
                                             <i class="fas fa-search"></i>
                                         </button>
                                         <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="cedulaJefeSearching"></div>
