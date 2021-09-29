@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\CodigoCNEImport;
+use App\Imports\REPImport;
 
 class REPImportTask extends Command
 {
@@ -13,7 +13,7 @@ class REPImportTask extends Command
      *
      * @var string
      */
-    protected $signature = 'rep:import';
+    protected $signature = 'repcne:importar';
 
     /**
      * The console command description.
