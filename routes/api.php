@@ -85,14 +85,14 @@ Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->nam
 
 Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.movilizacion.index');
 
-Route::post("raas/ubch/search-by-cedula", [ElectorController::class, "searchByCedula"]);
+Route::post("raas/ubch/search-by-cedula", [UBCHController::class, "searchByCedula"]);
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
 Route::post("raas/ubch/update", [UBCHController::class, "update"]);
 Route::post("raas/ubch/suspend", [UBCHController::class, "suspend"]);
 Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"]);
 
 Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::class, "jefeUbchByCedula"]);
-Route::post("raas/jefe-comunidad/search-by-cedula", [ElectorController::class, "searchByCedula"]);
+Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedula"]);
 Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store"]);
 Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);

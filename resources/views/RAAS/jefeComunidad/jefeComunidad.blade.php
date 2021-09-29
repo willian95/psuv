@@ -97,7 +97,7 @@
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefeComunidad.personal_caracterizacion, jefeComunidad.id, jefeComunidad)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary" data-toggle="modal" data-target=".marketModal" @click="suspend(jefeComunidad.personal_caracterizacion, jefeComunidad.id, jefeComunidad)">
+                                            <button class="btn btn-secondary" @click="remove(jefeComunidad.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -132,7 +132,7 @@
         </div>
         <!--end::Container-->
 
-        @include("RAAS.jefeComunidadPartials.modalFormCreateEditSuspend")
+        @include("RAAS.jefeComunidad.jefeComunidadPartials.modalFormCreateEditSuspend")
 
 
     </div>
@@ -198,7 +198,7 @@ const app = new Vue({
             segundoApellido:"",
             sexo:"",
 
-            modalTitle:"Crear Jefe de UBCH",
+            modalTitle:"Crear Jefe de Comunidad",
             currentPage:1,
             links:"",
             totalPages:"",
@@ -209,7 +209,7 @@ const app = new Vue({
         create(){
             this.selectedId = ""
             this.action = "create"
-            this.modalTitle = "Crear Jefe de UBCH",
+            this.modalTitle = "Crear Jefe de Comunidad",
             this.selecteMunicipio = ""
             this.selectedParroquia = ""
             this.selectedCentroVotacion = ""
@@ -232,12 +232,12 @@ const app = new Vue({
         async edit(elector, jefeId, model){
             this.selectedId = jefeId
             this.action = "edit"
-            this.modalTitle = "Editar Jefe de UBCH",
-            this.readonlyCedula = true
+            this.modalTitle = "Editar Jefe de Comunidad",
+            this.readonlyCedula = false
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = false
-            this.readonlyJefeCedula = false
-            this.readonlyComunidad = false
+            this.readonlyCentroVotacion = true
+            this.readonlyJefeCedula = true
+            this.readonlyComunidad = true
     
             this.cedulaJefeUBCH = model.jefe_ubch.personal_caracterizacion.cedula
             this.nombreJefeUBCH = model.jefe_ubch.personal_caracterizacion.primer_nombre+" "+model.jefe_ubch.personal_caracterizacion.primer_apellido
@@ -252,7 +252,7 @@ const app = new Vue({
         async suspend(elector, jefeId, model){
             this.selectedId = jefeId
             this.action = "suspend"
-            this.modalTitle = "Suspender Jefe de UBCH",
+            this.modalTitle = "Suspender Jefe de Comunidad",
             this.readonlyJefeCedula = false
             this.readonlyCedula = false
             this.cedula = elector.cedula
@@ -278,7 +278,7 @@ const app = new Vue({
             try{
 
                 this.cedulaJefeSearching = true
-                this.readonlyJefeCedula = true
+                //this.readonlyJefeCedula = true
 
                 let res = await axios.post("{{ url('api/raas/jefe-comunidad/search-jefe-ubch-by-cedula') }}", {cedulaJefe: this.cedulaJefeUBCH})
                 this.cedulaJefeSearching = false 
@@ -471,34 +471,25 @@ const app = new Vue({
             this.updateLoader = false
 
         },
-        async remove(){
+        async remove(id){
 
             try{
                 
                 this.errors = []
-                this.suspendLoader = true
 
-                let res = await axios.post("{{ url('api/raas/jefe-comunidad/suspend') }}", {cedulaJefe: this.cedulaJefeUBCH, cedula: this.cedula, nacionalidad: this.nacionalidad, primer_apellido: this.primerApellido, segundo_apellido: this.segundoApellido, primer_nombre: this.primerNombre, segundo_nombre: this.segundoNombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, id: this.selectedId, comunidad: this.selectedComunidad})
-                
-                this.suspendLoader = false
+                let res = await axios.post("{{ url('api/raas/jefe-comunidad/suspend') }}", {id: id})
 
                 if(res.data.success == true){
 
                     swal({
                         text:res.data.msg,
                         icon: "success"
-                    }).then(ans => {
-
-                        $('.marketModal').modal('hide')
-                        $('.modal-backdrop').remove()
-                    
-
                     })
 
                     this.fetch(this.page)
 
                 }else{
-                    this.suspendLoader = false
+                  
                     swal({
                         text:res.data.msg,
                         icon: "error"
@@ -507,7 +498,7 @@ const app = new Vue({
                 }
 
             }catch(err){
-                this.suspendLoader = false
+            
                 swal({
                     text:"Hay algunos campos que debes revisar",
                     icon: "error"
@@ -516,7 +507,7 @@ const app = new Vue({
                 this.errors = err.response.data.errors
 
             }
-            this.suspendLoader = false
+       
 
         },
         

@@ -17,11 +17,11 @@
                                 <label for="cedula">Cédula Jefe UBCH</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedulaJefeUBCH" :readonly="readonlyJefeCedula">
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedulaJefeUBCH" :readonly="readonlyJefeCedula" maxlength="8">
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedulaJefe')">@{{ errors['cedulaJefe'][0] }}</small>
                                     </div>
                                     <div >
-                                        <button class="btn btn-primary" @click="searchJefeCedula()" v-if="!cedulaJefeSearching">
+                                        <button class="btn btn-primary" @click="searchJefeCedula()" v-if="!cedulaJefeSearching" :disabled="readonlyJefeCedula">
                                             <i class="fas fa-search"></i>
                                         </button>
                                         <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="cedulaJefeSearching"></div>
@@ -43,7 +43,7 @@
                                 <label for="cedula">Cédula</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula">
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula" maxlength="8">
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedula')">@{{ errors['cedula'][0] }}</small>
                                     </div>
                                     <div >
@@ -84,6 +84,7 @@
                                 <select class="form-control" v-model="tipoVoto">
                                     <option value="duro">Duro</option>
                                     <option value="blando">Blando</option>
+                                    <option value="opositor">Opositor</option>
                                 </select>
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('tipo_voto')">@{{ errors['tipo_voto'][0] }}</small>
                             </div>
@@ -92,7 +93,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoPrincipal">Teléfono principal</label>
-                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal">
+                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
                             </div>
                         </div>
@@ -100,7 +101,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoSecundario">Teléfono secundario</label>
-                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario">
+                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario" maxlength="11">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_secundario')">@{{ errors['telefono_secundario'][0] }}</small>
                             </div>
                         </div>

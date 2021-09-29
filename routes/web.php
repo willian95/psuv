@@ -24,9 +24,9 @@ Route::get('/', function () {
     return view("dashboard");
  })->name("home");
 
- Route::view('/raas/ubch', 'RAAS.ubch')->name("raas.ubch");
+ Route::view('/raas/ubch', 'RAAS.jefeUbch.ubch')->name("raas.ubch");
 
- Route::view('/raas/jefeComunidad', 'RAAS.jefeComunidad')->name("raas.jefe-comunidad");
+ Route::view('/raas/jefeComunidad', 'RAAS.jefeComunidad.jefeComunidad')->name("raas.jefe-comunidad");
 
  Route::view('/raas/jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
 
