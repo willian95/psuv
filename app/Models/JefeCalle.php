@@ -18,7 +18,7 @@ class JefeCalle extends Model
         return $this->belongsTo(Calle::class);
     }
     public function personalCaracterizacion(){
-        return $this->belongsTo(personalCaracterizacion::class,"personal_caraterizacion_id");
+        return $this->belongsTo(PersonalCaracterizacion::class,"personal_caraterizacion_id");
     }
     public function JefeComunidad(){
         return $this->belongsTo(JefeComunidad::class);
