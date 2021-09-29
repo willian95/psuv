@@ -19,4 +19,7 @@ class JefeFamilia extends Model
     public function JefeCalle(){
         return $this->belongsTo(JefeCalle::class,"jefe_calle_id");
     }
+    public function familiares(){
+        return $this->hasMany(PersonalCaracterizacion::class,"jefe_familia_id");
+    }
 }

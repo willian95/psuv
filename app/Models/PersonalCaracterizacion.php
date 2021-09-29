@@ -30,7 +30,8 @@ class PersonalCaracterizacion extends Model
         "parroquia_id",
         "centro_votacion_id",
         "partido_politico_id",
-        "movilizacion_id"
+        "movilizacion_id",
+        "jefe_familia_id"
     ];
 
     public function getFullNameAttribute()
@@ -57,6 +58,12 @@ class PersonalCaracterizacion extends Model
     public function jefeComunidads(){
 
         return $this->hasMany(JefeComunidad::class);
+
+    }
+
+    public function jefeFamilia(){
+
+        return $this->hasMany(JefeFamilia::class,"jefe_familia_id");
 
     }
 
