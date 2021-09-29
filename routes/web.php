@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\RAAS\UBCHController;
+use App\Http\Controllers\REPController;
+use App\Http\Controllers\CodigoCNEController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +38,6 @@ Route::get('/', function () {
 
 Route::post("/login", [AuthController::class, "login"]);
 Route::get("/logout", [AuthController::class, "logout"]);
+
+Route::get("/importar/codigo-cne", [CodigoCNEController::class, "importCodigos"]);
+Route::get("/importar/rep", [REPController::class, "importCodigos"]);
