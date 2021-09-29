@@ -17,11 +17,11 @@
                                 <label for="cedula">Cédula Jefe de Comunidad</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_comunidad" >
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_comunidad" :readonly="entityId">
                                         <small class="text-danger" v-if="cedula_jefe_comunidad_error">@{{ cedula_jefe_comunidad_error }}</small>
                                     </div>
                                     <div >
-                                        <button class="btn btn-primary" @click="obtenerJefeComunidad()" v-if="!loading">
+                                        <button class="btn btn-primary" @click="obtenerJefeComunidad()" v-if="!loading"  :disabled="entityId">
                                             <i class="fas fa-search"></i>
                                         </button>
                                         <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="loading"></div>
@@ -68,7 +68,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="calle">Calle</label>
-                                <select class="form-control" v-model="form.calle_id" v-if="calles.length>0" >
+                                <select class="form-control" v-model="form.calle_id" v-if="calles.length>0"  :disabled="entityId">
                                     <option value="0">Seleccione</option>
                                     <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
                                 </select>

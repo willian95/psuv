@@ -58,6 +58,7 @@ Route::prefix('raas/jefe-calle')->group(function () {
     Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula');
     Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
     Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
+    Route::delete("/{id}", [JefeCalleController::class, "delete"])->name('api.jefe-calle.delete');
 });
 Route::prefix('raas/jefe-familia')->group(function () {
     Route::get("/", [JefeFamiliaController::class, "index"])->name('api.jefe-familia.index');
