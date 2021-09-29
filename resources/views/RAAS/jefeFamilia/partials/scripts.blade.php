@@ -276,10 +276,10 @@
                         cedula:this.cedula_jefe
                     }
                     const response = await axios({
-                        method: 'POST',
+                        method: 'GET',
                         responseType: 'json',
-                        url: "{{ url('api/raas/jefe-comunidad/search-by-cedula') }}",
-                        data: filters
+                        url: "{{ url('api/elector/search-by-cedula') }}",
+                        params: filters
                     });
                     this.loading = false;
                     if(response.data.success==true){

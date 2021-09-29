@@ -306,6 +306,7 @@
                     this.jefe_comunidad = response.data.data;
                     this.form.jefe_comunidad_id = this.jefe_comunidad.id;
                     this.obtenerCalles();
+                    this.cedula_jefe_comunidad_error="";
                 } catch (err) {
                     this.loading = false;
                     this.cedula_jefe_comunidad_error=err.response.data.message;
@@ -326,14 +327,15 @@
                         cedula:this.cedula_jefe
                     }
                     const response = await axios({
-                        method: 'POST',
+                        method: 'GET',
                         responseType: 'json',
-                        url: "{{ url('api/raas/jefe-comunidad/search-by-cedula') }}",
-                        data: filters
+                        url: "{{ url('api/elector/search-by-cedula') }}",
+                        params: filters
                     });
                     this.loading = false;
                     if(response.data.success==true){
                         this.form.personal_caraterizacion=response.data.elector;
+                        this.cedula_jefe_error="";
                     }else{
                         this.form.personal_caracterization=null;
                         this.cedula_jefe_error="Elector no encontrado";

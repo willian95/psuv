@@ -101,4 +101,6 @@ Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "sus
 
 Route::get("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedulaField"])->name('api.jefe-comunidad.search.by.cedula');
 
+Route::get("elector/search-by-cedula", [ElectorController::class, "searchByCedula"])->name('api.elector.search.by.cedula');
+
 
