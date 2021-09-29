@@ -21,24 +21,31 @@
                     <input class="input100" type="text" v-model="email">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Correo electrónico</span>
+                    
                 </div>
+                <small style="color: red; margin-top: 10px;" v-if="errors.hasOwnProperty('email')">@{{ errors['email'][0] }}</small>
 
 
                 <div class="wrap-input100 validate-input">
                     <input class="input100" type="password" v-model="password">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Contraseña</span>
+                    
                 </div>
+                <small style="color: red; margin-top: 10px;" v-if="errors.hasOwnProperty('password')">@{{ errors['password'][0] }}</small>
 
 
 
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" @click="login()" style="background-color: #c0392b;">
+                    <button class="login100-form-btn" @click="login()" style="background-color: #c0392b;" v-if="loading == false">
                         Ingresar
                     </button>
+                    <p class="text-center">
+                        <div class="loader-custom" v-if="loading"></div>
+                    </p>
                 </div>
-
+                
             </div>
 
 
@@ -56,33 +63,31 @@ const app = new Vue({
     data() {
         return {
             email: "",
-            password: ""
+            password: "",
+            errors:[],
+            loading:false
         }
     },
     methods: {
 
         login() {
 
+            this.loading = true
+
             axios.post("{{ url('/login') }}", {
                     email: this.email,
                     password: this.password
                 })
                 .then(res => {
-
+                 
+                    this.loading = false
                     if (res.data.success == true) {
 
-                        swal({
-                            title: "Excelente!",
-                            text: res.data.msg,
-                            icon: "success"
-                        });
                         this.email = ""
                         this.password = ""
 
                         window.location.href = res.data.url
 
-
-                        
 
                     } else {
                         alert(res.data.msg)
@@ -90,10 +95,13 @@ const app = new Vue({
 
                 })
                 .catch(err => {
-
-                    $.each(err.response.data.errors, function(key, value) {
-                        alert(value)
+                    this.loading = false
+                    swal({
+                        text:"Hay algunos campos que debes revisar",
+                        icon: "error"
                     })
+
+                    this.errors = err.response.data.errors
 
                 })
 
