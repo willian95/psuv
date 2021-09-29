@@ -97,7 +97,7 @@
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(result)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary" data-toggle="modal" data-target=".marketModal" @click="suspend()">
+                                            <button class="btn btn-secondary" @click="suspend(result.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

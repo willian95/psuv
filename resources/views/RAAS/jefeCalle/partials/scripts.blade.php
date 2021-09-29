@@ -161,8 +161,34 @@
                 //obtener calles
                 this.obtenerCalles();
             },
-            async suspend(){
+            async suspend(entityId){
+                try {
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'DELETE',
+                        responseType: 'json',
+                        url: "{{ url('api/raas/jefe-calle') }}"+"/"+entityId,
+                        data: this.form
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        $('.marketModal').modal('hide')
+                        $('.modal-backdrop').remove()
 
+                    })
+                    this.clearForm();
+                    this.fetch();
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
+                }
             },
             async update(){
               //Validations

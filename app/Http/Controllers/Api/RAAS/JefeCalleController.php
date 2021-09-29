@@ -169,6 +169,11 @@ class JefeCalleController extends Controller
                     "movilizacion_id"=>$request->movilizacion_id,
                 ]);
             }//exist & update
+            $exist=Model::where('personal_caraterizacion_id',$elector->id)
+            ->where("calle_id",$data['calle_id'])->where("id","!=",$id)->first();
+            if($exist){
+                throw new \Exception('Este elector ya ha sido registrado como jefe de esta calle.', 404);
+            }
             //Create entity
             $entity->update($data);
             DB::commit();
@@ -177,6 +182,34 @@ class JefeCalleController extends Controller
             DB::rollBack();
             $code = $this->getCleanCode($e);
             $response= $this->getErrorResponse($e, 'Actualización no exitosa');
+
+        }//catch
+        return $this->response($response, $code ?? 200);        
+
+    }
+
+    
+    function delete($id,Request $request){
+
+        try {
+            DB::beginTransaction();
+            //Find entity
+            $entity=Model::find($id);
+            if (!$entity) {
+                throw new \Exception('Jefe de calle no encontrado', 404);
+            }
+            //Preguntar validación: Si ya existe el mismo jefe de calle para esta calle.
+            if(count($entity->jefeFamilias)>0){
+                throw new \Exception('Este jefe de calle posee 1 o más jefes de familia asignados, por favor reasignar los jefes de familia a otro jefe de calle, para proceder a eliminar este', 404);
+            }
+            //Create entity
+            $entity->delete();
+            DB::commit();
+            $response = $this->getSuccessResponse($entity,"Eliminación exitosa");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Eliminación no exitosa');
 
         }//catch
         return $this->response($response, $code ?? 200);        
