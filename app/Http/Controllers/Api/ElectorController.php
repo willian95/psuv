@@ -14,7 +14,6 @@ class ElectorController extends Controller
     function searchByCedula(Request $request){
 
         $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
-        
         if($elector){
             return response()->json(["success" => true, "elector" => $elector]);
         }

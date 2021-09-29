@@ -5,11 +5,12 @@ namespace App\Http\Controllers\api\RAAS;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JefeFamilia as Model;
+use App\Models\PersonalCaracterizacion;
+use App\Models\Elector;
 use App\Http\Requests\RAAS\JefeFamilia\StoreRequest as StoreRequest;
 use App\Http\Requests\RAAS\JefeFamilia\UpdateRequest as UpdateRequest;
 use App\Traits\PersonalCaracterizacionTrait;
-use App\Models\PersonalCaracterizacion;
-use App\Models\Elector;
+
 use DB;
 class JefeFamiliaController extends Controller
 {
@@ -176,44 +177,32 @@ class JefeFamiliaController extends Controller
 
     }
 
-    // function suspend(JefeComunidadUpdateRequest $request){
+    function delete($id,Request $request){
 
-    //     try{
+        try {
+            DB::beginTransaction();
+            //Find entity
+            $entity=Model::find($id);
+            if (!$entity) {
+                throw new \Exception('Jefe de familia no encontrado', 404);
+            }
+            //Preguntar validación: Si ya existe el mismo jefe de calle para esta calle.
+            if(count($entity->familiares)>0){
+                throw new \Exception('Este jefe de familia posee 1 o más familiares asignados, por favor reasignar o eliminar los familiares para proceder a eliminar este registro.', 404);
+            }
+            //Create entity
+            $entity->delete();
+            DB::commit();
+            $response = $this->getSuccessResponse($entity,"Eliminación exitosa");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Eliminación no exitosa');
 
-    //         if($this->verificarDuplicidadCedula($request->cedula) > 0){
-    //             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
-    //         }
+        }//catch
+        return $this->response($response, $code ?? 200);        
 
-    //         $jefeComunidad = JefeComunidad::find($request->id);
-    //         $jefeUbchId = $jefeComunidad->jefe_ubch_id;
-    //         $comunidadId = $jefeComunidad->comunidad_id;
-    //         $jefeComunidad->delete();
-
-    //         $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
-            
-    //         if($personalCaracterizacion == null){
-    //             $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
-    //         }
-
-    //         $jefeComunidad = new JefeComunidad;
-    //         $jefeComunidad->personal_caracterizacion_id = $personalCaracterizacion->id;
-    //         $jefeComunidad->comunidad_id = $comunidadId;
-    //         $jefeComunidad->jefe_ubch_id = $jefeUbchId;
-    //         $jefeComunidad->save();
-
-    //         $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeComunidad->personal_caracterizacion_id, $request);
-
-    //         return response()->json(["success" => true, "msg" => "Jefe de Comunidad suspendido y sustituido"]);
-
-    //     }
-    //     catch(\Exception $e){
-
-    //         return response()->json(["success" => false, "msg" => "Ha ocurrido un problema", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-
-    //     }
-        
-
-    // }//suspend
+    }
 
     public function searchByCedulaField($cedula){
         try {
@@ -237,5 +226,57 @@ class JefeFamiliaController extends Controller
         }
         return $this->response($response, $code ?? 200);
     }//searchByCedulaField()
+
+    public function storeFamily(Request $request){
+        try {
+            $data=$request->all();
+            if(!isset($request->jefe_familia_id)){
+                throw new \Exception('Debe indicar el jefe de familia.', 400);
+            }
+            if(!isset($request->personal_caracterizacion)){
+                throw new \Exception('Debe indicar el familiar a registrar.', 400);
+            }
+            //Operations
+            $elector=PersonalCaracterizacion::whereCedula($data['personal_caracterizacion']['cedula'])->first();
+            if(!$elector){
+                $elector=Elector::whereCedula($data['personal_caracterizacion']['cedula'])->first();
+                if(!$elector){
+                    throw new \Exception('Elector jefe de familia no encontrado.', 404);
+                }else{
+                    //Create
+                    $elector=PersonalCaracterizacion::create([
+                        "cedula"=>$elector->cedula,
+                        "nacionalidad"=>$elector->nacionalidad,
+                        "primer_apellido"=>$elector->primer_apellido,
+                        "segundo_apellido"=>$elector->segundo_apellido,
+                        "primer_nombre"=>$elector->primer_nombre,
+                        "segundo_nombre"=>$elector->segundo_nombre,
+                        "sexo"=>$elector->sexo,
+                        "fecha_nacimiento"=>$elector->fecha_nacimiento,
+                        "estado_id"=>$elector->estado_id,
+                        "municipio_id"=>$elector->municipio_id,
+                        "parroquia_id"=>$elector->parroquia_id,
+                        "centro_votacion_id"=>$elector->centro_votacion_id,
+                        "telefono_principal"=>$request->telefono_principal,
+                        "telefono_secundario"=>$request->telefono_secundario,
+                        "tipo_voto"=>$request->tipo_voto,
+                        "partido_politico_id"=>$request->partido_politico_id,
+                        "movilizacion_id"=>$request->movilizacion_id,
+                    ]);
+                    $data['personal_caraterizacion_id']=$elector->id;
+                }   
+            }else{
+                $data['personal_caraterizacion_id']=$elector->id;
+            }
+            if($elector->jefe_familia_id){
+                throw new \Exception('Este familiar ya forma parte de un núcleo familiar.', 404);
+            }
+            $response = $this->getSuccessResponse($entity);
+        } catch (\Exception $e) {
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al Listar los registros');
+        }
+        return $this->response($response, $code ?? 200);
+    }//
 
 }
