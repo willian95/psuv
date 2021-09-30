@@ -1,10 +1,10 @@
 <!-- Modal-->
-<div class="modal fade marketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade marketModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">@{{ modalTitle }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearForm()">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
@@ -17,7 +17,7 @@
                                 <label for="cedula">Cédula Jefe de Comunidad</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_comunidad" :readonly="entityId">
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe_comunidad" :readonly="entityId" maxlength="8" @keypress="isNumber($event)">
                                         <small class="text-danger" v-if="cedula_jefe_comunidad_error">@{{ cedula_jefe_comunidad_error }}</small>
                                     </div>
                                     <div >
@@ -44,7 +44,7 @@
                                 <label for="cedula">Cédula Jefe</label>
                                 <div class="d-flex">
                                     <div>
-                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe">
+                                        <input type="tel" class="form-control" id="cedula" v-model="cedula_jefe"  maxlength="8" @keypress="isNumber($event)">
                                         <small class="text-danger" v-if="cedula_jefe_error">@{{ cedula_jefe_error }}</small>
                                     </div>
                                     <div >
@@ -94,7 +94,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label >Teléfono principal</label>
-                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_principal">
+                                <input type="text" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_principal" @keypress="isNumber($event)">
                                 <input type="tel" class="form-control" v-else disabled>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefonoSecundario">Teléfono secundario</label>
-                                <input type="number" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_secundario">
+                                <input type="text" class="form-control" maxlength="11" v-if="form.personal_caraterizacion" v-model="form.telefono_secundario" @keypress="isNumber($event)">
                                 <input type="tel" class="form-control" v-else disabled>
                             </div>
                         </div>

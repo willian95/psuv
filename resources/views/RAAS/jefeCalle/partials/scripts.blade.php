@@ -183,7 +183,6 @@
                     this.fetch();
                 } catch (err) {
                     this.loading = false;
-                    console.log(err)
                     swal({
                         text:err.response.data.message,
                         icon:"error"
@@ -262,7 +261,10 @@
                     this.fetch();
                 } catch (err) {
                     this.loading = false;
-                    console.log(err)
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
                 }
             },
             clearForm(){
@@ -359,6 +361,12 @@
                     });
                     this.loading = false;
                     this.calles = response.data.data;
+                    if(this.calles.length==0){
+                        swal({
+                        text:"La comunidad de este jefe de calle, no posee calles.",
+                        icon:"error"
+                    });
+                    }
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
@@ -396,6 +404,15 @@
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
+                }
+            },
+            isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                    evt.preventDefault();;
+                } else {
+                    return true;
                 }
             },
 

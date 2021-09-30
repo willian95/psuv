@@ -190,14 +190,14 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestionar Jefe de Calles</span>
 												</a>
 											</li>
-                                            <li class="menu-item" aria-haspopup="true">
+                                     {{--       <li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('raas.jefe-familia') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
 														<span></span>
 													</i>
 													<span class="menu-text text-white">Gestionar Núcleos Familiares</span>
 												</a>
-											</li>
+											</li>--}}
 										</ul>
 									</div>
 								</li>
