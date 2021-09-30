@@ -76,13 +76,16 @@
                                         <td>@{{ result.personal_caracterizacion.full_name }}</td>
                                         <td>@{{ result.personal_caracterizacion.telefono_principal }}</td>
                                         <td>@{{ result.personal_caracterizacion.tipo_voto }}</td>
-                                        <td>0</td>
+                                        <td>@{{ result.familiares_count }}</td>
                                         <td>@{{ result.personal_caracterizacion.movilizacion.nombre }}</td>
                                         <td>
                                             <button title="Editar" class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(result)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button title="Suspender" class="btn btn-secondary" data-toggle="modal" data-target=".marketModal" @click="suspend()">
+                                            <button title="Gestionar núcleo familiar" class="btn btn-success" data-toggle="modal" data-target=".familyModal" @click="obtenerFamilia(result)">
+                                                <i class="fa fa-users"></i>
+                                            </button>
+                                            <button title="Suspender" class="btn btn-secondary"  @click="suspend(result.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -118,6 +121,7 @@
         <!--end::Container-->
 
         @include("RAAS.jefeFamilia.partials.modalCreateEdit")
+        @include("RAAS.jefeFamilia.partials.modalFamilyCrud")
 
 
     </div>

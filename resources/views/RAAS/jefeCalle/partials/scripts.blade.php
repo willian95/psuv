@@ -183,7 +183,6 @@
                     this.fetch();
                 } catch (err) {
                     this.loading = false;
-                    console.log(err)
                     swal({
                         text:err.response.data.message,
                         icon:"error"
@@ -262,7 +261,10 @@
                     this.fetch();
                 } catch (err) {
                     this.loading = false;
-                    console.log(err)
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
                 }
             },
             clearForm(){
@@ -336,8 +338,17 @@
                     if(response.data.success==true){
                         this.form.personal_caraterizacion=response.data.elector;
                         this.cedula_jefe_error="";
+                        if(response.data.elector.tipo_voto){
+                            this.form.tipo_voto=response.data.elector.tipo_voto;
+                        }
+                        if(response.data.elector.partido_politico_id){
+                            this.form.partido_politico_id=response.data.elector.partido_politico_id;
+                        }
+                        if(response.data.elector.movilizacion_id){
+                            this.form.movilizacion_id=response.data.elector.movilizacion_id;
+                        }
                     }else{
-                        this.form.personal_caracterization=null;
+                        this.form.personal_caraterizacion=null;
                         this.cedula_jefe_error="Elector no encontrado";
                     }
                 } catch (err) {
@@ -359,6 +370,12 @@
                     });
                     this.loading = false;
                     this.calles = response.data.data;
+                    if(this.calles.length==0){
+                        swal({
+                        text:"La comunidad de este jefe de calle, no posee calles.",
+                        icon:"error"
+                    });
+                    }
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
@@ -396,6 +413,15 @@
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
+                }
+            },
+            isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                    evt.preventDefault();;
+                } else {
+                    return true;
                 }
             },
 
