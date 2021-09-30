@@ -205,7 +205,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
-										<span class="menu-text text-white">1 * Familia</span>
+										<span class="menu-text text-white">1XFamilia</span>
 										<i class="menu-arrow"></i>
 									</a>
 									<div class="menu-submenu">
@@ -221,9 +221,17 @@ License: You must have a valid license purchased only from themeforest(the above
 													<i class="menu-bullet menu-bullet-line">
 														<span></span>
 													</i>
-													<span class="menu-text text-white">Listado 1 * Familia</span>
+													<span class="menu-text text-white">Gestionar Núcleos Familiares</span>
 												</a>
 											</li>
+											{{--<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('raas.jefe-familia') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Listado 1 * Familia</span>
+												</a>
+											</li>--}}
 										</ul>
 									</div>
 								</li>
