@@ -219,7 +219,7 @@ const app = new Vue({
             this.modalTitle = "Editar Jefe de UBCH",
             this.readonlyCedula = false
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = false
+            this.readonlyCentroVotacion = true
             this.setElectorData(elector)
         },
         clearForm(){

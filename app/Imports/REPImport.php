@@ -70,11 +70,11 @@ class REPImport implements ToCollection, WithBatchInserts, WithChunkReading
 
     public function batchSize(): int
     {
-        return 1000;
+        return 500;
     }
     
     public function chunkSize(): int
     {
-        return 1000;
+        return 500;
     }
 }

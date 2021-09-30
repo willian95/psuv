@@ -536,6 +536,16 @@ const app = new Vue({
             this.movilizaciones = res.data
 
         },
+
+        isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                evt.preventDefault();;
+            } else {
+                return true;
+            }
+        }
         
 
     },
