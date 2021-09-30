@@ -37,6 +37,7 @@ class JefeFamiliaController extends Controller
             if ($jefe_calle_id) {
                 $query->where('jefe_calle_id', $jefe_calle_id);
             }
+            $query->withCount('familiares');
             // $this->addFilters($request, $query);
             
             $query->orderBy("created_at","DESC");
@@ -226,9 +227,41 @@ class JefeFamiliaController extends Controller
         }
         return $this->response($response, $code ?? 200);
     }//searchByCedulaField()
+    
+    public function indexFamily( Request $request)
+    {
+        try {
+            $jefe_familia_id = $request->input('jefe_familia_id');
+            $includes= $request->input('includes') ? $request->input('includes') : [
+                "movilizacion",
+                "partidoPolitico"
+            ];
+            //Init query
+            $query=PersonalCaracterizacion::query();
+            //Includes
+            $query->with($includes);
+            //Filters
+            if ($jefe_familia_id) {
+                $query->where('jefe_familia_id', $jefe_familia_id);
+            }
+            
+            $this->addFilters($request, $query);
+            
+            $response = $this->getSuccessResponse(
+               $query,
+                'Listado de familiares',
+                $request->input('page')
+            );
+        } catch (\Exception $e) {
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al Listar los registros');
+        }
+        return $this->response($response, $code ?? 200);
+    }//index()
 
     public function storeFamily(Request $request){
         try {
+            DB::beginTransaction();
             $data=$request->all();
             if(!isset($request->jefe_familia_id)){
                 throw new \Exception('Debe indicar el jefe de familia.', 400);
@@ -241,7 +274,7 @@ class JefeFamiliaController extends Controller
             if(!$elector){
                 $elector=Elector::whereCedula($data['personal_caracterizacion']['cedula'])->first();
                 if(!$elector){
-                    throw new \Exception('Elector jefe de familia no encontrado.', 404);
+                    throw new \Exception('Datos del familiar no encontrados.', 404);
                 }else{
                     //Create
                     $elector=PersonalCaracterizacion::create([
@@ -262,21 +295,80 @@ class JefeFamiliaController extends Controller
                         "tipo_voto"=>$request->tipo_voto,
                         "partido_politico_id"=>$request->partido_politico_id,
                         "movilizacion_id"=>$request->movilizacion_id,
+                        "jefe_familia_id"=>$request->jefe_familia_id
                     ]);
-                    $data['personal_caraterizacion_id']=$elector->id;
                 }   
             }else{
-                $data['personal_caraterizacion_id']=$elector->id;
+                if($elector->jefe_familia_id){
+                    throw new \Exception('Este familiar ya forma parte de un núcleo familiar.', 404);
+                }
+                $elector->update([
+                    "telefono_principal"=>$request->telefono_principal,
+                    "telefono_secundario"=>$request->telefono_secundario,
+                    "tipo_voto"=>$request->tipo_voto,
+                    "partido_politico_id"=>$request->partido_politico_id,
+                    "movilizacion_id"=>$request->movilizacion_id,
+                    "jefe_familia_id"=>$request->jefe_familia_id  
+                ]);
             }
-            if($elector->jefe_familia_id){
-                throw new \Exception('Este familiar ya forma parte de un núcleo familiar.', 404);
-            }
-            $response = $this->getSuccessResponse($entity);
+            DB::commit();
+            $response = $this->getSuccessResponse($elector,"Registro exitoso");
         } catch (\Exception $e) {
+            DB::rollBack();
             $code = $this->getCleanCode($e);
             $response= $this->getErrorResponse($e, 'Error al Listar los registros');
         }
         return $this->response($response, $code ?? 200);
     }//
+
+    public function updateFamily($familyId,Request $request){
+        try {
+            DB::beginTransaction();
+            $data=$request->all();
+            //Operations
+            $elector=PersonalCaracterizacion::where("id",$familyId)->first();
+            if(!$elector){
+                throw new \Exception('Este familiar no se encuentra en base de datos.', 404);
+            }else{
+                $elector->update([
+                    "telefono_principal"=>$request->telefono_principal,
+                    "telefono_secundario"=>$request->telefono_secundario,
+                    "tipo_voto"=>$request->tipo_voto,
+                    "partido_politico_id"=>$request->partido_politico_id,
+                    "movilizacion_id"=>$request->movilizacion_id 
+                ]);
+            }
+            DB::commit();
+            $response = $this->getSuccessResponse($elector,"Actualización exitosa");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al actualizar');
+        }
+        return $this->response($response, $code ?? 200);
+    }//
+
+    function deleteFamily($familyId,Request $request){
+
+        try {
+            DB::beginTransaction();
+            //Find entity
+            $entity=PersonalCaracterizacion::find($familyId);
+            if (!$entity) {
+                throw new \Exception('Familiar no encontrado en base de datos.', 404);
+            }
+            $entity->jefe_familia_id=null;
+            $entity->update();
+            DB::commit();
+            $response = $this->getSuccessResponse($entity,"Eliminación exitosa");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Eliminación no exitosa');
+
+        }//catch
+        return $this->response($response, $code ?? 200);        
+
+    }
 
 }

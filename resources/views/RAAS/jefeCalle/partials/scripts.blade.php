@@ -338,8 +338,17 @@
                     if(response.data.success==true){
                         this.form.personal_caraterizacion=response.data.elector;
                         this.cedula_jefe_error="";
+                        if(response.data.elector.tipo_voto){
+                            this.form.tipo_voto=response.data.elector.tipo_voto;
+                        }
+                        if(response.data.elector.partido_politico_id){
+                            this.form.partido_politico_id=response.data.elector.partido_politico_id;
+                        }
+                        if(response.data.elector.movilizacion_id){
+                            this.form.movilizacion_id=response.data.elector.movilizacion_id;
+                        }
                     }else{
-                        this.form.personal_caracterization=null;
+                        this.form.personal_caraterizacion=null;
                         this.cedula_jefe_error="Elector no encontrado";
                     }
                 } catch (err) {

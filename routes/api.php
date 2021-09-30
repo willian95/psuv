@@ -65,6 +65,13 @@ Route::prefix('raas/jefe-familia')->group(function () {
     Route::get("/{cedula}", [JefeFamiliaController::class, "searchByCedulaField"])->name('api.jefe-familia.search-by-cedula');
     Route::post("/", [JefeFamiliaController::class, "store"])->name('api.jefe-familia.store');
     Route::put("/{id}", [JefeFamiliaController::class, "update"])->name('api.jefe-familia.update');
+    Route::delete("/{id}", [JefeFamiliaController::class, "delete"])->name('api.jefe-familia.delete');
+});
+Route::prefix('raas/nucleo-familiar')->group(function () {
+    Route::get("/", [JefeFamiliaController::class, "indexFamily"])->name('api.nucleo-familiar.index');
+    Route::post("/", [JefeFamiliaController::class, "storeFamily"])->name('api.nucleo-familiar.store');
+    Route::put("/{familyId}", [JefeFamiliaController::class, "updateFamily"])->name('api.nucleo-familiar.update');
+    Route::delete("/{familyId}", [JefeFamiliaController::class, "deleteFamily"])->name('api.nucleo-familiar.delete');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
