@@ -4,54 +4,47 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\WithLimit;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use App\Models\Elector;
 use App\Models\CodigoCne;
 
-class REPImport implements ToCollection, WithBatchInserts, WithChunkReading
+class REPImport implements ToCollection, WithLimit, ShouldQueue, WithChunkReading
 {
     /**
     * @param Collection $collection
     */
+
+
     public function collection(Collection $collection)
     {
-        $index = 0;
+        dd($collection);
         foreach($collection as $row){
-
-            if($index > 0){
-
+            
+            if($row[0] != "nacionalidad"){
                 if(Elector::where("cedula", $row[1])->count() == 0){
-                
-                    $this->storeElector($row);
-
-
+    
+                    return new Elector([
+                        "nacionalidad" => $row[0],
+                        "cedula" => $row[1],
+                        "primer_apellido" => $row[2],
+                        "segundo_apellido" => $row[3],
+                        "primer_nombre" => $row[4],
+                        "segundo_nombre" => $row[5],
+                        "sexo" => $row[6],
+                        "fecha_nacimiento" => $row[7],
+                        "estado_id" => $row[8],
+                        "municipio_id" => $row[9],
+                        "parroquia_id" => $this->findParroquia($row[9], $row[10]),
+                        "centro_votacion_id" => $this->findCentroVotacion($row[11])
+                    ]);
+        
                 }
-
             }
 
-            $index++;
         }
-
-    }
-
-    function storeElector($row){
-
-        $elector = new Elector;
-        $elector->nacionalidad = $row[0];
-        $elector->cedula = $row[1];
-        $elector->primer_apellido = $row[2];
-        $elector->segundo_apellido = $row[3];
-        $elector->primer_nombre = $row[4];
-        $elector->segundo_nombre = $row[5];
-        $elector->sexo = $row[6];
-        $elector->fecha_nacimiento = $row[7];
-        $elector->estado_id = $row[8];
-        $elector->municipio_id = $row[9];
-        $elector->parroquia_id = $this->findParroquia($row[9], $row[10]);
-        $elector->centro_votacion_id = $this->findCentroVotacion($row[11]);
-        $elector->save();
-
+        
     }
 
     function findParroquia($municipio, $parroquia){
@@ -68,13 +61,14 @@ class REPImport implements ToCollection, WithBatchInserts, WithChunkReading
 
     }
 
-    public function batchSize(): int
-    {
-        return 500;
-    }
-    
     public function chunkSize(): int
     {
-        return 500;
+        return 1000;
     }
+
+    public function limit(): int 
+    {
+         return 100;
+    }
+
 }

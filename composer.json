@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
+        "rap2hpoutre/fast-excel": "^3.0",
         "spatie/laravel-permission": "^4.0",
         "tymon/jwt-auth": "dev-develop",
         "wildbit/postmark-php": "^4.0"
