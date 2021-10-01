@@ -209,6 +209,7 @@ const app = new Vue({
             this.telefonoPrincipal=""
             this.telefonoSecundario=""
             this.tipoVoto=""
+            this.municipioId = ""
             this.readonlyCedula = false
             this.readonlyCentroVotacion = false
             this.errors = []

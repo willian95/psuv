@@ -50,6 +50,10 @@ class UBCHController extends Controller
                 return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de UBCH"]);
             }
 
+            if($this->verificarUnSoloCentroVotacion($request->centro_votacion_id) > 0){
+                return response()->json(["success" => false, "msg" => "Ya existe otro jefe para ésta UBCH"]);
+            }
+
             $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
             
             if($personalCaracterizacion == null){
@@ -81,6 +85,12 @@ class UBCHController extends Controller
 
     }   
 
+    function verificarUnSoloCentroVotacion($centro_votacion){
+
+        return  JefeUbch::where("centro_votacion_id", $centro_votacion)->count();
+
+    }
+
     function jefeUbchByCedula(UBCHCedulaSearchRequest $request){
         $cedula = $request->cedulaJefe;
         $jefeUbch = JefeUbch::whereHas('personalCaracterizacion', function($q) use($cedula){
@@ -99,10 +109,25 @@ class UBCHController extends Controller
     function update(UBCHUpdateRequest $request){
 
         try{
+            
+            if($this->verificarUnSoloCentroVotacionUpdate($request->centro_votacion_id, $request->id) > 0){
+                return response()->json(["success" => false, "msg" => "Ya existe otro jefe para ésta UBCH"]);
+            }
 
             $jefeUbch = JefeUbch::find($request->id);
-       
+
+            $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
+            
+            if($personalCaracterizacion == null){
+                $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
+            }
+
+            
+            $jefeUbch->personal_caracterizacion_id = $personalCaracterizacion->id;
+
             $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
+            $jefeUbch->centro_votacion_id = $request->centro_votacion_id;
+            $jefeUbch->update();
 
             return response()->json(["success" => true, "msg" => "Jefe de UBCH actualizado"]);
 
@@ -113,6 +138,12 @@ class UBCHController extends Controller
 
         }
         
+
+    }
+
+    function verificarUnSoloCentroVotacionUpdate($centro_votacion, $jefeUbchId){
+
+        return  JefeUbch::where("centro_votacion_id", $centro_votacion)->where("id", "<>", $jefeUbchId)->count();
 
     }
 
