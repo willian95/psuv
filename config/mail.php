@@ -39,12 +39,22 @@ return [
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME', 'sibepsuvfalcon@gmail.com'),
-            'password' => env('MAIL_PASSWORD', 'sibePsuvFalcon2020*'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
         ],
 
         'ses' => [
             'transport' => 'ses',
+        ],
+
+        'mailgun' => [
+            'transport' => 'mailgun',
+        ],
+
+        'postmark' => [
+            'transport' => 'postmark',
         ],
 
         'sendmail' => [
@@ -61,17 +71,6 @@ return [
             'transport' => 'array',
         ],
     ],
-
-    'username' => env('<YOUR_POSTMARK_SERVER_TOKEN>'),
-    'password' => env('<YOUR_POSTMARK_SERVER_TOKEN>'),
-    
-    'host' => env('MAIL_HOST', 'smtp.postmarkapp.com'),
-    
-    // Optionally, set "smtp" to "log" if you want to trap emails during testing.
-    'driver' => env('MAIL_DRIVER', 'smtp'), 
-    
-    'port' => env('MAIL_PORT', 587),
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------

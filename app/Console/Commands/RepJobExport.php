@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\ExportJob;
 use App\Models\Elector;
+use Illuminate\Support\Facades\Mail;
 
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -51,7 +52,7 @@ class RepJobExport extends Command
                 $pendingJob->status = "processing";
                 $pendingJob->update();
 
-                /*if($pendingJob->entity == "municipios"){
+                if($pendingJob->entity == "municipios"){
                     $data = Elector::where("municipio_id", $pendingJob->entity_id)->with("municipio", "parroquia","centroVotacion")->get();
                 }else{
                     $data = Elector::with("municipio", "parroquia","centroVotacion")->get();
@@ -74,7 +75,7 @@ class RepJobExport extends Command
                 });
 
                 $pendingJob->status = "finished";
-                $pendingJob->update();*/
+                $pendingJob->update();
 
                 $url = url("/excel/".$pendingJob->pid."REP.xlsx");
                 $this->sendEmail($url, $pendingJob->email);
@@ -85,6 +86,7 @@ class RepJobExport extends Command
                 $pendingJob->status = "not started";
                 $pendingJob->update();
                 dd($e->getMessage(), $e->getLine());
+
             }
 
         }
@@ -95,12 +97,10 @@ class RepJobExport extends Command
 
         $data = ["url" => $url];
         $to_email = $email;
-
-       
-
-        \Mail::send("emails.sendREP", $data, function($message) use ($to_email) {
-            dump($to_email);
-            $message->to("rodriguezwillian95@gmail.com", "Usuario")->subject("¡Tu archivo está listo!");
+        
+        Mail::send("emails.sendREP", $data, function($message) use ($to_email) {
+            
+            $message->to($to_email, "Usuario")->subject("¡Tu archivo está listo!");
             $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
 
         });
