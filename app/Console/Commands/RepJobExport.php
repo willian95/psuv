@@ -96,7 +96,7 @@ class RepJobExport extends Command
         $data = ["url" => $url];
         $to_email = $email;
 
-        dump(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));
+        dump(env("MAIL_USERNAME"), env("MAIL_PASSWORD"), $to_email);
 
         \Mail::send("emails.sendREP", $data, function($message) use ($to_email) {
 
