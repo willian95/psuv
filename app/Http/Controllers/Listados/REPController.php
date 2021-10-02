@@ -24,11 +24,8 @@ class REPController extends Controller
         }
         else if($request->selectedMunicipio != 0){
             $data = $this->selectedMunicipioREP($request->selectedMunicipio);
-        }else{
-
-
-
-        }   
+        }  
+        
 
         return  (new FastExcel($data))->download('REP.xlsx', function ($user) {
             return [
