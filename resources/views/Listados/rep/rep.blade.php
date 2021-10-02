@@ -57,7 +57,7 @@
         </div>
         <!--end::Container-->
 
-        @include("listados.rep.partials.modal")
+        @include("Listados.rep.partials.modal")
 
     </div>
 
