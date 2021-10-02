@@ -98,9 +98,9 @@ class RepJobExport extends Command
 
         dump(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));
 
-        \Mail::send("emails.sendREP", $data, function($message) use ($email) {
+        \Mail::send("emails.sendREP", $data, function($message) use ($to_email) {
 
-            $message->to($email)->subject("¡Tu archivo está listo!");
+            $message->to($to_email)->subject("¡Tu archivo está listo!");
             $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
 
         });
