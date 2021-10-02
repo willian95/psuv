@@ -43,6 +43,8 @@ class RepJobExport extends Command
     public function handle()
     {
         
+        ini_set("MEMORY_LIMIT", -1);
+
         $pendingJobs = ExportJob::where("status", "not started")->get();
   
         foreach($pendingJobs as $job){
