@@ -27,4 +27,22 @@ class Elector extends Model
         }
         return $name;
     }
+
+    public function municipio(){
+
+        return $this->belongsTo(Municipio::class);
+
+    }
+
+    public function parroquia(){
+
+        return $this->belongsTo(Parroquia::class);
+
+    }
+
+    public function centroVotacion(){
+
+        return $this->belongsTo(CentroVotacion::class);
+
+    }
 }

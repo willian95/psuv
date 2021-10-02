@@ -15,4 +15,10 @@ class Municipio extends Model
         return $this->hasMany(PersonalCaracterizacion::class);
 
     }
+
+    public function electores(){
+
+        return $this->hasMany(Elector::class);
+
+    }
 }

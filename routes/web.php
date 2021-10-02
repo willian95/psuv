@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\RAAS\UBCHController;
-use App\Http\Controllers\REPController;
 use App\Http\Controllers\CodigoCNEController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Listados\REPController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +34,12 @@ Route::get('/', function () {
 
  Route::view('/raas/jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
 
- Route::view('/listado/rep', 'Listados.rep')->name("listados.rep");
+ Route::view('/listado/rep', 'Listados.rep.rep')->name("listados.rep");
+ Route::post("/listado/amount/rep", [REPController::class,'getMunicipioAmount']);
+ Route::get("/listado/importar/rep", [REPController::class,'download']);
+ Route::post("/listado/rep/store-export-job", [REPController::class,'storeExportJob']);
 
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);
 
 Route::post("/login", [AuthController::class, "login"]);
 Route::get("/logout", [AuthController::class, "logout"]);
-
-Route::get("/importar/codigo-cne", [CodigoCNEController::class, "importCodigos"]);
-Route::get("/importar/rep", [REPController::class, "importCodigos"]);

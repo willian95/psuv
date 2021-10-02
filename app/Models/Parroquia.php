@@ -15,4 +15,11 @@ class Parroquia extends Model
         return $this->hasMany(PersonalCaracterizacion::class);
 
     }
+
+    public function electores(){
+
+        return $this->hasMany(Elector::class);
+
+    }
+
 }

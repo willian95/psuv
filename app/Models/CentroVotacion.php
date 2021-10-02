@@ -15,4 +15,10 @@ class CentroVotacion extends Model
         return $this->hasMany(PersonalCaracterizacion::class);
 
     }
+
+    public function centroVotacions(){
+
+        return $this->hasMany(CentroVotacion::class);
+
+    }
 }
