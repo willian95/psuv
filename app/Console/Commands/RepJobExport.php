@@ -70,7 +70,7 @@ class RepJobExport extends Command
 
                 }
 
-                $this->batchFiles($data, $dataParts, $pendingJob->pid);
+                //$this->batchFiles($data, $dataParts, $pendingJob->pid);
                 $this->packFiles($pendingJob->pid);
                 //$pendingJob->status = "finished";
                 //$pendingJob->update();
@@ -133,27 +133,18 @@ class RepJobExport extends Command
 
     function packFiles($id){
 
-        $zip_file = $id.'.zip';
-        $zip = new \ZipArchive();
-        $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+       exec("touch ".$id.".zip");
 
         $files = Storage::disk('publicmedia')->allFiles("excel");
         foreach($files as $file){
 
             if(strpos($file, $id) > -1){
 
-                $filePath     = public_path().$file;
-
-                // extracting filename with substr/strlen
-                $relativePath = 'excel/' . substr($filePath, strlen(public_path()."/excel") + 1);
-
-                $zip->addFile($filePath, $relativePath);
+                exec("zip -rv ".$id.".zip ".public_path().$file);
 
             }
 
         }
-        
-        $zip->close();
 
 
     }
