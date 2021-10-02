@@ -70,7 +70,7 @@ class RepJobExport extends Command
 
                 }
 
-                //$this->batchFiles($data, $dataParts, $pendingJob->pid);
+                $this->batchFiles($data, $dataParts, $pendingJob->pid);
                 $this->packFiles($pendingJob->pid);
                 //$pendingJob->status = "finished";
                 //$pendingJob->update();
@@ -133,7 +133,7 @@ class RepJobExport extends Command
 
     function packFiles($id){
 
-       exec("touch var/www/psuv/public/".$id.".zip");
+       exec("touch /var/www/psuv/public/".$id.".zip");
 
         $files = Storage::disk('publicmedia')->allFiles("excel");
         foreach($files as $file){
