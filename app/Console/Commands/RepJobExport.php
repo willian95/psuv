@@ -63,6 +63,13 @@ class RepJobExport extends Command
                     $dataAmount = ceil(Elector::with("municipio", "parroquia","centroVotacion")->count() / 50000);
                     
                     $this->wholeDataBatchFile($dataAmount, $pendingJob->pid); 
+                    $this->packFiles($pendingJob->pid);
+
+                    $url = url($pendingJob->pid.".zip");
+                    $this->sendEmail($url, $pendingJob->email);
+
+                    $pendingJob->status = "finished";
+                    $pendingJob->update();
 
                     return 0;
                    
@@ -84,7 +91,7 @@ class RepJobExport extends Command
                 $pendingJob->update();
 
                 $url = url($pendingJob->pid.".zip");
-                //$this->sendEmail($url, $pendingJob->email);
+                $this->sendEmail($url, $pendingJob->email);
 
             }catch(\Exception $e){
 
