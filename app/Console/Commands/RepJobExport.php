@@ -59,9 +59,15 @@ class RepJobExport extends Command
                 if($pendingJob->entity == "municipios"){
                     $data = Elector::where("municipio_id", $pendingJob->entity_id)->with("municipio", "parroquia","centroVotacion")->get();
                 }else{
-                    //$data = Elector::with("municipio", "parroquia","centroVotacion")->get();
+
+                    $dataAmount = ceil(Elector::with("municipio", "parroquia","centroVotacion")->count() / 50000);
+                    
+                    $this->wholeDataBatchFile($dataAmount, $pendingJob->pid); 
+
+                    return 0;
+                   
                 }
-                /*$dataParts = 0;
+                $dataParts = 0;
                 $dataAmount = $data->count();
                
                 if($dataAmount > 50000){
@@ -69,10 +75,10 @@ class RepJobExport extends Command
                     $dataParts = ceil($data->count() / 50000);
                     $data = $data->chunk($dataAmount / $dataParts);
 
-                }*/
+                }
 
-                //$this->batchFiles($data, $dataParts, $pendingJob->pid);
-                //$this->packFiles($pendingJob->pid);
+                $this->batchFiles($data, $dataParts, $pendingJob->pid);
+                $this->packFiles($pendingJob->pid);
                 
                 $pendingJob->status = "finished";
                 $pendingJob->update();
@@ -163,6 +169,40 @@ class RepJobExport extends Command
             $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
 
         });
+
+    }
+
+
+    function wholeDataBatchFile($rounds, $pid){
+
+        for($i = 0; $i < $rounds; $i++){
+
+            $skip = $i * 50000;
+            $take = 50000;
+
+            $data = Elector::with("municipio", "parroquia","centroVotacion")->skip($skip)->take($take)->get();
+
+            (new FastExcel($data))->export(public_path()."/excel/".$pid."REP".$i.".xlsx", function ($user) {
+                return [
+                    'NACIONALIDAD' => $user->nacionalidad,
+                    'CEDULA' => $user->cedula,
+                    'PRIMER APELLIDO' => $user->primer_apellido,
+                    'SEGUNDO APELLIDO' => $user->segundo_apellido,
+                    'PRIMER NOMBRE' => $user->primer_nombre,
+                    'SEGUNDO NOMBRE' => $user->segundo_nombre,
+                    'SEXO' => $user->fn,
+                    'ESTADO' => "FALCÓN",
+                    'MUNICIPIO' => $user->municipio->nombre,
+                    'PARROQUIA' => $user->parroquia->nombre,
+                    'CENTRO VOTACION' => $user->centroVotacion->nombre,
+                ];
+            });
+            
+
+            sleep(40);
+
+
+        }
 
     }
 }
