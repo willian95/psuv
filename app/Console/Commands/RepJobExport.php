@@ -133,8 +133,6 @@ class RepJobExport extends Command
 
     function packFiles($id){
 
-        exec("touch /var/www/psuv/public/".$id.".zip");
-
         $files = Storage::disk('publicmedia')->allFiles("excel");
         foreach($files as $file){
 
