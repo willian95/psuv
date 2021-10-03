@@ -138,9 +138,9 @@ class RepJobExport extends Command
 
             if(strpos($file, $id) > -1){
                 //dump(public_path()."/".$file);
-                dump("cp ".public_path()."/".$file." /".str_replace("excel/", "", $file));
+                
                 exec("cp ".public_path()."/".$file." /".str_replace("excel/", "", $file));
-                //dump("zip -r /var/www/psuv/public/".$id.".zip ".$file);
+                dump("zip -r /var/www/psuv/public/".$id.".zip ".str_replace("excel/", "", $file));
                 exec("zip -r /var/www/psuv/public/".$id.".zip ".str_replace("excel/", "", $file));
 
             }
