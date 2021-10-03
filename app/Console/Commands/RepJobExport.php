@@ -61,7 +61,7 @@ class RepJobExport extends Command
                 }else{
                     //$data = Elector::with("municipio", "parroquia","centroVotacion")->get();
                 }
-                $dataParts = 0;
+                /*$dataParts = 0;
                 $dataAmount = $data->count();
                
                 if($dataAmount > 50000){
@@ -69,7 +69,7 @@ class RepJobExport extends Command
                     $dataParts = ceil($data->count() / 50000);
                     $data = $data->chunk($dataAmount / $dataParts);
 
-                }
+                }*/
 
                 //$this->batchFiles($data, $dataParts, $pendingJob->pid);
                 //$this->packFiles($pendingJob->pid);
