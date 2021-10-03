@@ -52,8 +52,8 @@ class RepJobExport extends Command
            
             try{
                 $pendingJob = ExportJob::find($job->id);
-                //$pendingJob->status = "processing";
-                //$pendingJob->update();
+                $pendingJob->status = "processing";
+                $pendingJob->update();
 
                 if($pendingJob->entity == "municipios"){
                     $data = Elector::where("municipio_id", $pendingJob->entity_id)->with("municipio", "parroquia","centroVotacion")->get();
@@ -72,11 +72,12 @@ class RepJobExport extends Command
 
                 $this->batchFiles($data, $dataParts, $pendingJob->pid);
                 $this->packFiles($pendingJob->pid);
-                //$pendingJob->status = "finished";
-                //$pendingJob->update();
+                
+                $pendingJob->status = "finished";
+                $pendingJob->update();
 
-                $url = url("/excel/".$pendingJob->pid."REP.xlsx");
-                //$this->sendEmail($url, $pendingJob->email);
+                $url = url($pendingJob->pid.".zip");
+                $this->sendEmail($url, $pendingJob->email);
 
             }catch(\Exception $e){
 
