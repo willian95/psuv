@@ -140,7 +140,7 @@ class RepJobExport extends Command
 
             if(strpos($file, $id) > -1){
 
-                exec("zip -rv ".$id.".zip ".public_path().$file);
+                exec("zip -rv /var/www/psuv/public/".$id.".zip ".public_path().$file);
 
             }
 
