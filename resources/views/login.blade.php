@@ -10,7 +10,7 @@
 
                <!---- <p>Bienvenido a Aidacaceres CMS</p>--->
             </div>
-            <div class="login100-form validate-form col-md-6">
+            <div class="login100-form validate-form col-md-6" v-cloak>
 
                 <p class="text-center">
                     <img src="{{ url('psuv.png') }}" style="width: 150px;">

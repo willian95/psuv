@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <div class="d-flex flex-column-fluid" id="content">
+    <div class="d-flex flex-column-fluid" id="content" v-cloak>
 
         <div class="loader-cover-custom" v-if="loading == true">
             <div class="loader-custom"></div>

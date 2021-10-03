@@ -540,6 +540,10 @@
         100% { transform: rotate(360deg); }
     }
 
+    [v-cloak] {
+  display: none;
+}
+
     </style>
 
     @yield('content')

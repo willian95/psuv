@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <div class="d-flex flex-column-fluid" id="content">
+    <div class="d-flex flex-column-fluid" id="content" v-cloak>
 
         <!--begin::Container-->
         <div class="container" v-cloak>
@@ -46,6 +46,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
+                            <label style="visibility: hidden;">Centro de Votación</label>
                             <button class="btn btn-primary" @click="download()">Generar excel</button>
                         </div>
                         
