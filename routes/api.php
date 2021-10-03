@@ -97,6 +97,7 @@ Route::post("raas/ubch/store", [UBCHController::class, "store"]);
 Route::post("raas/ubch/update", [UBCHController::class, "update"]);
 Route::post("raas/ubch/suspend", [UBCHController::class, "suspend"]);
 Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"]);
+Route::post("raas/ubch/search", [UBCHController::class, "search"]);
 
 Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::class, "jefeUbchByCedula"]);
 Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedula"]);

@@ -41,6 +41,25 @@
                     <!--begin: Datatable-->
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
                         
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="float-right">
+                                        <div class="form-group">
+                                            <label>Buscar</label>
+                                            <div class="d-flex">
+                                                <input class="form-control" placeholder="cedula" @keypress="isNumber($event)" v-model="cedulaSearch">
+                                                <button class="btn btn-primary" v-if="!searchLoading" @click="search()">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                                <div class="spinner spinner-primary ml-1 mr-13" v-if="searchLoading"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -160,7 +179,9 @@ const app = new Vue({
             action:"create",
             errors:[],
             loading:false,
+            searchLoading:false,
 
+            cedulaSearch:"",
             municipios:[],
             selectedMunicipio:"",
             parroquias:[],
@@ -478,6 +499,19 @@ const app = new Vue({
             } else {
                 return true;
             }
+        },
+        async search(){
+
+            this.searchLoading = true
+            let res = await axios.post("{{ url('/api/raas/ubch/search') }}", {"cedula": this.cedulaSearch})
+            this.searchLoading = false
+
+            this.jefesUbch = res.data.data
+            this.links = res.data.links
+            this.currentPage = res.data.current_page
+            this.totalPages = res.data.last_page
+            
+
         }
         
 

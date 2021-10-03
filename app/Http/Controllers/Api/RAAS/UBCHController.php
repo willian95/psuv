@@ -180,6 +180,26 @@ class UBCHController extends Controller
 
     }
 
+    function search(Request $request){
+
+        if(!isset($request->cedula)){
+            
+            $jefeUbch = JefeUbch::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
+        
+            return response()->json($jefeUbch);
+
+        }
+
+
+        $cedula = $request->cedula;
+        $jefeUbch = JefeUbch::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+            $q->where('cedula', $cedula);
+        })->orderBy("id", "desc")->paginate(15);
+
+        return response()->json($jefeUbch);
+
+    }
+
 
 
 }
