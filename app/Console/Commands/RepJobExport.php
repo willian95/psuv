@@ -44,7 +44,7 @@ class RepJobExport extends Command
     public function handle()
     {
         
-        ini_set("memory_limit", "1500m");
+        ini_set("memory_limit", "1500M");
         ini_set('max_execution_time', 0);
 
         $pendingJobs = ExportJob::where("status", "not started")->get();
@@ -71,14 +71,14 @@ class RepJobExport extends Command
 
                 }
 
-                $this->batchFiles($data, $dataParts, $pendingJob->pid);
-                $this->packFiles($pendingJob->pid);
+                //$this->batchFiles($data, $dataParts, $pendingJob->pid);
+                //$this->packFiles($pendingJob->pid);
                 
                 $pendingJob->status = "finished";
                 $pendingJob->update();
 
                 $url = url($pendingJob->pid.".zip");
-                $this->sendEmail($url, $pendingJob->email);
+                //$this->sendEmail($url, $pendingJob->email);
 
             }catch(\Exception $e){
 
