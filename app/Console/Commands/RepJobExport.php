@@ -84,7 +84,7 @@ class RepJobExport extends Command
                 $pendingJob = ExportJob::find($job->id);
                 $pendingJob->status = "not started";
                 $pendingJob->update();
-                dd($e->getMessage(), $e->getLine());
+                
 
             }
 

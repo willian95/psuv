@@ -13,6 +13,7 @@ class REPController extends Controller
 {
     function download(Request $request){
 
+        ini_set("memory_limit", -1);
     
         $data = null;
         if($request->selectedCentroVotacion != 0){
