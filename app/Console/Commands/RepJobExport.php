@@ -140,8 +140,8 @@ class RepJobExport extends Command
 
             if(strpos($file, $id) > -1){
                 //dump(public_path()."/".$file);
-                dump("zip -rv /var/www/psuv/public/".$id.".zip ".public_path()."/".$file);
-                exec("zip -rv /var/www/psuv/public/".$id.".zip ".public_path()."/".$file);
+                dump("zip -r /var/www/psuv/public/".$id.".zip ".public_path()."/".$file);
+                exec("zip -r /var/www/psuv/public/".$id.".zip ".public_path()."/".$file);
 
             }
 
