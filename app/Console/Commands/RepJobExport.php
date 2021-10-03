@@ -100,6 +100,7 @@ class RepJobExport extends Command
             foreach($data as $dat){
 
                 $this->exportData($dat, $id, $index);
+                sleep(10);
                 $index++;
             }
         }
