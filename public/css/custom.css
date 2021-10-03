@@ -13,3 +13,7 @@
 .text-danger{
     color: red !important;
 }
+
+[v-cloak] {
+    display: none;
+  }
