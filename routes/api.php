@@ -55,7 +55,7 @@ Route::prefix('calles')->group(function () {
 //Calles Routes
 Route::prefix('raas/jefe-calle')->group(function () {
     Route::get("/", [JefeCalleController::class, "index"])->name('api.jefe-calle.index');
-    Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula');
+    Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula')->middleware("web");
     Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
     Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
     Route::delete("/{id}", [JefeCalleController::class, "delete"])->name('api.jefe-calle.delete');
@@ -92,23 +92,17 @@ Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->nam
 
 Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.movilizacion.index');
 
-Route::post("raas/ubch/search-by-cedula", [UBCHController::class, "searchByCedula"]);
+
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
 Route::post("raas/ubch/update", [UBCHController::class, "update"]);
 Route::post("raas/ubch/suspend", [UBCHController::class, "suspend"]);
 Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"]);
 Route::post("raas/ubch/search", [UBCHController::class, "search"]);
 
-Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::class, "jefeUbchByCedula"]);
-Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedula"]);
 Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store"]);
 Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
 
-
-Route::get("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedulaField"])->name('api.jefe-comunidad.search.by.cedula');
-
-Route::get("elector/search-by-cedula", [ElectorController::class, "searchByCedula"])->name('api.elector.search.by.cedula');
 
 

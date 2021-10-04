@@ -270,6 +270,15 @@ class JefeCalleController extends Controller
             if (!$entity) {
                 throw new \Exception('Jefe de Calle no encontrado', 404);
             }
+
+            if(\Auth::user()->municipio_id != null){
+
+                if($entity->personalCaracterizacion->municipio_id != \Auth::user()->municipio_id){
+                    return response()->json(["success" => false, "msg" => "Éste jefe de comunidad no pertenece a tu municipio"]);
+                }
+
+            }
+
             $response = $this->getSuccessResponse($entity);
         } catch (\Exception $e) {
             $code = $this->getCleanCode($e);

@@ -299,11 +299,21 @@
                         cedula:this.cedula_jefe_comunidad
                     }
                     const response = await axios({
-                        method: 'Get',
+                        method: 'Post',
                         responseType: 'json',
-                        url: "{{ url('api/raas/jefe-comunidad/search-by-cedula') }}",
+                        url: "{{ url('/raas/jefe-comunidad/search-by-cedula-field') }}",
                         params: filters
                     });
+
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return
+                    }
+
                     this.loading = false;
                     this.jefe_comunidad = response.data.data;
                     this.form.jefe_comunidad_id = this.jefe_comunidad.id;
@@ -331,7 +341,7 @@
                     const response = await axios({
                         method: 'GET',
                         responseType: 'json',
-                        url: "{{ url('api/elector/search-by-cedula') }}",
+                        url: "{{ url('elector/search-by-cedula') }}",
                         params: filters
                     });
                     this.loading = false;
@@ -348,8 +358,18 @@
                             this.form.movilizacion_id=response.data.elector.movilizacion_id;
                         }
                     }else{
+
+                        
                         this.form.personal_caraterizacion=null;
                         this.cedula_jefe_error="Elector no encontrado";
+                        if(response.data.success == false){
+                            swal({
+                                text:response.data.msg,
+                                icon:"error"
+                            })
+
+                            return
+                        }
                     }
                 } catch (err) {
                     this.loading = false;

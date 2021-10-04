@@ -17,10 +17,10 @@ class MunicipioSeeder extends Seeder
     {
         
         $municipios = [
-            "Carirubana",
-            "Los Taques",
-            "Falcón",
-            "Miranda"
+            "CARIRUBANA",
+            "LOS TAQUES",
+            "FALCON",
+            "MIRANDA"
         ];
 
         foreach($municipios as $municipio){

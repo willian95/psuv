@@ -26,19 +26,10 @@ class UBCHController extends Controller
         if($this->verificarDuplicidadCedula($request->cedula) > 0){
             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de UBCH"]);
         }
-
-        $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
         
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
-        }
-
-        $elector = $this->searchElectorByCedula($request->cedula);
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
-        }
-
-        return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, \Auth::user()->municipio_id);
+        
+        return response()->json($response);
         
     }
 
@@ -99,6 +90,12 @@ class UBCHController extends Controller
 
         if($jefeUbch == null){
             return response()->json(["success" => false, "msg" => "Jefe de UBCH no encontrado"]);
+        }
+        
+        if(\Auth::user()->municipio_id != null){
+            if($jefeUbch->personalCaracterizacion->municipio_id != \Auth::user()->municipio_id){
+                return response()->json(["success" => false, "msg" => "Este Jefe de UBCH no pertenece a tu municipio "]);
+            }
         }
 
         return response()->json($jefeUbch);

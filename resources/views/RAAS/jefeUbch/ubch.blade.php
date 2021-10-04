@@ -263,10 +263,11 @@ const app = new Vue({
             this.cedulaSearching = true
             this.readonlyCedula = true
 
-            let res = await axios.post("{{ url('api/raas/ubch/search-by-cedula') }}", {cedula: this.cedula})
+            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula})
 
             if(res.data.success == false){
                 this.readonlyCedula = false
+                this.create()
                 swal({
                     text:res.data.msg,
                     icon:"error"
@@ -300,9 +301,9 @@ const app = new Vue({
             this.nacionalidad = elector.nacionalidad
 
             this.primerNombre = elector.primer_nombre
-            this.segundoNombre = elector.segundo_nombre
+            this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
             this.primerApellido = elector.primer_apellido
-            this.segundoApellido = elector.segundo_apellido
+            this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id

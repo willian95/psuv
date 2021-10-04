@@ -17,10 +17,10 @@ class ParroquiaSeeder extends Seeder
     {
         
         $parroquias = [
-            ["municipio" => Municipio::where("nombre", "Carirubana")->first()->id, "parroquia" => "Carirubana"],
-            ["municipio" => Municipio::where("nombre", "Carirubana")->first()->id, "parroquia" => "Santa Ana"],
-            ["municipio" => Municipio::where("nombre", "Carirubana")->first()->id, "parroquia" => "Norte"],
-            ["municipio" => Municipio::where("nombre", "Carirubana")->first()->id, "parroquia" => "Punta Cardón"],
+            ["municipio" => Municipio::where("nombre", "CARIRUBANA")->first()->id, "parroquia" => "CARIRUBANA"],
+            ["municipio" => Municipio::where("nombre", "CARIRUBANA")->first()->id, "parroquia" => "Santa Ana"],
+            ["municipio" => Municipio::where("nombre", "CARIRUBANA")->first()->id, "parroquia" => "Norte"],
+            ["municipio" => Municipio::where("nombre", "CARIRUBANA")->first()->id, "parroquia" => "Punta Cardón"],
 
             ["municipio" => Municipio::where("nombre", "Los Taques")->first()->id, "parroquia" => "Judibana"],
             ["municipio" => Municipio::where("nombre", "Los Taques")->first()->id, "parroquia" => "Los Taques"],

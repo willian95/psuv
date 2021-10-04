@@ -26,14 +26,14 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UsersSeeder::class,
             EstadoSeeder::class,
-            MunicipioSeeder::class,
-            ParroquiaSeeder::class,
-            CentroVotacionSeeder::class,
+            //MunicipioSeeder::class,
+            //ParroquiaSeeder::class,
+            //CentroVotacionSeeder::class,
             PartidoPoliticoSeeder::class,
             TipoMovilizacionSeeder::class,
-            ElectorSeeder::class,
-            ComunidadesSeeder::class,
-            CalleSeeder::class,
+            //ElectorSeeder::class,
+            //ComunidadesSeeder::class,
+            //CalleSeeder::class,
         ];
         //call seeders
         foreach ($seedersArray as $seeder) $this->call($seeder);

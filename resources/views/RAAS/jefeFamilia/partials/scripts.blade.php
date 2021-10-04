@@ -491,10 +491,22 @@
                     const response = await axios({
                         method: 'Get',
                         responseType: 'json',
+                        _token:"{{ csrf_token() }}",
                         url: "{{ url('api/raas/jefe-calle') }}"+"/"+this.cedula_jefe_calle,
                         params: filters
                     });
+                    
                     this.loading = false;
+                    
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return
+                    }
+                    
                     this.jefe_calle = response.data.data;
                     this.form.jefe_calle_id = this.jefe_calle.id;
                 } catch (err) {
@@ -519,7 +531,7 @@
                     const response = await axios({
                         method: 'GET',
                         responseType: 'json',
-                        url: "{{ url('api/elector/search-by-cedula') }}",
+                        url: "{{ url('/elector/search-by-cedula') }}",
                         params: filters
                     });
                     this.loading = false;
@@ -529,6 +541,14 @@
                     }else{
                         this.form.personal_caracterizacion=null;
                         this.cedula_jefe_error="Elector no encontrado";
+                        if(response.data.success == false){
+                            swal({
+                                text:response.data.msg,
+                                icon:"error"
+                            })
+
+                            return
+                        }
                     }
                 } catch (err) {
                     this.loading = false;

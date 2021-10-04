@@ -13,17 +13,46 @@ class ElectorController extends Controller
     
     function searchByCedula(Request $request){
 
-        $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
+        if(\Auth::user()->municipio_id == null){
+            $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
+            if($elector){
+                return response()->json(["success" => true, "elector" => $elector]);
+            }
+
+            $elector = $this->searchElectorByCedula($request->cedula);
+            if($elector){
+                return response()->json(["success" => true, "elector" => $elector]);
+            }
+
+            return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        
+        }else{
+            
+            $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula, \Auth::user()->municipio_id);
+            if($elector){
+                
+                if($elector->municipio_id != \Auth::user()->municipio_id){
+                    return response()->json(["success" => false, "msg" => "Éste elector no pertence a tu municipio"]);
+                }
+
+                return response()->json(["success" => true, "elector" => $elector]);
+            }
+
+            $elector = $this->searchElectorByCedula($request->cedula, \Auth::user()->municipio_id);
+            if($elector){
+
+                if($elector->municipio_id != \Auth::user()->municipio_id){
+                    return response()->json(["success" => false, "msg" => "Éste elector no pertence a tu municipio"]);
+                }
+             
+                return response()->json(["success" => true, "elector" => $elector]);
+            }
+
+            return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+
         }
 
-        $elector = $this->searchElectorByCedula($request->cedula);
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
-        }
-
-        return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        
         
     }
 
@@ -40,5 +69,6 @@ class ElectorController extends Controller
         return $elector;
 
     }
+
 
 }

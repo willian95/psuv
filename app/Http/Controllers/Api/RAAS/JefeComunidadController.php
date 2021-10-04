@@ -37,6 +37,15 @@ class JefeComunidadController extends Controller
             if (!$entity) {
                 throw new \Exception('Jefe de Comunidad no encontrado', 404);
             }
+
+            if(\Auth::user()->municipio_id != null){
+
+                if($entity->personalCaracterizacion->municipio_id != \Auth::user()->municipio_id){
+                    return response()->json(["success" => false, "msg" => "Éste jefe de comunidad no pertenece a tu municipio"]);
+                }
+
+            }
+
             $response = $this->getSuccessResponse($entity);
         } catch (\Exception $e) {
             $code = $this->getCleanCode($e);
@@ -51,18 +60,9 @@ class JefeComunidadController extends Controller
             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
         }
 
-        $elector = $this->searchPersonalCaracterizacionByCedula($request->cedula);
+        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, \Auth::user()->municipio_id);
         
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
-        }
-
-        $elector = $this->searchElectorByCedula($request->cedula);
-        if($elector){
-            return response()->json(["success" => true, "elector" => $elector]);
-        }
-
-        return response()->json(["success" => false, "msg" => "Elector no encontrado"]);
+        return response()->json($response);
         
     }
 

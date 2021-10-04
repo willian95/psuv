@@ -7,6 +7,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Listados\REPController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\RAAS\{
+    UBCHController as UBCHAPIController,
+    JefeComunidadController as JefeComunidadAPIController
+};
+
+use App\Http\Controllers\Api\{
+    ElectorController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,3 +52,11 @@ Route::get('/', function () {
 
 Route::post("/login", [AuthController::class, "login"]);
 Route::get("/logout", [AuthController::class, "logout"]);
+
+Route::post("raas/ubch/search-by-cedula", [UBCHAPIController::class, "searchByCedula"]);
+
+Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHAPIController::class, "jefeUbchByCedula"]);
+Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadAPIController::class, "searchByCedula"]);
+Route::post("raas/jefe-comunidad/search-by-cedula-field", [JefeComunidadAPIController::class, "searchByCedulaField"]);
+
+Route::get("elector/search-by-cedula", [ElectorController::class, "searchByCedula"])->name('api.elector.search.by.cedula');

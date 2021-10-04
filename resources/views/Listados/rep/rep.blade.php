@@ -21,7 +21,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Municipio</label>
-                                <select class="form-control" v-model="selectedMunicipio" @change="getParroquias()">
+                                <select class="form-control" v-model="selectedMunicipio" @change="getParroquias()" :disabled="authMunicipio != 0">
                                     <option value="0">Todos los municipios</option>
                                     <option v-for="municipio in municipios" :value="municipio.id">@{{ municipio.nombre }}</option>
                                 </select>
@@ -80,7 +80,8 @@
                     centrosVotacion:[],
                     email:"",
                     emailError:"",
-                    loading:false
+                    loading:false,
+                    authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}"
                 }
             },
             methods: {
@@ -186,6 +187,11 @@
                 this.selectedMunicipio = "0"
                 this.selectedParroquia = "0"
                 this.selectedCentroVotacion = "0"
+                this.selectedMunicipio = this.authMunicipio
+
+                if(this.selectedMunicipio != "0"){
+                    this.getParroquias()
+                }
 
             }
         });
