@@ -32,7 +32,8 @@
             calles:[],
             tipoDeVotos:[
                 "Duro",
-                "Blando"
+                "Blando",
+                "Opositor"
             ],
             partidosPoliticos:[],
             tiposDeMovilizacion:[],
