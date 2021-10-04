@@ -27,8 +27,8 @@ class UpdateRequest extends FormRequest
             "jefe_calle_id" => "required|exists:jefe_calle,id",
             "personal_caracterizacion" => "required",
             "tipo_voto" => "required",
-            "telefono_principal" => "required|max:11",
-            "telefono_secundario" => "required|max:11",
+            "telefono_principal" => "nullable|max:11",
+            "telefono_secundario" => "nullable|max:11",
             "partido_politico_id" => "required|exists:partido_politico,id",
             "movilizacion_id" => "required|exists:movilizacion,id",
         ];

@@ -28,8 +28,8 @@ class JefeComunidadStoreRequest extends FormRequest
             "cedula" => "required|exists:elector,cedula",
             "cedulaJefe" => "required|exists:personal_caracterizacion,cedula",
             "tipo_voto" => "required",
-            "telefono_principal" => "required|max:11",
-            "telefono_secundario" => "required|max:11",
+            "telefono_principal" => "nullable|max:11",
+            "telefono_secundario" => "nullable|max:11",
             "partido_politico_id" => "required|exists:partido_politico,id",
             "movilizacion_id" => "required|exists:movilizacion,id"
         ];
