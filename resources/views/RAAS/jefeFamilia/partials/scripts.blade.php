@@ -43,7 +43,8 @@
             //Array data
             tipoDeVotos:[
                 "Duro",
-                "Blando"
+                "Blando",
+                "Opositor"
             ],
             partidosPoliticos:[],
             tiposDeMovilizacion:[],
@@ -497,6 +498,7 @@
                     this.loading = false;
                     this.jefe_calle = response.data.data;
                     this.form.jefe_calle_id = this.jefe_calle.id;
+                    this.cedula_jefe_calle_error="";
                 } catch (err) {
                     this.loading = false;
                     console.log(err)

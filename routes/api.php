@@ -9,14 +9,15 @@ use App\Http\Controllers\Api\{
     PartidoPoliticoController, 
     MovilizacionController, 
     ElectorController, 
-    ComunidadController
+    ComunidadController,
+    PersonalCaracterizacionController,
 
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
     JefeComunidadController,
     JefeCalleController,
-    JefeFamiliaController
+    JefeFamiliaController,
 };
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,9 @@ Route::prefix('raas/nucleo-familiar')->group(function () {
     Route::post("/", [JefeFamiliaController::class, "storeFamily"])->name('api.nucleo-familiar.store');
     Route::put("/{familyId}", [JefeFamiliaController::class, "updateFamily"])->name('api.nucleo-familiar.update');
     Route::delete("/{familyId}", [JefeFamiliaController::class, "deleteFamily"])->name('api.nucleo-familiar.delete');
+});
+Route::prefix('raas/report')->group(function () {
+    Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
