@@ -16,4 +16,11 @@ class Comunidad extends Model
 
     }
 
+
+    public function parroquia(){
+
+        return $this->belongsTo(Parroquia::class);
+
+    }
+
 }

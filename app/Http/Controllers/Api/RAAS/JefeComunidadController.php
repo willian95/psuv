@@ -188,7 +188,7 @@ class JefeComunidadController extends Controller
 
     function fetch(Request $request){
 
-        $jefeComunidad = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion")->orderBy("id", "desc")->paginate(15);
+        $jefeComunidad = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->orderBy("id", "desc")->paginate(15);
         
         return response()->json($jefeComunidad);
 

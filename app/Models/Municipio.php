@@ -21,4 +21,10 @@ class Municipio extends Model
         return $this->hasMany(Elector::class);
 
     }
+
+    public function parroquias(){
+
+        return $this->hasMany(Parroquia::class);
+
+    }
 }

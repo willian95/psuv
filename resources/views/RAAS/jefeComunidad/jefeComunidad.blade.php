@@ -85,7 +85,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefeComunidad in jefesComunidad">
-                                        <td>@{{ jefeComunidad.personal_caracterizacion.centro_votacion.nombre }}</td>
+                                        <td>@{{ jefeComunidad.jefe_ubch.personal_caracterizacion.centro_votacion.nombre }}</td>
                                         <td>@{{ jefeComunidad.comunidad.nombre }}</td>
                                         <td>@{{ jefeComunidad.personal_caracterizacion.cedula }}</td>
                                         <td>@{{ jefeComunidad.personal_caracterizacion.primer_nombre }} @{{ jefeComunidad.personal_caracterizacion.primer_apellido }}</td>
