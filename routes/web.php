@@ -48,7 +48,7 @@ Route::get('/', function () {
  Route::get("/listado/importar/rep", [REPController::class,'download']);
  Route::post("/listado/rep/store-export-job", [REPController::class,'storeExportJob']);
 
- Route::view("comunidad", "comunidad.index");
+ Route::view("/admin/comunidad", "comunidad.index");
 
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);
 
