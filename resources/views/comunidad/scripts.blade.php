@@ -9,6 +9,7 @@
                 linkClass:"page-link",
                 activeLinkClass:"page-link active-link bg-main",
                 action:"create",
+                authMunicipio:"{{ \Auth::user()->municipio_id != null ? \Auth::user()->municipio_id : '' }}",
                 
                 comunidades:[],
                 municipios:[],
@@ -267,8 +268,13 @@
 
         },
         created() {
-
+            this.selectedMunicipio = this.authMunicipio
             this.getMunicipios()
+
+            if(this.selectedMunicipio != ""){
+                this.getParroquias()
+            }
+
             this.fetch()
 
         }
