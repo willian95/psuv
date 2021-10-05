@@ -277,7 +277,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												</span>
 											</li>
 											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ url('comunidad') }}" class="menu-link">
+												<a href="{{ url('admin/comunidad') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
 														<span></span>
 													</i>
