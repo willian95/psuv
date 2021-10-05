@@ -10,14 +10,13 @@ use App\Http\Controllers\Api\{
     MovilizacionController, 
     ElectorController, 
     ComunidadController,
-    PersonalCaracterizacionController,
-
+    PersonalCaracterizacionController
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
     JefeComunidadController,
     JefeCalleController,
-    JefeFamiliaController,
+    JefeFamiliaController
 };
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -112,5 +111,8 @@ Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
 
-
-
+Route::get("comunidad/fetch", [ComunidadController::class, "fetch"]);
+Route::post("comunidad/store", [ComunidadController::class, "store"]);
+Route::post("comunidad/update", [ComunidadController::class, "update"]);
+Route::post("comunidad/delete", [ComunidadController::class, "delete"]);
+Route::get("comunidad/search", [ComunidadController::class, "search"]);
