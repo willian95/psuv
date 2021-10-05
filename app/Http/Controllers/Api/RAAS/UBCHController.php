@@ -61,7 +61,7 @@ class UBCHController extends Controller
             return response()->json(["success" => true, "msg" => "Jefe de UBCH creado"]);
         }catch(\Exception $e){
 
-            return response()->json(["success" => false, "msg" => "Ha ocurrido un problema"]);
+            return response()->json(["success" => false, "msg" => "Ha ocurrido un problema", "err" => $e->getMessage()]);
 
         }
         
