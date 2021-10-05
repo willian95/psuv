@@ -22,4 +22,10 @@ class Parroquia extends Model
 
     }
 
+    public function municipio(){
+
+        return $this->belongsTo(Municipio::class,"municipio_id");
+
+    }
+
 }

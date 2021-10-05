@@ -1,0 +1,233 @@
+<script type="text/javascript">
+    /********* VUE ***********/
+    var vue_instance = new Vue({
+        el: '#content',
+        components: {},
+        data: {
+            loading: true,
+            action:"create",//create,edit,suspend
+            //Class
+            linkClass:"page-link",
+            activeLinkClass:"page-link active-link bg-main",
+
+            //Form
+            form:{
+                comunidad_id:"0",
+                tipo:"",
+                sector:"",
+                nombre:"",
+            },
+            entityId:null,
+            //Array data
+            comunidades:[],
+            results:[],
+
+
+            //paginate
+            modalTitle:"Crear Calle",
+            currentPage:1,
+            links:"",
+            totalPages:"",
+   
+        },
+        created: function() {
+            this.$nextTick(async function() {
+                this.loading = false;
+                await this.fetch();
+                await this.obtenerComunidades();
+            });
+        },
+        methods: {
+            async fetch(link = ""){
+                let res = await axios.get(link == "" ? "{{ route('api.calles.index') }}" : link.url)
+                this.results = res.data.data
+                this.links = res.data.links
+                this.currentPage = res.data.current_page
+                this.totalPages = res.data.last_page
+            },
+            async store(){
+                //Validations
+                if(this.form.comunidad_id=="0"){
+                    swal({
+                        text:"Debe seleccionar una comunidad",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.nombre==""){
+                    swal({
+                        text:"Debe ingresar el nombre",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.tipo==""){
+                    swal({
+                        text:"Debe ingresar el tipo",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.sector==""){
+                    swal({
+                        text:"Debe ingresar el sector",
+                        icon:"error"
+                    });
+                    return false;
+                }
+                try {
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'POST',
+                        responseType: 'json',
+                        url: "{{ route('api.calles.store') }}",
+                        data: this.form
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        $('.marketModal').modal('hide')
+                        $('.modal-backdrop').remove()
+
+                    })
+                    this.clearForm();
+                    this.fetch();
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
+                }
+            },
+            edit(entity){
+                this.action="edit";
+                this.entityId=entity.id;
+                this.form.comunidad_id=entity.comunidad.id;
+                this.form.nombre=entity.nombre;
+                this.form.tipo=entity.tipo;
+                this.form.sector=entity.sector;
+            },
+            async suspend(entityId){
+                try {
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'DELETE',
+                        responseType: 'json',
+                        url: "{{ url('api/calles') }}"+"/"+entityId,
+                        data: this.form
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        $('.marketModal').modal('hide')
+                        $('.modal-backdrop').remove()
+
+                    })
+                    this.clearForm();
+                    this.fetch();
+                } catch (err) {
+                    this.loading = false;
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
+                }
+            },
+            async update(){
+              //Validations
+                //Validations
+                if(this.form.comunidad_id=="0"){
+                    swal({
+                        text:"Debe seleccionar una comunidad",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.nombre==""){
+                    swal({
+                        text:"Debe ingresar el nombre",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.tipo==""){
+                    swal({
+                        text:"Debe ingresar el tipo",
+                        icon:"error"
+                    });
+                    return false;
+                }else if(this.form.sector==""){
+                    swal({
+                        text:"Debe ingresar el sector",
+                        icon:"error"
+                    });
+                    return false;
+                }
+              try {
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'PUT',
+                        responseType: 'json',
+                        url: "{{ url('api/calles') }}"+"/"+this.entityId,
+                        params: this.form
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        $('.marketModal').modal('hide')
+                        $('.modal-backdrop').remove()
+
+                    })
+                    this.clearForm();
+                    this.fetch();
+                } catch (err) {
+                    this.loading = false;
+                    swal({
+                        text:err.response.data.message,
+                        icon:"error"
+                    });
+                }
+            },
+            clearForm(){
+                this.form.comunidad_id="0";
+                this.form.nombre="";
+                this.form.sector="";
+                this.form.tipo="";
+                this.action="create";
+            },
+            async obtenerComunidades() {
+                try {
+                    this.loading = true;
+                    let filters = {
+                        auth:1
+                     }
+                    const response = await axios({
+                        method: 'get',
+                        responseType: 'json',
+                        url: "{{ route('api.calles.index') }}",
+                        params: filters
+                    });
+
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return false;
+                    }
+
+                    this.loading = false;
+                    this.comunidades = response.data.data;
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                }
+            },
+
+        } //methods
+    });
+</script>
