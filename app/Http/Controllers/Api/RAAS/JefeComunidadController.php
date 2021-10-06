@@ -56,9 +56,9 @@ class JefeComunidadController extends Controller
 
     function searchByCedula(Request $request){
 
-        if($this->verificarDuplicidadCedula($request->cedula) > 0){
+        /*if($this->verificarDuplicidadCedula($request->cedula) > 0){
             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
-        }
+        }*/
 
         $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, \Auth::user()->municipio_id);
         
@@ -69,10 +69,6 @@ class JefeComunidadController extends Controller
     function store(JefeComunidadStoreRequest $request){
 
         try{
-
-            if($this->verificarDuplicidadCedula($request->cedula) > 0){
-                return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
-            }
 
             if($this->verificarExistenciaOtrosJefesComunidad($request->comunidad) > 0){
                 return response()->json(["success" => false, "msg" => "Esta comunidad ya posee un Jefe"]);
@@ -152,6 +148,16 @@ class JefeComunidadController extends Controller
         try{
 
             $jefeComunidad = JefeComunidad::find($request->id);
+
+            $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
+            
+            if($personalCaracterizacion == null){
+                $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
+            }
+
+            $jefeComunidad->personal_caracterizacion_id = $personalCaracterizacion->id;
+            $jefeComunidad->comunidad_id = $request->comunidad;
+            $jefeComunidad->update();
        
             $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeComunidad->personal_caracterizacion_id, $request);
 
