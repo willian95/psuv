@@ -293,7 +293,7 @@ const app = new Vue({
                 else{
                     this.cedulaJefeSearching = false
             
-                    this.nombreJefeUBCH = res.data.personal_caracterizacion.primer_nombre+" "+res.data.personal_caracterizacion.segundo_nombre+" "+res.data.personal_caracterizacion.primer_apellido+" "+res.data.personal_caracterizacion.segundo_apellido
+                    this.nombreJefeUBCH = res.data.personal_caracterizacion.primer_nombre+" "+res.data.personal_caracterizacion.primer_apellido
                     this.selectedUBCH = res.data.id
                     this.selectedCentroVotacion = res.data.personal_caracterizacion.centro_votacion_id
                     this.selectedParroquia = res.data.personal_caracterizacion.parroquia_id
@@ -344,7 +344,7 @@ const app = new Vue({
         },  
         async setElectorData(elector){
 
-            this.nombre = elector.primer_nombre+" "+elector.segundo_nombre+" "+elector.primer_apellido+" "+elector.segundo_apellido
+            this.nombre = elector.primer_nombre+" "+elector.primer_apellido
             this.selectedMunicipio = elector.municipio_id
 
             this.selectedParroquia = elector.parroquia_id
