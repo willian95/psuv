@@ -39,7 +39,13 @@
         },
         methods: {
             async fetch(link = ""){
-                let res = await axios.get(link == "" ? "{{ route('api.calles.index') }}" : link.url)
+                let filters={
+                    municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                        includes:"comunidad"
+                };
+                let res = await axios.get(link == "" ? "{{ route('api.calles.index') }}" : link.url,{
+                    params:filters
+                })
                 this.results = res.data.data
                 this.links = res.data.links
                 this.currentPage = res.data.current_page
@@ -202,12 +208,13 @@
                 try {
                     this.loading = true;
                     let filters = {
-                        auth:1
+                        municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                        includes:"comunidad"
                      }
                     const response = await axios({
                         method: 'get',
                         responseType: 'json',
-                        url: "{{ route('api.calles.index') }}",
+                        url: "{{ route('api.comunidades.index') }}",
                         params: filters
                     });
 

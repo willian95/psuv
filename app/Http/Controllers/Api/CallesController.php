@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Models\Calle as Model;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\Users\CalleRequest as EntityRequest;
+use App\Http\Requests\Calle\CalleStoreRequest as EntityRequest;
+use App\Http\Requests\Calle\CalleUpdateRequest as EntityUpdateRequest;
 use App\Http\Controllers\Controller;
 
 class CallesController extends Controller
@@ -14,25 +15,26 @@ class CallesController extends Controller
     {
         try {
             $comunidad_id = $request->input('comunidad_id');
-            $auth = $request->input('auth');
+            $municipio_id = $request->input('municipio_id');
+            $includes= $request->input('includes') ? $request->input('includes') : [];
             //Init query
             $query=Model::query();
+                        //Includes
+                        $query->with($includes);
             //Filters
             if ($comunidad_id) {
                 $query->where('comunidad_id', $comunidad_id);
             }
-            if($auth){
-                $user=\Auth::user();
-                if($user->municipio_id){
-                    $query->whereHas('comunidad',function($query) use($user){
-                        $query->whereHas('parroquia',function($query) use($user){
-                            $query->where("municipio_id",$user->municipio_id);
-                        });
+            if($municipio_id){
+                $query->whereHas('comunidad',function($query) use($municipio_id){
+                    $query->whereHas('parroquia',function($query) use($municipio_id){
+                        $query->where("municipio_id",$municipio_id);
                     });
-                }
+                });
             }
-            $this->addFilters($request, $query);
-
+            $query->orderBy("created_at","DESC");
+            $query=$query->paginate(15);
+            return response()->json($query,200);
             $response = $this->getSuccessResponse(
                $query,
                 'Listado de calles',
@@ -79,7 +81,7 @@ class CallesController extends Controller
         return $this->response($response, $code ?? 200);
     }//
 
-    public function update($id, EntityRequest $request)
+    public function update($id, EntityUpdateRequest $request)
     {
         try {
             DB::beginTransaction();

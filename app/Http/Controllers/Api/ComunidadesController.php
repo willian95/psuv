@@ -13,6 +13,7 @@ class ComunidadesController extends Controller
     {
         try {
             $parroquia_id = $request->input('parroquia_id');
+            $municipio_id = $request->input('municipio_id');
             $auth = $request->input('auth');
             //Init query
             $query=Model::query();
@@ -20,13 +21,10 @@ class ComunidadesController extends Controller
             if ($parroquia_id) {
                 $query->where('parroquia_id', $parroquia_id);
             }
-            if($auth){
-                $user=\Auth::user();
-                if($user->municipio_id){
-                    $query->whereHas('parroquia',function($query) use($user){
-                        $query->where("municipio_id",$user->municipio_id);
-                    });
-                }
+            if($municipio_id){
+                $query->whereHas('parroquia',function($query) use($municipio_id){
+                    $query->where("municipio_id",$municipio_id);
+                });
             }
             $this->addFilters($request, $query);
 
