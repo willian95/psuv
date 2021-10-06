@@ -51,7 +51,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="parroquia">Parroquia</label>
-                                <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()" disabled>
+                                <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()">
                                     <option value="">Seleccione</option>
                                     <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
                                 </select>

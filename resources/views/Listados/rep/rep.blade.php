@@ -167,9 +167,11 @@
                         swal({
                             text:res.data.msg,
                             icon:"success"
+                        }).then(ans =>{
+                            window.location.reload()
                         })
 
-                        window.location.reload()
+                        
 
                     }
 
