@@ -293,7 +293,7 @@ const app = new Vue({
                 else{
                     this.cedulaJefeSearching = false
             
-                    this.nombreJefeUBCH = res.data.personal_caracterizacion.primer_nombre+" "+res.data.personal_caracterizacion.segundo_nombre+" "+res.data.personal_caracterizacion.primer_apellido+" "+res.data.personal_caracterizacion.segundo_apellido
+                    this.nombreJefeUBCH = res.data.personal_caracterizacion.primer_nombre+" "+res.data.personal_caracterizacion.primer_apellido
                     this.selectedUBCH = res.data.id
                     this.selectedCentroVotacion = res.data.personal_caracterizacion.centro_votacion_id
                     this.selectedParroquia = res.data.personal_caracterizacion.parroquia_id
