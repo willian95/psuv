@@ -284,6 +284,14 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestión de comunidades</span>
 												</a>
 											</li>
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('admin/calles') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Gestión de calles</span>
+												</a>
+											</li>
 	
 										</ul>
 									</div>
