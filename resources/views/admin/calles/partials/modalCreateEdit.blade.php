@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Nombre</label>
-                                <input type="text" class="form-control" maxlength="50" v-model="form.nombre" >
+                                <input type="text" class="form-control" maxlength="150" v-model="form.nombre" >
                             </div>
                         </div>
 
@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Sector</label>
-                                <input type="text" class="form-control" maxlength="50" v-model="form.sector" >
+                                <input type="text" class="form-control" maxlength="100" v-model="form.sector" >
                             </div>
                         </div>
 
