@@ -97,13 +97,19 @@
                     })
                     this.clearForm();
                     this.fetch();
-                } catch (err) {
+                } catch (error) {
                     this.loading = false;
-                    console.log(err)
-                    swal({
-                        text:err.response.data.message,
-                        icon:"error"
-                    });
+                    console.log(error)
+                    let msg=error.response.data.message;
+                    if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+                    // swal({
+                    //     text:error.response.data.message,
+                    //     icon:"error"
+                    // });
+
                 }
             },
             edit(entity){
@@ -134,12 +140,18 @@
                     })
                     this.clearForm();
                     this.fetch();
-                } catch (err) {
+                } catch (error) {
                     this.loading = false;
-                    swal({
-                        text:err.response.data.message,
-                        icon:"error"
-                    });
+                    let msg=error.response.data.message;
+                    if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+
+                    // swal({
+                    //     text:error.response.data.message,
+                    //     icon:"error"
+                    // });
                 }
             },
             async update(){
@@ -189,12 +201,13 @@
                     })
                     this.clearForm();
                     this.fetch();
-                } catch (err) {
+                } catch (error) {
                     this.loading = false;
-                    swal({
-                        text:err.response.data.message,
-                        icon:"error"
-                    });
+                    let msg=error.response.data.message;
+                    if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
                 }
             },
             clearForm(){

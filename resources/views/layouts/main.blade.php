@@ -411,6 +411,33 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="{{ asset('/js/app.js') }}"></script>
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+		<script>
+			  function swalAlert(type="error",title="Error",msg=""){
+    Swal.fire({
+      title: title,
+      html: msg,
+      icon: type//success,error,warning,info,question
+    })
+  }//swalAlert
+
+  function errorsToHtmlList(errors) {
+
+        const isObject = errors instanceof Object && !Array.isArray(errors);
+
+        if (errors == null || !isObject) return "";
+
+        const ul = document.createElement('ul');
+
+        for (let key in errors) {
+            const li = document.createElement('li');
+            li.innerText = `${errors[key][0]}`;
+            ul.appendChild(li);
+        }
+
+        return ul.outerHTML;
+  }
+		</script>
+
 		@stack("scripts")
 
 		<!--end::Page Scripts-->
