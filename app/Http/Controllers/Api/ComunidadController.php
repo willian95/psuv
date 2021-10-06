@@ -18,9 +18,19 @@ class ComunidadController extends Controller
 
     }
 
+    function verificarNombreDuplicado($nombre){
+
+        return Comunidad::where("nombre", strtoupper($nombre))->count();
+
+    }
+
     function store(ComunidadStoreRequest $request){
 
         try{    
+
+            if($this->verificarNombreDuplicado($request->nombre) > 0){
+                return response()->json(["success" => false, "msg" => "Ésta comunidad ya existe"]);
+            }
 
             $comunidad = new Comunidad;
             $comunidad->parroquia_id = $request->parroquia_id;
