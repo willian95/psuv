@@ -51,6 +51,10 @@ Route::prefix('users')->group(function () {
 Route::prefix('calles')->group(function () {
     require base_path('routes/apiRoutes/CallesApiRoutes.php');
 });
+//Calles Routes
+Route::prefix('comunidades')->group(function () {
+    require base_path('routes/apiRoutes/ComunidadesApiRoutes.php');
+});
 
 //Calles Routes
 Route::prefix('raas/jefe-calle')->group(function () {

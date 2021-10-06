@@ -62,3 +62,12 @@ Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadAPIController:
 Route::post("raas/jefe-comunidad/search-by-cedula-field", [JefeComunidadAPIController::class, "searchByCedulaField"]);
 
 Route::get("elector/search-by-cedula", [ElectorController::class, "searchByCedula"])->name('api.elector.search.by.cedula');
+
+Route::group(['prefix' => 'admin'], function () {
+
+    Route::get('/calles', function () {
+        return view('admin.calles.view');
+    });
+
+});
+

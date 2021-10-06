@@ -9,4 +9,15 @@ class Calle extends Model
 {
     protected $table="calle";
     use HasFactory;
+    protected $fillable=[
+        "nombre",
+        "tipo",
+        "sector",
+        "comunidad_id",
+    ];
+
+    
+    public function comunidad(){
+        return $this->belongsTo(Comunidad::class,"comunidad_id");
+    }
 }
