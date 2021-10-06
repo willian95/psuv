@@ -110,6 +110,7 @@ Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store
 Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
+Route::post("raas/jefe-comunidad/search", [JefeComunidadController::class, "search"]);
 
 Route::get("comunidad/fetch", [ComunidadController::class, "fetch"]);
 Route::post("comunidad/store", [ComunidadController::class, "store"]);

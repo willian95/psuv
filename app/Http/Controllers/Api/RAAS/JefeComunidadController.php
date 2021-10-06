@@ -74,8 +74,8 @@ class JefeComunidadController extends Controller
                 return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
             }
 
-            if($this->verificarCedulaJefeUBCH($request->cedulaJefe) == 0){
-                return response()->json(["success" => false, "msg" => "Esta cédula no le pertenece a un jefe de UBCH"]);
+            if($this->verificarExistenciaOtrosJefesComunidad($request->comunidad) > 0){
+                return response()->json(["success" => false, "msg" => "Esta comunidad ya posee un Jefe"]);
             }
 
             $personalCaracterizacion = PersonalCaracterizacion::where("cedula", $request->cedula)->first();
@@ -111,6 +111,12 @@ class JefeComunidadController extends Controller
         return JefeComunidad::whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
         })->count();
+
+    }  
+
+    function verificarExistenciaOtrosJefesComunidad($comunidad_id){
+
+        return JefeComunidad::where("comunidad_id", $comunidad_id)->count();
 
     }  
 
@@ -193,4 +199,25 @@ class JefeComunidadController extends Controller
         return response()->json($jefeComunidad);
 
     }
+
+    function search(Request $request){
+
+        if(!isset($request->cedula)){
+            
+            $jefeUbch = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->orderBy("id", "desc")->paginate(15);
+        
+            return response()->json($jefeUbch);
+
+        }
+
+
+        $cedula = $request->cedula;
+        $jefeUbch = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+            $q->where('cedula', $cedula);
+        })->orderBy("id", "desc")->paginate(15);
+
+        return response()->json($jefeUbch);
+
+    }
+
 }
