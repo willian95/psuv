@@ -41,7 +41,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="municipio">Municipio</label>
-                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" disabled>
+                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()">
                                     <option value="">Seleccione</option>
                                     <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
                                 </select>
