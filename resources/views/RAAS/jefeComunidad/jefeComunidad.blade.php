@@ -240,7 +240,7 @@ const app = new Vue({
             this.readonlyComunidad = true
     
             this.cedulaJefeUBCH = model.jefe_ubch.personal_caracterizacion.cedula
-            this.nombreJefeUBCH = model.jefe_ubch.personal_caracterizacion.primer_nombre+" "+model.jefe_ubch.personal_caracterizacion.primer_apellido
+            this.nombreJefeUBCH = model.jefe_ubch.personal_caracterizacion.full_name
             this.selectedParroquia = model.jefe_ubch.personal_caracterizacion.parroquia_id
 
             await this.getComunidades()
@@ -344,7 +344,7 @@ const app = new Vue({
         },  
         async setElectorData(elector){
 
-            this.nombre = elector.primer_nombre+" "+elector.primer_apellido
+            this.nombre = elector.full_name
             this.selectedMunicipio = elector.municipio_id
 
             this.selectedParroquia = elector.parroquia_id

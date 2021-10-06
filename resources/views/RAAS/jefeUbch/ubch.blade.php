@@ -284,7 +284,7 @@ const app = new Vue({
         },  
         async setElectorData(elector){
 
-            this.nombre = elector.primer_nombre+" "+elector.primer_apellido
+            this.nombre = elector.full_name
             this.selectedMunicipio = elector.municipio_id
             await this.getParroquias()
 
