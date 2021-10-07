@@ -242,6 +242,7 @@ const app = new Vue({
             this.readonlyCedula = false
             this.readonlyCentroVotacion = false
             this.selectedUBCH = ""
+            this.selectedComunidad = ""
             this.nombreJefeUBCH = ""
             this.cedulaJefeUBCH = ""
             this.readonlyJefeCedula = false

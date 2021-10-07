@@ -156,7 +156,6 @@ class JefeComunidadController extends Controller
             }
 
             $jefeComunidad->personal_caracterizacion_id = $personalCaracterizacion->id;
-            $jefeComunidad->comunidad_id = $request->comunidad;
             $jefeComunidad->update();
        
             $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeComunidad->personal_caracterizacion_id, $request);
