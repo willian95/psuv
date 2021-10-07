@@ -235,9 +235,14 @@ const app = new Vue({
             this.municipioId = ""
             this.readonlyCedula = false
             this.readonlyCentroVotacion = false
+            this.readonlyMunicipio = false
+            this.readonlyParroquia = false
             this.errors = []
         },
         async edit(jefeUbch, elector, jefeId){
+
+            this.readonlyMunicipio = true
+            this.readonlyParroquia = true
 
             this.selectedId = jefeId
             this.action = "edit"
@@ -269,6 +274,7 @@ const app = new Vue({
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id
+            
 
 
         },
