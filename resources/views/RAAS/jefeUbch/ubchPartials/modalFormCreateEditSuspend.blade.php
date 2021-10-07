@@ -61,7 +61,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="centroVotacion">Centro Votación</label>
+                                <label for="centroVotacion">UBCH</label>
                                 <select class="form-control" v-model="selectedCentroVotacion" id="centroVotacion" :disabled="readonlyCentroVotacion">
                                     <option value="">Seleccione</option>
                                     <option :value="centroVotacion.id" v-for="centroVotacion in centroVotaciones">@{{ centroVotacion.nombre }}</option>
