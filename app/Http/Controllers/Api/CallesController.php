@@ -68,6 +68,12 @@ class CallesController extends Controller
             DB::beginTransaction();
             //Get data
             $data=$request->all();
+            $exist=Model::where('nombre',$data['nombre'])
+            ->where('comunidad_id',$data['comunidad_id'])
+            ->first();
+            if($exist){
+                throw new \Exception('Ya existe una calle con este nombre en la comunidad seleccionada', 404);
+            }
             //Create entity
             $entity=Model::create($data);
             DB::commit();
