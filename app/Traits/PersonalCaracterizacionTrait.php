@@ -30,9 +30,9 @@ trait PersonalCaracterizacionTrait
         $personal->tipo_voto = $data->tipo_voto;
         $personal->inhabilitado_politicio = $data->inhabilitado_politico ? $data->inhabilitado_politico : 0;
         $personal->estado_id = $data->estado_id;
-        $personal->municipio_id = $data->municipio_id;
-        $personal->parroquia_id = $data->parroquia_id;
-        $personal->centro_votacion_id = $data->centro_votacion_id;
+        //$personal->municipio_id = $data->municipio_id;
+        //$personal->parroquia_id = $data->parroquia_id;
+        //$personal->centro_votacion_id = $data->centro_votacion_id;
         $personal->partido_politico_id = $data->partido_politico_id;
         $personal->movilizacion_id = $data->movilizacion_id;
         $personal->update();

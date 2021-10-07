@@ -107,9 +107,9 @@ class UBCHController extends Controller
 
         try{
             
-            if($this->verificarUnSoloCentroVotacionUpdate($request->centro_votacion_id, $request->id) > 0){
+            /*if($this->verificarUnSoloCentroVotacionUpdate($request->centro_votacion_id, $request->id) > 0){
                 return response()->json(["success" => false, "msg" => "Ya existe otro jefe para ésta UBCH"]);
-            }
+            }*/
 
             $jefeUbch = JefeUbch::find($request->id);
 
@@ -118,13 +118,11 @@ class UBCHController extends Controller
             if($personalCaracterizacion == null){
                 $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
             }
-
             
             $jefeUbch->personal_caracterizacion_id = $personalCaracterizacion->id;
-
             $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
-            $jefeUbch->centro_votacion_id = $request->centro_votacion_id;
             $jefeUbch->update();
+
 
             return response()->json(["success" => true, "msg" => "Jefe de UBCH actualizado"]);
 
@@ -171,7 +169,7 @@ class UBCHController extends Controller
 
     function fetch(Request $request){
 
-        $jefeUbch = JefeUbch::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
+        $jefeUbch = JefeUbch::with("centroVotacion", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
         
         return response()->json($jefeUbch);
 
@@ -179,17 +177,8 @@ class UBCHController extends Controller
 
     function search(Request $request){
 
-        if(!isset($request->cedula)){
-            
-            $jefeUbch = JefeUbch::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
-        
-            return response()->json($jefeUbch);
-
-        }
-
-
         $cedula = $request->cedula;
-        $jefeUbch = JefeUbch::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+        $jefeUbch = JefeUbch::with("centroVotacion","personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
         })->orderBy("id", "desc")->paginate(15);
 

@@ -100,7 +100,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefeUbch in jefesUbch">
-                                        <td>@{{ jefeUbch.personal_caracterizacion.centro_votacion.nombre }}</td>
+                                        <td>@{{ jefeUbch.centro_votacion.nombre }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.cedula }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.primer_nombre }} @{{ jefeUbch.personal_caracterizacion.primer_apellido }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.telefono_principal }}</td>
