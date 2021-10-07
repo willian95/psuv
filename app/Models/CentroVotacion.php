@@ -27,4 +27,10 @@ class CentroVotacion extends Model
         return $this->hasMany(JefeUbch::class);
 
     }
+
+    public function parroquia(){
+
+        return $this->belongsTo(Parroquia::class);
+
+    }
 }

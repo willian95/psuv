@@ -41,7 +41,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="municipio">Municipio</label>
-                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()">
+                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" :disabled="readonlyMunicipio">
                                     <option value="">Seleccione</option>
                                     <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
                                 </select>
@@ -51,7 +51,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="parroquia">Parroquia</label>
-                                <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()">
+                                <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()" :disabled="readonlyParroquia">
                                     <option value="">Seleccione</option>
                                     <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
                                 </select>

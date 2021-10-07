@@ -34,6 +34,12 @@ class Parroquia extends Model
 
     }
 
+    public function centroVotacions(){
+
+        return $this->hasMany(CentroVotacion::class);
+
+    }
+
 
 
 }

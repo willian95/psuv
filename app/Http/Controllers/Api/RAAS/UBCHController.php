@@ -169,7 +169,7 @@ class UBCHController extends Controller
 
     function fetch(Request $request){
 
-        $jefeUbch = JefeUbch::with("centroVotacion", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
+        $jefeUbch = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
         
         return response()->json($jefeUbch);
 
@@ -178,7 +178,7 @@ class UBCHController extends Controller
     function search(Request $request){
 
         $cedula = $request->cedula;
-        $jefeUbch = JefeUbch::with("centroVotacion","personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+        $jefeUbch = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
         })->orderBy("id", "desc")->paginate(15);
 
