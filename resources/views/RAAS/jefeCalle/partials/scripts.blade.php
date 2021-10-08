@@ -412,7 +412,7 @@
                     });
                     this.loading = false;
                     this.form.calle_id="0";
-                    this.calles = response.data.data;
+                    this.calles = response.data;
                     if(this.calles.length==0){
                         swal({
                             text:"La comunidad de este jefe de calle, no posee calles.",

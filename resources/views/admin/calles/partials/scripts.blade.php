@@ -43,6 +43,9 @@
                     municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
                         includes:"comunidad"
                 };
+                if(link==""){
+                    filters.page=1;
+                }
                 let res = await axios.get(link == "" ? "{{ route('api.calles.index') }}" : link.url,{
                     params:filters
                 })
