@@ -26,6 +26,7 @@ class JefeCalleController extends Controller
                 "personalCaracterizacion.partidoPolitico",
                 "jefeComunidad.personalCaracterizacion",
                 "jefeComunidad.comunidad",
+                "jefeComunidad.comunidades",
                 "calle"
             ];
             //Init query
