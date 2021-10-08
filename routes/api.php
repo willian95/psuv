@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\RAAS\{
     JefeCalleController,
     JefeFamiliaController
 };
+
+use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Postmark\PostmarkClient;
@@ -117,3 +119,5 @@ Route::post("comunidad/store", [ComunidadController::class, "store"]);
 Route::post("comunidad/update", [ComunidadController::class, "update"]);
 Route::post("comunidad/delete", [ComunidadController::class, "delete"]);
 Route::get("comunidad/search", [ComunidadController::class, "search"]);
+
+Route::get("metas-ubch/download", [MetasUBCHController::class, "download"]);
