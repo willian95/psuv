@@ -16,6 +16,7 @@ class CallesController extends Controller
         try {
             $comunidad_id = $request->input('comunidad_id');
             $municipio_id = $request->input('municipio_id');
+            $page = $request->input('page');
             $includes= $request->input('includes') ? $request->input('includes') : [];
             //Init query
             $query=Model::query();
@@ -33,7 +34,10 @@ class CallesController extends Controller
                 });
             }
             $query->orderBy("created_at","DESC");
+            if($page)
             $query=$query->paginate(15);
+            else
+            $query=$query->get();
             return response()->json($query,200);
             $response = $this->getSuccessResponse(
                $query,
