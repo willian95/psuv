@@ -24,6 +24,10 @@ class JefeComunidad extends Model
 
     }
 
+    public function comunidades(){
+        return $this->hasMany(JefeComunidad::class,"personal_caracterizacion_id","personal_caracterizacion_id")->with('comunidad');
+    }
+
     public function jefeUbch(){
 
         return $this->belongsTo(JefeUbch::class);

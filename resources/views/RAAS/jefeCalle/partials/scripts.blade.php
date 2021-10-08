@@ -13,6 +13,7 @@
             //Form
             form:{
                 jefe_comunidad_id:null,
+                comunidad_id:"0",
                 calle_id:"0",
                 personal_caraterizacion:null,
                 tipo_voto:"",
@@ -29,6 +30,7 @@
             cedula_jefe:"",
             cedula_jefe_error:"",
             //Array data
+            comunidades:[],
             calles:[],
             tipoDeVotos:[
                 "Duro",
@@ -142,25 +144,27 @@
                     });
                 }
             },
-            edit(entity){
+            async edit(entity){
                 this.action="edit";
                 this.entityId=entity.id;
                 //Jefe comunidad
                 this.cedula_jefe_comunidad=entity.jefe_comunidad.personal_caracterizacion.cedula;
                 this.jefe_comunidad=entity.jefe_comunidad;
                 this.form.jefe_comunidad_id=entity.jefe_comunidad.id;
-                //Calle
-                this.form.calle_id=entity.calle_id;
                 //Jefe calle
                 this.cedula_jefe=entity.personal_caracterizacion.cedula;
                 this.form.personal_caraterizacion=entity.personal_caracterizacion;
-                this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto;
+                this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto.toLowerCase();
                 this.form.telefono_principal=entity.personal_caracterizacion.telefono_principal;
                 this.form.telefono_secundario=entity.personal_caracterizacion.telefono_secundario;
                 this.form.partido_politico_id=entity.personal_caracterizacion.partido_politico_id;
                 this.form.movilizacion_id=entity.personal_caracterizacion.movilizacion_id;
                 //obtener calles
-                this.obtenerCalles();
+                this.comunidades=entity.jefe_comunidad.comunidades;
+                this.form.comunidad_id=entity.jefe_comunidad.comunidad_id;
+                await this.obtenerCalles();
+                //Calle
+                this.form.calle_id=entity.calle_id;
             },
             async suspend(entityId){
                 try {
@@ -270,6 +274,7 @@
             },
             clearForm(){
                 this.form.jefe_comunidad_id=null;
+                this.form.comunidad_id="0";
                 this.form.calle_id="0";
                 this.form.personal_caraterizacion=null;
                 this.form.tipo_voto="";
@@ -317,6 +322,8 @@
 
                     this.loading = false;
                     this.jefe_comunidad = response.data.data;
+                    this.comunidades = response.data.data.comunidades;
+                    this.form.comunidad_id = response.data.data.comunidad_id;
                     this.form.jefe_comunidad_id = this.jefe_comunidad.id;
                     this.obtenerCalles();
                     this.cedula_jefe_comunidad_error="";
@@ -379,10 +386,24 @@
             },
             async obtenerCalles() {
                 try {
+                    if(this.form.comunidad_id=="0"){
+                        swal({
+                            text:"Debe seleccionar una comunidad",
+                            icon:"error"
+                        });
+                        this.calles=[];
+                    }
                     this.loading = true;
                     let filters = {
-                        comunidad_id:this.jefe_comunidad.comunidad_id
+                        comunidad_id:this.form.comunidad_id
                     }
+                    for(let i=0;i<this.comunidades.length;i++){
+                        console.log(this.comunidades[i]);
+                        if(this.comunidades[i].comunidad.id==this.form.comunidad_id){
+                            this.form.jefe_comunidad_id=this.comunidades[i].id;
+                            break;
+                        }
+                    }//for
                     const response = await axios({
                         method: 'Get',
                         responseType: 'json',
@@ -390,12 +411,14 @@
                         params: filters
                     });
                     this.loading = false;
+                    this.form.calle_id="0";
                     this.calles = response.data.data;
                     if(this.calles.length==0){
                         swal({
-                        text:"La comunidad de este jefe de calle, no posee calles.",
-                        icon:"error"
-                    });
+                            text:"La comunidad de este jefe de calle, no posee calles.",
+                            icon:"error"
+                        });
+                        this.calles=[];
                     }
                 } catch (err) {
                     this.loading = false;

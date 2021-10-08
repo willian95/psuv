@@ -67,6 +67,19 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="calle">Comunidad</label>
+                                <select class="form-control" v-model="form.comunidad_id" v-if="comunidades.length>0" @change="obtenerCalles()" :disabled="entityId">
+                                    <option value="0">Seleccione</option>
+                                    <option :value="comunidadJefe.comunidad.id" v-for="comunidadJefe in comunidades">@{{ comunidadJefe.comunidad.nombre }}</option>
+                                </select>
+                                <select class="form-control" v-else disabled>
+                                    <option value="" selected>Seleccione</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="calle">Calle</label>
                                 <select class="form-control" v-model="form.calle_id" v-if="calles.length>0"  :disabled="entityId">
                                     <option value="0">Seleccione</option>
@@ -83,7 +96,7 @@
                                 <label for="tipoVoto">Tipo de voto</label>
                                 <select class="form-control" v-model="form.tipo_voto" v-if="form.personal_caraterizacion">
                                     <option value="" selected>Seleccione</option>
-                                    <option v-for="tipoVoto in tipoDeVotos" :value="tipoVoto">@{{tipoVoto}}</option>
+                                    <option v-for="tipoVoto in tipoDeVotos" :value="tipoVoto.toLowerCase()">@{{tipoVoto}}</option>
                                 </select>
                                 <select class="form-control" v-else disabled>
                                     <option value="" selected>Seleccione</option>

@@ -45,6 +45,9 @@ class JefeComunidadController extends Controller
                 }
 
             }
+            $comunidades=JefeComunidad::where('personal_caracterizacion_id',$entity->personal_caracterizacion_id)
+            ->with('comunidad')->get();
+            $entity->comunidades=$comunidades;
 
             $response = $this->getSuccessResponse($entity);
         } catch (\Exception $e) {
