@@ -297,6 +297,15 @@ License: You must have a valid license purchased only from themeforest(the above
 									</div>
 								</li>
 
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ url('/metas-ubch') }}" class="menu-link" style="color: #fff !important">
+										<i class="menu-icon flaticon2-group text-white" style="color: #fff !important"></i>
+										<span class="menu-text text-white">Metas UBCH</span>
+									</a>
+								</li>
+
+								
+
 								
 							</ul>
 							<!--end::Menu Nav -->

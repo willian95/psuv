@@ -71,3 +71,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 });
 
+Route::view("/metas-ubch", "metasUBCH.metas");

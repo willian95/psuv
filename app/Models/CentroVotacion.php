@@ -28,6 +28,12 @@ class CentroVotacion extends Model
 
     }
 
+    public function metasUbchs(){
+
+        return $this->hasMany(MetasUbch::class);
+
+    }
+
     public function parroquia(){
 
         return $this->belongsTo(Parroquia::class);

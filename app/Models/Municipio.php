@@ -27,4 +27,10 @@ class Municipio extends Model
         return $this->hasMany(Parroquia::class);
 
     }
+
+    public function metasUbchs(){
+
+        return $this->hasMany(MetasUbch::class);
+
+    }
 }
