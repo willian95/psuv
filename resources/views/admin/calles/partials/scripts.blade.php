@@ -13,8 +13,8 @@
             //Form
             form:{
                 comunidad_id:"0",
-                tipo:"",
-                sector:"",
+                tipo:"---",
+                sector:"---",
                 nombre:"",
             },
             entityId:null,
@@ -40,7 +40,7 @@
         methods: {
             async fetch(link = ""){
                 let filters={
-                    municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                    municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
                         includes:"comunidad"
                 };
                 if(link==""){
@@ -216,15 +216,15 @@
             clearForm(){
                 this.form.comunidad_id="0";
                 this.form.nombre="";
-                this.form.sector="";
-                this.form.tipo="";
+                this.form.sector="---";
+                this.form.tipo="---";
                 this.action="create";
             },
             async obtenerComunidades() {
                 try {
                     this.loading = true;
                     let filters = {
-                        municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                        municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
                         includes:"comunidad"
                      }
                     const response = await axios({

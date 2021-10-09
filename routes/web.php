@@ -35,14 +35,6 @@ Route::get('/', function () {
     return view("dashboard");
  })->name("home")->middleware("auth");
 
- Route::view('/raas/ubch', 'RAAS.jefeUbch.ubch')->name("raas.ubch");
-
- Route::view('/raas/jefeComunidad', 'RAAS.jefeComunidad.jefeComunidad')->name("raas.jefe-comunidad");
-
- Route::view('/raas/jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
-
- Route::view('/raas/jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
-
  Route::view('/listado/rep', 'Listados.rep.rep')->name("listados.rep");
  Route::post("/listado/amount/rep", [REPController::class,'getMunicipioAmount']);
  Route::get("/listado/importar/rep", [REPController::class,'download']);
@@ -68,6 +60,21 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/calles', function () {
         return view('admin.calles.view');
     });
+
+});
+
+Route::group(['prefix' => 'raas'], function () {
+
+    Route::view('ubch', 'RAAS.jefeUbch.ubch')->name("raas.ubch");
+
+    Route::view('jefeComunidad', 'RAAS.jefeComunidad.jefeComunidad')->name("raas.jefe-comunidad");
+   
+    Route::view('jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
+   
+    Route::view('jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
+
+    Route::view('reportes/estructura', 'reports.raas.structure');
+
 
 });
 
