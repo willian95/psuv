@@ -93,7 +93,16 @@ class ComunidadController extends Controller
 
     function fetch(Request $request){
 
-        $comunidades = Comunidad::with("parroquia", "parroquia.municipio")->orderBy("id", "desc")->paginate(15);
+        $query = Comunidad::with("parroquia", "parroquia.municipio");
+        
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("parroquia", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+
+        $comunidades = $query->orderBy("id", "desc")->paginate(15);
         
         return response()->json($comunidades);
 
@@ -101,7 +110,16 @@ class ComunidadController extends Controller
 
     function search(Request $request){
 
-        $comunidades = Comunidad::where('nombre', 'like', '%' . strtoupper($request->search) . '%')->with("parroquia", "parroquia.municipio")->orderBy("id", "desc")->paginate(15);
+        $query = Comunidad::where('nombre', 'like', '%' . strtoupper($request->search) . '%')->with("parroquia", "parroquia.municipio");
+        
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("parroquia", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+
+        $comunidades = $query->orderBy("id", "desc")->paginate(15);
         
         return response()->json($comunidades);
 

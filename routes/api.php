@@ -105,19 +105,19 @@ Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.mo
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
 Route::post("raas/ubch/update", [UBCHController::class, "update"]);
 Route::post("raas/ubch/suspend", [UBCHController::class, "suspend"]);
-Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"]);
-Route::post("raas/ubch/search", [UBCHController::class, "search"]);
+Route::get("raas/ubch/fetch", [UBCHController::class, "fetch"])->middleware("web");
+Route::get("raas/ubch/search", [UBCHController::class, "search"])->middleware("web");
 
 Route::post("raas/jefe-comunidad/store", [JefeComunidadController::class, "store"]);
-Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"]);
+Route::get("raas/jefe-comunidad/fetch", [JefeComunidadController::class, "fetch"])->middleware("web");
 Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "update"]);
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
-Route::post("raas/jefe-comunidad/search", [JefeComunidadController::class, "search"]);
+Route::post("raas/jefe-comunidad/search", [JefeComunidadController::class, "search"])->middleware("web");
 
-Route::get("comunidad/fetch", [ComunidadController::class, "fetch"]);
+Route::get("comunidad/fetch", [ComunidadController::class, "fetch"])->middleware("web");
 Route::post("comunidad/store", [ComunidadController::class, "store"]);
 Route::post("comunidad/update", [ComunidadController::class, "update"]);
 Route::post("comunidad/delete", [ComunidadController::class, "delete"]);
-Route::get("comunidad/search", [ComunidadController::class, "search"]);
+Route::get("comunidad/search", [ComunidadController::class, "search"])->middleware("web");
 
 Route::get("metas-ubch/download", [MetasUBCHController::class, "download"]);

@@ -169,7 +169,16 @@ class UBCHController extends Controller
 
     function fetch(Request $request){
 
-        $jefeUbch = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->orderBy("id", "desc")->paginate(15);
+        $query = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion");
+
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+        
+        $jefeUbch = $query->orderBy("id", "desc")->paginate(15);
         
         return response()->json($jefeUbch);
 
@@ -177,8 +186,18 @@ class UBCHController extends Controller
 
     function search(Request $request){
 
-        $cedula = $request->cedula;
-        $jefeUbch = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+        $cedula = $request->search;
+        $query = JefeUbch::with("centroVotacion", "centroVotacion.parroquia", "personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion");
+        
+
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+        
+        $jefeUbch = $query->whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
         })->orderBy("id", "desc")->paginate(15);
 

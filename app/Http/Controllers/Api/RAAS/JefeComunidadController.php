@@ -202,7 +202,16 @@ class JefeComunidadController extends Controller
 
     function fetch(Request $request){
 
-        $jefeComunidad = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->orderBy("id", "desc")->paginate(15);
+        $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion");
+        
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+
+        $jefeComunidad = $query->orderBy("id", "desc")->paginate(15);
         
         return response()->json($jefeComunidad);
 
@@ -210,17 +219,18 @@ class JefeComunidadController extends Controller
 
     function search(Request $request){
 
-        if(!isset($request->cedula)){
-            
-            $jefeUbch = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->orderBy("id", "desc")->paginate(15);
-        
-            return response()->json($jefeUbch);
-
-        }
-
 
         $cedula = $request->cedula;
-        $jefeUbch = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion")->whereHas('personalCaracterizacion', function($q) use($cedula){
+        $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion");
+        
+        if(\Auth::user()->municipio_id != null){
+            $municipio_id = \Auth::user()->municipio_id;
+            $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
+                $q->where('municipio_id', $municipio_id);
+            });
+        }
+
+        $jefeUbch = $query->whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
         })->orderBy("id", "desc")->paginate(15);
 
