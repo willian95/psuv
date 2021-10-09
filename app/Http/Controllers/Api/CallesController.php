@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Calle as Model;
+use App\Models\JefeCalle;
 use Illuminate\Http\Request;
 use App\Http\Requests\Calle\CalleStoreRequest as EntityRequest;
 use App\Http\Requests\Calle\CalleUpdateRequest as EntityUpdateRequest;
@@ -120,6 +121,9 @@ class CallesController extends Controller
             DB::beginTransaction();
             $entity=Model::find($id);
             $this->validModel($entity, 'Calle no encontrada');
+            $jefeCalle=JefeCalle::where('calle_id',$id)->first();
+            if($jefeCalle)
+                throw new \Exception('Esta calle no puede ser eliminada, ya que uno o mas jefes de calles están asociados a ella.', 404);
             $entity->delete();
             DB::commit();
             $response = $this->getSuccessResponse('', "Eliminación exitosa" );
