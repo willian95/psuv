@@ -51,6 +51,10 @@ class ComunidadController extends Controller
 
         try{    
 
+            if(Comunidad::where("parroquia_id", $request->parroquia_id)->where("nombre", strtoupper($request->nombre))->where("id", "<>", $request->id)->count() > 0){
+                return response()->json(["success" => false, "msg" => "Ésta comunidad ya existe"]);
+            }
+
             $comunidad = Comunidad::find($request->id);
             $comunidad->parroquia_id = $request->parroquia_id;
             $comunidad->nombre = strtoupper($request->nombre);
