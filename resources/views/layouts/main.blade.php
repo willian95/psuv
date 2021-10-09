@@ -244,7 +244,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</li>
 										</ul>
 									</div>
-								</li>
+								</li>--}}
 
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
@@ -281,7 +281,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									</div>
 								</li>
 
-								<li class="menu-item" aria-haspopup="true">
+								{{--<li class="menu-item" aria-haspopup="true">
 									<a href="{{ url('/metas-ubch') }}" class="menu-link" style="color: #fff !important">
 										<i class="menu-icon flaticon2-group text-white" style="color: #fff !important"></i>
 										<span class="menu-text text-white">Metas UBCH</span>
