@@ -216,8 +216,8 @@
             clearForm(){
                 this.form.comunidad_id="0";
                 this.form.nombre="";
-                this.form.sector="";
-                this.form.tipo="";
+                this.form.sector="---";
+                this.form.tipo="---";
                 this.action="create";
             },
             async obtenerComunidades() {
