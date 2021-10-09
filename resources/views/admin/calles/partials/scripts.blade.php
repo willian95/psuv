@@ -13,8 +13,8 @@
             //Form
             form:{
                 comunidad_id:"0",
-                tipo:"",
-                sector:"",
+                tipo:"---",
+                sector:"---",
                 nombre:"",
             },
             entityId:null,
