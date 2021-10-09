@@ -70,4 +70,10 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasOne(PasswordReset::class, 'email', 'email')->orderBy('created_at', 'desc');
     }
 
+    public function municipio(){
+
+        return $this->belongsTo(Municipio::class);
+
+    }
+
 }

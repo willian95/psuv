@@ -18,6 +18,9 @@ use App\Http\Controllers\Api\RAAS\{
     JefeCalleController,
     JefeFamiliaController
 };
+use App\Http\Controllers\Api\Reportes\{
+    RaasController
+};
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
 use Illuminate\Support\Facades\Http;
@@ -81,6 +84,7 @@ Route::prefix('raas/nucleo-familiar')->group(function () {
 });
 Route::prefix('raas/report')->group(function () {
     Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
+    Route::get("/structure", [RaasController::class, "structure"])->name('api.raas.report.structure');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -92,6 +96,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 Route::get("municipios", [MunicipioController::class, "all"]);
 
 Route::get("parroquias/{municipio_id}", [ParroquiaController::class, "parroquiasByMunicipio"]);
+Route::get("parroquias-busqueda/{municipio_nombre}", [ParroquiaController::class, "parroquiasByMunicipioNombre"]);
 
 Route::get("comunidades/{parroquia}", [ComunidadController::class, "comunidadesByParroquia"]);
 

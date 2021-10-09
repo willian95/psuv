@@ -40,7 +40,7 @@
         methods: {
             async fetch(link = ""){
                 let filters={
-                    municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                    municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
                         includes:"comunidad"
                 };
                 if(link==""){
@@ -224,7 +224,7 @@
                 try {
                     this.loading = true;
                     let filters = {
-                        municipio_id:"{{Auth::user()->municipio_id ? : 0}}",
+                        municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
                         includes:"comunidad"
                      }
                     const response = await axios({
