@@ -15,6 +15,7 @@ class CallesController extends Controller
    public function index( Request $request)
     {
         try {
+            $search = $request->input('search');
             $comunidad_id = $request->input('comunidad_id');
             $municipio_id = $request->input('municipio_id');
             $page = $request->input('page');
@@ -26,6 +27,9 @@ class CallesController extends Controller
             //Filters
             if ($comunidad_id) {
                 $query->where('comunidad_id', $comunidad_id);
+            }
+            if ($search) {
+                $query->where('nombre', "LIKE","%{$search}%");
             }
             if($municipio_id){
                 $query->whereHas('comunidad',function($query) use($municipio_id){
