@@ -300,7 +300,7 @@ const app = new Vue({
                 this.cedulaJefeSearching = true
                 //this.readonlyJefeCedula = true
 
-                let res = await axios.post("{{ url('raas/jefe-comunidad/search-jefe-ubch-by-cedula') }}", {cedulaJefe: this.cedulaJefeUBCH, token:"{{ csrf_token() }}"})
+                let res = await axios.post("{{ url('api/raas/jefe-comunidad/search-jefe-ubch-by-cedula') }}", {cedulaJefe: this.cedulaJefeUBCH, municipio_id: "{{ \Auth::user()->municipio_id }}"})
                 this.cedulaJefeSearching = false 
                 if(res.data.success == false){
                     this.readonlyJefeCedula = false

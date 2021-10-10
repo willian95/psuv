@@ -92,8 +92,8 @@ class UBCHController extends Controller
             return response()->json(["success" => false, "msg" => "Jefe de UBCH no encontrado"]);
         }
         
-        if(\Auth::user()->municipio_id != null){
-            if($jefeUbch->personalCaracterizacion->municipio_id != \Auth::user()->municipio_id){
+        if($request->municipio_id != null){
+            if($jefeUbch->personalCaracterizacion->municipio_id != $request->municipio_id){
                 return response()->json(["success" => false, "msg" => "Este Jefe de UBCH no pertenece a tu municipio "]);
             }
         }
