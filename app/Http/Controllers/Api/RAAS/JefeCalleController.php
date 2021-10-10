@@ -99,10 +99,16 @@ class JefeCalleController extends Controller
             }else{
                 $data['personal_caraterizacion_id']=$elector->id;
             }
+            //
             $exist=Model::where('personal_caraterizacion_id',$elector->id)
             ->where("calle_id",$data['calle_id'])->first();
             if($exist){
                 throw new \Exception('Este elector ya ha sido registrado como jefe de esta calle.', 404);
+            }
+            //Cada calle solo puede tener un jefe de calle
+            $exist=Model::where("calle_id",$data['calle_id'])->first();
+            if($exist){
+                throw new \Exception('Esta calle, ya posee un jefe de calle: '.$exist->personalCaracterizacion->full_name, 404);
             }
             //Create entity
             $entity=Model::create($data);
