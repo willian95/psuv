@@ -357,7 +357,7 @@
                         this.form.personal_caraterizacion=response.data.elector;
                         this.cedula_jefe_error="";
                         if(response.data.elector.tipo_voto){
-                            this.form.tipo_voto=response.data.elector.tipo_voto;
+                            this.form.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
                         }
                         if(response.data.elector.partido_politico_id){
                             this.form.partido_politico_id=response.data.elector.partido_politico_id;

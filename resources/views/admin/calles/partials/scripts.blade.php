@@ -225,7 +225,9 @@
                     this.loading = true;
                     let filters = {
                         municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
-                        includes:"comunidad"
+                        includes:"comunidad",
+                        order_by:"nombre",
+                        order_direction:"ASC"
                      }
                     const response = await axios({
                         method: 'get',

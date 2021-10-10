@@ -126,13 +126,15 @@ $municipios=\App\Models\Municipio::all();
             },
 
             generate(){
-                if(this.municipio_nombre==""){
+                if("{{Auth::user()->municipio}}"){
+                    if(this.municipio_nombre==""){
                         swal({
                             text:"Debe seleccionar un municipio",
                             icon:"error"
                         })
                         return false;
                     }
+                }
                 let params={
                     municipio_nombre:this.municipio_nombre,
                     parroquia_nombre:this.parroquia_nombre,
