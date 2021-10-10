@@ -390,7 +390,7 @@ const app = new Vue({
         },  
         async fetch(link = ""){
 
-            let res = await axios.get(link == "" ? "{{ url('api/raas/jefe-comunidad/fetch') }}" : link.url)
+            let res = await axios.get(link == "" ? "{{ url('api/raas/jefe-comunidad/fetch') }}"+"?municipio_id="+"{{ \Auth::user()->municipio_id }}" : link.url+"{{ \Auth::user()->municipio_id }}")
             this.jefesComunidad = res.data.data
             this.links = res.data.links
             this.currentPage = res.data.current_page
@@ -569,7 +569,7 @@ const app = new Vue({
         async search(){
 
             this.searchLoading = true
-            let res = await axios.post("{{ url('/api/raas/jefe-comunidad/search') }}", {"cedula": this.cedulaSearch})
+            let res = await axios.post("{{ url('/api/raas/jefe-comunidad/search') }}", {"cedula": this.cedulaSearch, municipio_id: "{{ \Auth::user()->municipio_id }}"})
             this.searchLoading = false
 
             this.jefesComunidad = res.data.data
