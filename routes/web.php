@@ -79,3 +79,5 @@ Route::group(['prefix' => 'raas'], function () {
 });
 
 Route::view("/metas-ubch", "metasUBCH.metas");
+
+Route::view("/reporte-carga", "reporteCarga.reporte");
