@@ -19,7 +19,8 @@ use App\Http\Controllers\Api\RAAS\{
     JefeFamiliaController
 };
 use App\Http\Controllers\Api\Reportes\{
-    RaasController
+    RaasController,
+    ReporteCargaController
 };
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
@@ -126,3 +127,5 @@ Route::post("comunidad/delete", [ComunidadController::class, "delete"]);
 Route::get("comunidad/search", [ComunidadController::class, "search"])->middleware("web");
 
 Route::get("metas-ubch/download", [MetasUBCHController::class, "download"]);
+
+Route::post("/reporte-carga/generate", [ReporteCargaController::class, "generate"]);
