@@ -120,6 +120,7 @@ Route::post("raas/jefe-comunidad/update", [JefeComunidadController::class, "upda
 Route::post("raas/jefe-comunidad/suspend", [JefeComunidadController::class, "suspend"]);
 Route::post("raas/jefe-comunidad/search", [JefeComunidadController::class, "search"])->middleware("web");
 Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHController::class, "jefeUbchByCedula"]);
+Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadController::class, "searchByCedula"]);
 
 Route::get("comunidad/fetch", [ComunidadController::class, "fetch"])->middleware("web");
 Route::post("comunidad/store", [ComunidadController::class, "store"]);

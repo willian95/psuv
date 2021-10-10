@@ -342,9 +342,9 @@ const app = new Vue({
             this.cedulaSearching = true
             this.readonlyCedula = true
 
-            let res = await axios.post("{{ url('raas/jefe-comunidad/search-by-cedula') }}", {
+            let res = await axios.post("{{ url('api/raas/jefe-comunidad/search-by-cedula') }}", {
                 cedula: this.cedula,
-                token:"{{ csrf_token() }}"
+                municipio_id: "{{ \Auth::user()->municipio_id }}"
             })
 
             if(res.data.success == false){
