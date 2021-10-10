@@ -151,7 +151,8 @@ License: You must have a valid license purchased only from themeforest(the above
 										<span class="menu-text text-white">Inicio</span>
 									</a>
 								</li>--}}
-
+								
+								@role('admin')
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -193,34 +194,10 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								
+								
 
 								{{--<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-									<a href="javascript:;" class="menu-link menu-toggle">
-										<i class="menu-icon flaticon2-group text-white"></i>
-										<span class="menu-text text-white">1XFamilia</span>
-										<i class="menu-arrow"></i>
-									</a>
-									<div class="menu-submenu">
-										<i class="menu-arrow"></i>
-										<ul class="menu-subnav">
-											<li class="menu-item menu-item-parent" aria-haspopup="true">
-												<span class="menu-link">
-													<span class="menu-text text-white">Actions</span>
-												</span>
-											</li>
-											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('raas.jefe-familia') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Gestionar Núcleos Familiares</span>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</li>
-
-								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
 										<span class="menu-text text-white">REP</span>
@@ -307,6 +284,35 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endrole
+
+								
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<i class="menu-icon flaticon2-group text-white"></i>
+										<span class="menu-text text-white">1XFamilia</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-parent" aria-haspopup="true">
+												<span class="menu-link">
+													<span class="menu-text text-white">Actions</span>
+												</span>
+											</li>
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('raas.jefe-familia') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Gestionar Núcleos Familiares</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+						
 
 								{{--<li class="menu-item" aria-haspopup="true">
 									<a href="{{ url('/metas-ubch') }}" class="menu-link" style="color: #fff !important">
