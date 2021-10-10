@@ -25,7 +25,7 @@ class RaasStructure implements FromView
         $condition.=" AND pa.nombre='".$this->nombreParroquia."'";
         $raw=
         DB::select(DB::raw("
-        SELECT cv.nombre as nombre_ubch, pc.cedula, (pc.primer_apellido||' '||primer_nombre) as jefe_ubch,
+        SELECT cv.codigo as codigo_ubch,cv.nombre as nombre_ubch, pc.cedula, (pc.primer_apellido||' '||primer_nombre) as jefe_ubch,
         telefono_principal telefono1_jefe_ubch,
        co.nombre comunidad, 
        (select cedula from public.personal_caracterizacion where id=jc.personal_caracterizacion_id) cedula_jefe_comunidad,
