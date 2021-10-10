@@ -2,6 +2,16 @@
 
 @section("content")
 
+    <style>
+
+        .round-circle{
+            width: 20px; 
+            height: 20px;
+            border-radius: 50%;
+        }
+
+    </style>
+
     <div class="d-flex flex-column-fluid" id="content" v-cloak>
 
         <!--begin::Container-->
@@ -85,9 +95,17 @@
                                             <td>@{{ centroVotacionMeta.personal_caracterizacions.length }}</td>
                                             <td>@{{ centroVotacionMeta.metas_ubchs[0].meta - centroVotacionMeta.personal_caracterizacions.length }}</td>
                                             <td>
-                                                <span title="menor al 50%" v-if="(centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5)" >🔴</span>
-                                                <span title="entre 51 y 69%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5) && (centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.69)">🟠</span>
-                                                <span title="mayor al 70%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.7)">🟢</span>
+                                                <span title="menor al 50%" v-if="(centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5)" >
+                                                    <div class="round-circle bg-danger">
+
+                                                    </div>
+                                                </span>
+                                                <span title="entre 51 y 69%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5) && (centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.69)">
+                                                    <div class="round-circle bg-warning"></div>
+                                                </span>
+                                                <span title="mayor al 70%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.7)">
+                                                    <div class="round-circle bg-success"></div>
+                                                </span>
                                             </td>
                                         </tr>
 
