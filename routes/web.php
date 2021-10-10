@@ -40,8 +40,6 @@ Route::get('/', function () {
  Route::get("/listado/importar/rep", [REPController::class,'download']);
  Route::post("/listado/rep/store-export-job", [REPController::class,'storeExportJob']);
 
- Route::view("/admin/comunidad", "comunidad.index");
-
  Route::get('/email-verify/{token}', [AuthenticationController::class,'verifyEmailToken']);
 
 Route::post("/login", [AuthController::class, "login"]);
@@ -55,29 +53,38 @@ Route::post("raas/jefe-comunidad/search-by-cedula-field", [JefeComunidadAPIContr
 
 Route::get("elector/search-by-cedula", [ElectorController::class, "searchByCedula"])->name('api.elector.search.by.cedula');
 
-Route::group(['prefix' => 'admin'], function () {
-
-    Route::get('/calles', function () {
-        return view('admin.calles.view');
-    });
-
-});
-
-Route::group(['prefix' => 'raas'], function () {
-
-    Route::view('ubch', 'RAAS.jefeUbch.ubch')->name("raas.ubch");
-
-    Route::view('jefeComunidad', 'RAAS.jefeComunidad.jefeComunidad')->name("raas.jefe-comunidad");
-   
-    Route::view('jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
-   
-    Route::view('jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
-
-    Route::view('reportes/estructura', 'reports.raas.structure');
-
-
-});
-
 Route::view("/metas-ubch", "metasUBCH.metas");
 
 Route::view("/reporte-carga", "reporteCarga.reporte");
+
+//Auth routes
+Route::group(['middleware' => ['auth']], function() {
+
+    //Admin modules
+    Route::group(['prefix' => 'admin'], function () {
+
+        Route::get('/calles', function () {
+            return view('admin.calles.view');
+        });
+
+        Route::get('/comunidad', function () {
+            return view('comunidad.index');
+        });
+    
+    });
+
+    //Raas modules
+    Route::group(['prefix' => 'raas'], function () {
+
+        Route::view('ubch', 'RAAS.jefeUbch.ubch')->name("raas.ubch");
+    
+        Route::view('jefeComunidad', 'RAAS.jefeComunidad.jefeComunidad')->name("raas.jefe-comunidad");
+       
+        Route::view('jefeCalle', 'RAAS.jefeCalle.view')->name("raas.jefe-calle");
+       
+        Route::view('jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
+    
+        Route::view('reportes/estructura', 'reports.raas.structure');
+    
+    });
+});
