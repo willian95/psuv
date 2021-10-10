@@ -75,7 +75,13 @@
                     <div class="row" v-show="metaGeneral > 0">
                         <div class="col-12">
                             <h3 class="text-center">Centros de votación</h3>
-
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-info" @click="downloadExcel()">
+                                        Descargar excel
+                                    </button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>

@@ -130,3 +130,4 @@ Route::get("comunidad/search", [ComunidadController::class, "search"])->middlewa
 Route::get("metas-ubch/download", [MetasUBCHController::class, "download"]);
 
 Route::post("/reporte-carga/generate", [ReporteCargaController::class, "generate"]);
+Route::get("/reporte-carga/download", [ReporteCargaController::class, "download"]);
