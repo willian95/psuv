@@ -80,6 +80,8 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th>Municipio</th>
+                                            <th>Parroquia</th>
                                             <th>Centro Votación</th>
                                             <th>Meta</th>
                                             <th>Carga</th>
@@ -90,6 +92,8 @@
                                     <tbody>
                                     
                                         <tr v-for="centroVotacionMeta in centroVotacionMetas">
+                                            <td>@{{ centroVotacionMeta.parroquia.municipio.nombre }}</td>
+                                            <td>@{{ centroVotacionMeta.parroquia.nombre }}</td>
                                             <td>@{{ centroVotacionMeta.nombre }}</td>
                                             <td>@{{ centroVotacionMeta.metas_ubchs[0].meta }}</td>
                                             <td>@{{ centroVotacionMeta.personal_caracterizacions.length }}</td>
