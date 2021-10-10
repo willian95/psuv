@@ -85,9 +85,9 @@
                                             <td>@{{ centroVotacionMeta.personal_caracterizacions.length }}</td>
                                             <td>@{{ centroVotacionMeta.metas_ubchs[0].meta - centroVotacionMeta.personal_caracterizacions.length }}</td>
                                             <td>
-                                                <span v-if="(centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5)" >🔴</span>
-                                                <span v-if="(centroVotacionMeta.personal_caracterizacions.length) >  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5) && (centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.69)">🟠</span>
-                                                <span v-if="(centroVotacionMeta.personal_caracterizacions.length) >=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.7)">🟢</span>
+                                                <span title="menor al 50%" v-if="(centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5)" >🔴</span>
+                                                <span title="entre 51 y 69%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.5) && (centroVotacionMeta.personal_caracterizacions.length) <=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.69)">🟠</span>
+                                                <span title="mayor al 70%" v-if="(centroVotacionMeta.personal_caracterizacions.length) >=  Math.ceil(centroVotacionMeta.metas_ubchs[0].meta*0.7)">🟢</span>
                                             </td>
                                         </tr>
 
