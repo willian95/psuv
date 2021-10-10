@@ -74,7 +74,7 @@ class ReporteCargaController extends Controller
         $metas = MetasUbch::sum("meta");
         $personalCaracterizacion = PersonalCaracterizacion::count();
 
-        $centroVotacionMetas = CentroVotacion::with("metasUbchs", "personalCaracterizacions")->orderBy("nombre")->get();
+        $centroVotacionMetas = CentroVotacion::with("metasUbchs", "personalCaracterizacions",  "parroquia", "parroquia.municipio")->orderBy("nombre")->get();
 
         return ["metas" => $metas, "personalCaracterizacion" => $personalCaracterizacion, "centroVotacionMetas" => $centroVotacionMetas];
     
