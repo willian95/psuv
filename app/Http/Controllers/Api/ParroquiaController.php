@@ -16,7 +16,9 @@ class ParroquiaController extends Controller
 
     function parroquiasByMunicipioNombre($municipio_nombre){
 
-        return response()->json(Parroquia::where("nombre", $municipio_nombre)->get());
+        return response()->json(Parroquia::whereHas("municipio",function($query) use($municipio_nombre){
+            $query->where("nombre", $municipio_nombre);
+        })->get());
 
     }
 }
