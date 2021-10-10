@@ -353,6 +353,7 @@
                 }
             },
             edit(entity){
+                console.log(entity);
                 this.action="edit";
                 this.entityId=entity.id;
                 //Jefe comunidad
@@ -362,7 +363,7 @@
                 //Jefe calle
                 this.cedula_jefe=entity.personal_caracterizacion.cedula;
                 this.form.personal_caracterizacion=entity.personal_caracterizacion;
-                this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto;
+                this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto.toLowerCase();
                 this.form.telefono_principal=entity.personal_caracterizacion.telefono_principal;
                 this.form.telefono_secundario=entity.personal_caracterizacion.telefono_secundario;
                 this.form.partido_politico_id=entity.personal_caracterizacion.partido_politico_id;
@@ -539,9 +540,30 @@
                     this.loading = false;
                     if(response.data.success==true){
                         this.form.personal_caracterizacion=response.data.elector;
+                        if(response.data.elector.tipo_voto){
+                            this.form.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
+                        }
+                        if(response.data.elector.movilizacion_id){
+                            this.form.movilizacion_id=response.data.elector.movilizacion_id;
+                        }
+                        if(response.data.elector.partido_politico_id){
+                            this.form.partido_politico_id=response.data.elector.partido_politico_id;
+                        }
+                        if(response.data.elector.telefono_principal){
+                            this.form.telefono_principal=response.data.elector.telefono_principal;
+                        }
+                        if(response.data.elector.telefono_secundario){
+                            this.form.telefono_secundario=response.data.elector.telefono_secundario;
+                        }
                         this.cedula_jefe_error="";
                     }else{
                         this.form.personal_caracterizacion=null;
+                        this.form.tipo_voto="";
+                        this.form.movilizacion_id="";
+                        this.form.partido_politico_id="";
+                        this.form.telefono_principal="";
+                        this.form.telefono_secundario="";
+
                         this.cedula_jefe_error="Elector no encontrado";
                         if(response.data.success == false){
                             swal({
@@ -573,15 +595,35 @@
                     const response = await axios({
                         method: 'GET',
                         responseType: 'json',
-                        url: "{{ url('api/elector/search-by-cedula') }}",
+                        url: "{{ url('elector/search-by-cedula') }}",
                         params: filters
                     });
                     this.loading = false;
                     if(response.data.success==true){
                         this.familyForm.personal_caracterizacion=response.data.elector;
+                        if(response.data.elector.tipo_voto){
+                            this.familyForm.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
+                        }
+                        if(response.data.elector.movilizacion_id){
+                            this.familyForm.movilizacion_id=response.data.elector.movilizacion_id;
+                        }
+                        if(response.data.elector.partido_politico_id){
+                            this.familyForm.partido_politico_id=response.data.elector.partido_politico_id;
+                        }
+                        if(response.data.elector.telefono_principal){
+                            this.familyForm.telefono_principal=response.data.elector.telefono_principal;
+                        }
+                        if(response.data.elector.telefono_secundario){
+                            this.familyForm.telefono_secundario=response.data.elector.telefono_secundario;
+                        }
                         this.cedula_familiar_error="";
                     }else{
-                        this.familyForm.personal_caracterization=null;
+                        this.familyForm.personal_caracterizacion=null;
+                        this.familyForm.tipo_voto="";
+                        this.familyForm.movilizacion_id="";
+                        this.familyForm.partido_politico_id="";
+                        this.familyForm.telefono_principal="";
+                        this.familyForm.telefono_secundario="";
                         this.cedula_familiar_error="Elector no encontrado";
                     }
                 } catch (err) {

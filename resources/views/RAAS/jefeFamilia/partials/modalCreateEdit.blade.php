@@ -68,11 +68,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="tipoVoto">Tipo de voto</label>
-                                <select class="form-control" v-model="form.tipo_voto" v-if="form.personal_caracterizacion">
+                                <select class="form-control" v-model="form.tipo_voto" v-show="form.personal_caracterizacion">
                                     <option value="" selected>Seleccione</option>
-                                    <option v-for="tipoVoto in tipoDeVotos" :value="tipoVoto">@{{tipoVoto}}</option>
+                                    <option v-for="tipoVoto in tipoDeVotos" :value="tipoVoto.toLowerCase()">@{{tipoVoto}}</option>
                                 </select>
-                                <select class="form-control" v-else disabled>
+                                <select class="form-control" v-show="!form.personal_caracterizacion" disabled>
                                     <option value="" selected>Seleccione</option>
                                 </select>
                             </div>
@@ -97,11 +97,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="partidoPolitico">Partido político</label>
-                                <select class="form-control" v-model="form.partido_politico_id" v-if="form.personal_caracterizacion" >
+                                <select class="form-control" v-model="form.partido_politico_id" v-show="form.personal_caracterizacion" >
                                     <option value="" selected>Seleccione</option>
                                     <option :value="partidoPolitico.id" v-for="partidoPolitico in partidosPoliticos">@{{ partidoPolitico.nombre }}</option>
                                 </select>
-                                <select class="form-control" v-else disabled>
+                                <select class="form-control" v-show="!form.personal_caracterizacion" disabled>
                                     <option value="" selected>Seleccione</option>
                                 </select>
                             </div>
@@ -110,11 +110,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="movilizacion">Tipo de movilización</label>
-                                <select class="form-control" v-model="form.movilizacion_id" v-if="form.personal_caracterizacion">
+                                <select class="form-control" v-model="form.movilizacion_id" v-show="form.personal_caracterizacion">
                                     <option value="" selected>Seleccione</option>
                                     <option :value="movilizacion.id" v-for="movilizacion in tiposDeMovilizacion">@{{ movilizacion.nombre }}</option>
                                 </select>
-                                <select class="form-control" v-else disabled>
+                                <select class="form-control" v-show="!form.personal_caracterizacion" disabled>
                                     <option value="" selected>Seleccione</option>
                                 </select>
                             </div>
