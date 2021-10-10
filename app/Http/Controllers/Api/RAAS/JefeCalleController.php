@@ -18,6 +18,7 @@ class JefeCalleController extends Controller
     public function index( Request $request)
     {
         try {
+            $search = $request->input('search');
             $calle_id = $request->input('calle_id');
             $personal_caracterizacion_id = $request->input('personal_caracterizacion_id');
             $jefe_comunidad_id = $request->input('jefe_comunidad_id');
@@ -42,6 +43,15 @@ class JefeCalleController extends Controller
             }
             if ($jefe_comunidad_id) {
                 $query->where('jefe_comunidad_id', $jefe_comunidad_id);
+            }
+            if ($search) {
+                $query->whereHas('personalCaracterizacion',function($query) use($search){
+                    $query->where("cedula","LIKE","%{$search}%")
+                    ->orWhere("primer_nombre","LIKE","%{$search}%")
+                    ->orWhere("primer_apellido","LIKE","%{$search}%")
+                    ->orWhere("segundo_nombre","LIKE","%{$search}%")
+                    ->orWhere("segundo_nombre","LIKE","%{$search}%");
+                });
             }
             // $this->addFilters($request, $query);
             

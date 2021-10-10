@@ -18,6 +18,7 @@
                 nombre:"",
             },
             entityId:null,
+            searchText:"",
             //Array data
             comunidades:[],
             results:[],
@@ -32,16 +33,18 @@
         },
         created: function() {
             this.$nextTick(async function() {
-                this.loading = false;
                 await this.fetch();
                 await this.obtenerComunidades();
+                this.loading = false;
             });
         },
         methods: {
             async fetch(link = ""){
+                this.loading = true;
                 let filters={
                     municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
-                        includes:"comunidad"
+                    includes:"comunidad",
+                    search:this.searchText
                 };
                 if(link==""){
                     filters.page=1;
@@ -53,6 +56,7 @@
                 this.links = res.data.links
                 this.currentPage = res.data.current_page
                 this.totalPages = res.data.last_page
+                this.loading = false;
             },
             async store(){
                 //Validations
