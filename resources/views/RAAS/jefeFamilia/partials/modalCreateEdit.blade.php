@@ -30,11 +30,24 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" class="form-control" v-if="jefe_calle" v-model="jefe_calle.personal_caracterizacion.full_name" readonly>
                                 <input type="text" class="form-control" v-else readonly>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Calles</label>
+                                <select class="form-control" v-model="form.jefe_calle_id" v-if="jefe_calle" :disabled="entityId">
+                                    <option v-for="jefeCalle in calles" :value="jefeCalle.id">@{{jefeCalle.calle.nombre}}</option>
+                                </select>
+                                <select class="form-control" v-else disabled>
+                                    <option value="" selected>Seleccione</option>
+                                </select>
                             </div>
                         </div>
 
