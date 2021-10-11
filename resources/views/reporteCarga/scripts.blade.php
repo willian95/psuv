@@ -80,6 +80,16 @@
             validateCorreo(email){
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(String(email).toLowerCase());
+            },
+
+            downloadExcel(){
+
+                let paramsCentroVotacion = this.selectedParroquia != "0" ? "&centroVotacion="+this.selectedCentroVotacion : "&centroVotacion=0"
+                let paramsParroquia = this.selectedMunicipio != "0" ? "&parroquia="+this.selectedParroquia : "&parroquia=0"
+                let paramsMunicipio = "municipio="+this.selectedMunicipio
+
+                window.location.href="{{ url('api/reporte-carga/download') }}"+"?"+paramsMunicipio+paramsParroquia+paramsCentroVotacion
+
             }
 
 

@@ -63,7 +63,7 @@ class JefeComunidadController extends Controller
             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de Comunidad"]);
         }*/
 
-        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, \Auth::user()->municipio_id);
+        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, $request->municipio_id);
         
         return response()->json($response);
         
@@ -204,8 +204,8 @@ class JefeComunidadController extends Controller
 
         $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion");
         
-        if(\Auth::user()->municipio_id != null){
-            $municipio_id = \Auth::user()->municipio_id;
+        if($request->municipio_id != null){
+            $municipio_id = $request->municipio_id;
             $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
                 $q->where('municipio_id', $municipio_id);
             });
@@ -223,16 +223,23 @@ class JefeComunidadController extends Controller
         $cedula = $request->cedula;
         $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion");
         
-        if(\Auth::user()->municipio_id != null){
-            $municipio_id = \Auth::user()->municipio_id;
+        if($request->municipio_id != null){
+            $municipio_id = $request->municipio_id;
             $query->whereHas("personalCaracterizacion", function($q) use($municipio_id){
                 $q->where('municipio_id', $municipio_id);
             });
         }
 
-        $jefeUbch = $query->whereHas('personalCaracterizacion', function($q) use($cedula){
-            $q->where('cedula', $cedula);
-        })->orderBy("id", "desc")->paginate(15);
+        if($cedula){
+            $jefeUbch = $query->whereHas('personalCaracterizacion', function($q) use($cedula){
+                $q->where('cedula', $cedula);
+            })->orderBy("id", "desc")->paginate(15);
+        }else{
+
+            $jefeUbch = $query->orderBy("id", "desc")->paginate(15);
+
+        }
+        
 
         return response()->json($jefeUbch);
 

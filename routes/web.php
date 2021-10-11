@@ -47,7 +47,6 @@ Route::get("/logout", [AuthController::class, "logout"]);
 
 Route::post("raas/ubch/search-by-cedula", [UBCHAPIController::class, "searchByCedula"]);
 
-Route::post("raas/jefe-comunidad/search-jefe-ubch-by-cedula", [UBCHAPIController::class, "jefeUbchByCedula"]);
 Route::post("raas/jefe-comunidad/search-by-cedula", [JefeComunidadAPIController::class, "searchByCedula"]);
 Route::post("raas/jefe-comunidad/search-by-cedula-field", [JefeComunidadAPIController::class, "searchByCedulaField"]);
 
