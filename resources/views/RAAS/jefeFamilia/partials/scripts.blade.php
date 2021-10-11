@@ -274,7 +274,12 @@
                 }
             },
             async fetch(link = ""){
-                let res = await axios.get(link == "" ? "{{ route('api.jefe-familia.index') }}" : link.url)
+                let filters={
+                    jefe_calle_municipio_id:"{{Auth::user()->municipio ? Auth::user()->municipio_id : 0}}"
+                };
+                let res = await axios.get(link == "" ? "{{ route('api.jefe-familia.index') }}" : link.url,{
+                    params:filters
+                })
                 this.results = res.data.data
                 this.links = res.data.links
                 this.currentPage = res.data.current_page
