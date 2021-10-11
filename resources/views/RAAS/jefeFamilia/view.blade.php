@@ -9,7 +9,7 @@
         </div>
 
         <!--begin::Container-->
-        <div class="container" v-cloak>
+        <div class="container">
             <!--begin::Card-->
             <div class="card card-custom">
                 <!--begin::Header-->

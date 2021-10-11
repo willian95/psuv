@@ -21,9 +21,10 @@ class JefeFamiliaController extends Controller
         try {
             $personal_caracterizacion_id = $request->input('personal_caracterizacion_id');
             $jefe_calle_id = $request->input('jefe_calle_id');
+            $jefe_calle_municipio_id = $request->input('jefe_calle_municipio_id');
             $includes= $request->input('includes') ? $request->input('includes') : [
-                "jefeCalle.personalCaracterizacion",
-                "jefeCalle.calles.calle",
+                "JefeCalle.personalCaracterizacion",
+                "JefeCalle.calles.calle",
                 "personalCaracterizacion.movilizacion",
                 "personalCaracterizacion.partidoPolitico"
             ];
@@ -37,6 +38,11 @@ class JefeFamiliaController extends Controller
             }
             if ($jefe_calle_id) {
                 $query->where('jefe_calle_id', $jefe_calle_id);
+            }
+            if ($jefe_calle_municipio_id) {
+                $query->whereHas('JefeCalle.JefeComunidad.comunidad.parroquia', function($query) use($jefe_calle_municipio_id){
+                    $query->where('municipio_id',$jefe_calle_municipio_id);
+                });
             }
             $query->withCount('familiares');
             // $this->addFilters($request, $query);
