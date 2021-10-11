@@ -23,6 +23,7 @@ class JefeFamiliaController extends Controller
             $jefe_calle_id = $request->input('jefe_calle_id');
             $includes= $request->input('includes') ? $request->input('includes') : [
                 "jefeCalle.personalCaracterizacion",
+                "jefeCalle.calles.calle",
                 "personalCaracterizacion.movilizacion",
                 "personalCaracterizacion.partidoPolitico"
             ];

@@ -50,6 +50,7 @@
             tiposDeMovilizacion:[],
             results:[],
             families:[],
+            calles:[],
 
             //paginate
             modalTitle:"Crear Jefe de Familia",
@@ -356,11 +357,12 @@
                 console.log(entity);
                 this.action="edit";
                 this.entityId=entity.id;
-                //Jefe comunidad
-                this.cedula_jefe_calle=entity.jefe_calle.personal_caracterizacion.cedula;
+                //Jefe calle
+                this.calles=entity.jefe_calle.calles;
                 this.jefe_calle=entity.jefe_calle;
                 this.form.jefe_calle_id=entity.jefe_calle.id;
-                //Jefe calle
+                this.cedula_jefe_calle=entity.jefe_calle.personal_caracterizacion.cedula;
+                //Jefe familia
                 this.cedula_jefe=entity.personal_caracterizacion.cedula;
                 this.form.personal_caracterizacion=entity.personal_caracterizacion;
                 this.form.tipo_voto=entity.personal_caracterizacion.tipo_voto.toLowerCase();
@@ -478,6 +480,7 @@
                 this.entityId=null;
                 this.jefe_calle=null;
                 this.action="create";
+                this.calles=[];
             },
             async obtenerJefeCalle() {
                 if(this.cedula_jefe_calle==""){
@@ -505,17 +508,19 @@
                             text:response.data.msg,
                             icon:"error"
                         })
-
+                        this.calles=[];
                         return
                     }
                     
                     this.jefe_calle = response.data.data;
+                    this.calles=response.data.data.calles;
                     this.form.jefe_calle_id = this.jefe_calle.id;
                     this.cedula_jefe_calle_error="";
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
                     this.cedula_jefe_calle_error=err.response.data.message;
+                    this.calles=[];
                 }
             },
             async obtenerJefe() {

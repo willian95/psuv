@@ -277,7 +277,7 @@ class JefeCalleController extends Controller
             //Init query
             $query=Model::query();
             //includes
-            $query->with('personalCaracterizacion',"calle");
+            $query->with('personalCaracterizacion',"calle","calles.calle");
             if ($cedula) {
                 $query->whereHas('personalCaracterizacion', function($q) use($cedula){
                     $q->where('cedula', $cedula);
