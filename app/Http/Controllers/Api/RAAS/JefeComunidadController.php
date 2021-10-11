@@ -202,7 +202,7 @@ class JefeComunidadController extends Controller
 
     function fetch(Request $request){
 
-        $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion", , "jefeUbch.centroVotacion");
+        $query = JefeComunidad::with("personalCaracterizacion", "personalCaracterizacion.municipio", "personalCaracterizacion.parroquia", "personalCaracterizacion.centroVotacion", "personalCaracterizacion.partidoPolitico", "personalCaracterizacion.movilizacion", "comunidad", "jefeUbch", "jefeUbch.personalCaracterizacion", "jefeUbch.personalCaracterizacion.centroVotacion", "jefeUbch.centroVotacion");
         
         if($request->municipio_id != null){
             $municipio_id = $request->municipio_id;
