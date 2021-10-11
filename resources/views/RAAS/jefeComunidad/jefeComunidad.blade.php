@@ -569,7 +569,7 @@ const app = new Vue({
         async search(){
 
             this.searchLoading = true
-            let res = await axios.post("{{ url('/api/raas/jefe-comunidad/search') }}", {"cedula": this.cedulaSearch, municipio_id: "{{ \Auth::user()->municipio_id }}"})
+            let res = await axios.get("{{ url('/api/raas/jefe-comunidad/search') }}"+"?cedula="+this.cedulaSearch+"&municipio_id="+ "{{ \Auth::user()->municipio_id }}")
             this.searchLoading = false
 
             this.jefesComunidad = res.data.data
