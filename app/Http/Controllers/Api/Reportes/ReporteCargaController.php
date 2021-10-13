@@ -16,6 +16,8 @@ class ReporteCargaController extends Controller
 
     function generate(Request $request){
 
+        ini_set('max_execution_time', 300);
+
         if($request->centroVotacion != "0"){
        
             $data = $this->selectedCentroVotacion($request->centroVotacion);
