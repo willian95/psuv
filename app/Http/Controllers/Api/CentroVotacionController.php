@@ -15,4 +15,12 @@ class CentroVotacionController extends Controller
 
     }
 
+    function centroVotacionByParroquiaNombre($parroquia_nombre){
+
+        return response()->json(CentroVotacion::whereHas("parroquia",function($query) use($parroquia_nombre){
+            $query->where("nombre", $parroquia_nombre);
+        })->get());
+
+    }
+
 }
