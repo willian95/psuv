@@ -600,7 +600,8 @@
                 try {
                     this.loading = true;
                     let filters = {
-                        cedula:this.cedula_familiar
+                        cedula:this.cedula_familiar,
+                        has_jefe_familia:1
                     }
                     const response = await axios({
                         method: 'GET',
@@ -610,6 +611,16 @@
                     });
                     this.loading = false;
                     if(response.data.success==true){
+                        if(response.data.hasJefeFamilia){
+                            this.familyForm.personal_caracterizacion=null;
+                            this.familyForm.tipo_voto="";
+                            this.familyForm.movilizacion_id="";
+                            this.familyForm.partido_politico_id="";
+                            this.familyForm.telefono_principal="";
+                            this.familyForm.telefono_secundario="";
+                            this.cedula_familiar_error="Este elector ya es jefe de familia.";
+                            return false;
+                        }
                         this.familyForm.personal_caracterizacion=response.data.elector;
                         if(response.data.elector.tipo_voto){
                             this.familyForm.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
