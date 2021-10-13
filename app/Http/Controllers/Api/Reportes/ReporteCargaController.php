@@ -27,13 +27,13 @@ class ReporteCargaController extends Controller
             $data = $this->selectedParroquia($request->parroquia);
             $todosCentroVotacion = $this->todosCentroVotacionGraficas($request->parroquia);
 
-            $data = ["data" => $data, "entities" => $todosCentroVotacion, "type" => "Todos los centros de votación de ".Parroquia::find($request->parroquia)->nombre];
+            $data = ["data" => $data, "entities" => $todosCentroVotacion, "type" => "Centros de votación de ".Parroquia::find($request->parroquia)->nombre];
         }
         else if($request->municipio != "0"){
             $data = $this->selectedMunicipio($request->municipio);
             $todasParroquias = $this->todasParroquiasGraficas($request->municipio);
 
-            $data = ["data" => $data, "entities" => $todasParroquias, "type" => "Todas las parroquias de ".Municipio::find($request->municipio)->nombre];
+            $data = ["data" => $data, "entities" => $todasParroquias, "type" => "Parroquias de ".Municipio::find($request->municipio)->nombre];
         }  
         else if($request->municipio == "0"){
             $data = $this->selectedAll();

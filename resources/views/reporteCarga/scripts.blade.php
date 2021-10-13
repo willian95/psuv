@@ -114,17 +114,19 @@
 
 
         },
-        created() {
+        async created() {
 
-            this.getMunicipios()
+            await this.getMunicipios()
             this.selectedMunicipio = "0"
             this.selectedParroquia = "0"
             this.selectedCentroVotacion = "0"
             this.selectedMunicipio = this.authMunicipio
 
             if(this.selectedMunicipio != "0"){
-                this.getParroquias()
+                await this.getParroquias()
             }
+
+            this.generate()
 
         }
     });

@@ -74,10 +74,10 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="text-center">@{{ type }}</h2>
+                            <h2>@{{ type }}</h2>
                         </div>
 
-                        <div v-for="(info, index) in secondaryInfo" class="col-md-4 col-sm-6 mt-4 pt-2 pb-2" >
+                        <div v-for="(info, index) in secondaryInfo" class="col-md-4 col-sm-6 mt-10 pt-2 pb-2" >
                             <h6>@{{ info.nombre }}</h6>
                             <div class="d-flex">
                                 <div class="w-50">
@@ -102,12 +102,17 @@
                     </div>
 
 
-                    <div class="row" v-show="metaGeneral > 0">
+                    <div class="row mt-15" v-show="metaGeneral > 0">
                         <div class="col-12">
-                            <h3 class="text-center">Centros de votación</h3>
+
                             <div class="row">
-                                <div class="col-12">
-                                    <button class="btn btn-info" @click="downloadExcel()">
+                                <div class="col-6">
+                                
+                                    <h2>Centros de votación</h2>
+                               
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-info" @click="downloadExcel()" style="float: right">
                                         Descargar excel
                                     </button>
                                 </div>
