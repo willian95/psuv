@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\CentroVotacion;
 use App\Models\MetasUbch;
 use App\Models\PersonalCaracterizacion;
+use App\Models\Municipio;
+use App\Models\Parroquia;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ReporteCargaController extends Controller
@@ -21,14 +23,22 @@ class ReporteCargaController extends Controller
         else if($request->parroquia != "0"){
            
             $data = $this->selectedParroquia($request->parroquia);
+            $todosCentroVotacion = $this->todosCentroVotacionGraficas($request->parroquia);
+
+            $data = ["data" => $data, "entities" => $todosCentroVotacion, "type" => "Todos los centros de votación de ".Parroquia::find($request->parroquia)->nombre];
         }
         else if($request->municipio != "0"){
             $data = $this->selectedMunicipio($request->municipio);
+            $todasParroquias = $this->todasParroquiasGraficas($request->municipio);
+
+            $data = ["data" => $data, "entities" => $todasParroquias, "type" => "Todas las parroquias de ".Municipio::find($request->municipio)->nombre];
         }  
         else if($request->municipio == "0"){
             $data = $this->selectedAll();
-        }  
+            $todosMunicipios = $this->todosMunicipiosGraficas();
 
+            $data = ["data" => $data, "entities" => $todosMunicipios, "type" => "Todos los municipios"];
+        }  
 
         return response()->json($data);
 
@@ -150,6 +160,66 @@ class ReporteCargaController extends Controller
 
         return $centroVotacionMetas;
     
+    }
+
+    function todosMunicipiosGraficas(){
+
+        $estadisticasMunicipio = [];
+
+        foreach(Municipio::all() as $municipio){    
+
+            $metasPorMunicipio = MetasUbch::where("municipio_id", $municipio->id)->sum("meta");
+            $cargadasPorMunicipio = PersonalCaracterizacion::where("municipio_id", $municipio->id)->count();
+            $estadisticasMunicipio[] = [
+                "nombre" => $municipio->nombre,
+                "meta" => $metasPorMunicipio,
+                "cargados" => $cargadasPorMunicipio
+            ];
+
+        }
+
+        return $estadisticasMunicipio;
+
+    }
+
+    function todasParroquiasGraficas($municipio_id){
+
+        $estadisticasMunicipio = [];
+
+        foreach(Parroquia::where("municipio_id", $municipio_id)->get() as $parroquia){    
+
+            $metasPorParroquia = MetasUbch::where("parroquia_id", $parroquia->id)->sum("meta");
+            $cargadasPorParroquia = PersonalCaracterizacion::where("parroquia_id", $parroquia->id)->count();
+            $estadisticasParroquia[] = [
+                "nombre" => $parroquia->nombre,
+                "meta" => $metasPorParroquia,
+                "cargados" => $cargadasPorParroquia
+            ];
+
+        }
+
+        return $estadisticasParroquia;
+
+    }
+
+    function todosCentroVotacionGraficas($parroquia_id){
+
+        $estadisticasCentroVotacion = [];
+
+        foreach(CentroVotacion::where("parroquia_id", $parroquia_id)->get() as $centroVotacion){    
+
+            $metasPorCentroVotacion = MetasUbch::where("centro_votacion_id", $centroVotacion->id)->sum("meta");
+            $cargadasPorCentroVotacion = PersonalCaracterizacion::where("centro_votacion_id", $centroVotacion->id)->count();
+            $estadisticasCentroVotacion[] = [
+                "nombre" => $centroVotacion->nombre,
+                "meta" => $metasPorCentroVotacion,
+                "cargados" => $cargadasPorCentroVotacion
+            ];
+
+        }
+
+        return $estadisticasCentroVotacion;
+
     }
 
 }

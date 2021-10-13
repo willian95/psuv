@@ -7,10 +7,13 @@
             return {
 
                 clickCount:0,
+                secondaryGraphic:0,
+                type:"",
                 metaGeneral:0,
                 cargados:0,
                 centroVotacionMetas:[],
                 loading:false,
+                secondaryInfo:"",
 
                 selectedMunicipio:"0",
                 selectedParroquia:"0",
@@ -66,16 +69,33 @@
                 })
 
                 this.loading = false
+                this.secondaryInfo = res.data.entities
+                this.type = res.data.type
+                /*setTimeout(() => {
+                    this.generateCharts(res.data.entities)
+                }, 1000);*/
                 
-                this.metaGeneral = res.data.metas
-                this.cargados = res.data.personalCaracterizacion
-                this.centroVotacionMetas = res.data.centroVotacionMetas
                 
-                KTApexChartsDemo.init(this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true);
+                this.metaGeneral = res.data.data.metas
+                this.cargados = res.data.data.personalCaracterizacion
+                this.centroVotacionMetas = res.data.data.centroVotacionMetas
+                
+                KTApexChartsDemo.init(this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
                 this.clickCount++
                 
             },
 
+            generateCharts(entities){
+
+                for(var i = 0; i < entities.length; i++){
+
+                    KTApexChartsDemo.init(entities[i].meta, entities[i].cargados, true, "#graphic-"+i);
+
+                }
+
+                this.secondaryGraphic++;
+
+            },
             
             validateCorreo(email){
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

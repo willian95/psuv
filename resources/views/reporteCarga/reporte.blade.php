@@ -68,9 +68,39 @@
                     <div class="row" v-show="metaGeneral > 0">
                         <div class="col-12">
                             <p><div id="chart_12" class="d-flex justify-content-center"></div></p>
-                            <p class="text-center">@{{ metaGeneral }} / @{{ cargados }}</p>
+                            <p class="text-center"> @{{ cargados }} / @{{ metaGeneral }}</p>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="text-center">@{{ type }}</h2>
+                        </div>
+
+                        <div v-for="(info, index) in secondaryInfo" class="col-md-4 col-sm-6 mt-4 pt-2 pb-2" >
+                            <h6>@{{ info.nombre }}</h6>
+                            <div class="d-flex">
+                                <div class="w-50">
+                                    <span style="color: red">@{{ info.cargados }}</span> / <span style="color: blue">@{{ info.meta }}</span> 
+                                </div>
+                                <div>
+                                    <span title="menor al 50%" v-if="(info.cargados) <=  Math.ceil(info.meta*0.5)" >
+                                        <div class="round-circle bg-danger">
+
+                                        </div>
+                                    </span>
+                                    <span title="entre 51 y 69%" v-if="(info.cargados) >  Math.ceil(info.meta*0.5) && (info.cargados) <=  Math.ceil(info.meta*0.69)">
+                                        <div class="round-circle bg-warning"></div>
+                                    </span>
+                                    <span title="mayor al 70%" v-if="(info.cargados) >=  Math.ceil(info.meta*0.7)">
+                                        <div class="round-circle bg-success"></div>
+                                    </span>
+                                </div>
+                            </p>
+                        </div>
+
+                    </div>
+
 
                     <div class="row" v-show="metaGeneral > 0">
                         <div class="col-12">

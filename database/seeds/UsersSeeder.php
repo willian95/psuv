@@ -99,7 +99,7 @@ class UsersSeeder extends Seeder
 				"name" => "MIRANDA",
 				"last_name" => "MIRANDA",
 				"email" => strtolower("MIRANDA@psuv.com"),
-				"password" => bcrypt("admin7845"),
+				"password" => bcrypt("miranda9012"),
 				"municipio_id" => Municipio::where("nombre", "MIRANDA")->first()->id,
 				"role" => "admin"
 			],

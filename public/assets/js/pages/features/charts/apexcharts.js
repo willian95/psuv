@@ -43,8 +43,8 @@ function generateData(count, yrange) {
 var KTApexChartsDemo = function () {
 	// Private functions
 
-	var _demo12 = function (meta, carga, newChart) {
-		const apexChart = "#chart_12";
+	var _demo12 = function (meta, carga, newChart, idSelector) {
+		const apexChart = idSelector;
 		var options = {
 			series: [meta, carga],
 			chart: {
@@ -98,8 +98,8 @@ var KTApexChartsDemo = function () {
 
 	return {
 		// public functions
-		init: function (meta, carga, newChart = true) {
-			_demo12(meta, carga, newChart);
+		init: function (meta, carga, newChart = true, idSelector) {
+			_demo12(meta, carga, newChart, idSelector);
 		}
 	};
 }();
