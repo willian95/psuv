@@ -86,6 +86,7 @@ Route::prefix('raas/nucleo-familiar')->group(function () {
 Route::prefix('raas/report')->group(function () {
     Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
     Route::get("/structure", [RaasController::class, "structure"])->name('api.raas.report.structure');
+    Route::get("/voter_mobilization", [RaasController::class, "voterMobilization"])->name('api.raas.report.voter_mobilization');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -102,6 +103,7 @@ Route::get("parroquias-busqueda/{municipio_nombre}", [ParroquiaController::class
 Route::get("comunidades/{parroquia}", [ComunidadController::class, "comunidadesByParroquia"]);
 
 Route::get("centro-votacion/{parroquia_id}", [CentroVotacionController::class, "centroVotacionByParroquia"]);
+Route::get("centro-votacion-busqueda/{parroquia_nombre}", [CentroVotacionController::class, "centroVotacionByParroquiaNombre"]);
 
 Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->name('api.partidos-politicos.index');
 

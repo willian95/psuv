@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::view('jefeFamilia', 'RAAS.jefeFamilia.view')->name("raas.jefe-familia");
     
         Route::view('reportes/estructura', 'reports.raas.structure');
+        Route::view('reportes/movilizacion_electores', 'reports.raas.voter_mobilization');
     
     });
 });

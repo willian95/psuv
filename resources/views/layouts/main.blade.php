@@ -312,6 +312,16 @@ License: You must have a valid license purchased only from themeforest(the above
 												</a>
 											</li>
 
+											
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('raas/reportes/movilizacion_electores') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Movilización de electores</span>
+												</a>
+											</li>
+
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('reporte-carga') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
