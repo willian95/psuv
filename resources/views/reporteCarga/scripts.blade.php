@@ -39,7 +39,8 @@
 
             },
             async getParroquias(){
-        
+                
+                this.selectedParroquia = "0"
                 this.selectedCentroVotacion = "0"
 
                 let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
@@ -48,7 +49,7 @@
             },
 
             async getCentroVotacion(){
-
+                this.selectedCentroVotacion = "0"
                 let res = await axios.get("{{ url('/api/centro-votacion') }}"+"/"+this.selectedParroquia)
                 this.centrosVotacion = res.data
 

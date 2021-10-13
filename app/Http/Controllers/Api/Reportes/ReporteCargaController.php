@@ -21,6 +21,7 @@ class ReporteCargaController extends Controller
         if($request->centroVotacion != "0"){
        
             $data = $this->selectedCentroVotacion($request->centroVotacion);
+            $data = ["data" => $data, "entities" => [], "type" => " "];
         }
         else if($request->parroquia != "0"){
            

@@ -520,7 +520,7 @@
         left:0;
         right: 0;
         z-index: 99999999;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.05);
         top: 0;
         bottom: 0;
     }

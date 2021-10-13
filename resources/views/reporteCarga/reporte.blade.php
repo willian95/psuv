@@ -101,22 +101,19 @@
 
                     </div>
 
-
                     <div class="row mt-15" v-show="metaGeneral > 0">
+                        <div class="col-6">
+                            
+                            <h2>Centros de votación</h2>
+                        
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-info" @click="downloadExcel()" style="float: right">
+                                Descargar excel
+                            </button>
+                        </div>
                         <div class="col-12">
-
-                            <div class="row">
-                                <div class="col-6">
-                                
-                                    <h2>Centros de votación</h2>
-                               
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-info" @click="downloadExcel()" style="float: right">
-                                        Descargar excel
-                                    </button>
-                                </div>
-                            </div>
+                   
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -160,6 +157,9 @@
 
                         </div>
                     </div>
+
+
+                    
 
 
 
