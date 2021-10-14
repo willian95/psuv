@@ -225,4 +225,27 @@ class ReporteCargaController extends Controller
 
     }
 
+    function search(Request $request){
+
+        $query = null;
+
+        if($request->centroVotacion != "0"){
+     
+            $query->where("municipio_id", $request->municipio_id)->where("parroquia_id", $request->parroquia_id)->where("id", $request->centroVotacion);
+        }
+        else if($request->parroquia != "0"){
+            
+            $query->where("municipio_id", $request->municipio_id)->where("parroquia_id", $request->parroquia_id);
+        }
+        else if($request->municipio != "0"){
+      
+            $data = $this->selectedMunicipioDownload($request->municipio);
+        }  
+        else if($request->municipio == "0"){
+            
+            $data = $this->selectedAllDownload();
+        }  
+
+    }
+
 }
