@@ -158,7 +158,23 @@
                         </div>
                     </div>
 
-
+                    <div class="row w-100">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="kt_datatable_info" role="status" aria-live="polite">Mostrando página @{{ currentPage }} de @{{ totalPages }}</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_full_numbers" id="kt_datatable_paginate">
+                                <ul class="pagination">
+                                    
+                                    <li class="paginate_button page-item active" v-for="(link, index) in links">
+                                        <a style="cursor: pointer" aria-controls="kt_datatable" tabindex="0" :class="link.active == false ? linkClass : activeLinkClass":key="index" @click="fetch(link)" v-html="link.label.replace('Previous', 'Anterior').replace('Next', 'Siguiente')"></a>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     
 
 
@@ -180,5 +196,17 @@
 @push("scripts")
 
     @include("reporteCarga.scripts")
+
+@endpush
+
+@push("styles")
+
+    <style>
+
+        .active-link{
+            background-color:#c0392b !important;
+        }
+
+    </style
 
 @endpush

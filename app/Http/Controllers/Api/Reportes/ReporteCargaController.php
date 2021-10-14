@@ -52,7 +52,7 @@ class ReporteCargaController extends Controller
         $metas = MetasUbch::where("centro_votacion_id", $centroVotacion)->sum("meta");
         $personalCaracterizacion = PersonalCaracterizacion::where("centro_votacion_id", $centroVotacion)->count();
 
-        $centroVotacionMetas = CentroVotacion::where("id", $centroVotacion)->with("metasUbchs", "personalCaracterizacions", "parroquia", "parroquia.municipio")->orderBy("nombre")->get();
+        $centroVotacionMetas = CentroVotacion::where("id", $centroVotacion)->with("metasUbchs", "personalCaracterizacions", "parroquia", "parroquia.municipio")->orderBy("nombre")->paginate(20);
 
         return ["metas" => $metas, "personalCaracterizacion" => $personalCaracterizacion, "centroVotacionMetas" => $centroVotacionMetas];
 
@@ -63,7 +63,7 @@ class ReporteCargaController extends Controller
         $metas = MetasUbch::where("parroquia_id", $parroquia)->sum("meta");
         $personalCaracterizacion = PersonalCaracterizacion::where("parroquia_id", $parroquia)->count();
 
-        $centroVotacionMetas = CentroVotacion::where("parroquia_id", $parroquia)->with("metasUbchs", "personalCaracterizacions", "parroquia", "parroquia.municipio")->orderBy("nombre")->get();
+        $centroVotacionMetas = CentroVotacion::where("parroquia_id", $parroquia)->with("metasUbchs", "personalCaracterizacions", "parroquia", "parroquia.municipio")->orderBy("nombre")->paginate(20);
 
         return ["metas" => $metas, "personalCaracterizacion" => $personalCaracterizacion, "centroVotacionMetas" => $centroVotacionMetas];
 
@@ -76,7 +76,7 @@ class ReporteCargaController extends Controller
 
         $centroVotacionMetas = CentroVotacion::with("metasUbchs", "personalCaracterizacions", "parroquia", "parroquia.municipio")->whereHas("parroquia", function($q) use($municipio){
             $q->where("municipio_id", $municipio);  
-        })->orderBy("nombre")->get();
+        })->orderBy("nombre")->paginate(20);
 
         return ["metas" => $metas, "personalCaracterizacion" => $personalCaracterizacion, "centroVotacionMetas" => $centroVotacionMetas];
     
@@ -87,7 +87,7 @@ class ReporteCargaController extends Controller
         $metas = MetasUbch::sum("meta");
         $personalCaracterizacion = PersonalCaracterizacion::count();
 
-        $centroVotacionMetas = CentroVotacion::with("metasUbchs", "personalCaracterizacions",  "parroquia", "parroquia.municipio")->orderBy("nombre")->get();
+        $centroVotacionMetas = CentroVotacion::with("metasUbchs", "personalCaracterizacions",  "parroquia", "parroquia.municipio")->orderBy("nombre")->paginate(20);
 
         return ["metas" => $metas, "personalCaracterizacion" => $personalCaracterizacion, "centroVotacionMetas" => $centroVotacionMetas];
     

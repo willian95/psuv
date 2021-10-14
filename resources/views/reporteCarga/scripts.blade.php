@@ -6,6 +6,12 @@
         data() {
             return {
 
+                linkClass:"page-link",
+                activeLinkClass:"page-link active-link bg-main",
+                currentPage:1,
+                links:"",
+                totalPages:"",
+
                 clickCount:0,
                 secondaryGraphic:0,
                 type:"",
@@ -18,6 +24,9 @@
                 selectedMunicipio:"0",
                 selectedParroquia:"0",
                 selectedCentroVotacion:"0",
+                searchedMunicipio:"0",
+                searchedParroquia:"0",
+                searchedCentroVotacion:"0",
                 municipios:[],
                 parroquias:[],
                 centrosVotacion:[],
@@ -58,9 +67,13 @@
 
                 this.loading = true
 
-                let paramsCentroVotacion = this.selectedCentroVotacion
-                let paramsParroquia = this.selectedParroquia
-                let paramsMunicipio = this.selectedMunicipio
+                this.searchedCentroVotacion = this.selectedCentroVotacion
+                this.searchedParroquia = this.selectedParroquia
+                this.searchedMunicipio = this.selectedMunicipio
+
+                let paramsCentroVotacion = this.searchedCentroVotacion
+                let paramsParroquia = this.searchedParroquia
+                let paramsMunicipio = this.searchedMunicipio
                 
 
                 let res = await axios.post("{{ url('api/reporte-carga/generate') }}", {
@@ -72,19 +85,44 @@
                 this.loading = false
                 this.secondaryInfo = res.data.entities
                 this.type = res.data.type
-                /*setTimeout(() => {
-                    this.generateCharts(res.data.entities)
-                }, 1000);*/
-                
                 
                 this.metaGeneral = res.data.data.metas
                 this.cargados = res.data.data.personalCaracterizacion
-                this.centroVotacionMetas = res.data.data.centroVotacionMetas
+                this.centroVotacionMetas = res.data.data.centroVotacionMetas.data
+
+                this.links = res.data.data.centroVotacionMetas.links
+                this.currentPage = res.data.data.centroVotacionMetas.current_page
+                this.totalPages = res.data.data.centroVotacionMetas.last_page
                 
                 KTApexChartsDemo.init(this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
                 this.clickCount++
                 
             },
+            async fetch(link){
+
+                this.loading = true
+
+                let paramsCentroVotacion = this.searchedCentroVotacion
+                let paramsParroquia = this.searchedParroquia
+                let paramsMunicipio = this.searchedMunicipio
+                
+
+                let res = await axios.post(link.url, {
+                    centroVotacion: paramsCentroVotacion,
+                    parroquia: paramsParroquia,
+                    municipio: paramsMunicipio
+                })
+
+                this.loading = false
+                
+                this.centroVotacionMetas = res.data.data.centroVotacionMetas.data
+
+                this.links = res.data.data.centroVotacionMetas.links
+                this.currentPage = res.data.data.centroVotacionMetas.current_page
+                this.totalPages = res.data.data.centroVotacionMetas.last_page
+
+            },
+
 
             generateCharts(entities){
 
