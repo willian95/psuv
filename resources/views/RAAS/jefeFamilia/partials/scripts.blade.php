@@ -165,8 +165,9 @@
                     }).then(ans => {
                         
                     })
-                    this.clearFormFamily();
-                    this.indexFamily();
+                    await this.clearFormFamily();
+                    await this.indexFamily();
+                    await this.fetch();
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
@@ -265,6 +266,7 @@
                     })
                     await this.clearFormFamily();
                     await this.indexFamily();
+                    await this.fetch();
                     this.loading = false;
                 } catch (err) {
                     this.loading = false;
