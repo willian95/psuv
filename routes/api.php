@@ -20,7 +20,8 @@ use App\Http\Controllers\Api\RAAS\{
 };
 use App\Http\Controllers\Api\Reportes\{
     RaasController,
-    ReporteCargaController
+    ReporteCargaController,
+    ListadoController
 };
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
@@ -134,3 +135,5 @@ Route::get("metas-ubch/download", [MetasUBCHController::class, "download"]);
 
 Route::post("/reporte-carga/generate", [ReporteCargaController::class, "generate"]);
 Route::get("/reporte-carga/download", [ReporteCargaController::class, "download"]);
+
+Route::get("/listado-jefe/download", [ListadoController::class, "download"]);

@@ -56,6 +56,8 @@ Route::view("/metas-ubch", "metasUBCH.metas");
 
 Route::view("/reporte-carga", "reporteCarga.reporte");
 
+Route::view("/listado-jefes", "reports.listados.listado");
+
 //Auth routes
 Route::group(['middleware' => ['auth']], function() {
 
@@ -87,4 +89,5 @@ Route::group(['middleware' => ['auth']], function() {
         Route::view('reportes/movilizacion_electores', 'reports.raas.voter_mobilization');
     
     });
+
 });
