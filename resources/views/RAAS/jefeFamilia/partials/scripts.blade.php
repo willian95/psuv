@@ -40,6 +40,7 @@
             cedula_jefe_error:"",
             cedula_familiar:"",
             cedula_familiar_error:"",
+            searchText:"",
             //Array data
             tipoDeVotos:[
                 "Duro",
@@ -275,7 +276,8 @@
             },
             async fetch(link = ""){
                 let filters={
-                    jefe_calle_municipio_id:"{{Auth::user()->municipio ? Auth::user()->municipio_id : 0}}"
+                    jefe_calle_municipio_id:"{{Auth::user()->municipio ? Auth::user()->municipio_id : 0}}",
+                    search:this.searchText
                 };
                 let res = await axios.get(link == "" ? "{{ route('api.jefe-familia.index') }}" : link.url,{
                     params:filters
