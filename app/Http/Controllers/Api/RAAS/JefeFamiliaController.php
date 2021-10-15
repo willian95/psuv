@@ -19,6 +19,7 @@ class JefeFamiliaController extends Controller
     public function index( Request $request)
     {
         try {
+            $search = $request->input('search');
             $personal_caracterizacion_id = $request->input('personal_caracterizacion_id');
             $jefe_calle_id = $request->input('jefe_calle_id');
             $jefe_calle_municipio_id = $request->input('jefe_calle_municipio_id');
@@ -42,6 +43,15 @@ class JefeFamiliaController extends Controller
             if ($jefe_calle_municipio_id) {
                 $query->whereHas('JefeCalle.JefeComunidad.comunidad.parroquia', function($query) use($jefe_calle_municipio_id){
                     $query->where('municipio_id',$jefe_calle_municipio_id);
+                });
+            }
+            if ($search) {
+                $query->whereHas('personalCaracterizacion',function($query) use($search){
+                    $query->where("cedula","LIKE","%{$search}%")
+                    ->orWhere("primer_nombre","LIKE","%{$search}%")
+                    ->orWhere("primer_apellido","LIKE","%{$search}%")
+                    ->orWhere("segundo_nombre","LIKE","%{$search}%")
+                    ->orWhere("segundo_apellido","LIKE","%{$search}%");
                 });
             }
             $query->withCount('familiares');

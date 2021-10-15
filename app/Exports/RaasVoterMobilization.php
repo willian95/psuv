@@ -43,7 +43,7 @@ class RaasVoterMobilization implements FromView
         join public.parroquia pa on pa.id=co.parroquia_id
         join public.municipio mu on mu.id=pa.municipio_id
          WHERE {$condition}
-         order by co.nombre, ca.nombre, cedula_jefe_familia;
+         order by mu.nombre,co.nombre, ca.nombre, cedula_jefe_familia;
             "
         ));
         // dd($raw);

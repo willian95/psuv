@@ -50,7 +50,7 @@ class JefeCalleController extends Controller
                     ->orWhere("primer_nombre","LIKE","%{$search}%")
                     ->orWhere("primer_apellido","LIKE","%{$search}%")
                     ->orWhere("segundo_nombre","LIKE","%{$search}%")
-                    ->orWhere("segundo_nombre","LIKE","%{$search}%");
+                    ->orWhere("segundo_apellido","LIKE","%{$search}%");
                 });
             }
             // $this->addFilters($request, $query);
