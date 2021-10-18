@@ -10,7 +10,7 @@ class MunicipioController extends Controller
 {
     function all(){
 
-        return response()->json(Municipio::all());
+        return response()->json(Municipio::orderBy("nombre")->get());
 
     }
 }

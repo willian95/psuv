@@ -14,7 +14,7 @@ class ComunidadController extends Controller
     
     function comunidadesByParroquia($parroquia){
 
-        return response()->json(Comunidad::where("parroquia_id", $parroquia)->get());
+        return response()->json(Comunidad::where("parroquia_id", $parroquia)->orderBy("nombre")->get());
 
     }
 
@@ -102,7 +102,7 @@ class ComunidadController extends Controller
             });
         }
 
-        $comunidades = $query->orderBy("id", "desc")->paginate(15);
+        $comunidades = $query->orderBy("nombre", "desc")->paginate(15);
         
         return response()->json($comunidades);
 
