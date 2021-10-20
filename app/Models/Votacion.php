@@ -11,4 +11,10 @@ class Votacion extends Model
 
     protected $table = "votacion";
 
+    public function elector(){
+
+        return $this->belongsTo(Elector::class);
+
+    }
+
 }

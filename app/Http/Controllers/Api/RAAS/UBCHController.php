@@ -86,7 +86,7 @@ class UBCHController extends Controller
         $cedula = $request->cedulaJefe;
         $jefeUbch = JefeUbch::whereHas('personalCaracterizacion', function($q) use($cedula){
             $q->where('cedula', $cedula);
-        })->with("personalCaracterizacion")->first();
+        })->with("personalCaracterizacion", "centroVotacion")->first();
 
         if($jefeUbch == null){
             return response()->json(["success" => false, "msg" => "Jefe de UBCH no encontrado"]);
