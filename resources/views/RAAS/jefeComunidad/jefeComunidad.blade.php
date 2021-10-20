@@ -316,7 +316,7 @@ const app = new Vue({
                     this.nombreJefeUBCH = res.data.personal_caracterizacion.primer_nombre+" "+res.data.personal_caracterizacion.primer_apellido
                     this.selectedUBCH = res.data.id
                     this.selectedCentroVotacion = res.data.personal_caracterizacion.centro_votacion_id
-                    this.selectedParroquia = res.data.personal_caracterizacion.parroquia_id
+                    this.selectedParroquia = res.data.centro_votacion.parroquia_id
                     await this.getComunidades()
 
                 }
