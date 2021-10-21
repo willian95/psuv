@@ -62,7 +62,7 @@
                                         <td>@{{ index + 1 }}</td>
                                         <td>@{{ centro.nombre }}</td>
                                         <td>
-                                            <button class="btn btn-success">PDF</button>
+                                            <button @click="generatePDF(centro.id)" class="btn btn-success">PDF</button>
                                         </td>
                                         <td>
                                         </td>
@@ -78,9 +78,10 @@
             <!--end::Card-->
         </div>
         <!--end::Container-->
-
+        @include('cuadernillo.modal')
     </div>
 
+    
 
 @endsection
 
