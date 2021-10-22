@@ -32,7 +32,7 @@ class CuadernilloController extends Controller
         $jefeUbch = JefeUbch::where("centro_votacion_id", $centro_votacion_id)->with("personalCaracterizacion")->first();
         $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($centro_votacion_id);
         
-        $pdf = PDF::loadView('pdf\cuadernillo\cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion]);
+        $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion]);
         return $pdf->download('cuadernillo.pdf');
 
     }       
