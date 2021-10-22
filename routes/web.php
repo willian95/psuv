@@ -90,4 +90,11 @@ Route::group(['middleware' => ['auth']], function() {
     
     });
 
+        //Raas modules
+        Route::group(['prefix' => 'instituciones'], function () {
+
+            Route::view('trabajadores', 'instituciones.trabajadores');
+        
+        });
+
 });
