@@ -230,7 +230,7 @@ class RepJobExport extends Command
     function cuadernilloExport(){
 
         $pendingJobs = CuadernilloExportJob::where("status", "not started")->get();
-        dd($pendingJobs);
+      
         foreach($pendingJobs as $job){
 
             try{
@@ -257,6 +257,8 @@ class RepJobExport extends Command
                 $jobModel = CuadernilloExportJob::find($job->id);
                 $jobModel->status = "not started";
                 $jobModel->update();
+
+                dD($e->getMessage());
 
             }
 
