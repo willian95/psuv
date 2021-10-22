@@ -27,7 +27,7 @@ class UBCHController extends Controller
             return response()->json(["success" => false, "msg" => "Esta cédula ya pertenece a un Jefe de UBCH"]);
         }
         
-        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, \Auth::user()->municipio_id);
+        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, $request->municipio_id);
         
         return response()->json($response);
         
