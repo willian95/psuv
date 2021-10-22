@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\ExportJob;
 use App\Models\CuadernilloExportJob;
 use App\Models\Elector;
+use App\Models\Eleccion;
 use App\Models\Votacion;
 use App\Models\JefeUbch;
 use App\Models\CentroVotacion;
