@@ -76,4 +76,10 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function instituciones(){
+
+        return $this->hasMany(UserInstitucion::class);
+
+    }
+
 }
