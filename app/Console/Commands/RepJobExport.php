@@ -261,7 +261,7 @@ class RepJobExport extends Command
                 $jobModel->status = "not started";
                 $jobModel->update();
 
-                dD($e->getMessage());
+                dD($e->getMessage(), $e->getLine());
 
             }
 
