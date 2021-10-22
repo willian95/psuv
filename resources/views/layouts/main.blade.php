@@ -344,8 +344,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									</div>
 								</li>
 								
-								@endrole
-
+								@if(\Auth::user()->email == 'admin@psuv.com')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -362,7 +361,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</li>
 
 											<li class="menu-item" aria-haspopup="true">
-												<a href="#" class="menu-link">
+												<a href="{{ route('cuadernillo') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
 														<span></span>
 													</i>
@@ -373,6 +372,11 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endif
+								
+								@endrole
+
+								
 								
 								
 						

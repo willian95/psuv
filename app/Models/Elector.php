@@ -46,9 +46,9 @@ class Elector extends Model
 
     }
 
-    public function elector(){
+    public function electors(){
 
-        return $this->hasOne(Votacion::class);
+        return $this->hasMany(Votacion::class);
 
     }
 }

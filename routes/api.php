@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\Reportes\{
 };
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
+use App\Http\Controllers\Api\Votaciones\CuadernilloController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Postmark\PostmarkClient;
@@ -153,3 +154,7 @@ Route::post("/reporte-carga/generate", [ReporteCargaController::class, "generate
 Route::get("/reporte-carga/download", [ReporteCargaController::class, "download"]);
 
 Route::get("/listado-jefe/download", [ListadoController::class, "download"]);
+
+Route::get("/cuadernillo", [CuadernilloController::class, "centrosVotacion"]);
+Route::get("/cuadernillo/count-electores/{centro_votacion}", [CuadernilloController::class, "countElectores"]);
+Route::post("/cuadernillo/store-export-job", [CuadernilloController::class, "storeExportJob"]);

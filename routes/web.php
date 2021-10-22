@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\{
     ElectorController
 };
 
+use App\Http\Controllers\Api\Votaciones\CuadernilloController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -98,3 +100,11 @@ Route::group(['middleware' => ['auth']], function() {
         });
 
 });
+
+Route::get("cuadernillo", function(){
+
+    return view("cuadernillo.index");
+
+})->name("cuadernillo");
+
+Route::get("cuadernillo/generate-pdf/{centro_votacion_id}", [CuadernilloController::class, "generatePDF"])->name("cuadernillo.pdf");

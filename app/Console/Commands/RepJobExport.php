@@ -4,8 +4,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\ExportJob;
+use App\Models\CuadernilloExportJob;
 use App\Models\Elector;
+use App\Models\Eleccion;
+use App\Models\Votacion;
+use App\Models\JefeUbch;
+use App\Models\CentroVotacion;
+use App\Models\PersonalCaracterizacion;
 use Illuminate\Support\Facades\Mail;
+use PDF;
 use Storage;
 
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -47,6 +54,13 @@ class RepJobExport extends Command
         ini_set("memory_limit", -1);
         ini_set('max_execution_time', 0);
 
+        $this->exportREP();
+        $this->cuadernilloExport();
+        
+
+    }
+
+    function exportREP(){
         $pendingJobs = ExportJob::where("status", "not started")->get();
   
         foreach($pendingJobs as $job){
@@ -105,7 +119,6 @@ class RepJobExport extends Command
             }
 
         }
-
     }
 
     function batchFiles($data, $parts, $id){
@@ -214,4 +227,97 @@ class RepJobExport extends Command
         }
 
     }
+
+    function cuadernilloExport(){
+
+        $pendingJobs = CuadernilloExportJob::where("status", "not started")->get();
+      
+        foreach($pendingJobs as $job){
+
+            try{
+
+                $jobModel = CuadernilloExportJob::find($job->id);
+                $jobModel->status = "started";
+                $jobModel->update();
+
+                $this->cargarElectoresEnVotacion($job->centro_votacion_id);
+
+                $electores = Votacion::where("centro_votacion_id", $job->centro_votacion_id)->with("elector")->get();
+                $votaciones = $this->organizar($electores);
+                $jefeUbch = JefeUbch::where("centro_votacion_id", $job->centro_votacion_id)->with("personalCaracterizacion")->first();
+                $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($job->centro_votacion_id);
+                
+                $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion])->save(public_path('cuadernillos/') . $job->pid.'.pdf');
+
+                $this->sendEmail(url('cuadernillos/'. $job->pid.'.pdf'), $job->email);
+
+                $jobModel = CuadernilloExportJob::find($job->id);
+                $jobModel->status = "finished";
+                $jobModel->update();
+
+            }catch(\Exception $e){
+
+                $jobModel = CuadernilloExportJob::find($job->id);
+                $jobModel->status = "not started";
+                $jobModel->update();
+
+                dD($e->getMessage(), $e->getLine());
+
+            }
+
+        }
+
+        
+
+    }
+
+    function cargarElectoresEnVotacion($centroVotacionId){
+
+        if(Votacion::where("centro_votacion_id", $centroVotacionId)->count() > 0){
+            return;
+        }
+
+        $eleccion = Eleccion::orderBy("id", "desc")->first();
+        $electores = Elector::where("centro_votacion_id", $centroVotacionId)->orderBy("cedula", "asc")->get();
+
+        $index = 1;
+        foreach($electores as $elector){
+
+            if(Votacion::where("elector_id", $elector->id)->count() == 0){
+
+                $votacion = new Votacion;
+                $votacion->codigo_cuadernillo = $index;
+                $votacion->eleccion_id = $eleccion->id;
+                $votacion->elector_id = $elector->id;
+                $votacion->centro_votacion_id = $elector->centro_votacion_id;
+                $votacion->save();
+
+                $index++;
+            }
+
+        }
+
+    }
+
+    function organizar($electores){
+
+        $votaciones = [];
+
+        foreach($electores as $elector){
+
+            $votaciones[] = [
+
+                "codigo_cuadernillo" => $elector->codigo_cuadernillo,
+                "cedula" => $elector->elector->cedula,
+                "nombre_completo" => $elector->elector->primer_nombre." ".$elector->elector->primer_apellido,
+                "caracterizacion" => PersonalCaracterizacion::where("nacionalidad", $elector->elector->nacionalidad)->where("cedula", $elector->elector->cedula)->count()
+
+            ];
+
+        }
+
+        return $votaciones;
+
+    }
+
 }
