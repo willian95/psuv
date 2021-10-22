@@ -239,12 +239,14 @@ class RepJobExport extends Command
                 $jobModel->status = "started";
                 $jobModel->update();
 
+                $this->cargarElectoresEnVotacion($job->centro_votacion_id);
+
                 $electores = Votacion::where("centro_votacion_id", $job->centro_votacion_id)->with("elector")->get();
                 $votaciones = $this->organizar($electores);
                 $jefeUbch = JefeUbch::where("centro_votacion_id", $job->centro_votacion_id)->with("personalCaracterizacion")->first();
                 $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($job->centro_votacion_id);
 
-                dd($electores);
+                dd($job->centro_votacion_id);
                 
                 $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion])->save(public_path('cuadernillos/') . $job->pid.'.pdf');
 
@@ -267,6 +269,34 @@ class RepJobExport extends Command
         }
 
         
+
+    }
+
+    function cargarElectoresEnVotacion($centroVotacionId){
+
+        if(Votacion::where("centro_votacion_id", $centroVotacionId)->count() > 0){
+            return;
+        }
+
+        $eleccion = Eleccion::orderBy("id", "desc")->first();
+        $electores = Elector::where("centro_votacion_id", $centroVotacionId)->orderBy("cedula", "asc")->get();
+
+        $index = 1;
+        foreach($electores as $elector){
+
+            if(Votacion::where("elector_id", $elector->id)->count() == 0){
+
+                $votacion = new Votacion;
+                $votacion->codigo_cuadernillo = $index;
+                $votacion->eleccion_id = $eleccion->id;
+                $votacion->elector_id = $elector->id;
+                $votacion->centro_votacion_id = $elector->centro_votacion_id;
+                $votacion->save();
+
+                $index++;
+            }
+
+        }
 
     }
 
