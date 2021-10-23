@@ -17,6 +17,10 @@
         background-color: #eee;
     }
 
+    #table-2 td{
+        font-size: 10px;
+    }
+
 </style>
 
 <table style="width: 100%;">
@@ -96,7 +100,7 @@
                 <td style="width: 60px;">{{ $votacion["codigo_cuadernillo"] }}</td>
                 <td style="width: 100px;">{{ $votacion["cedula"] }}</td>
                 <td>{{ $votacion["nombre_completo"] }}</td>
-                <td  style="width: 100px;">@if($votacion["caracterizacion"] >= 1) <img src="{{ public_path('check.png') }}" style="width: 40px;"> @endif</td>
+                <td  style="width: 100px;">@if($votacion["caracterizacion"] >= 1) Sí @endif</td>
                 <td></td>
             </tr>
         @endforeach

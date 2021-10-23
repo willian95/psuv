@@ -296,7 +296,7 @@ const app = new Vue({
 
             this.cedulaSearching = true
 
-            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula})
+            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula, municipio_id: "{{ \Auth::user()->municipio_id }}"})
 
             if(res.data.success == false){
                 this.readonlyCedula = false
