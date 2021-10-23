@@ -68,7 +68,7 @@ class InstitutionSeeder extends Seeder
                     ]
                 );
                 //
-                if(UserInstitucion::where("user_id", $userModel->id)->where("institucion_id", $institucion->id)->count() == 0){
+                if(UserInstitucion::where("user_id", $userModel->id)->where("institucion_id", $user["institucion_id"])->count() == 0){
                     $userInstitutionModel = new UserInstitucion;
                     $userInstitutionModel->user_id = $userModel->id;
                     $userInstitutionModel->institucion_id = $user["institucion_id"];
