@@ -14,22 +14,22 @@
             //Form
             form:{
                 personal_caracterizacion:null,
-                tipo_voto:"",
+                tipo_voto:"duro",
                 telefono_principal:"",
                 telefono_secundario:"",
                 partido_politico_id:"",
-                movilizacion_id:"",
+                movilizacion_id:3,
                 institucion_id:"",
                 cargo_id:"",
                 direccion:""
             },
             familyForm:{
                 personal_caracterizacion:null,
-                tipo_voto:"",
+                tipo_voto:"duro",
                 telefono_principal:"",
                 telefono_secundario:"",
                 partido_politico_id:"",
-                movilizacion_id:"",
+                movilizacion_id:3,
             },
             entityId:null,
             entity:null,
@@ -80,11 +80,11 @@
                 this.actionFamily="create";
                 this.entityFamily=null;
                 this.familyForm.personal_caracterizacion=null;
-                this.familyForm.tipo_voto="";
+                this.familyForm.tipo_voto="duro";
                 this.familyForm.telefono_principal="";
                 this.familyForm.telefono_secundario="";
                 this.familyForm.partido_politico_id="";
-                this.familyForm.movilizacion_id="";
+                this.familyForm.movilizacion_id=3;
             },
             obtenerFamilia(entity){
                 this.entity=entity;
@@ -511,11 +511,14 @@
             },
             clearForm(){
                 this.form.personal_caracterizacion=null;
-                this.form.tipo_voto="";
+                this.form.direccion="";
+                this.form.cargo_id="";
+                this.form.institucion_id="";
+                this.form.tipo_voto="duro";
                 this.form.telefono_principal="";
                 this.form.telefono_secundario="";
                 this.form.partido_politico_id="";
-                this.form.movilizacion_id="";
+                this.form.movilizacion_id=3;
                 this.cedula_trabajador="";
                 this.cedula_trabajador_error="";
                 this.entityId=null;
@@ -550,12 +553,16 @@
                         this.cedula_trabajador_error="";
                         if(response.data.elector.tipo_voto){
                             this.form.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
+                        }else{
+                            this.form.tipo_voto="duro";
                         }
                         if(response.data.elector.partido_politico_id){
                             this.form.partido_politico_id=response.data.elector.partido_politico_id;
                         }
                         if(response.data.elector.movilizacion_id){
                             this.form.movilizacion_id=response.data.elector.movilizacion_id;
+                        }else{
+                            this.form.movilizacion_id=3;
                         }
                         this.form.telefono_principal=response.data.elector.telefono_principal;
                         this.form.telefono_secundario=response.data.elector.telefono_secundario;
@@ -579,69 +586,6 @@
                     this.cedula_jefe_calle_error=err.response.data.message;
                     this.calles=[];
                 }
-            },
-            async obtenerJefe() {
-                /*
-                if(this.cedula_jefe==""){
-                    swal({
-                        text:"Debe ingresar una cédula válida",
-                        icon:"error"
-                    });
-                    return false;
-                }
-                try {
-                    this.loading = true;
-                    let filters = {
-                        cedula:this.cedula_jefe
-                    }
-                    const response = await axios({
-                        method: 'GET',
-                        responseType: 'json',
-                        url: "{{ url('/elector/search-by-cedula') }}",
-                        params: filters
-                    });
-                    this.loading = false;
-                    if(response.data.success==true){
-                        this.form.personal_caracterizacion=response.data.elector;
-                        if(response.data.elector.tipo_voto){
-                            this.form.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
-                        }
-                        if(response.data.elector.movilizacion_id){
-                            this.form.movilizacion_id=response.data.elector.movilizacion_id;
-                        }
-                        if(response.data.elector.partido_politico_id){
-                            this.form.partido_politico_id=response.data.elector.partido_politico_id;
-                        }
-                        if(response.data.elector.telefono_principal){
-                            this.form.telefono_principal=response.data.elector.telefono_principal;
-                        }
-                        if(response.data.elector.telefono_secundario){
-                            this.form.telefono_secundario=response.data.elector.telefono_secundario;
-                        }
-                        this.cedula_jefe_error="";
-                    }else{
-                        this.form.personal_caracterizacion=null;
-                        this.form.tipo_voto="";
-                        this.form.movilizacion_id="";
-                        this.form.partido_politico_id="";
-                        this.form.telefono_principal="";
-                        this.form.telefono_secundario="";
-
-                        this.cedula_jefe_error="Elector no encontrado";
-                        if(response.data.success == false){
-                            swal({
-                                text:response.data.msg,
-                                icon:"error"
-                            })
-
-                            return
-                        }
-                    }
-                } catch (err) {
-                    this.loading = false;
-                    console.log(err)
-                }
-                */
             },
             async obtenerFamiliar() {
                 
@@ -668,12 +612,17 @@
                         this.familyForm.personal_caracterizacion=response.data.elector;
                         if(response.data.elector.tipo_voto){
                             this.familyForm.tipo_voto=response.data.elector.tipo_voto.toLowerCase();
+                        }else{
+                            this.familyForm.tipo_voto="duro";
                         }
                         if(response.data.elector.movilizacion_id){
                             this.familyForm.movilizacion_id=response.data.elector.movilizacion_id;
                         }
                         if(response.data.elector.partido_politico_id){
                             this.familyForm.partido_politico_id=response.data.elector.partido_politico_id;
+                        }else{
+                            this.familyForm.partido_politico_id=3;
+
                         }
                         if(response.data.elector.telefono_principal){
                             this.familyForm.telefono_principal=response.data.elector.telefono_principal;

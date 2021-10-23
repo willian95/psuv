@@ -65,7 +65,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+      {{--                  <div class="col-md-4">
                             <div class="form-group">
                                 <label for="tipoVoto">Tipo de voto</label>
                                 <select class="form-control" v-model="form.tipo_voto" v-show="form.personal_caracterizacion">
@@ -76,7 +76,7 @@
                                     <option value="" selected>Seleccione</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>--}}
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -93,7 +93,7 @@
                                 <input type="tel" class="form-control" v-else disabled>
                             </div>
                         </div>
-
+                        {{--
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="partidoPolitico">Partido político</label>
@@ -106,7 +106,7 @@
                                 </select>
                             </div>
                         </div>
-
+--}}
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="movilizacion">Movilización</label>
@@ -119,6 +119,7 @@
                                 </select>
                             </div>
                         </div>
+                    
 
                         <div class="col-md-12" v-show="form.movilizacion_id==1">
                             <div class="form-group">
