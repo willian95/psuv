@@ -236,9 +236,9 @@ class RepJobExport extends Command
 
             try{
 
-                $jobModel = CuadernilloExportJob::find($job->id);
-                $jobModel->status = "started";
-                $jobModel->update();
+                //$jobModel = CuadernilloExportJob::find($job->id);
+                //$jobModel->status = "started";
+                //$jobModel->update();
 
                 $this->cargarElectoresEnVotacion($job->centro_votacion_id);
 
@@ -246,14 +246,43 @@ class RepJobExport extends Command
                 $votaciones = $this->organizar($electores);
                 $jefeUbch = JefeUbch::where("centro_votacion_id", $job->centro_votacion_id)->with("personalCaracterizacion")->first();
                 $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($job->centro_votacion_id);
-                
-                $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion])->save(public_path('cuadernillos/') . $job->pid.'.pdf');
 
-                $this->sendEmail(url('cuadernillos/'. $job->pid.'.pdf'), $job->email);
+                $splittedArray = array_chunk($votaciones, 1135);
+
+                $part = 1;
+                foreach($splittedArray as $splittedData){
+
+                    if($part == 1){
+                        $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $splittedData, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion])->save(public_path('cuadernillos/') . $job->pid.'.pdf');
+                    }else{
+
+                        $pdf = PDF::loadView('pdf.cuadernillo.continuacion', ["votaciones" => $splittedData, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion])->save(public_path('cuadernillos/') . $job->pid.'parte-'.$part.'.pdf');
+
+                    }
+
+                    $part++;
+                    sleep(5);
+                }
+
+                $files = Storage::disk('publicmedia')->allFiles("cuadernillos");
+                foreach($files as $file){
+
+                    if(strpos($file, $job->pid) > -1){
+                        //dump(public_path()."/".$file);
+                        
+                        exec("cp ".public_path()."/".$file." /".str_replace("cuadernillos/", "", $file));
+                        exec("zip -r /var/www/psuv/public/".$id.".zip /".str_replace("cuadernillos/", "", $file));
+                        exec("rm /".str_replace("cuadernillos/", "", $file));
+                    }
+
+                }
+
+
+                /*$this->sendEmail(url('cuadernillos/'. $job->pid.'.pdf'), $job->email);
 
                 $jobModel = CuadernilloExportJob::find($job->id);
                 $jobModel->status = "finished";
-                $jobModel->update();
+                $jobModel->update();*/
 
             }catch(\Exception $e){
 
