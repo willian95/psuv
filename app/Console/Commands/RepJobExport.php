@@ -236,9 +236,9 @@ class RepJobExport extends Command
 
             try{
 
-                //$jobModel = CuadernilloExportJob::find($job->id);
-                //$jobModel->status = "started";
-                //$jobModel->update();
+                $jobModel = CuadernilloExportJob::find($job->id);
+                $jobModel->status = "started";
+                $jobModel->update();
 
                 $this->cargarElectoresEnVotacion($job->centro_votacion_id);
 
@@ -271,7 +271,7 @@ class RepJobExport extends Command
                         //dump(public_path()."/".$file);
                         
                         exec("cp ".public_path()."/".$file." /".str_replace("cuadernillos/", "", $file));
-                        exec("zip -r /var/www/psuv/public/".$id.".zip /".str_replace("cuadernillos/", "", $file));
+                        exec("zip -r /var/www/psuv/public/".$job->pid.".zip /".str_replace("cuadernillos/", "", $file));
                         exec("rm /".str_replace("cuadernillos/", "", $file));
                     }
 
