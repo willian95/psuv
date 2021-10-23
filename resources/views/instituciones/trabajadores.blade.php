@@ -68,6 +68,10 @@
                                         </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
+                                            <span>Cedula</span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Teléfono</span>
                                         </th>
 
@@ -91,6 +95,7 @@
                                 <tbody>
                                     <tr v-for="result in results">
                                         <td>@{{ result.personal_caracterizacion.full_name }}</td>
+                                        <td>@{{ result.personal_caracterizacion.cedula }}</td>
                                         <td>@{{ result.personal_caracterizacion.telefono_principal }}</td>
                                         <td>@{{ result.personal_caracterizacion.tipo_voto }}</td>
                                         <td>@{{ result.familiares_count }}</td>

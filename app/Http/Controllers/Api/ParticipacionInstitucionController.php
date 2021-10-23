@@ -85,11 +85,20 @@ class ParticipacionInstitucionController extends Controller
                 }   
             }else{
                 $data['personal_caracterizacion_id']=$elector->id;
+                $elector->update([
+                    "telefono_principal"=>$request->telefono_principal,
+                    "telefono_secundario"=>$request->telefono_secundario,
+                    "tipo_voto"=>$request->tipo_voto,
+                    "partido_politico_id"=>$request->partido_politico_id,
+                    "movilizacion_id"=>$request->movilizacion_id,
+                ]);
             }
             //
-            $exist=Model::where('personal_caracterizacion_id',$elector->id)->first();
+            $exist=Model::where('personal_caracterizacion_id',$data['personal_caracterizacion_id'])
+            ->where('institucion_id',$data['institucion_id'])
+            ->first();
             if($exist){
-                throw new \Exception('Este elector ya ha sido registrado como trabajador de una institución.', 404);
+                throw new \Exception('Este elector ya ha sido registrado como trabajador de esta institución.', 404);
             }
             //Create entity
             $entity=Model::create($data);
@@ -157,7 +166,10 @@ class ParticipacionInstitucionController extends Controller
                     "movilizacion_id"=>$request->movilizacion_id,
                 ]);
             }//exist & update
-            $exist=Model::where('personal_caracterizacion_id',$elector->id)->where("id","!=",$id)->first();
+            $exist=Model::where('personal_caracterizacion_id',$elector->id)
+            ->where('institucion_id',$data['institucion_id'])
+            ->where("id","!=",$id)
+            ->first();
             if($exist){
                 throw new \Exception('Este elector ya ha sido registrado como trabajador de esta institución.', 404);
             }
