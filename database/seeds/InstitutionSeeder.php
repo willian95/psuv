@@ -76,6 +76,8 @@ class InstitutionSeeder extends Seeder
                     $userInstitutionModel->institucion_id = $user["institucion_id"];
                     $userInstitutionModel->save();
                 
+
+                    dump($userInstitutionModel);
                 
 
 
