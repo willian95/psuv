@@ -271,8 +271,9 @@ class RepJobExport extends Command
                        
                         dump($file);
                        
-                        exec("zip -r /var/www/psuv/public/cuadernillos/".$job->pid.".zip /var/www/psuv/public/".$file);
-                        exec("rm /var/www/psuv/public/".$file);
+                        exec("cp ".public_path()."/".$file." /".str_replace("cuadernillos/", "", $file));
+                        exec("zip -r /var/www/psuv/public/cuadernillos/".$job->pid.".zip /".str_replace("cuadernillos/", "", $file));
+                        exec("rm /".str_replace("cuadernillos/", "", $file));
                     }
 
                 }
