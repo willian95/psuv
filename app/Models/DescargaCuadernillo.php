@@ -11,7 +11,7 @@ class DescargaCuadernillo extends Model
 
     public function centroVotacion(){
 
-        return $this->belongsTo(centroVotacion::class);
+        return $this->belongsTo(CentroVotacion::class);
 
     }
 

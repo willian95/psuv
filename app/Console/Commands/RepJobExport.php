@@ -280,7 +280,7 @@ class RepJobExport extends Command
                 $descargaCuadernillo = new DescargaCuadernillo;
                 $descargaCuadernillo->eleccion_id = $eleccion = Eleccion::orderBy("id", "desc")->first()->id;
                 $descargaCuadernillo->centro_votacion_id = $job->centro_votacion_id;
-                $descargaCuadernillo->file = public_path()."/".$file;
+                $descargaCuadernillo->file = url('/').$file;
                 $descargaCuadernillo->descargado = true;
                 $descargaCuadernillo->save();
 
