@@ -11,6 +11,7 @@ use Database\Seeders\TipoMovilizacionSeeder;
 use Database\Seeders\ElectorSeeder;
 use Database\Seeders\ComunidadesSeeder;
 use Database\Seeders\CalleSeeder;
+use Database\Seeders\InstitutionSeeder;
 //use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             //ElectorSeeder::class,
             //ComunidadesSeeder::class,
             //CalleSeeder::class,
+            InstitutionSeeder::class
         ];
         //call seeders
         foreach ($seedersArray as $seeder) $this->call($seeder);
