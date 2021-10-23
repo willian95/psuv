@@ -69,9 +69,20 @@
             async generatePDF(centro_votacion){
 
                 let res = await this.countElectores(centro_votacion)
+
                 if(res.amount < 400){
                     window.location.href = "{{ url('cuadernillo/generate-pdf/') }}"+"/"+centro_votacion
-                }else{
+                }
+                else{
+
+                    if(res.descargado != null){
+
+                        if(res.descargado.file){
+                            window.location.href = res.descargado.file
+                            return 
+                        }
+                        
+                    }
 
                     this.selectedCentroVotacion = centro_votacion
                     $(".REPmodal").modal()

@@ -11,6 +11,7 @@ use App\Models\Votacion;
 use App\Models\JefeUbch;
 use App\Models\CentroVotacion;
 use App\Models\PersonalCaracterizacion;
+use App\Models\DescargaCuadernillo;
 use Illuminate\Support\Facades\Mail;
 use PDF;
 use Storage;
@@ -269,8 +270,6 @@ class RepJobExport extends Command
 
                     if(strpos($file, $job->pid) > -1){
                        
-                        dump($file);
-                       
                         exec("cp ".public_path()."/".$file." /".str_replace("cuadernillos/", "", $file));
                         exec("zip -r /var/www/psuv/public/cuadernillos/".$job->pid.".zip /".str_replace("cuadernillos/", "", $file));
                         exec("rm /".str_replace("cuadernillos/", "", $file));
@@ -278,6 +277,12 @@ class RepJobExport extends Command
 
                 }
 
+                $descargaCuadernillo = new DescargaCuadernillo;
+                $descargaCuadernillo->eleccion_id = $eleccion = Eleccion::orderBy("id", "desc")->first()->id;
+                $descargaCuadernillo->centro_votacion_id = $job->centro_votacion_id;
+                $descargaCuadernillo->file = public_path()."/".$file;
+                $descargaCuadernillo->descargado = true;
+                $descargaCuadernillo->save();
 
                 $this->sendEmail(url('cuadernillos/'. $job->pid.'.zip'), $job->email);
 
