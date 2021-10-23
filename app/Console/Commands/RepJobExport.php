@@ -268,21 +268,21 @@ class RepJobExport extends Command
                 foreach($files as $file){
 
                     if(strpos($file, $job->pid) > -1){
-                        //dump(public_path()."/".$file);
+                       
                         dump($file);
-                        //exec("cp ".public_path()."/".$file." /".str_replace("cuadernillos/", "", $file));
-                        exec("zip -r /var/www/psuv/public/".$job->pid.".zip /var/www/psuv/public/".$file);
+                       
+                        exec("zip -r /var/www/psuv/public/cuadernillos/".$job->pid.".zip /var/www/psuv/public/".$file);
                         exec("rm /var/www/psuv/public/".$file);
                     }
 
                 }
 
 
-                /*$this->sendEmail(url('cuadernillos/'. $job->pid.'.pdf'), $job->email);
+                $this->sendEmail(url('cuadernillos/'. $job->pid.'.zip'), $job->email);
 
                 $jobModel = CuadernilloExportJob::find($job->id);
                 $jobModel->status = "finished";
-                $jobModel->update();*/
+                $jobModel->update();
 
             }catch(\Exception $e){
 
