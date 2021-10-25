@@ -55,7 +55,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Cargo</label>
-                                <select class="form-control" v-model="form.cargo_id" v-show="form.personal_caracterizacion" :disabled="entityId">
+                                <select class="form-control" v-model="form.cargo_id" v-show="form.personal_caracterizacion" >
                                     <option value="" selected>Seleccione</option>
                                     <option v-for="cargo in cargos" :value="cargo.id">@{{cargo.nombre}}</option>
                                 </select>
