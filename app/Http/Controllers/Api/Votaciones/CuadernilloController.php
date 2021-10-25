@@ -11,6 +11,7 @@ use App\Models\Eleccion;
 use App\Models\Elector;
 use App\Models\JefeUbch;
 use App\Models\CuadernilloExportJob;
+use App\Models\DescargaCuadernillo;
 use PDF;
 
 class CuadernilloController extends Controller
@@ -18,7 +19,7 @@ class CuadernilloController extends Controller
     
     function centrosVotacion(Request $request){
 
-        $centros = CentroVotacion::where("parroquia_id", $request->parroquia_id)->get();
+        $centros = CentroVotacion::where("parroquia_id", $request->parroquia_id)->with("descargaCuadernillo")->get();
         return response()->json(["centros" => $centros]);
 
     }
@@ -31,6 +32,12 @@ class CuadernilloController extends Controller
         $votaciones = $this->organizar($electores);
         $jefeUbch = JefeUbch::where("centro_votacion_id", $centro_votacion_id)->with("personalCaracterizacion")->first();
         $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($centro_votacion_id);
+
+        $descargaCuadernillo = new DescargaCuadernillo;
+        $descargaCuadernillo->eleccion_id = $eleccion = Eleccion::orderBy("id", "desc")->first()->id;
+        $descargaCuadernillo->centro_votacion_id = $centro_votacion_id;
+        $descargaCuadernillo->descargado = true;
+        $descargaCuadernillo->save();
         
         $pdf = PDF::loadView('pdf.cuadernillo.cuadernillo', ["votaciones" => $votaciones, "jefeUbch" => $jefeUbch, "centroVotacion" => $centroVotacion]);
         return $pdf->download('cuadernillo.pdf');
@@ -88,8 +95,10 @@ class CuadernilloController extends Controller
 
     function countElectores($centroVotacionId){
 
+        $eleccion = Eleccion::orderBy("id", "desc")->first();
         $electoresCount = Elector::where("centro_votacion_id", $centroVotacionId)->orderBy("cedula", "asc")->count();
-        return response()->json(["amount" => $electoresCount]);
+        $descargado = DescargaCuadernillo::where("centro_votacion_id", $centroVotacionId)->where("eleccion_id", $eleccion->id)->first();
+        return response()->json(["amount" => $electoresCount, "descargado" => $descargado]);
 
     }
 

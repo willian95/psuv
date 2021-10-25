@@ -65,6 +65,10 @@
                                             <button @click="generatePDF(centro.id)" class="btn btn-success">PDF</button>
                                         </td>
                                         <td>
+                                
+                                            <div v-if="centro.descarga_cuadernillo.length > 0">
+                                            <span v-if="centro.descarga_cuadernillo[0].descargado == true">Descargado</span>
+                                            </div>
                                         </td>
                                     </tr>
 

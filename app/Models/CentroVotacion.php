@@ -39,4 +39,10 @@ class CentroVotacion extends Model
         return $this->belongsTo(Parroquia::class);
 
     }
+
+    public function descargaCuadernillo(){
+
+        return $this->hasMany(DescargaCuadernillo::class);
+
+    }
 }
