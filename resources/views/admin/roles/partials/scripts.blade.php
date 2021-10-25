@@ -12,21 +12,19 @@
 
             //Form
             form:{
-                role_id:"",
                 name:"",
-                last_name:"",
-                email:"",
-                password:"",
+                permissions:[],
+                guard_name:"api"
             },
             entityId:null,
             searchText:"",
             //Array data
-            roles:[],
+            permissions:[],
             results:[],
 
 
             //paginate
-            modalTitle:"Crear Usuario",
+            modalTitle:"Crear Rol",
             currentPage:1,
             links:"",
             totalPages:"",
@@ -35,7 +33,7 @@
         created: function() {
             this.$nextTick(async function() {
                 await this.fetch();
-                await this.obtenerRoles();
+                await this.obtenerPermisos();
                 this.loading = false;
             });
         },
@@ -43,13 +41,13 @@
             async fetch(link = ""){
                 this.loading = true;
                 let filters={
-                    includes:"roles",
+                    includes:"permissions",
                     search:this.searchText
                 };
                 if(link==""){
                     filters.page=1;
                 }
-                let res = await axios.get(link == "" ? "{{ route('api.users.index') }}" : link.url,{
+                let res = await axios.get(link == "" ? "{{ route('api.roles.index') }}" : link.url,{
                     params:filters
                 })
                 this.results = res.data.data
@@ -60,52 +58,20 @@
             },
             async store(){
                 //Validations
-                if(this.form.role_id==""){
-                    swal({
-                        text:"Debe seleccionar un rol",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.name==""){
+                if(this.form.name==""){
                     swal({
                         text:"Debe ingresar el nombre",
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.last_name==""){
-                    swal({
-                        text:"Debe ingresar el apellido",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.email==""){
-                    swal({
-                        text:"Debe ingresar el correo electrónico",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.password==""){
-                    swal({
-                        text:"Debe ingresar la contraseña",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.password.length<8){
-                    swal({
-                        text:"La contraseña debe tener mínimo 8 dígitos",
-                        icon:"error"
-                    });
-                    return false;
                 }
-                let dataForm=this.form;
-                dataForm.password_confirmation=this.form.password;
                 try {
                     this.loading = true;
                     const response = await axios({
                         method: 'POST',
                         responseType: 'json',
-                        url: "{{ route('api.users.store') }}",
-                        data: dataForm
+                        url: "{{ route('api.roles.store') }}",
+                        data: this.form
                     });
                     this.loading = false;
                     swal({
@@ -135,16 +101,11 @@
             },
             edit(entity){
                 this.action="edit";
-                this.entityId=entity.id;
-                if(entity.roles.length>0){
-                    this.form.role_id=entity.roles[0].id;
-                }else{
-                    this.form.role_id="";
-                }
                 this.form.name=entity.name;
-                this.form.last_name=entity.last_name;
-                this.form.email=entity.email;
-                this.form.password="";
+                this.form.permissions=entity.permissions.map(function(x){
+                    return x.id;
+                });
+                this.entityId=entity.id;
             },
             async suspend(entityId){
                 try {
@@ -152,7 +113,7 @@
                     const response = await axios({
                         method: 'DELETE',
                         responseType: 'json',
-                        url: "{{ url('api/users') }}"+"/"+entityId,
+                        url: "{{ url('api/roles') }}"+"/"+entityId,
                         data: this.form
                     });
                     this.loading = false;
@@ -181,55 +142,21 @@
                 }
             },
             async update(){
-                let dataForm={
-                    name:this.form.name,
-                    last_name:this.form.last_name,
-                    email:this.form.email,
-                    role_id:this.form.role_id
-                }
                 //Validations
-                if(this.form.role_id==""){
-                    swal({
-                        text:"Debe seleccionar un rol",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.name==""){
+                if(this.form.name==""){
                     swal({
                         text:"Debe ingresar el nombre",
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.last_name==""){
-                    swal({
-                        text:"Debe ingresar el apellido",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.email==""){
-                    swal({
-                        text:"Debe ingresar el correo electrónico",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.password!=""){
-                    if(this.form.password.length<8){
-                        swal({
-                            text:"La contraseña debe tener mínimo 8 dígitos",
-                            icon:"error"
-                        });
-                        return false;
-                    }
-                    dataForm.password=this.form.password;
-                    dataForm.password_confirmation=this.form.password;
                 }
               try {
                     this.loading = true;
                     const response = await axios({
                         method: 'PUT',
                         responseType: 'json',
-                        url: "{{ url('api/users') }}"+"/"+this.entityId,
-                        params: dataForm
+                        url: "{{ url('api/roles') }}"+"/"+this.entityId,
+                        params: this.form
                     });
                     this.loading = false;
                     swal({
@@ -252,14 +179,11 @@
                 }
             },
             clearForm(){
-                this.form.role_id="";
                 this.form.name="";
-                this.form.last_name="";
-                this.form.email="";
-                this.form.password="";
+                this.form.permissions=[];
                 this.action="create";
             },
-            async obtenerRoles() {
+            async obtenerPermisos() {
                 try {
                     this.loading = true;
                     let filters = {
@@ -269,7 +193,7 @@
                     const response = await axios({
                         method: 'get',
                         responseType: 'json',
-                        url: "{{ route('api.roles.index') }}",
+                        url: "{{ route('api.permissions.index') }}",
                         params: filters
                     });
 
@@ -283,7 +207,7 @@
                     }
 
                     this.loading = false;
-                    this.roles = response.data.data;
+                    this.permissions = response.data.data;
                 } catch (err) {
                     this.loading = false;
                     console.log(err)

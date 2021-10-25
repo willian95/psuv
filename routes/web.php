@@ -77,6 +77,10 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/usuarios', function () {
             return view('admin.users.view');
         });
+
+        Route::get('/roles', function () {
+            return view('admin.roles.view');
+        });
     
     });
 

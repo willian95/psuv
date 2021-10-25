@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Request as EntityRequest;
 use Spatie\Permission\Models\Role as Model;
-
+use DB;
 class RoleController extends Controller
 {
     /**
@@ -51,6 +51,8 @@ class RoleController extends Controller
             $data=$request->all();
             //Create entity
             $entity=Model::create($data);
+            //Sync permissions
+            $entity->syncPermissions($request->permissions);
             DB::commit();
             $response = $this->getSuccessResponse($entity,"Registro de rol exitoso");
         } catch (\Exception $e) {
@@ -75,6 +77,8 @@ class RoleController extends Controller
             }
             //Update data
             $entity->update($data);
+            //Sync permissions
+            $entity->syncPermissions($request->permissions);
             DB::commit();
             $response = $this->getSuccessResponse($entity , 'Actualización exitosa' );
         } catch (\Exception $e) {
@@ -91,6 +95,10 @@ class RoleController extends Controller
             DB::beginTransaction();
             $entity=Model::find($id);
             $this->validModel($entity, 'Rol no encontrado');
+            $users=\App\Models\User::role($entity->name)->count();
+            if($users>0){
+                throw new \Exception('No puedes eliminar este rol, existe(n) '.$users.' usuario(s) que posee(n) este rol', 400);
+            }
             $entity->delete();
             DB::commit();
             $response = $this->getSuccessResponse('', "Eliminación exitosa" );

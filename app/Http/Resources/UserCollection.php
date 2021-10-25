@@ -24,8 +24,6 @@ class UserCollection extends JsonResource
 			"roles"=>$this->roles
 		];
 
-		$data['role'] = $this->getRoleNames()[0];
-
 		return $data;
 		// return parent::toArray($request);
 	}

@@ -29,10 +29,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'reporte listado jefes'],
             ['name' => 'votaciones cuadernillo'],
             ['name' => 'instituciones'],
-            ['name' => 'movimientos sociales']
+            ['name' => 'movimientos sociales'],
         ];
         foreach ($rolesArray as $role) {
-            Model::firstOrCreate(['name' => $role['name']]);
+            Model::firstOrCreate(
+                [
+                    'name' => $role['name']
+                ],[
+                    'guard_name'=>"api"
+                ]
+            );
         }
         //rolesArray
     }

@@ -15,7 +15,7 @@
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">Gestión de usuarios</h3>
+                        <h3 class="card-label">Gestión de roles</h3>
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Button-->
@@ -30,7 +30,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Nuevo usuario</button>
+                        </span>Nuevo rol</button>
                         <!--end::Button-->
 
                     </div>
@@ -67,23 +67,13 @@
                                         </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
-                                            <span>Correo electrónico</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Rol</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Acción</span>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="result in results">
-                                        <td>@{{ result.full_name }}</td>
-                                        <td>@{{ result.email }}</td>
-                                        <td>@{{ result.roles.length>0 ? result.roles[0].name : 'No posee' }}</td>
+                                        <td>@{{ result.name }}</td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(result)">
                                                 <i class="far fa-edit"></i>
@@ -123,7 +113,7 @@
         </div>
         <!--end::Container-->
 
-        @include("admin.users.partials.modalCreateEdit")
+        @include("admin.roles.partials.modalCreateEdit")
 
 
     </div>
@@ -131,7 +121,7 @@
 @endsection
 
 @push('scripts')
-@include('admin.users.partials.scripts')
+@include('admin.roles.partials.scripts')
 @endpush
 
 @push("styles")

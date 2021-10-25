@@ -57,6 +57,11 @@ Route::prefix('roles')->group(function () {
     require base_path('routes/apiRoutes/RolesApiRoutes.php');
 });
 
+//Permisos Routes
+Route::prefix('permissions')->group(function () {
+    require base_path('routes/apiRoutes/PermissionsApiRoutes.php');
+});
+
 //Users Routes
 Route::prefix('users')->group(function () {
     require base_path('routes/apiRoutes/UsersApiRoutes.php');
