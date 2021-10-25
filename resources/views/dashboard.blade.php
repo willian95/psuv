@@ -79,8 +79,8 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ App\Models\CentroVotacion::count() }}</td>
-                                            <td>{{ App\Models\CentroVotacion::count() }}</td>
                                             <td>0</td>
+                                            <td>{{ App\Models\CentroVotacion::count() }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -92,7 +92,6 @@
                         <div class="col-md-6">
                             <img class="w-100" src="{{ url('vbclark.JPG') }}" alt="">
                             <p class="text-center">Víctor José Clark Boscan - Candidato a la reelencción a la gobernación</p>
-                            <p class="text-center">Gobernador</p>
                         </div>
                         <div class="col-md-6">
 
@@ -106,7 +105,7 @@
                                                 <td>@{{ metaGeneral }}</td>
                                             </tr>
                                             <tr>
-                                                <td><b>Votos</b></td>
+                                                <td><b>Carga</b></td>
                                                 <td>@{{ cargados }}</td>
                                             </tr>
                                         </tbody>
@@ -126,7 +125,7 @@
                                         <tr>
                                             <th>Entidad</th>
                                             <th>Meta</th>
-                                            <th>Votos</th>
+                                            <th>Carga</th>
                                             <th>Pendiente</th>
                                             <th>% de votación</th>
                                         </tr>
