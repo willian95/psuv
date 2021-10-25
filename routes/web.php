@@ -73,6 +73,14 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/comunidad', function () {
             return view('comunidad.index');
         });
+
+        Route::get('/usuarios', function () {
+            return view('admin.users.view');
+        });
+
+        Route::get('/roles', function () {
+            return view('admin.roles.view');
+        });
     
     });
 
@@ -92,12 +100,17 @@ Route::group(['middleware' => ['auth']], function() {
     
     });
 
-        //Raas modules
-        Route::group(['prefix' => 'instituciones'], function () {
+    Route::group(['prefix' => 'instituciones'], function () {
 
-            Route::view('trabajadores', 'instituciones.trabajadores');
+        Route::view('trabajadores', 'instituciones.trabajadores');
         
-        });
+    });
+
+    Route::group(['prefix' => 'movimientos'], function () {
+
+        Route::view('trabajadores', 'movimientos.trabajadores');
+        
+    });
 
 });
 

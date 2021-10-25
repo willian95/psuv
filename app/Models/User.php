@@ -84,4 +84,28 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function movimientos(){
+
+        return $this->hasMany(UserMovimiento::class);
+
+    }
+
+    
+    public function getFullNameAttribute()
+    {
+        $name = $this->name;
+        // if (!empty($this->segundo_nombre)) {
+        //     $name .= ' ' .$this->segundo_nombre;
+        // }
+        if (!empty($this->last_name)) {
+            $name .= ' ' .$this->last_name;
+        }
+        // if (!empty($this->segundo_apellido)) {
+        //     $name .= ' ' .$this->segundo_apellido;
+        // }
+        return $name;
+    }
+
+    
+
 }

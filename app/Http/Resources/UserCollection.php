@@ -16,14 +16,13 @@ class UserCollection extends JsonResource
 	{
 		$data = [
 			"id" => $this->id,
+			"full_name" => $this->full_name,
 			"name" => $this->name,
 			"email" => $this->email,
 			"last_name" => $this->last_name,
 			"profile_image" => $this->profile_image,
 			"roles"=>$this->roles
 		];
-
-		$data['role'] = $this->getRoleNames()[0];
 
 		return $data;
 		// return parent::toArray($request);
