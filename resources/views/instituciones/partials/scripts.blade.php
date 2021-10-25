@@ -624,7 +624,7 @@
                         if(response.data.elector.partido_politico_id){
                             this.familyForm.partido_politico_id=response.data.elector.partido_politico_id;
                         }else{
-                            this.familyForm.partido_politico_id=3;
+                            this.familyForm.partido_politico_id=4;
 
                         }
                         if(response.data.elector.telefono_principal){
