@@ -58,7 +58,7 @@ class InstitutionSeeder extends Seeder
 
            foreach($users as $user){
 
-                $userModel = User::updateOrCreate(
+                /*$userModel = User::updateOrCreate(
                     ["email" => $user["email"]],
                     [
                         "password" => $user["password"],
@@ -78,7 +78,7 @@ class InstitutionSeeder extends Seeder
                     $userInstitutionModel->institucion_id = $user["institucion_id"];
                     $userInstitutionModel->save();
 
-                }
+                }*/
                 
 
                     
