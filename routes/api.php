@@ -10,7 +10,9 @@ use App\Http\Controllers\Api\{
     MovilizacionController, 
     ElectorController, 
     ComunidadController,
-    PersonalCaracterizacionController
+    PersonalCaracterizacionController,
+    CargoController,
+    InstitucionController,
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
@@ -59,36 +61,47 @@ Route::prefix('users')->group(function () {
 Route::prefix('calles')->group(function () {
     require base_path('routes/apiRoutes/CallesApiRoutes.php');
 });
-//Calles Routes
+//Comunidades Routes
 Route::prefix('comunidades')->group(function () {
     require base_path('routes/apiRoutes/ComunidadesApiRoutes.php');
 });
+//Participacion instituciones Routes
+Route::prefix('participacion-instituciones')->group(function () {
+        require base_path('routes/apiRoutes/ParticipacionInstitucionesApiRoutes.php');
+});
 
-//Calles Routes
-Route::prefix('raas/jefe-calle')->group(function () {
-    Route::get("/", [JefeCalleController::class, "index"])->name('api.jefe-calle.index');
-    Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula')->middleware("web");
-    Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
-    Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
-    Route::delete("/{id}", [JefeCalleController::class, "delete"])->name('api.jefe-calle.delete');
-});
-Route::prefix('raas/jefe-familia')->group(function () {
-    Route::get("/", [JefeFamiliaController::class, "index"])->name('api.jefe-familia.index');
-    Route::get("/{cedula}", [JefeFamiliaController::class, "searchByCedulaField"])->name('api.jefe-familia.search-by-cedula');
-    Route::post("/", [JefeFamiliaController::class, "store"])->name('api.jefe-familia.store');
-    Route::put("/{id}", [JefeFamiliaController::class, "update"])->name('api.jefe-familia.update');
-    Route::delete("/{id}", [JefeFamiliaController::class, "delete"])->name('api.jefe-familia.delete');
-});
-Route::prefix('raas/nucleo-familiar')->group(function () {
-    Route::get("/", [JefeFamiliaController::class, "indexFamily"])->name('api.nucleo-familiar.index');
-    Route::post("/", [JefeFamiliaController::class, "storeFamily"])->name('api.nucleo-familiar.store');
-    Route::put("/{familyId}", [JefeFamiliaController::class, "updateFamily"])->name('api.nucleo-familiar.update');
-    Route::delete("/{familyId}", [JefeFamiliaController::class, "deleteFamily"])->name('api.nucleo-familiar.delete');
-});
-Route::prefix('raas/report')->group(function () {
-    Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
-    Route::get("/structure", [RaasController::class, "structure"])->name('api.raas.report.structure');
-    Route::get("/voter_mobilization", [RaasController::class, "voterMobilization"])->name('api.raas.report.voter_mobilization');
+//raas Routes
+Route::prefix('raas')->group(function () {
+    
+    Route::prefix('jefe-calle')->group(function () {
+        Route::get("/", [JefeCalleController::class, "index"])->name('api.jefe-calle.index');
+        Route::get("/{cedula}", [JefeCalleController::class, "searchByCedulaField"])->name('api.jefe-calle.search-by-cedula')->middleware("web");
+        Route::post("/", [JefeCalleController::class, "store"])->name('api.jefe-calle.store');
+        Route::put("/{id}", [JefeCalleController::class, "update"])->name('api.jefe-calle.update');
+        Route::delete("/{id}", [JefeCalleController::class, "delete"])->name('api.jefe-calle.delete');
+    });
+    
+    Route::prefix('jefe-familia')->group(function () {
+        Route::get("/", [JefeFamiliaController::class, "index"])->name('api.jefe-familia.index');
+        Route::get("/{cedula}", [JefeFamiliaController::class, "searchByCedulaField"])->name('api.jefe-familia.search-by-cedula');
+        Route::post("/", [JefeFamiliaController::class, "store"])->name('api.jefe-familia.store');
+        Route::put("/{id}", [JefeFamiliaController::class, "update"])->name('api.jefe-familia.update');
+        Route::delete("/{id}", [JefeFamiliaController::class, "delete"])->name('api.jefe-familia.delete');
+    });
+    
+    Route::prefix('nucleo-familiar')->group(function () {
+        Route::get("/", [JefeFamiliaController::class, "indexFamily"])->name('api.nucleo-familiar.index');
+        Route::post("/", [JefeFamiliaController::class, "storeFamily"])->name('api.nucleo-familiar.store');
+        Route::put("/{familyId}", [JefeFamiliaController::class, "updateFamily"])->name('api.nucleo-familiar.update');
+        Route::delete("/{familyId}", [JefeFamiliaController::class, "deleteFamily"])->name('api.nucleo-familiar.delete');
+    });
+    
+    Route::prefix('report')->group(function () {
+        Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
+        Route::get("/structure", [RaasController::class, "structure"])->name('api.raas.report.structure');
+        Route::get("/voter_mobilization", [RaasController::class, "voterMobilization"])->name('api.raas.report.voter_mobilization');
+    });
+
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -110,7 +123,9 @@ Route::get("centro-votacion-busqueda/{parroquia_nombre}", [CentroVotacionControl
 Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->name('api.partidos-politicos.index');
 
 Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.movilizacion.index');
-
+Route::get("cargos", [CargoController::class, "all"])->name('api.cargo.index');
+Route::get("instituciones", [InstitucionController::class, "all"])->name('api.institucion.index');
+ 
 
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
 Route::post("raas/ubch/update", [UBCHController::class, "update"]);
