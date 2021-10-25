@@ -558,6 +558,9 @@
                         }
                         if(response.data.elector.partido_politico_id){
                             this.form.partido_politico_id=response.data.elector.partido_politico_id;
+                        }else{
+                            this.form.partido_politico_id=3;
+
                         }
                         if(response.data.elector.movilizacion_id){
                             this.form.movilizacion_id=response.data.elector.movilizacion_id;
