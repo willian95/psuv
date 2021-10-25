@@ -88,12 +88,14 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img class="w-100" src="{{ url('vbclark.JPG') }}" alt="">
+                    <div class="row mt-10">
+                        <div class="col-md-5">
+                            <p class="text-center">
+                            <img src="{{ url('capa0.png') }}" alt="" style="border-radius: 20px; height: 450px;">
+                            </p>
                             <p class="text-center">Víctor José Clark Boscan - Candidato a la reelección a la gobernación</p>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
 
                             <div class="row" v-show="metaGeneral > 0">
                                 <div class="col-12">
@@ -116,7 +118,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-10">
                         <div class="col-12">
                             <h2>@{{ type }}</h2>
                             <div class="table-responsive">
