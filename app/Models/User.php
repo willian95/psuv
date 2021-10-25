@@ -84,4 +84,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function movimientos(){
+
+        return $this->hasMany(UserMovimiento::class);
+
+    }
+
+    
+
 }

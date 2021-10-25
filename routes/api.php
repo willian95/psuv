@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\{
     PersonalCaracterizacionController,
     CargoController,
     InstitucionController,
+    MovimientoController,
+    NivelEstructuraController,
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
@@ -67,8 +69,13 @@ Route::prefix('comunidades')->group(function () {
 });
 //Participacion instituciones Routes
 Route::prefix('participacion-instituciones')->group(function () {
-        require base_path('routes/apiRoutes/ParticipacionInstitucionesApiRoutes.php');
+    require base_path('routes/apiRoutes/ParticipacionInstitucionesApiRoutes.php');
 });
+//Participacion movimientos Routes
+Route::prefix('participacion-movimientos')->group(function () {
+    require base_path('routes/apiRoutes/ParticipacionMovimientosApiRoutes.php');
+});
+
 
 //raas Routes
 Route::prefix('raas')->group(function () {
@@ -125,6 +132,8 @@ Route::get("partidos-politicos", [PartidoPoliticoController::class, "all"])->nam
 Route::get("movilizacion", [MovilizacionController::class, "all"])->name('api.movilizacion.index');
 Route::get("cargos", [CargoController::class, "all"])->name('api.cargo.index');
 Route::get("instituciones", [InstitucionController::class, "all"])->name('api.institucion.index');
+Route::get("movimientos", [MovimientoController::class, "all"])->name('api.movimiento.index');
+Route::get("niveles-estructura", [NivelEstructuraController::class, "all"])->name('api.niveles-estructura.index');
  
 
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
