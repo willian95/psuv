@@ -73,6 +73,10 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/comunidad', function () {
             return view('comunidad.index');
         });
+
+        Route::get('/usuarios', function () {
+            return view('admin.users.view');
+        });
     
     });
 

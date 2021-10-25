@@ -51,8 +51,11 @@ Route::prefix('auth')->group(function(){
     Route::get('/logout',[AuthenticationController::class,'logout'])->middleware('api');
 });
 
-// Data routes
-Route::get('/roles', [RoleController::class,'index']);
+
+//Roles Routes
+Route::prefix('roles')->group(function () {
+    require base_path('routes/apiRoutes/RolesApiRoutes.php');
+});
 
 //Users Routes
 Route::prefix('users')->group(function () {

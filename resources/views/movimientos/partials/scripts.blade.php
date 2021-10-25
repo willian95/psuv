@@ -64,7 +64,7 @@
             nivelesEstructura:[],
 
             //paginate
-            modalTitle:"Crear Trabajador",
+            modalTitle:"Crear Personal",
             currentPage:1,
             links:"",
             totalPages:"",

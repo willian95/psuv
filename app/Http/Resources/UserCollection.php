@@ -16,6 +16,7 @@ class UserCollection extends JsonResource
 	{
 		$data = [
 			"id" => $this->id,
+			"full_name" => $this->full_name,
 			"name" => $this->name,
 			"email" => $this->email,
 			"last_name" => $this->last_name,
