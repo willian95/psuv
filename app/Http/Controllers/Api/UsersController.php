@@ -40,7 +40,10 @@ class UsersController extends Controller
                 ->orWhere("last_name", "LIKE", "%".$search."%");
             }
 
-            $this->addFilters($request, $query);
+            $query->orderBy("created_at","DESC");
+            $query=$query->paginate(15);
+            return response()->json($query);
+            // $this->addFilters($request, $query);
 
             $response = $this->getSuccessResponse(
                UserCollection::collection($query),
