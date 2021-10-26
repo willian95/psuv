@@ -15,6 +15,7 @@ class CargoController extends Controller
         if(!is_null($tipo)){
             $query->where('tipo',$tipo);
         }
+        $query->orderBy("nombre","ASC");
         $query=$query->get();
         return response()->json($query);
 

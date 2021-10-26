@@ -13,17 +13,22 @@
             //Form
             form:{
                 role_id:"",
+                municipio_id:"",
                 name:"",
                 last_name:"",
                 email:"",
                 password:"",
+                instituciones:[],
+                movimientos:[],
             },
             entityId:null,
             searchText:"",
             //Array data
             roles:[],
+            municipios:[],
+            movimientos:[],
+            instituciones:[],
             results:[],
-
 
             //paginate
             modalTitle:"Crear Usuario",
@@ -36,6 +41,9 @@
             this.$nextTick(async function() {
                 await this.fetch();
                 await this.obtenerRoles();
+                await this.obtenerMovimientos();
+                await this.obtenerMunicipios();
+                await this.obtenerInstituciones();
                 this.loading = false;
             });
         },
@@ -43,7 +51,11 @@
             async fetch(link = ""){
                 this.loading = true;
                 let filters={
-                    includes:"roles",
+                    includes:[
+                        "roles",
+                        "instituciones",
+                        "movimientos"
+                    ],
                     search:this.searchText
                 };
                 if(link==""){
@@ -99,6 +111,9 @@
                 }
                 let dataForm=this.form;
                 dataForm.password_confirmation=this.form.password;
+                if(!dataForm.municipio_id){
+                    dataForm.municipio_id=null;
+                }
                 try {
                     this.loading = true;
                     const response = await axios({
@@ -141,7 +156,17 @@
                 }else{
                     this.form.role_id="";
                 }
+                this.form.instituciones=entity.instituciones.map(function(x){
+                    return x.institucion_id;
+                });
+                this.form.movimientos=entity.movimientos.map(function(x){
+                    return x.movimiento_id;
+                });
                 this.form.name=entity.name;
+                this.form.municipio_id=entity.municipio_id;
+                if(!entity.municipio_id) {
+                    this.form.municipio_id="";
+                }
                 this.form.last_name=entity.last_name;
                 this.form.email=entity.email;
                 this.form.password="";
@@ -185,7 +210,19 @@
                     name:this.form.name,
                     last_name:this.form.last_name,
                     email:this.form.email,
-                    role_id:this.form.role_id
+                    role_id:this.form.role_id,
+                    instituciones:this.form.instituciones,
+                    movimientos:this.form.movimientos,
+                    municipio_id:this.form.municipio_id,
+                }
+                if(!this.form.municipio_id){
+                    dataForm.municipio_id=null;
+                }
+                if(!this.form.movimientos){
+                    dataForm.movimientos=[];
+                }
+                if(!this.form.instituciones){
+                    dataForm.instituciones=[];
                 }
                 //Validations
                 if(this.form.role_id==""){
@@ -253,10 +290,13 @@
             },
             clearForm(){
                 this.form.role_id="";
+                this.form.municipio_id="";
                 this.form.name="";
                 this.form.last_name="";
                 this.form.email="";
                 this.form.password="";
+                this.form.instituciones=[];
+                this.form.movimientos=[];
                 this.action="create";
             },
             async obtenerRoles() {
@@ -284,6 +324,87 @@
 
                     this.loading = false;
                     this.roles = response.data.data;
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                }
+            },
+            async obtenerMunicipios() {
+                try {
+                    this.loading = true;
+                    let filters = {}
+                    const response = await axios({
+                        method: 'get',
+                        responseType: 'json',
+                        url: "{{ url('api/municipios') }}",
+                        params: filters
+                    });
+
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return false;
+                    }
+
+                    this.loading = false;
+                    this.municipios = response.data;
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                }
+            },
+            async obtenerInstituciones() {
+                try {
+                    this.loading = true;
+                    let filters = {}
+                    const response = await axios({
+                        method: 'get',
+                        responseType: 'json',
+                        url: "{{ route('api.institucion.index') }}",
+                        params: filters
+                    });
+
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return false;
+                    }
+
+                    this.loading = false;
+                    this.instituciones = response.data;
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                }
+            },
+            async obtenerMovimientos() {
+                try {
+                    this.loading = true;
+                    let filters = {}
+                    const response = await axios({
+                        method: 'get',
+                        responseType: 'json',
+                        url: "{{ route('api.movimiento.index') }}",
+                        params: filters
+                    });
+
+                    if(response.data.success == false){
+                        swal({
+                            text:response.data.msg,
+                            icon:"error"
+                        })
+
+                        return false;
+                    }
+
+                    this.loading = false;
+                    this.movimientos = response.data;
                 } catch (err) {
                     this.loading = false;
                     console.log(err)

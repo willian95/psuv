@@ -11,6 +11,7 @@ class NivelEstructuraController extends Controller
     
     function all(Request $request){
         $query=Model::query();
+        $query->orderBy("nombre_nivel","ASC");
         $query=$query->get();
         return response()->json($query);
 
