@@ -96,7 +96,7 @@ class UsersController extends Controller
             if(isset($data['movimientos'])){
                 foreach($data['movimientos'] as $movimiento){
                     $entity->movimientos()->create([
-                        "movimientos"=>$movimiento
+                        "movimiento_id"=>$movimiento
                     ]);
                 }
             }
