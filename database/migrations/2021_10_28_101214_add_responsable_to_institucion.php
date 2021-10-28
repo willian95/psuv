@@ -14,7 +14,7 @@ class AddResponsableToInstitucion extends Migration
     public function up()
     {
         Schema::table('institucion', function (Blueprint $table) {
-            $table->string('responsable', 400);
+            $table->string('responsable', 400)->nullable();
         });
     }
 
