@@ -582,7 +582,7 @@
                         if(response.data.elector.partido_politico_id){
                             this.form.partido_politico_id=response.data.elector.partido_politico_id;
                         }else{
-                            this.form.partido_politico_id=3;
+                            this.form.partido_politico_id=4;
 
                         }
                         if(response.data.elector.movilizacion_id){
@@ -647,7 +647,7 @@
                         if(response.data.elector.partido_politico_id){
                             this.familyForm.partido_politico_id=response.data.elector.partido_politico_id;
                         }else{
-                            this.familyForm.partido_politico_id=3;
+                            this.familyForm.partido_politico_id=4;
 
                         }
                         if(response.data.elector.telefono_principal){

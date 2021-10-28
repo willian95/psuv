@@ -28,6 +28,9 @@ class RoleController extends Controller
             if ($search) {
                 $query->where("name", "LIKE", "%".$search."%");
             }
+            $query->orderBy("created_at","DESC");
+            $query=$query->paginate(15);
+            return response()->json($query);
 
             $this->addFilters($request, $query);
 

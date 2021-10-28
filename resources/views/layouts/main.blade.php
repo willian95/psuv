@@ -152,8 +152,12 @@ License: You must have a valid license purchased only from themeforest(the above
 									</a>
 								</li>--}}
 								
-								@role('admin')
-
+								@canany([
+									'gestion comunidades',
+									"gestion calles",
+									"gestion usuarios",
+									"gestion roles",
+								])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -168,6 +172,27 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Actions</span>
 												</span>
 											</li>
+											@can('gestion usuarios')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('admin/usuarios') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Gestión de usuarios</span>
+												</a>
+											</li>
+											@endcan
+											@can('gestion roles')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('admin/roles') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Gestión de roles</span>
+												</a>
+											</li>
+											@endcan
+											@can('gestion comunidades')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('admin/comunidad') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -176,6 +201,8 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestión de comunidades</span>
 												</a>
 											</li>
+											@endcan
+											@can('gestion calles')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('admin/calles') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -184,11 +211,18 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestión de calles</span>
 												</a>
 											</li>
+											@endcan
 	
 										</ul>
 									</div>
 								</li>
+								@endcanany
 
+								@canany([
+									'raas ubch',
+									"raas jefe comunidad",
+									"raas jefe calle",
+								])
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -203,6 +237,7 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Actions</span>
 												</span>
 											</li>
+											@can('raas ubch')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('raas.ubch') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -211,6 +246,8 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestionar UBCH</span>
 												</a>
 											</li>
+											@endcan
+											@can('raas jefe comunidad')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('raas.jefe-comunidad') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -219,6 +256,8 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestionar Jefe de Comunidad</span>
 												</a>
 											</li>
+											@endcan
+											@can('raas jefe calle')
                                             <li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('raas.jefe-calle') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -227,13 +266,16 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Gestionar Jefe de Calles</span>
 												</a>
 											</li>
+											@endcan
 										</ul>
 									</div>
 								</li>
+								@endcanany
 								
 								
 
-								{{--<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+								@can('rep listado electores')
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
 										<span class="menu-text text-white">REP</span>
@@ -257,10 +299,10 @@ License: You must have a valid license purchased only from themeforest(the above
 											</li>
 										</ul>
 									</div>
-								</li>--}}
+								</li>
+								@endcan
 
-								@endrole
-
+								@can('nucleos familiares')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -286,9 +328,14 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endcan
 								
-								@role('admin')
-
+								@canany([
+									"reporte estructura raas",	
+									"reporte movilizacion electores",	
+									"reporte carga",
+									"reporte listado jefes",
+								])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -303,6 +350,7 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Actions</span>
 												</span>
 											</li>
+											@can("reporte estructura raas")
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('raas/reportes/estructura') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -311,8 +359,9 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Estructura RAAS</span>
 												</a>
 											</li>
-
+											@endcan
 											
+											@can("reporte movilizacion electores")
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('raas/reportes/movilizacion_electores') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -321,7 +370,9 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Movilización de electores</span>
 												</a>
 											</li>
+											@endcan
 
+											@can("reporte carga")
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('reporte-carga') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -330,7 +381,9 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Reporte de carga</span>
 												</a>
 											</li>
+											@endcan
 
+											@can("reporte listado jefes")
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('listado-jefes') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -339,13 +392,15 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Listado</span>
 												</a>
 											</li>
+											@endcan
 	
 										</ul>
 									</div>
 								</li>
+								@endcanany
 
 								<!-- Inicio instituciones -->
-
+								@can('instituciones')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -371,10 +426,11 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endcan
 								<!-- Fin instituciones -->
 
 								<!-- Inicio movimientos -->
-
+								@can('movimientos sociales')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -400,9 +456,10 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endcan
 								<!-- Fin movimientos -->
 								
-								@if(\Auth::user()->email == 'admin@psuv.com')
+								@can('votaciones cuadernillo')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -439,21 +496,16 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
-								@endif
+								@endcan
 								
-								@endrole
-
-								
-								
-								
-						
-
-								{{--<li class="menu-item" aria-haspopup="true">
+								@can('metas ubch')
+								<li class="menu-item" aria-haspopup="true">
 									<a href="{{ url('/metas-ubch') }}" class="menu-link" style="color: #fff !important">
 										<i class="menu-icon flaticon2-group text-white" style="color: #fff !important"></i>
 										<span class="menu-text text-white">Metas UBCH</span>
 									</a>
-								</li>--}}
+								</li>
+								@endcan
 
 								
 

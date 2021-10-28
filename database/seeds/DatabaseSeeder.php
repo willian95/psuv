@@ -25,18 +25,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $seedersArray = [
-            RoleSeeder::class,
-            UsersSeeder::class,
-            EstadoSeeder::class,
+            // RoleSeeder::class,
+            // UsersSeeder::class,
+            // EstadoSeeder::class,
             //MunicipioSeeder::class,
             //ParroquiaSeeder::class,
             //CentroVotacionSeeder::class,
-            PartidoPoliticoSeeder::class,
-            TipoMovilizacionSeeder::class,
+            // PartidoPoliticoSeeder::class,
+            // TipoMovilizacionSeeder::class,
             //ElectorSeeder::class,
             //ComunidadesSeeder::class,
             //CalleSeeder::class,
-            InstitutionSeeder::class,
+
+            // InstitutionSeeder::class,
             PermissionSeeder::class,
 
         ];

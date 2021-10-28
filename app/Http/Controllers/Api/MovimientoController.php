@@ -18,6 +18,7 @@ class MovimientoController extends Controller
             if(count($just_ids)>0)
             $query->whereIn('id',$just_ids);
         }
+        $query->orderBy("nombre","ASC");
         $query=$query->get();
         return response()->json($query);
 

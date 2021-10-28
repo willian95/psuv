@@ -17,6 +17,7 @@ class PermissionSeeder extends Seeder
           //Roles
           $rolesArray=[
             ['name' => 'gestion usuarios'],
+            ['name' => 'gestion roles'],
             ['name' => 'gestion comunidades'],
             ['name' => 'gestion calles'],
             ['name' => 'raas ubch'],
@@ -30,6 +31,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'votaciones cuadernillo'],
             ['name' => 'instituciones'],
             ['name' => 'movimientos sociales'],
+            ['name' => 'rep listado electores'],
+            ['name' => 'metas ubch '],
         ];
         foreach ($rolesArray as $role) {
             Model::firstOrCreate(
