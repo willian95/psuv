@@ -426,6 +426,15 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Cuadernillos</span>
 												</a>
 											</li>
+
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('cuadernillo') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Gestionar votos</span>
+												</a>
+											</li>
 	
 										</ul>
 									</div>
