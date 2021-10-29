@@ -82,7 +82,7 @@
             <!--end::Card-->
         </div>
         <!--end::Container-->
-        @include('cuadernillo.modal')
+        @include('votaciones.cuadernillo.modal')
     </div>
 
     
@@ -91,6 +91,6 @@
 
 @push("scripts")
 
-    @include("cuadernillo.script")
+    @include("votaciones.cuadernillo.script")
 
 @endpush

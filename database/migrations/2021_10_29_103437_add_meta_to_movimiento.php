@@ -14,10 +14,10 @@ class AddMetaToMovimiento extends Migration
     public function up()
     {
         Schema::table('movimiento', function (Blueprint $table) {
-            $table->integer("meta");
-            $table->string("responsable", 100);
-            $table->string("telefono", 12);
-            $table->unsignedBigInteger("municipio_id");
+            $table->integer("meta")->default(0);
+            $table->string("responsable", 100)->default("");
+            $table->string("telefono", 12)->default("");
+            $table->unsignedBigInteger("municipio_id")->default("1");
             $table->foreign("municipio_id")->references("id")->on("municipio");
         });
     }

@@ -23,4 +23,5 @@ class CentroVotacionController extends Controller
 
     }
 
+
 }
