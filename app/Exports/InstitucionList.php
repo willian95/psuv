@@ -49,11 +49,13 @@ class InstitucionList implements FromView
         $condition.=" AND movilizacion.nombre='".$this->nombreMovilizacion."'";
         // if($this->voto)
         // $condition.=" AND cv.nombre='".$this->voto."'";
+        $view="exports.instituciones.listado";
         if($this->personal=="Trabajadores"){
             $raw=
-            DB::select(DB::raw("SELECT ins.nombre institucion, municipio.nombre municipio, parroquia.nombre parroquia, cv.codigo codigo_centro_votacion, cv.nombre centro_votacion, pc.cedula,
+            DB::select(DB::raw("SELECT ins.nombre institucion, municipio.nombre municipio, parroquia.nombre parroquia, 
+            cv.codigo codigo_centro_votacion, cv.nombre centro_votacion, pc.cedula,
             (pc.primer_apellido ||' '|| pc.primer_nombre) nombre_trabajador, cargo.nombre cargo, prin.direccion,
-            (select ejercio_voto from votacion where elector.id=elector_id), movilizacion.nombre
+            (select ejercio_voto from votacion where elector.id=elector_id), movilizacion.nombre as movilizacion_nombre
             FROM public.institucion ins
             join public.participacion_institucion prin on prin.institucion_id=ins.id
             join public.personal_caracterizacion pc on pc.id=prin.personal_caracterizacion_id
@@ -67,13 +69,14 @@ class InstitucionList implements FromView
             order by municipio.nombre, parroquia.nombre, pc.cedula;"
             ));
         }else{
-            //1xfamilia
+        $view="exports.instituciones.listado_familiares";
+        //1xfamilia
             $raw=
             DB::select(DB::raw("SELECT ins.nombre institucion, (select cedula from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) cedula_trabajador,
             (select primer_apellido||' '||primer_nombre from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) trabajador,
             (select telefono_principal from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) telefono_trabajador,
             municipio.nombre municipio, parroquia.nombre parroquia,pc.cedula, (pc.primer_apellido||' '||pc.primer_nombre) familiar, pc.telefono_principal, cv.codigo, cv.nombre,
-            (select ejercio_voto from votacion where elector.id=elector_id), movilizacion.nombre
+            (select ejercio_voto from votacion where elector.id=elector_id), movilizacion.nombre as movilizacion_nombre
             FROM public.institucion ins
             join public.participacion_institucion prin on prin.institucion_id=ins.id
             join public.familiar_trabajador ft on ft.participacion_institucion_id=prin.id
@@ -88,8 +91,7 @@ class InstitucionList implements FromView
             ));
         }//
 
-        // dd($raw);
-        return view('exports.instituciones.listado', [
+        return view($view, [
             'results' => $raw
         ]);
     }

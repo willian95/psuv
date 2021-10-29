@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Reportes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\RaasVoterMobilization;
+use App\Exports\InstitucionList;
 class InstitucionController extends Controller
 {
     public function institutionList(Request $request){
@@ -18,7 +18,7 @@ class InstitucionController extends Controller
         $voto = $request->input('voto');
         $now=\Carbon\Carbon::now()->format('d-m-Y H:i:s');
         $excelName='Reporte movilización electoral_'.$now.'.xlsx';
-        return Excel::download(new RaasVoterMobilization(
+        return Excel::download(new InstitucionList(
             $municipio_nombre,
             $parroquia_nombre,
             $centro_votacion_nombre,

@@ -11,6 +11,8 @@
         <th>Familiar</th>
         <th>Teléfono principal</th>
         <th>Código</th>
+        <th>Nombre</th>
+        <th>Ejercio voto</th>
         <th>Movilización</th>
     </tr>
     </thead>
@@ -28,6 +30,7 @@
             <td>{{ $result->telefono_principal }}</td>
             <td>{{ $result->codigo }}</td>
             <td>{{ $result->nombre }}</td>
+            <td>{{ $result->ejercio_voto }}</td>
             <td>{{ $result->movilizacion_nombre }}</td>
         </tr>
     @endforeach
