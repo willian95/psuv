@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Reportes\{
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
 use App\Http\Controllers\Api\Votaciones\CuadernilloController;
+use App\Http\Controllers\Api\Votaciones\GestionarVotosController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Postmark\PostmarkClient;
@@ -174,3 +175,6 @@ Route::get("/listado-jefe/download", [ListadoController::class, "download"]);
 Route::get("/cuadernillo", [CuadernilloController::class, "centrosVotacion"]);
 Route::get("/cuadernillo/count-electores/{centro_votacion}", [CuadernilloController::class, "countElectores"]);
 Route::post("/cuadernillo/store-export-job", [CuadernilloController::class, "storeExportJob"]);
+
+Route::get("/gestionar-votos/get-centros", [GestionarVotosController::class, "getCentrosVotacion"]);
+Route::get("/gestionar-votos/search-centros", [GestionarVotosController::class, "searchCentrosVotacion"]);

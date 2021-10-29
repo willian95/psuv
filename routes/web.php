@@ -112,12 +112,23 @@ Route::group(['middleware' => ['auth']], function() {
         
     });
 
+    Route::get("cuadernillo", function(){
+
+        return view("votaciones.cuadernillo.index");
+    
+    })->name("cuadernillo");
+
+    Route::get("cuadernillo/generate-pdf/{centro_votacion_id}", [CuadernilloController::class, "generatePDF"])->name("cuadernillo.pdf");
+
+    Route::get("gestionar-votos", function(){
+
+        return view("votaciones.gestionarVotos.index");
+    
+    })->name("gestionar-voto");
+
+
 });
 
-Route::get("cuadernillo", function(){
 
-    return view("cuadernillo.index");
 
-})->name("cuadernillo");
 
-Route::get("cuadernillo/generate-pdf/{centro_votacion_id}", [CuadernilloController::class, "generatePDF"])->name("cuadernillo.pdf");
