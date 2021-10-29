@@ -33,4 +33,10 @@ class Municipio extends Model
         return $this->hasMany(MetasUbch::class);
 
     }
+
+    public function personalSalaTecnicas(){
+
+        return $this->hasMany(PersonalSalaTecnica::class);
+
+    }
 }

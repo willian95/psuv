@@ -29,9 +29,16 @@ use App\Http\Controllers\Api\Reportes\{
     InstitucionController as InstitucionReportController
 };
 
+use App\Http\Controllers\Api\Votaciones\{
+    CuadernilloController,
+    GestionarVotosController
+};
+
+use App\Http\Controllers\Api\SalaTecnica\{
+    AsociarPersonalController
+};
+
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
-use App\Http\Controllers\Api\Votaciones\CuadernilloController;
-use App\Http\Controllers\Api\Votaciones\GestionarVotosController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Postmark\PostmarkClient;
@@ -184,3 +191,9 @@ Route::post("/cuadernillo/store-export-job", [CuadernilloController::class, "sto
 
 Route::get("/gestionar-votos/get-centros", [GestionarVotosController::class, "getCentrosVotacion"]);
 Route::get("/gestionar-votos/search-centros", [GestionarVotosController::class, "searchCentrosVotacion"]);
+
+Route::get("sala-tecnica/get-personal", [AsociarPersonalController::class, "getPersonal"]);
+Route::post("sala-tecnica/store-personal", [AsociarPersonalController::class, "storePersonal"]);
+Route::post("sala-tecnica/update-personal", [AsociarPersonalController::class, "updatePersonal"]);
+Route::post("sala-tecnica/delete-personal", [AsociarPersonalController::class, "deletePersonal"]);
+Route::get("sala-tecnica/search-personal", [AsociarPersonalController::class, "searchPersonal"]);

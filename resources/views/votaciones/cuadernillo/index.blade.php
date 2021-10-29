@@ -39,8 +39,8 @@
                         
                         <div class="col-md-2">
                             <label style="visibility: hidden;">Centro de Votación</label>
-                            <button class="btn btn-primary" @click="getCentrosVotacion()" v-if="!loading">Buscar</button>
-                            <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="loading"></div>
+                            <button class="btn btn-primary" @click="getCentrosVotacion()" v-if="!sarchLoader">Buscar</button>
+                            <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="sarchLoader"></div>
                         </div>
                         
                     </div>

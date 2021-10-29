@@ -127,6 +127,8 @@ Route::group(['middleware' => ['auth']], function() {
     
     })->name("gestionar-voto");
 
+    Route::view("sala-tecnica/asociar-personal", "salaTecnica.asociarPersonal.index")->name("asociar-personal");
+
 
 });
 
