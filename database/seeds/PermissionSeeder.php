@@ -30,6 +30,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'reporte listado jefes'],
             ['name' => 'votaciones cuadernillo'],
             ['name' => 'instituciones'],
+            ['name' => 'instituciones listado'],
             ['name' => 'movimientos sociales'],
             ['name' => 'rep listado electores'],
             ['name' => 'metas ubch '],

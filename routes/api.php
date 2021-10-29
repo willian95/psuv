@@ -25,7 +25,8 @@ use App\Http\Controllers\Api\RAAS\{
 use App\Http\Controllers\Api\Reportes\{
     RaasController,
     ReporteCargaController,
-    ListadoController
+    ListadoController,
+    InstitucionController as InstitucionReportController
 };
 
 use App\Http\Controllers\Api\MetasUBCH\MetasUBCHController;
@@ -116,8 +117,13 @@ Route::prefix('raas')->group(function () {
         Route::get("/", [PersonalCaracterizacionController::class, "exportToExcel"])->name('api.raas.report');
         Route::get("/structure", [RaasController::class, "structure"])->name('api.raas.report.structure');
         Route::get("/voter_mobilization", [RaasController::class, "voterMobilization"])->name('api.raas.report.voter_mobilization');
+        Route::get("/institutions/list", [InstitucionReportController::class, "institutionList"])->name('api.institutions.report.list');
     });
 
+});
+
+Route::prefix('report')->group(function () {
+    Route::get("/institutions/list", [InstitucionReportController::class, "institutionList"])->name('api.institutions.report.list');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
