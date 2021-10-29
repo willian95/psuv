@@ -136,12 +136,12 @@
                         icon:"error"
                     });
                     return false;
-                }else if(this.familyForm.telefono_secundario==""){
-                    swal({
-                        text:"Debe ingresar un teléfono secundario",
-                        icon:"error"
-                    });
-                    return false;
+                // }else if(this.familyForm.telefono_secundario==""){
+                //     swal({
+                //         text:"Debe ingresar un teléfono secundario",
+                //         icon:"error"
+                //     });
+                //     return false;
                 }else if(this.familyForm.partido_politico_id==""){
                     swal({
                         text:"Debe seleccionar un partido político",
@@ -213,12 +213,12 @@
                         icon:"error"
                     });
                     return false;
-                }else if(this.familyForm.telefono_secundario==""){
-                    swal({
-                        text:"Debe ingresar un teléfono secundario",
-                        icon:"error"
-                    });
-                    return false;
+                // }else if(this.familyForm.telefono_secundario==""){
+                //     swal({
+                //         text:"Debe ingresar un teléfono secundario",
+                //         icon:"error"
+                //     });
+                //     return false;
                 }else if(this.familyForm.partido_politico_id==""){
                     swal({
                         text:"Debe seleccionar un partido político",

@@ -102,7 +102,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::group(['prefix' => 'instituciones'], function () {
 
-        Route::view('trabajadores', 'instituciones.trabajadores');
+        Route::view('trabajadores', 'instituciones.trabajadores.view');
+        Route::view('listado', 'instituciones.listado.view');
         
     });
 

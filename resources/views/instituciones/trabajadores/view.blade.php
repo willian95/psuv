@@ -142,8 +142,8 @@
         </div>
         <!--end::Container-->
 
-        @include("instituciones.partials.modalCreateEdit")
-        @include("instituciones.partials.modalFamilyCrud")
+        @include("instituciones.trabajadores.partials.modalCreateEdit")
+        @include("instituciones.trabajadores.partials.modalFamilyCrud")
 
 
     </div>
@@ -151,7 +151,7 @@
 @endsection
 
 @push('scripts')
-@include('instituciones.partials.scripts')
+@include('instituciones.trabajadores.partials.scripts')
 @endpush
 
 @push("styles")

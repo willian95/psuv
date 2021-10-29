@@ -400,7 +400,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								@endcanany
 
 								<!-- Inicio instituciones -->
-								@can('instituciones')
+								@canany(['instituciones',"instituciones listado"])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -415,6 +415,7 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Actions</span>
 												</span>
 											</li>
+											@can('instituciones')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('instituciones/trabajadores') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -423,10 +424,21 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Asociar trabajador</span>
 												</a>
 											</li>
+											@endcan
+											@can('instituciones listado')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('instituciones/listado') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Listado</span>
+												</a>
+											</li>
+											@endcan
 										</ul>
 									</div>
 								</li>
-								@endcan
+								@endcanany
 								<!-- Fin instituciones -->
 
 								<!-- Inicio movimientos -->

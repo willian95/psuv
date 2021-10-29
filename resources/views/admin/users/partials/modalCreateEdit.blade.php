@@ -82,7 +82,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Correo electrónico</label>
-                                <input type="email" class="form-control" maxlength="30" v-model="form.email" :disabled="entityId">
+                                <input type="email" class="form-control" maxlength="30" v-model="form.email" :disabled="action=='edit'">
                             </div>
                         </div>
 
