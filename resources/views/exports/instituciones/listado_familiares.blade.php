@@ -31,7 +31,7 @@
             <td>{{ $result->codigo }}</td>
             <td>{{ $result->nombre }}</td>
             <td>{{ $result->ejercio_voto }}</td>
-            <td>{{ $result->movilizacion_nombre }}</td>
+            <td>{{ $result->movilizacion }}</td>
         </tr>
     @endforeach
     </tbody>

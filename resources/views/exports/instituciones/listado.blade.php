@@ -22,12 +22,12 @@
             <td>{{ $result->parroquia }}</td>
             <td>{{ $result->codigo_centro_votacion }}</td>
             <td>{{ $result->centro_votacion }}</td>
-            <td>{{ $result->cedula }}</td>
+            <td>{{ $result->cedula_trabajador }}</td>
             <td>{{ $result->nombre_trabajador }}</td>
             <td>{{ $result->cargo }}</td>
             <td>{{ $result->direccion }}</td>
             <td>{{ $result->ejercio_voto }}</td>
-            <td>{{ $result->movilizacion_nombre }}</td>
+            <td>{{ $result->movilizacion }}</td>
         </tr>
     @endforeach
     </tbody>
