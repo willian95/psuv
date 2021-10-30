@@ -34,6 +34,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'movimientos sociales'],
             ['name' => 'rep listado electores'],
             ['name' => 'metas ubch '],
+            ['name' => 'sala tecnica'],
         ];
         foreach ($rolesArray as $role) {
             Model::firstOrCreate(

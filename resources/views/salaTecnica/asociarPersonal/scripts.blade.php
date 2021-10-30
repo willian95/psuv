@@ -38,7 +38,7 @@
         methods: {
 
             create(){
-
+                this.errors = []
                 this.modalTitle = "Nuevo personal"
                 this.action = "create"
                 this.nombre = ""
@@ -61,7 +61,7 @@
             },
 
             edit(personal){
-
+                this.errors = []
                 this.personalId = personal.id
                 this.readonlyMunicipio = true
                 this.selectedMunicipio = personal.municipio_id
