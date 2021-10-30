@@ -176,7 +176,7 @@
                     }
 
                 }catch(err){
-                    this.storeLoader = false
+                    this.updateLoader = false
                     swal({
                         text:"Hay algunos campos que debes revisar",
                         icon: "error"
@@ -185,7 +185,7 @@
                     this.errors = err.response.data.errors
 
                 }
-                this.storeLoader = false
+                this.updateLoader = false
 
             },
 
