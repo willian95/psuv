@@ -71,7 +71,7 @@ class InstitucionList implements FromView
         $view="exports.instituciones.listado_familiares";
         //1xfamilia
             $raw=
-            DB::select(DB::raw("﻿SELECT ins.nombre institucion, (select cedula from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) cedula_trabajador,
+            DB::select(DB::raw("SELECT ins.nombre institucion, (select cedula from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) cedula_trabajador,
             (select primer_apellido||' '||primer_nombre from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) trabajador,
             (select telefono_principal from public.personal_caracterizacion where id=prin.personal_caracterizacion_id) telefono_trabajador,
             pc.cedula cedula_familiar, (pc.primer_apellido||' '||pc.primer_nombre) familiar, pc.telefono_principal telefono_familiar, municipio.nombre municipio, parroquia.nombre parroquia,

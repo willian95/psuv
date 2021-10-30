@@ -26,7 +26,8 @@ use App\Http\Controllers\Api\Reportes\{
     RaasController,
     ReporteCargaController,
     ListadoController,
-    InstitucionController as InstitucionReportController
+    InstitucionController as InstitucionReportController,
+    MovimientoReportController
 };
 
 use App\Http\Controllers\Api\Votaciones\{
@@ -131,6 +132,7 @@ Route::prefix('raas')->group(function () {
 
 Route::prefix('report')->group(function () {
     Route::get("/institutions/list", [InstitucionReportController::class, "institutionList"])->name('api.institutions.report.list');
+    Route::get("/movements/list", [MovimientoReportController::class, "movementList"])->name('api.movements.report.list');
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {

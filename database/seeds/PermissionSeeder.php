@@ -32,6 +32,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'instituciones'],
             ['name' => 'instituciones listado'],
             ['name' => 'movimientos sociales'],
+            ['name' => 'movimientos sociales listado'],
             ['name' => 'rep listado electores'],
             ['name' => 'metas ubch '],
             ['name' => 'sala tecnica'],

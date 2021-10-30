@@ -110,6 +110,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'movimientos'], function () {
 
         Route::view('trabajadores', 'movimientos.trabajadores');
+        Route::view('listado', 'movimientos.listado.view');
         
     });
 

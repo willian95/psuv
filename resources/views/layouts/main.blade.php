@@ -442,7 +442,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!-- Fin instituciones -->
 
 								<!-- Inicio movimientos -->
-								@can('movimientos sociales')
+								@canany(['movimientos sociales','movimientos sociales listado'])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -457,6 +457,7 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Actions</span>
 												</span>
 											</li>
+											@can('movimientos sociales')
 											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ url('movimientos/trabajadores') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
@@ -465,10 +466,21 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="menu-text text-white">Asociar personal</span>
 												</a>
 											</li>
+											@endcan
+											@can('movimientos sociales listado')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('movimientos/listado') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Listado</span>
+												</a>
+											</li>
+											@endcan
 										</ul>
 									</div>
 								</li>
-								@endcan
+								@endcanany
 								<!-- Fin movimientos -->
 								
 								@can('votaciones cuadernillo')
