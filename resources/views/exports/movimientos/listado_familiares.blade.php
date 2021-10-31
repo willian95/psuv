@@ -28,7 +28,11 @@
             <td>{{ $result->parroquia }}</td>
             <td>{{ $result->codigo_centro_votacion }}</td>
             <td>{{ $result->centro_votacion }}</td>
-            <td>{{ $result->ejercio_voto }}</td>
+            @if($result->ejercio_voto=="f")
+            <td>SI</td>
+            @else
+            <td>NO</td>
+            @endif
             <td>{{ $result->movilizacion }}</td>
         </tr>
     @endforeach

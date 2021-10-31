@@ -30,7 +30,11 @@
             <td>{{ $result->area_atencion }}</td>
             <td>{{ $result->nivel_estructura }}</td>
             <td>{{ $result->direccion }}</td>
-            <td>{{ $result->ejercio_voto }}</td>
+            @if($result->ejercio_voto=="f")
+            <td>SI</td>
+            @else
+            <td>NO</td>
+            @endif
             <td>{{ $result->movilizacion }}</td>
         </tr>
     @endforeach

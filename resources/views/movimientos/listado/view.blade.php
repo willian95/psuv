@@ -93,8 +93,8 @@ $movilizaciones=\App\Models\Movilizacion::all();
                         <div class="col-6">
                             <label for="">Voto</label>
                             <select class="form-control" v-model="voto">
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
+                                <option value="t">SI</option>
+                                <option value="f">NO</option>
                             </select>
                         </div>
                         <!-- End Voto -->
@@ -146,7 +146,7 @@ $movilizaciones=\App\Models\Movilizacion::all();
             movimiento_nombre:"",
             movilizacion_nombre:"",
             personal:"Trabajadores",
-            voto:"SI",
+            voto:"t",
         },
         created: function() {
             this.$nextTick(async function() {

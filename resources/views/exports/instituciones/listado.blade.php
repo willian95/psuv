@@ -26,7 +26,11 @@
             <td>{{ $result->nombre_trabajador }}</td>
             <td>{{ $result->cargo }}</td>
             <td>{{ $result->direccion }}</td>
-            <td>{{ $result->ejercio_voto }}</td>
+            @if($result->ejercio_voto=="f")
+            <td>SI</td>
+            @else
+            <td>NO</td>
+            @endif
             <td>{{ $result->movilizacion }}</td>
         </tr>
     @endforeach

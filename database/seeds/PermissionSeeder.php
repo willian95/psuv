@@ -36,6 +36,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'rep listado electores'],
             ['name' => 'metas ubch '],
             ['name' => 'sala tecnica'],
+            ['name' => 'comandos regional'],
+            ['name' => 'comandos municipal'],
+            ['name' => 'comandos parroquial'],
+            ['name' => 'comandos enlace'],
         ];
         foreach ($rolesArray as $role) {
             Model::firstOrCreate(

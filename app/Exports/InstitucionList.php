@@ -47,8 +47,8 @@ class InstitucionList implements FromView
         $condition.=" AND ins.nombre='".$this->nombreInstitucion."'";
         if($this->nombreMovilizacion)
         $condition.=" AND movilizacion.nombre='".$this->nombreMovilizacion."'";
-        // if($this->voto)
-        // $condition.=" AND ejercio_voto='".$this->voto."'";
+        if($this->voto)
+        $condition.=" AND ejercio_voto='".$this->voto."'";
         $view="exports.instituciones.listado";
         if($this->personal=="Trabajadores"){
             $raw=

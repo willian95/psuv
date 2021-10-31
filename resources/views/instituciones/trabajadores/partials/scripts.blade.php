@@ -571,7 +571,7 @@
                         this.form.telefono_secundario=response.data.elector.telefono_secundario;
                     }else{
                         
-                        this.form.personal_caraterizacion=null;
+                        this.form.personal_caracterizacion=null;
                         this.cedula_trabajador_error="Elector no encontrado";
                         if(response.data.success == false){
                             swal({

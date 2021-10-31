@@ -47,8 +47,8 @@ class MovimientoList implements FromView
         $condition.=" AND movimiento.nombre='".$this->nombreMovimiento."'";
         if($this->nombreMovilizacion)
         $condition.=" AND movilizacion.nombre='".$this->nombreMovilizacion."'";
-        // if($this->voto)
-        // $condition.=" AND ejercio_voto='".$this->voto."'";
+        if($this->voto)
+        $condition.=" AND ejercio_voto='".$this->voto."'";
         $view="exports.movimientos.listado";
         if($this->personal=="Trabajadores"){
             $raw=

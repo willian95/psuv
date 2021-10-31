@@ -15,6 +15,12 @@ use App\Http\Controllers\Api\{
     InstitucionController,
     MovimientoController,
     NivelEstructuraController,
+    ComisionTrabajoController,
+    ResponsabilidadComandoController,
+    PersonalComandoRegionalController,
+    PersonalComandoMunicipalController,
+    PersonalComandoParroquialController,
+    PersonalEnlaceTerritorialController,
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
@@ -94,7 +100,6 @@ Route::prefix('participacion-movimientos')->group(function () {
     require base_path('routes/apiRoutes/ParticipacionMovimientosApiRoutes.php');
 });
 
-
 //raas Routes
 Route::prefix('raas')->group(function () {
     
@@ -133,6 +138,10 @@ Route::prefix('raas')->group(function () {
 Route::prefix('report')->group(function () {
     Route::get("/institutions/list", [InstitucionReportController::class, "institutionList"])->name('api.institutions.report.list');
     Route::get("/movements/list", [MovimientoReportController::class, "movementList"])->name('api.movements.report.list');
+    Route::get("/comandos/regional", [PersonalComandoRegionalController::class, "excel"]);
+    Route::get("/comandos/municipal", [PersonalComandoMunicipalController::class, "excel"]);
+    Route::get("/comandos/parroquial", [PersonalComandoParroquialController::class, "excel"]);
+    Route::get("/comandos/enlace", [PersonalEnlaceTerritorialController::class, "excel"]);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -158,6 +167,8 @@ Route::get("cargos", [CargoController::class, "all"])->name('api.cargo.index');
 Route::get("instituciones", [InstitucionController::class, "all"])->name('api.institucion.index');
 Route::get("movimientos", [MovimientoController::class, "all"])->name('api.movimiento.index');
 Route::get("niveles-estructura", [NivelEstructuraController::class, "all"])->name('api.niveles-estructura.index');
+Route::get("comisiones-trabajos", [ComisionTrabajoController::class, "all"])->name('api.comision.trabajo.index');
+Route::get("responsabilidades-comandos", [ResponsabilidadComandoController::class, "all"])->name('api.responsabilidad.comando.index');
  
 
 Route::post("raas/ubch/store", [UBCHController::class, "store"]);
@@ -199,3 +210,34 @@ Route::post("sala-tecnica/store-personal", [AsociarPersonalController::class, "s
 Route::post("sala-tecnica/update-personal", [AsociarPersonalController::class, "updatePersonal"]);
 Route::post("sala-tecnica/delete-personal", [AsociarPersonalController::class, "deletePersonal"]);
 Route::get("sala-tecnica/search-personal", [AsociarPersonalController::class, "searchPersonal"]);
+
+//Comandos regionales
+Route::prefix('comandos')->group(function () {
+    Route::prefix('regionales')->group(function () {
+        Route::get("/", [PersonalComandoRegionalController::class, "index"])->name('api.comando.regional.index');
+        Route::post("/", [PersonalComandoRegionalController::class, "store"])->name('api.comando.regional.store');
+        Route::put("/{id}", [PersonalComandoRegionalController::class, "update"])->name('api.comando.regional.update');
+        Route::delete("/{id}", [PersonalComandoRegionalController::class, "delete"])->name('api.comando.regional.delete');
+    });
+    Route::prefix('municipales')->group(function () {
+        Route::get("/", [PersonalComandoMunicipalController::class, "index"])->name('api.comando.municipal.index');
+        Route::post("/", [PersonalComandoMunicipalController::class, "store"])->name('api.comando.municipal.store');
+        Route::put("/{id}", [PersonalComandoMunicipalController::class, "update"])->name('api.comando.municipal.update');
+        Route::delete("/{id}", [PersonalComandoMunicipalController::class, "delete"])->name('api.comando.municipal.delete');
+    });
+    Route::prefix('parroquiales')->group(function () {
+        Route::get("/", [PersonalComandoParroquialController::class, "index"])->name('api.comando.parroquial.index');
+        Route::post("/", [PersonalComandoParroquialController::class, "store"])->name('api.comando.parroquial.store');
+        Route::put("/{id}", [PersonalComandoParroquialController::class, "update"])->name('api.comando.parroquial.update');
+        Route::delete("/{id}", [PersonalComandoParroquialController::class, "delete"])->name('api.comando.parroquial.delete');
+    });
+    Route::prefix('enlaces')->group(function () {
+        Route::get("/", [PersonalEnlaceTerritorialController::class, "index"])->name('api.comando.enlace.index');
+        Route::post("/", [PersonalEnlaceTerritorialController::class, "store"])->name('api.comando.enlace.store');
+        Route::put("/{id}", [PersonalEnlaceTerritorialController::class, "update"])->name('api.comando.enlace.update');
+        Route::delete("/{id}", [PersonalEnlaceTerritorialController::class, "delete"])->name('api.comando.enlace.delete');
+    });
+    
+    
+
+});

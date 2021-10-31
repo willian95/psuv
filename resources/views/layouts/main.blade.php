@@ -561,8 +561,70 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 								@endcan
 
-								
-
+								@canany([
+									"comandos regional",
+									"comandos municipal",
+									"comandos parroquial",
+									"comandos enlace",
+								])
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<i class="menu-icon flaticon2-group text-white"></i>
+										<span class="menu-text text-white">Comandos</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-parent" aria-haspopup="true">
+												<span class="menu-link">
+													<span class="menu-text text-white">Actions</span>
+												</span>
+											</li>
+											@can('comandos regional')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('comandos/regionales') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Regional</span>
+												</a>
+											</li>
+											@endcan
+											@can('comandos municipal')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('comandos/municipales') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Municipal</span>
+												</a>
+											</li>
+											@endcan
+											@can('comandos parroquial')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('comandos/parroquiales') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Parroquial</span>
+												</a>
+											</li>
+											@endcan
+											@can('comandos enlace')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('comandos/enlaces') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Enlace</span>
+												</a>
+											</li>
+											@endcan
+										</ul>
+									</div>
+								</li>
+								@endcanany
 								
 							</ul>
 							<!--end::Menu Nav -->

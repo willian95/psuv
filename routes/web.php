@@ -130,6 +130,14 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::view("sala-tecnica/asociar-personal", "salaTecnica.asociarPersonal.index")->name("asociar-personal");
 
+    Route::group(['prefix' => 'comandos'], function () {
+
+        Route::view('regionales', 'comandos.regional.view');
+        Route::view('municipales', 'comandos.municipal.view');
+        Route::view('parroquiales', 'comandos.parroquial.view');
+        Route::view('enlaces', 'comandos.enlace.view');
+        
+    });
 
 });
 
