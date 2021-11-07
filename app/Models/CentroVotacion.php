@@ -45,4 +45,16 @@ class CentroVotacion extends Model
         return $this->hasMany(DescargaCuadernillo::class);
 
     }
+
+    public function electores(){
+
+        return $this->hasMany(Elector::class);
+
+    }
+
+    public function votaciones(){
+
+        return $this->hasMany(Votacion::class);
+
+    }
 }

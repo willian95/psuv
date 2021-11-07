@@ -139,6 +139,13 @@ Route::group(['middleware' => ['auth']], function() {
         
     });
 
+    Route::view("votaciones/centro-votaciones", "votaciones.centroVotacion.index")->name("votaciones.centro-votacion");
+    Route::get("votaciones/centro-votaciones/voto/{centro_votacion_id}", function($centro_votacion_id){
+
+        return view("votaciones.centroVotacion.voto.index", ["centro_votacion_id" => $centro_votacion_id]);
+
+    })->name("votaciones.centro-votacion.voto");
+
 });
 
 

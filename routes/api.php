@@ -38,7 +38,8 @@ use App\Http\Controllers\Api\Reportes\{
 
 use App\Http\Controllers\Api\Votaciones\{
     CuadernilloController,
-    GestionarVotosController
+    GestionarVotosController,
+    CentroVotacionController as VotacionesCentroVotacionController
 };
 
 use App\Http\Controllers\Api\SalaTecnica\{
@@ -237,7 +238,16 @@ Route::prefix('comandos')->group(function () {
         Route::put("/{id}", [PersonalEnlaceTerritorialController::class, "update"])->name('api.comando.enlace.update');
         Route::delete("/{id}", [PersonalEnlaceTerritorialController::class, "delete"])->name('api.comando.enlace.delete');
     });
-    
+
     
 
 });
+
+Route::get("/votaciones/centro-votacion/get-centros", [VotacionesCentroVotacionController::class, "getCentrosVotacion"]);
+Route::get("/votaciones/centro-votacion/search-centros", [VotacionesCentroVotacionController::class, "searchCentrosVotacion"]);
+Route::post("/votaciones/centro-votacion/search-by-codigo-cuadernillo", [VotacionesCentroVotacionController::class, "searchByCodigoCuadernillo"]);
+Route::post("/votaciones/centro-votacion/search-by-cedula", [VotacionesCentroVotacionController::class, "searchByCedula"]);
+Route::post("/votaciones/centro-votacion/update-voto", [VotacionesCentroVotacionController::class, "updateEjercioVoto"]);
+Route::post("/votaciones/centro-votacion/update-voto-instituciones", [VotacionesCentroVotacionController::class, "updateEjercioVotoInstitucion"]);
+Route::get("/votaciones/centro-votacion/get-votantes", [VotacionesCentroVotacionController::class, "getVotantesByCentroVotacion"]);
+Route::get("/votaciones/centro-votacion/search-votantes", [VotacionesCentroVotacionController::class, "searchVotantesByCentroVotacion"]);

@@ -44,7 +44,7 @@
             async fetch(url){
                 let res = null
                 if(this.searchText == ""){
-                    res = await axios.get(url.url)
+                    res = await axios.get(url.url+"&municipio_id="+this.authMunicipio)
                 }else{
                     res = await axios.get(url.url+"&searchText="+this.searchText)
                 }

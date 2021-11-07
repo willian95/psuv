@@ -10,4 +10,8 @@ class ReporteVoto extends Model
     use HasFactory;
 
     protected $table = "reporte_voto";
+    protected $fillable = [
+        "reporta",
+        "votacion_id",
+    ];
 }
