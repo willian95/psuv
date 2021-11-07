@@ -16,6 +16,7 @@
                     votoLoading:false,
                     searchLoading:false,    
                     loading:false,
+                    searchTextLoading:false,
 
                     instituciones:[],
                     selectedInstitucion:"",
@@ -341,8 +342,12 @@
 
                 async searchVotanteCentro(){
 
+                    this.searchTextLoading = true
+
                     let res = await axios.get("{{ url('/api/votaciones/centro-votacion/search-votantes') }}"+"?centroVotacionId="+this.centroVotacion+"&searchText="+this.searchText)
                     this.votantes = res.data.data
+
+                    this.searchTextLoading = false
 
                     this.links = res.data.links
                     this.currentPage = res.data.current_page

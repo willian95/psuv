@@ -76,9 +76,9 @@
                                 <div class="col-md-4">
 
                                     <div class="form-group">
-                                        
+                                        <label for="movimiento" style="visibility:hidden;">Movimiento</label>
                                         <button class="btn btn-primary mt-8" v-if="!votoLoading" @click="ejercerVoto()" :disabled="disableVoto">VOTO</button>
-                                        <div class="spinner spinner-primary ml-1 mr-13" v-if="votoLoading"></div>
+                                        <div class="spinner spinner-primary ml-1 mr-13 mt-4" v-if="votoLoading"></div>
                                     </div>
 
                                 </div>
@@ -123,9 +123,9 @@
                                 <div class="col-md-3">
 
                                     <div class="form-group">
-                                        
+                                        <label for="movimiento" style="visibility:hidden;">Movimiento</label>
                                         <button class="btn btn-primary mt-8" v-if="!votoLoading" @click="ejercerVotoInstitucion()" :disabled="disableVoto">VOTO</button>
-                                        <div class="spinner spinner-primary ml-1 mr-13" v-if="votoLoading"></div>
+                                        <div class="spinner spinner-primary ml-1 mr-13 mt-4" v-if="votoLoading"></div>
                                     </div>
 
                                 </div>
@@ -170,9 +170,9 @@
                                 <div class="col-md-3">
 
                                     <div class="form-group">
-                                        
+                                        <label for="movimiento" style="visibility:hidden;">Movimiento</label>
                                         <button class="btn btn-primary mt-8" v-if="!votoLoading" @click="ejercerVotoMovimiento()" :disabled="disableVoto">VOTO</button>
-                                        <div class="spinner spinner-primary ml-1 mr-13" v-if="votoLoading"></div>
+                                        <div class="spinner spinner-primary ml-1 mr-13 mt-4" v-if="votoLoading"></div>
                                     </div>
 
                                 </div>
@@ -188,10 +188,10 @@
                                         <label>Buscar</label>
                                         <div class="d-flex">
                                             <input class="form-control" placeholder="Código" v-model="searchText">
-                                            <button class="btn btn-primary" v-if="!searchLoading" @click="searchVotanteCentro()">
+                                            <button class="btn btn-primary" v-if="!searchTextLoading" @click="searchVotanteCentro()">
                                                 <i class="fas fa-search"></i>
                                             </button>
-                                            <div class="spinner spinner-primary ml-1 mr-13" v-if="searchLoading"></div>
+                                            <div class="spinner spinner-primary ml-1 mr-13" v-if="searchTextLoading"></div>
                                         </div>
                                     </div>
                                 </div>
