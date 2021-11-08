@@ -168,7 +168,10 @@ class CentroVotacionController extends Controller
 
         }
 
-        $votacion = Votacion::where("id", $request->id)->first()->delete();
+        $votacion = Votacion::where("id", $request->id)->first();
+        $votacion->ejercio_voto = false;
+        $votacion->update();
+        
         return response()->json(["success" => true, "msg" => "Voto eliminado"]);
 
 

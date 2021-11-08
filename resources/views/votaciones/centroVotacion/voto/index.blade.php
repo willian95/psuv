@@ -28,21 +28,21 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group d-flex">
-                                        <input id="puntorojo" class="form-control custom-radio" type="radio" v-model="registerType" value="puntorojo">
+                                        <input id="puntorojo" class="form-control custom-radio" type="radio" v-model="registerType" value="puntorojo" @change="resetName()">
                                         <label for="puntorojo" class="mt-3 ml-3">Punto rojo</label>
                                         
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group d-flex">
-                                        <input id="instituciones" class="form-control custom-radio" type="radio" v-model="registerType" value="instituciones">
+                                        <input id="instituciones" class="form-control custom-radio" type="radio" v-model="registerType" value="instituciones" @change="resetName()">
                                         <label for="instituciones" class="mt-3 ml-3">Instituciones</label>
                                         
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group d-flex">
-                                        <input id="movilizacion" class="form-control custom-radio" type="radio" v-model="registerType" value="movilizacion">
+                                        <input id="movilizacion" class="form-control custom-radio" type="radio" v-model="registerType" value="movilizacion" @change="resetName()">
                                         <label for="movilizacion" class="mt-3 ml-3">Movilización</label>
                                         
                                     </div>

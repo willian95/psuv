@@ -397,6 +397,12 @@
 
 
                 },
+
+                resetName(){
+
+                    this.nombreElector = ""
+
+                }
                 
 
             },
