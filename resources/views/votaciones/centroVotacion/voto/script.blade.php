@@ -367,7 +367,7 @@
                     .then(async (willDelete) => {
 
                         if (willDelete) {
-                            /*let res = await axios.post("{{ url('api/sala-tecnica/delete-personal') }}", {id: personal.id})
+                            let res = await axios.post("{{ url('api/votaciones/centro-votacion/delete-voto') }}", {id: id, registerType: this.registerType})
 
                             if(res.data.success == true){
 
@@ -376,7 +376,10 @@
                                     icon: "success"
                                 })
 
-                                let url = "{{ url('api/sala-tecnica/get-personal') }}"+"?page="+this.page
+                                let url = {
+                                    url:""
+                                }
+                                url.url = "{{ url('/api/votaciones/centro-votacion/get-votantes') }}"+"?centroVotacionId="+this.centroVotacion+"&page="+this.page
                                 this.fetch(url)
 
                             }else{
@@ -386,7 +389,7 @@
                                     icon: "error"
                                 })
 
-                            }*/
+                            }
                         }
 
 

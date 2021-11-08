@@ -251,3 +251,4 @@ Route::post("/votaciones/centro-votacion/update-voto", [VotacionesCentroVotacion
 Route::post("/votaciones/centro-votacion/update-voto-instituciones", [VotacionesCentroVotacionController::class, "updateEjercioVotoInstitucion"]);
 Route::get("/votaciones/centro-votacion/get-votantes", [VotacionesCentroVotacionController::class, "getVotantesByCentroVotacion"]);
 Route::get("/votaciones/centro-votacion/search-votantes", [VotacionesCentroVotacionController::class, "searchVotantesByCentroVotacion"]);
+Route::post("/votaciones/centro-votacion/delete-voto", [VotacionesCentroVotacionController::class, "deleteVoto"]);

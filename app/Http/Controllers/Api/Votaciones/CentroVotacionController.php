@@ -135,7 +135,7 @@ class CentroVotacionController extends Controller
 
     function getVotantesByCentroVotacion(Request $request){
 
-        $votantes = Votacion::where("centro_votacion_id", $request->centroVotacionId)->where("ejercio_voto", true)->with("elector","elector.centroVotacion")->paginate(20);
+        $votantes = Votacion::where("centro_votacion_id", $request->centroVotacionId)->where("ejercio_voto", true)->with("elector","elector.centroVotacion")->orderBy("updated_at", "desc")->paginate(20);
         return response()->json($votantes);
 
     }
@@ -156,5 +156,23 @@ class CentroVotacionController extends Controller
         return response()->json($votantes);
 
     }
+
+    function deleteVoto(Request $request){
+
+        if(ReporteVoto::where("votacion_id", $request->id)->count() > 0){
+
+            $reportes = ReporteVoto::where("votacion_id", $request->id)->get();
+            foreach($reportes as $reporte){
+                $reporte->delete();
+            }
+
+        }
+
+        $votacion = Votacion::where("id", $request->id)->first()->delete();
+        return response()->json(["success" => true, "msg" => "Voto eliminado"]);
+
+
+    }
+
 
 }
