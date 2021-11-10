@@ -39,7 +39,8 @@ use App\Http\Controllers\Api\Reportes\{
 use App\Http\Controllers\Api\Votaciones\{
     CuadernilloController,
     GestionarVotosController,
-    CentroVotacionController as VotacionesCentroVotacionController
+    CentroVotacionController as VotacionesCentroVotacionController,
+    GestionarParticipacionController
 };
 
 use App\Http\Controllers\Api\SalaTecnica\{
@@ -252,3 +253,10 @@ Route::post("/votaciones/centro-votacion/update-voto-instituciones", [Votaciones
 Route::get("/votaciones/centro-votacion/get-votantes", [VotacionesCentroVotacionController::class, "getVotantesByCentroVotacion"]);
 Route::get("/votaciones/centro-votacion/search-votantes", [VotacionesCentroVotacionController::class, "searchVotantesByCentroVotacion"]);
 Route::post("/votaciones/centro-votacion/delete-voto", [VotacionesCentroVotacionController::class, "deleteVoto"]);
+
+Route::get("/votaciones/centro-votacion/mesa/{centro_votacion_id}", [GestionarParticipacionController::class, "getMesas"]);
+Route::get("/votaciones/centro-votacion/mesa/participaciones/get-participaciones", [GestionarParticipacionController::class, "getParticipaciones"]);
+Route::get("/votaciones/centro-votacion/mesa/participaciones/search-mesa", [GestionarParticipacionController::class, "searchMesaNombre"]);
+Route::post("/votaciones/centro-votacion/mesa/store", [GestionarParticipacionController::class, "store"]);
+Route::post("/votaciones/centro-votacion/mesa/delete", [GestionarParticipacionController::class, "delete"]);
+

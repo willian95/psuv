@@ -10,4 +10,11 @@ class Mesa extends Model
 {
     use SoftDeletes;
     use HasFactory;
+
+    protected $table = "mesa";
+
+    public function participacionCentroVotacions(){
+        return $this->hasMany(ParticipacionCentroVotacion::class);
+    }
+
 }
