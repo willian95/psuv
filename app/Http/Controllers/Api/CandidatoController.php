@@ -109,6 +109,11 @@ class CandidatoController extends Controller
             //Get last eleccion
             $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
             $data['eleccion_id']=$eleccion->id;
+            //Validate
+            $exist=Model::where('nombre',$data['nombre'])->first();
+            if($exist){
+                throw new \Exception('Este candidato ya se encuentra registrado', 404);
+            }
             //Create entity
             $entity=Model::create($data);
             //isset partidos_politicos
@@ -140,6 +145,13 @@ class CandidatoController extends Controller
             $entity=Model::find($id);
             if (!$entity) {
                 throw new \Exception('Candidato no encontrado', 404);
+            }
+            //validate
+            $exist=Model::where('nombre',$data['nombre'])
+            ->where("id","!=",$id)
+            ->first();
+            if($exist){
+                throw new \Exception('Este candidato ya se encuentra registrado.', 404);
             }
             //Update data
             $entity->update($data);
