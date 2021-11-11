@@ -46,6 +46,10 @@ class Candidato extends Model
         return $this->belongsToMany(PartidoPolitico::class,'candidatos_partido_politico', 'candidatos_id', 'partido_politico_id');
     }
 
+    public function municipio(){
+        return $this->belongsTo(Municipio::class,'municipio_id');
+    }
+
     public function getPartidosPoliticosNombresAttribute(){
         $partidos=$this->partidosPoliticos;
         $names="";

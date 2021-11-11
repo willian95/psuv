@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request as EntityRequest;
 use Illuminate\Support\Str;
 use App\Helpers\LoadFileHelper as LoadFile;
+use App\Exports\Candidato as exportClassFile;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CandidatoController extends Controller
 {
@@ -233,4 +235,10 @@ class CandidatoController extends Controller
       $len = strlen($startString);
       return (substr($string, 0, $len) === $startString);
     }
+
+    public function excel(Request $request){
+        $now=\Carbon\Carbon::now()->format('d-m-Y H:i:s');
+        $excelName='Reporte_'.$now.'.xlsx';
+        return Excel::download(new exportClassFile(), $excelName);
+    }//
 }

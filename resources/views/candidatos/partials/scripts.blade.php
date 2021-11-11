@@ -363,7 +363,30 @@
                     console.log(err)
                 }
             },
-
+            generateExcel(){
+                let params={};
+                this.loading=true;
+                axios({
+                    url: `api/report/candidatos`,
+                    method: 'GET',
+                    params:params,
+                    responseType: 'blob' // important
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', 'reporte-candidatos.xlsx')
+                    document.body.appendChild(link)
+                    link.click()
+                    this.loading=false;
+                }).catch((err) => {
+                    this.loading = false;
+                    swal({
+                        text:"Ha ocurrido un error al intentar generar el excel",
+                        icon:"error"
+                    });
+                })
+            },//generate()
         } //methods
     });
 </script>

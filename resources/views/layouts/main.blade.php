@@ -158,6 +158,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									"gestion usuarios",
 									"gestion roles",
 									"gestion candidatos",
+									"gestion centros de votacion"
 								])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
@@ -220,6 +221,16 @@ License: You must have a valid license purchased only from themeforest(the above
 														<span></span>
 													</i>
 													<span class="menu-text text-white">Gestionar candidatos</span>
+												</a>
+											</li>
+											@endcan
+											@can('gestion centros de votacion')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('admin/centros_votacion') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Centros de votación</span>
 												</a>
 											</li>
 											@endcan
