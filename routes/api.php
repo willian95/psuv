@@ -21,6 +21,9 @@ use App\Http\Controllers\Api\{
     PersonalComandoMunicipalController,
     PersonalComandoParroquialController,
     PersonalEnlaceTerritorialController,
+    CandidatoController,
+    MesaController,
+    TestigoMesaController,
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
@@ -158,6 +161,7 @@ Route::get("parroquias-busqueda/{municipio_nombre}", [ParroquiaController::class
 
 Route::get("comunidades/{parroquia}", [ComunidadController::class, "comunidadesByParroquia"]);
 
+Route::get("centro-votacion/", [CentroVotacionController::class, "index"])->name("api.centros.votacion.index");
 Route::get("centro-votacion/{parroquia_id}", [CentroVotacionController::class, "centroVotacionByParroquia"]);
 Route::get("centro-votacion-busqueda/{parroquia_nombre}", [CentroVotacionController::class, "centroVotacionByParroquiaNombre"]);
 
@@ -239,8 +243,33 @@ Route::prefix('comandos')->group(function () {
         Route::delete("/{id}", [PersonalEnlaceTerritorialController::class, "delete"])->name('api.comando.enlace.delete');
     });
 
-    
+});
 
+Route::prefix('candidatos')->group(function () {
+    Route::get("/", [CandidatoController::class, "index"])->name('api.candidatos.index');
+    Route::post("/", [CandidatoController::class, "store"])->name('api.candidatos.store');
+    Route::put("/{id}", [CandidatoController::class, "update"])->name('api.candidatos.update');
+    Route::delete("/{id}", [CandidatoController::class, "delete"])->name('api.candidatos.delete');
+});
+
+Route::prefix('mesas')->group(function () {
+    Route::get("/", [MesaController::class, "index"])->name('api.mesas.index');
+    Route::post("/", [MesaController::class, "store"])->name('api.mesas.store');
+    Route::put("/{id}", [MesaController::class, "update"])->name('api.mesas.update');
+    Route::delete("/{id}", [MesaController::class, "delete"])->name('api.mesas.delete');
+});
+
+Route::prefix('testigos')->group(function () {
+    Route::get("/", [TestigoMesaController::class, "index"])->name('api.testigos.index');
+    Route::post("/", [TestigoMesaController::class, "store"])->name('api.testigos.store');
+    Route::put("/{id}", [TestigoMesaController::class, "update"])->name('api.testigos.update');
+    Route::delete("/{id}", [TestigoMesaController::class, "delete"])->name('api.testigos.delete');
+});
+
+
+
+Route::prefix('candidato-actualizar-imagen')->group(function () {
+    Route::post("/{id}", [CandidatoController::class, "updateImage"])->name('api.candidato.update.image');
 });
 
 Route::get("/votaciones/centro-votacion/get-centros", [VotacionesCentroVotacionController::class, "getCentrosVotacion"]);

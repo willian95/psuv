@@ -10,4 +10,17 @@ class Mesa extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    protected $table="mesa";
+    protected $fillable=[
+        "numero_mesa",
+        "transmision",
+        "hora_transmision",
+        "eleccion_id",
+        "centro_votacion_id",
+        "observacion",
+    ];
+    
+    public function centroVotacion(){
+        return $this->belongsTo(CentroVotacion::class,"centro_votacion_id");
+    }
 }

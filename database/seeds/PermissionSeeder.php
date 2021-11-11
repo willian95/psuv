@@ -40,6 +40,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'comandos municipal'],
             ['name' => 'comandos parroquial'],
             ['name' => 'comandos enlace'],
+            ['name' => 'gestion candidatos'],
         ];
         foreach ($rolesArray as $role) {
             Model::firstOrCreate(
