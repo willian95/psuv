@@ -152,6 +152,16 @@ Route::group(['middleware' => ['auth']], function() {
 
     })->name("votaciones.centro-votacion.voto");
 
+
+
+    Route::view("votaciones/gestionar-participacion", "votaciones.gestionarParticipacion.index")->name("votaciones.gestionar-participacion");
+    Route::get("votaciones/gestionar-participacion/mesa/{centro_votacion_id}", function($centro_votacion_id){
+
+        return view("votaciones.gestionarParticipacion.mesa.index", ["centro_votacion_id" => $centro_votacion_id]);
+
+    })->name("votaciones.gestionar-participacion.mesa");
+
+
 });
 
 
