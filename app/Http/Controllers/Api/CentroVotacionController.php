@@ -31,6 +31,7 @@ class CentroVotacionController extends Controller
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $search = $request->input('search');
+            $municipio_id = $request->input('municipio_id');
             $mesasCount = $request->input('mesasCount');
             $electoresCount = $request->input('electoresCount');
             $includes= $request->input('includes') ? $request->input('includes') : [];
@@ -53,6 +54,11 @@ class CentroVotacionController extends Controller
             }
             if($electoresCount){
                 $query->withCount('electores');
+            }
+            if($municipio_id){
+                $query->whereHas('parroquia',function($query) use($municipio_id){
+                    $query->where('municipio_id',$municipio_id);
+                });
             }
             $query->orderBy("created_at","DESC");
             $query=$query->paginate(15);

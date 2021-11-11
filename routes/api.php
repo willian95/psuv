@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\{
     CandidatoController,
     MesaController,
     TestigoMesaController,
+    PersonalPuntoRojoController,
 };
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
@@ -265,6 +266,13 @@ Route::prefix('testigos')->group(function () {
     Route::post("/", [TestigoMesaController::class, "store"])->name('api.testigos.store');
     Route::put("/{id}", [TestigoMesaController::class, "update"])->name('api.testigos.update');
     Route::delete("/{id}", [TestigoMesaController::class, "delete"])->name('api.testigos.delete');
+});
+
+Route::prefix('personal-punto-rojo')->group(function () {
+    Route::get("/", [PersonalPuntoRojoController::class, "index"])->name('api.puntorojo.index');
+    Route::post("/", [PersonalPuntoRojoController::class, "store"])->name('api.puntorojo.store');
+    Route::put("/{id}", [PersonalPuntoRojoController::class, "update"])->name('api.puntorojo.update');
+    Route::delete("/{id}", [PersonalPuntoRojoController::class, "delete"])->name('api.puntorojo.delete');
 });
 
 

@@ -8,6 +8,7 @@
             loading: true,
             action:"create",//create,edit,suspend
             actionTestigo:"create",
+            actionPuntoRojo:"create",
             //Class
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
@@ -28,9 +29,17 @@
                 tipo_voto:"duro",
                 movilizacion_id:3,
             },
+            formPuntoRojo:{
+                nombre:"",
+                apellido:"",
+                cedula:"",
+                telefono_principal:"",
+                telefono_secundario:"",
+            },
             entityId:null,
             entityMesaId:null,
             entityTestigoId:null,
+            entityPuntoRojoId:null,
             searchText:"",
             cedula_testigo:"",
             cedula_testigo_error:"",
@@ -38,6 +47,7 @@
             results:[],
             mesas:[],
             testigos:[],
+            personal:[],
             //paginate centros votacion
             currentPage:1,
             links:"",
@@ -61,6 +71,10 @@
                 await this.getMesas();
                 await this.getTestigos();
             },
+            async initPuntoRojo(entity){
+                this.entityId=entity.id;
+                await this.getPersonal();
+            },
             async fetch(link = ""){
                 this.loading = true;
                 let filters={
@@ -70,7 +84,8 @@
                     ],
                     mesasCount:1,
                     electoresCount:1,
-                    search:this.searchText
+                    search:this.searchText,
+                    municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
                 };
 
                 //Agregar validacion municipio id del user autenticado
@@ -111,6 +126,189 @@
                     }
                 }//if(exist)
             },
+            //////////////////////////////////////////////init personal punto rojo
+            async getPersonal(){
+                this.loading = true;
+                let filters={
+                    includes:[
+                    ],
+                    centro_votacion_id:this.entityId,
+                    order_by:"cedula",
+                    order_direction:"ASC"
+                };
+                let res = await axios.get("{{ route('api.puntorojo.index') }}",{
+                    params:filters
+                })
+                this.personal = res.data.data
+                this.loading = false;
+            },
+            async storePuntoRojo(){
+                try {
+                    if(this.formPuntoRojo.cedula==""){
+                        swal({
+                        text:"Debe indicar la cédula",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.nombre==""){
+                        swal({
+                        text:"Debe indicar el nombre",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.apellido==""){
+                        swal({
+                        text:"Debe indicar el apellido",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.telefono_principal==""){
+                        swal({
+                        text:"Debe indicar el teléfono principal",
+                        icon:"error"
+                        });
+                        return false;
+                    }
+                    let dataForm=this.formPuntoRojo;
+                    dataForm.centro_votacion_id=this.entityId;
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'POST',
+                        responseType: 'json',
+                        url: "{{ route('api.puntorojo.store') }}",
+                        data: dataForm
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        // $('.marketModal').modal('hide')
+                        // $('.modal-backdrop').remove()
+
+                    })
+                    await this.clearFormPuntoRojo();
+                    await this.getPersonal();
+                } catch (error) {
+                    this.loading = false;
+                    let msg=error.response.data.message;
+                    if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+                    // swal({
+                    //     text:error.response.data.message,
+                    //     icon:"error"
+                    // });
+
+                }
+            },
+            editPuntoRojo(entity){
+                this.actionPuntoRojo="edit";
+                this.entityPuntoRojoId=entity.id;
+                this.formPuntoRojo.cedula=entity.cedula;
+                this.formPuntoRojo.nombre=entity.nombre;
+                this.formPuntoRojo.apellido=entity.apellido;
+                this.formPuntoRojo.telefono_principal=entity.telefono_principal;
+                this.formPuntoRojo.telefono_secundario=entity.telefono_secundario;
+            },
+            async suspendPuntoRojo(entityId){
+                try {
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'DELETE',
+                        responseType: 'json',
+                        url: "{{ url('api/personal-punto-rojo') }}"+"/"+entityId,
+                        data: {}
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+
+                    })
+                    await this.clearFormPuntoRojo();
+                    await this.getPersonal();
+                } catch (error) {
+                    this.loading = false;
+                    let msg="";
+                    if(error.response){
+                        msg=error.response.data.message;
+                        if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+                    }
+                }//catch
+            },
+            async updatePuntoRojo(){
+                let dataForm=this.formPuntoRojo;
+                try {
+                    if(this.formPuntoRojo.cedula==""){
+                        swal({
+                        text:"Debe indicar la cédula",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.nombre==""){
+                        swal({
+                        text:"Debe indicar el nombre",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.apellido==""){
+                        swal({
+                        text:"Debe indicar el apellido",
+                        icon:"error"
+                        });
+                        return false;
+                    }else if(this.formPuntoRojo.telefono_principal==""){
+                        swal({
+                        text:"Debe indicar el teléfono principal",
+                        icon:"error"
+                        });
+                        return false;
+                    }
+                    this.loading = true;
+                    const response = await axios({
+                        method: 'PUT',
+                        responseType: 'json',
+                        url: "{{ url('api/personal-punto-rojo') }}"+"/"+this.entityPuntoRojoId,
+                        params: dataForm
+                    });
+                    this.loading = false;
+                    swal({
+                        text:response.data.message,
+                        icon: "success"
+                    }).then(ans => {
+                        // $('.marketModal').modal('hide')
+                        // $('.modal-backdrop').remove()
+
+                    })
+                    await this.clearFormPuntoRojo();
+                    await this.getPersonal();
+                } catch (error) {
+                    this.loading = false;
+                    let msg="";
+                    if(error.response.data){
+                        msg=error.response.data.message;
+                    }
+                    if(msg=="The given data was invalid."){
+                        msg="Los datos proporcionados no son válidos.";
+                    }
+                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+                }
+            },
+            clearFormPuntoRojo(){
+                this.formPuntoRojo.nombre="";
+                this.formPuntoRojo.apellido="";
+                this.formPuntoRojo.cedula="";
+                this.formPuntoRojo.telefono_principal="";
+                this.formPuntoRojo.telefono_secundario="";
+                this.actionPuntoRojo="create";
+            },
+            ///////////////////////////////////////////////////////////////////////////////////////////End personal punto rojo
             async getTestigos(){
                 this.loading = true;
                 let filters={
@@ -226,6 +424,13 @@
                 }//catch
             },
             async updateTestigo(){
+               if(!this.formTestigo.telefono_principal){
+                        swal({
+                            text:"Debe indicar el número de teléfono principal",
+                            icon:"error"
+                        });
+                        return false;
+                }
                 let dataForm=this.formTestigo;
                 try {
                     this.loading = true;

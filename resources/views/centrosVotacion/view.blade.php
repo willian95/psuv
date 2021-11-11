@@ -88,9 +88,10 @@
                                             <button title="Gestionar testigos" class="btn btn-success" data-toggle="modal" data-target=".testigoModal" @click="entityId=result.id;initTestigo(result)">
                                                 Testigo
                                             </button>
-                                            <button class="btn btn-secondary" @click="suspend(result.id)">
-                                                <i class="fas fa-trash"></i>
+                                            <button title="Gestionar punto rojos" class="btn btn-success" data-toggle="modal" data-target=".puntoRojoModal" @click="entityId=result.id;initPuntoRojo(result)">
+                                                P.Rojos
                                             </button>
+                                            
                                         </td>
                                     </tr>
                                 </tbody>
@@ -124,7 +125,10 @@
         <!--end::Container-->
 
         @include("centrosVotacion.partials.modalCreateEdit")
+        
         @include("centrosVotacion.partials.modalTestigo")
+
+        @include("centrosVotacion.partials.modalPuntoRojo")
 
 
     </div>
