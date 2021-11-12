@@ -1,17 +1,16 @@
-<!-- Modal-->
-<div class="modal fade testigoModal"  data-backdrop="static" tabindex="3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade testigoModal"  data-backdrop="static" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Gestionar testigos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearForm()">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearFormTestigo()">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-
+                    <!--  -->
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label >Mesa</label>
@@ -21,6 +20,8 @@
                                 </select>
                             </div>
                     </div>
+                    <!--  -->
+
 
                     <div class="col-md-4">
                         <div class="form-group">
@@ -40,7 +41,6 @@
                         </div>
                     </div>
 
-                    
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
@@ -48,7 +48,8 @@
                                 <input type="text" class="form-control" v-else readonly>
                             </div>
                     </div>
-                                       
+
+                                     
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre">Teléfono principal</label>
@@ -75,6 +76,7 @@
 
                     </div>
 
+                    
                     <div class="col-md-12 my-5">
                         <span class="text-center">
                             <hr>
@@ -131,16 +133,18 @@
                             </table>
                         </div>
                        
-                        </div>
-                    <!--end: Datatable-->
+                        </div> <!--end: Datatable-->
 
                     </div>
 
 
-                </div>                    
-            </div>
+
+                    </div> <!-- row -->
+                </div> <!-- container fluid -->
+            </div> <!-- modal body -->
+        
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal" @click="clearForm()">Cerrar</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal" @click="clearFormTestigo()">Cerrar</button>
             </div>
         </div>
     </div>

@@ -123,11 +123,10 @@
             <!--end::Card-->
         </div>
         <!--end::Container-->
+        @include("centrosVotacion.partials.modalTestigos")
 
         @include("centrosVotacion.partials.modalCreateEdit")
-        
-        @include("centrosVotacion.partials.modalTestigo")
-
+   
         @include("centrosVotacion.partials.modalPuntoRojo")
 
 
