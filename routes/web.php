@@ -155,6 +155,9 @@ Route::group(['middleware' => ['auth']], function() {
 
     })->name("votaciones.gestionar-participacion.mesa");
 
+    Route::view("cierre-mesa/candidatos", "cierreMesa.candidatos.index")->name('cierre-mesa.candidatos');
+    Route::view("cierre-mesa/candidatos/cierre", "cierreMesa.candidatos.cierreCandidatos.index")->name('cierre-mesa.candidatos.cierre');
+
 
 });
 

@@ -17,4 +17,10 @@ class Mesa extends Model
         return $this->hasMany(ParticipacionCentroVotacion::class);
     }
 
+    public function centroVotacion(){
+
+        return $this->belongsTo(CentroVotacion::class);
+
+    }
+
 }

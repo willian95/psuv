@@ -43,6 +43,10 @@ use App\Http\Controllers\Api\Votaciones\{
     GestionarParticipacionController
 };
 
+use App\Http\Controllers\Api\CierreMesa\{
+    CandidatoController,
+};
+
 use App\Http\Controllers\Api\SalaTecnica\{
     AsociarPersonalController
 };
@@ -259,4 +263,13 @@ Route::get("/votaciones/centro-votacion/mesa/participaciones/get-participaciones
 Route::get("/votaciones/centro-votacion/mesa/participaciones/search-mesa", [GestionarParticipacionController::class, "searchMesaNombre"]);
 Route::post("/votaciones/centro-votacion/mesa/store", [GestionarParticipacionController::class, "store"]);
 Route::post("/votaciones/centro-votacion/mesa/delete", [GestionarParticipacionController::class, "delete"]);
+
+Route::get("/cierre-mesa/candidato", [CandidatoController::class, "getMesasCerradas"]);
+Route::get("/cierre-mesa/candidato/get-mesas/{centro_votacion_id}", [CandidatoController::class, "getMesasByCentroVotacion"]);
+Route::get("/cierre-mesa/candidato/get-candidatos", [CandidatoController::class, "getCandidatos"]);
+Route::get("/cierre-mesa/candidato/get-mesas-cerradas", [CandidatoController::class, "getMesasCerradas"]);
+Route::get("/cierre-mesa/candidato/get-resultadods/{mesa_id}", [CandidatoController::class, "getResultados"]);
+Route::get("/cierre-mesa/candidato/search-centro-votacion", [CandidatoController::class, "searchCentroVotacion"]);
+Route::post("/cierre-mesa/candidato/mesa/update", [CandidatoController::class, "updateCierreMesa"]);
+Route::post("/cierre-mesa/candidato/store-results", [CandidatoController::class, "storeResults"]);
 

@@ -22,6 +22,12 @@ class CentroVotacion extends Model
 
     }
 
+    public function mesas(){
+
+        return $this->hasMany(Mesa::class);
+
+    }
+
     public function jefeUbchs(){
 
         return $this->hasMany(JefeUbch::class);

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Candidato extends Model
 {
     use HasFactory;
+
+    public function cierreCandidatoVotacion(){
+
+        return $this->belongsTo(CierreCandidatoVotacion::class, "candidatos_id");
+
+    }
+
 }
