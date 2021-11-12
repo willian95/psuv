@@ -137,7 +137,7 @@
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.municipio_id==""){
+                }else if(this.form.municipio_id=="" && this.form.cargo_eleccion!="Gobernador"){
                     swal({
                         text:"Debe seleccionar un municipio",
                         icon:"error"
@@ -260,7 +260,7 @@
                         icon:"error"
                     });
                     return false;
-                }else if(this.form.municipio_id==""){
+                }else if(this.form.municipio_id=="" && this.form.cargo_eleccion!="Gobernador"){
                     swal({
                         text:"Debe seleccionar un municipio",
                         icon:"error"
