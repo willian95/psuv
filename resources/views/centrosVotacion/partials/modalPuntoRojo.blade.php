@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre">Teléfono principal</label>
-                                <input type="text" class="form-control" v-model="formPuntoRojo.telefono_principal">
+                                <input type="text" class="form-control" v-model="formPuntoRojo.telefono_principal" maxlength="11" @keypress="isNumber($event)">
                             </div>
                     </div>
 
@@ -50,7 +50,7 @@
                     <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre">Teléfono secundario</label>
-                                <input type="text" class="form-control" v-model="formPuntoRojo.telefono_secundario">
+                                <input type="text" class="form-control" v-model="formPuntoRojo.telefono_secundario" maxlength="11" @keypress="isNumber($event)">
                             </div>
                     </div>
 
