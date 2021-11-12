@@ -63,4 +63,11 @@ class CentroVotacion extends Model
         return $this->hasMany(Votacion::class);
 
     }
+
+    public function mesas(){
+
+        return $this->hasMany(Mesa::class,"centro_votacion_id");
+
+    }
+
 }

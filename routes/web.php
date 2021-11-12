@@ -81,6 +81,12 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/roles', function () {
             return view('admin.roles.view');
         });
+
+        Route::view('/candidatos', 'candidatos.view');
+
+        Route::view('/centros_votacion', 'centrosVotacion.view');
+
+
     
     });
 
