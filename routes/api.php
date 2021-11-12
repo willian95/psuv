@@ -48,7 +48,7 @@ use App\Http\Controllers\Api\Votaciones\{
 };
 
 use App\Http\Controllers\Api\CierreMesa\{
-    CandidatoController,
+    CandidatoController as CierreCandidatoController,
 };
 
 use App\Http\Controllers\Api\SalaTecnica\{
@@ -302,12 +302,12 @@ Route::get("/votaciones/centro-votacion/mesa/participaciones/search-mesa", [Gest
 Route::post("/votaciones/centro-votacion/mesa/store", [GestionarParticipacionController::class, "store"]);
 Route::post("/votaciones/centro-votacion/mesa/delete", [GestionarParticipacionController::class, "delete"]);
 
-Route::get("/cierre-mesa/candidato", [CandidatoController::class, "getMesasCerradas"]);
-Route::get("/cierre-mesa/candidato/get-mesas/{centro_votacion_id}", [CandidatoController::class, "getMesasByCentroVotacion"]);
-Route::get("/cierre-mesa/candidato/get-candidatos", [CandidatoController::class, "getCandidatos"]);
-Route::get("/cierre-mesa/candidato/get-mesas-cerradas", [CandidatoController::class, "getMesasCerradas"]);
-Route::get("/cierre-mesa/candidato/get-resultadods/{mesa_id}", [CandidatoController::class, "getResultados"]);
-Route::get("/cierre-mesa/candidato/search-centro-votacion", [CandidatoController::class, "searchCentroVotacion"]);
-Route::post("/cierre-mesa/candidato/mesa/update", [CandidatoController::class, "updateCierreMesa"]);
-Route::post("/cierre-mesa/candidato/store-results", [CandidatoController::class, "storeResults"]);
+Route::get("/cierre-mesa/candidato", [CierreCandidatoController::class, "getMesasCerradas"]);
+Route::get("/cierre-mesa/candidato/get-mesas/{centro_votacion_id}", [CierreCandidatoController::class, "getMesasByCentroVotacion"]);
+Route::get("/cierre-mesa/candidato/get-candidatos", [CierreCandidatoController::class, "getCandidatos"]);
+Route::get("/cierre-mesa/candidato/get-mesas-cerradas", [CierreCandidatoController::class, "getMesasCerradas"]);
+Route::get("/cierre-mesa/candidato/get-resultadods/{mesa_id}", [CierreCandidatoController::class, "getResultados"]);
+Route::get("/cierre-mesa/candidato/search-centro-votacion", [CierreCandidatoController::class, "searchCentroVotacion"]);
+Route::post("/cierre-mesa/candidato/mesa/update", [CierreCandidatoController::class, "updateCierreMesa"]);
+Route::post("/cierre-mesa/candidato/store-results", [CierreCandidatoController::class, "storeResults"]);
 
