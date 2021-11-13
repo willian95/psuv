@@ -16,7 +16,7 @@ class FixPersonalPuntoRojoTable extends Migration
         Schema::table('personal_punto_rojo', function (Blueprint $table) {
             $table->string("cedula")->default("0");
             $table->dropColumn("telefono");
-            $table->string("telefono_principal");
+            $table->string("telefono_principal")->default("0");
             $table->string("telefono_secundario")->nullable();
         });
     }
