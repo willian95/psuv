@@ -137,7 +137,7 @@
                                             <td>@{{ info.nombre }}</td>
                                             <td>@{{ info.participacion }}</td>
                                             <td>@{{ info.movilizacion }}</td>
-                                            <td>@{{ (info.participacion - info.movilizacion) > 0 ? 0 }}</td>
+                                            <td>@{{ (info.participacion - info.movilizacion) > 0 ? (info.participacion - info.movilizacion) : 0  }}</td>
                                             <td>@{{ info.movilizacion }} </td>
                                         </tr>
                                     </tbody>
