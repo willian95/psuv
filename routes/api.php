@@ -26,6 +26,11 @@ use App\Http\Controllers\Api\{
     TestigoMesaController,
     PersonalPuntoRojoController,
 };
+
+use App\Http\Controllers\{
+    DashboardController
+};
+
 use App\Http\Controllers\Api\RAAS\{
     UBCHController,
     JefeComunidadController,
@@ -318,4 +323,4 @@ Route::post("/cierre-mesa/partido/store-results", [CierreCandidatoController::cl
 Route::get("/cierre-mesa/partido/get-resultadods/{mesa_id}", [CierreCandidatoController::class, "getResultadosPartido"]);
 
 
-Route::post("/reporte-dashboard/generate", [ReporteCargaController::class, "generate"]);
+Route::post("/reporte-dashboard/generate", [DashboardController::class, "generate"]);

@@ -103,11 +103,11 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td><b>Meta</b></td>
+                                                <td><b>Participación</b></td>
                                                 <td>@{{ metaGeneral }}</td>
                                             </tr>
                                             <tr>
-                                                <td><b>Carga</b></td>
+                                                <td><b>Movilización</b></td>
                                                 <td>@{{ cargados }}</td>
                                             </tr>
                                         </tbody>
@@ -126,19 +126,19 @@
                                     <thead>
                                         <tr>
                                             <th>Entidad</th>
-                                            <th>Meta</th>
-                                            <th>Carga</th>
-                                            <th>Pendiente</th>
+                                            <th>Participación</th>
+                                            <th>Movilización</th>
+                                            <th>Oposición</th>
                                             <th>% de votación</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(info, index) in secondaryInfo">
                                             <td>@{{ info.nombre }}</td>
-                                            <td>@{{ info.meta }}</td>
-                                            <td>@{{ info.cargados }}</td>
-                                            <td>@{{ info.meta - info.cargados }}</td>
-                                            <td>@{{ (info.cargados / info.meta * 100).toFixed(2) }} %</td>
+                                            <td>@{{ info.participacion }}</td>
+                                            <td>@{{ info.movilizacion }}</td>
+                                            <td>@{{ info.participacion - info.movilizacion }}</td>
+                                            <td>@{{ info.movilizacion }} </td>
                                         </tr>
                                     </tbody>
                                 </table>

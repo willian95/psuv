@@ -86,13 +86,9 @@
                 this.secondaryInfo = res.data.entities
                 this.type = res.data.type
                 
-                this.metaGeneral = res.data.data.metas
-                this.cargados = res.data.data.personalCaracterizacion
-                this.centroVotacionMetas = res.data.data.centroVotacionMetas.data
+                this.metaGeneral = res.data.data.participacion
+                this.cargados = res.data.data.movilizacion
 
-                this.links = res.data.data.centroVotacionMetas.links
-                this.currentPage = res.data.data.centroVotacionMetas.current_page
-                this.totalPages = res.data.data.centroVotacionMetas.last_page
                 
                 KTApexChartsDemo.init(this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
                 this.clickCount++

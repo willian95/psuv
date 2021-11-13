@@ -17,4 +17,10 @@ class Votacion extends Model
 
     }
 
+    public function centroVotacion(){
+
+        return $this->belongsTo(CentroVotacion::class);
+
+    }
+
 }
