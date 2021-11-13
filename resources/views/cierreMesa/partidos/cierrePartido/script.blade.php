@@ -89,9 +89,9 @@
 
             },
 
-            async getCandidatos(municipioId){
+            async getPartidos(municipioId){
 
-                let res = await axios.get("{{ url('/api/cierre-mesa/candidato/get-candidatos/') }}", {
+                let res = await axios.get("{{ url('/api/cierre-mesa/candidato/get-candidatos-partido') }}", {
                     params:{
                         municipio_id: municipioId
                     }
@@ -149,7 +149,7 @@
                         "icon": "success"
                     }).then(ans => {
                         
-                        this.getCandidatos(this.selectedMunicipio)
+                        this.getPartidos(this.selectedMunicipio)
                         this.finalMesaId = this.selectedMesa
                     })
 
@@ -182,7 +182,7 @@
             async storeResults(){
 
                 this.storeResultsLoading = true
-                let res = await axios.post("{{ url('api/cierre-mesa/candidato/store-results') }}", {
+                let res = await axios.post("{{ url('api/cierre-mesa/partido/store-results') }}", {
                     "results": this.gatherData(),
                     "mesaId": this.finalMesaId
                 })
@@ -195,7 +195,7 @@
                         "icon": "success"
                     }).then(ans => {
                         
-                        window.location.href="{{ route('cierre-mesa.candidatos') }}"
+                        window.location.href="{{ route('cierre-mesa.partidos') }}"
                     })
 
                 }else{

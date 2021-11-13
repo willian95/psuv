@@ -305,9 +305,14 @@ Route::post("/votaciones/centro-votacion/mesa/delete", [GestionarParticipacionCo
 Route::get("/cierre-mesa/candidato", [CierreCandidatoController::class, "getMesasCerradas"]);
 Route::get("/cierre-mesa/candidato/get-mesas/{centro_votacion_id}", [CierreCandidatoController::class, "getMesasByCentroVotacion"]);
 Route::get("/cierre-mesa/candidato/get-candidatos", [CierreCandidatoController::class, "getCandidatos"]);
+Route::get("/cierre-mesa/candidato/get-candidatos-partido", [CierreCandidatoController::class, "getCandidatosPartidoPolitico"]);
 Route::get("/cierre-mesa/candidato/get-mesas-cerradas", [CierreCandidatoController::class, "getMesasCerradas"]);
 Route::get("/cierre-mesa/candidato/get-resultadods/{mesa_id}", [CierreCandidatoController::class, "getResultados"]);
 Route::get("/cierre-mesa/candidato/search-centro-votacion", [CierreCandidatoController::class, "searchCentroVotacion"]);
+Route::get("/cierre-mesa/candidato/search-candidato", [CierreCandidatoController::class, "searchCandidato"]);
 Route::post("/cierre-mesa/candidato/mesa/update", [CierreCandidatoController::class, "updateCierreMesa"]);
 Route::post("/cierre-mesa/candidato/store-results", [CierreCandidatoController::class, "storeResults"]);
+
+Route::post("/cierre-mesa/partido/store-results", [CierreCandidatoController::class, "storePartidoResults"]);
+Route::get("/cierre-mesa/partido/get-resultadods/{mesa_id}", [CierreCandidatoController::class, "getResultadosPartido"]);
 

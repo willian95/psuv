@@ -15,7 +15,7 @@
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">Cierre de mesa por candidato</h3>
+                        <h3 class="card-label">Cierre de mesa por partido</h3>
                     </div>
                     <div class="card-toolbar">
                        
@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="float-right">
-                                        <a href="{{ route('cierre-mesa.candidatos.cierre') }}" class="btn btn-primary w-100">Cierre de mesa</a>
+                                        <a href="{{ route('cierre-mesa.partidos.cierre') }}" class="btn btn-primary w-100">Cierre de mesa</a>
                                         <div class="form-group">
                                             <label>Buscar</label>
                                             <div class="d-flex">
@@ -114,14 +114,14 @@
         </div>
         <!--end::Container-->
 
-        @include("cierreMesa.candidatos.modal")
+        @include("cierreMesa.partidos.modal")
     </div>
 
 @endsection
 
 @push("scripts")
 
-    @include("cierreMesa.candidatos.script")
+    @include("cierreMesa.partidos.script")
 
 @endpush
 

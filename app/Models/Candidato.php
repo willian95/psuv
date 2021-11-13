@@ -69,4 +69,10 @@ class Candidato extends Model
         return $names;
     }//
 
+    public function cierrePartidoPolitico(){
+
+        return $this->hasMany(CandidatoPartidoPolitico::class, "candidatos_id");
+
+    }
+
 }

@@ -11,7 +11,7 @@
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">Nuevo cierre de mesa</h3>
+                        <h3 class="card-label">Nuevo cierre de mesa por partido</h3>
                     </div>
                     <div class="card-toolbar">
                        
@@ -118,6 +118,7 @@
                                                     <th style="width: 120px;">Foto</th>
                                                     <th>Candidato</th>
                                                     <th>Cargo</th>
+                                                    <th>Partido político</th>
                                                     <th>Total de votos</th>
                                                 </tr>
                                             </thead>
@@ -131,6 +132,9 @@
                                                     </td>
                                                     <td>
                                                         @{{ candidato.cargo_eleccion }}
+                                                    </td>
+                                                    <td>
+                                                        @{{ candidato.partido_politico }}
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control" value="0" :id="'voto-'+candidato.id" @keypress="isNumber($event)">
@@ -169,7 +173,7 @@
 
 @push("scripts")
 
-    @include("cierreMesa.candidatos.cierreCandidatos.script")
+    @include("cierreMesa.partidos.cierrePartido.script")
 
 @endpush
 

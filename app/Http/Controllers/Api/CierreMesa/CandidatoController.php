@@ -8,6 +8,7 @@ use App\Models\Mesa;
 use Carbon\Carbon;
 use App\Models\Eleccion;
 use App\Models\CierreCandidatoVotacion;
+use App\Models\CierrePartidoVotacion;
 use DB;
 
 class CandidatoController extends Controller
@@ -106,6 +107,36 @@ class CandidatoController extends Controller
 
     }
 
+    function getCandidatosPartidoPolitico(Request $request){
+
+        $query = "SELECT candidatos.id, foto, (candidatos.nombre||' '||candidatos.apellido)
+        candidato, cargo_eleccion, pp.nombre partido_politico FROM
+        public.candidatos_partido_politico cpp join public.candidatos on
+        candidatos.id=cpp.candidatos_id join public.partido_politico pp on
+        pp.id=partido_politico_id left join municipio on
+        municipio.id=municipio_id where cargo_eleccion= 'GOBERNADOR' or
+        municipio.id='".$request->municipio_id."' order by candidato;";
+        
+        $candidatos = DB::select(DB::raw($query));
+
+        return response()->json($candidatos);
+
+    }
+
+    function searchCandidato(Request $request){
+
+        if($request->search == ""){
+            $query = "SELECT candidatos.id, foto, (candidatos.nombre||' '||candidatos.apellido) candidato, cargo_eleccion FROM public.candidatos left join municipio on municipio.id=municipio_id where cargo_eleccion='GOBERNADOR' or municipio.id='".$request->municipio_id."' order by candidato";
+        }else{
+            $query = "SELECT candidatos.id, foto, (candidatos.nombre||' '||candidatos.apellido) candidato, cargo_eleccion FROM public.candidatos left join municipio on municipio.id=municipio_id where cargo_eleccion='GOBERNADOR' or municipio.id='".$request->municipio_id."' order by candidato";
+        }
+        
+        $candidatos = DB::select(DB::raw($query));
+
+        return response()->json($candidatos);
+
+    }
+
     function storeResults(Request $request){
 
         foreach($request->results as $result){
@@ -123,10 +154,34 @@ class CandidatoController extends Controller
 
     }
 
+    function storePartidoResults(Request $request){
+
+        foreach($request->results as $result){
+
+            $cierrePartidoVotacion = new CierrePartidoVotacion;
+            $cierrePartidoVotacion->mesa_id = $request->mesaId;
+            $cierrePartidoVotacion->candidatos_partido_politico_id = $result["id"];
+            $cierrePartidoVotacion->eleccion_id = Eleccion::orderBy("id", "desc")->first()->id;
+            $cierrePartidoVotacion->cantidad_voto = $result["votos"];
+            $cierrePartidoVotacion->save();
+
+        }
+
+        return response()->json(["success" => true, "msg" => "Resultados agregados exitosamente"]);
+
+    }
+
     function getResultados($mesa_id){
 
         $resultados = CierreCandidatoVotacion::where("mesa_id", $mesa_id)->with("candidato")->get();
 
+        return response()->json($resultados);
+
+    }
+
+    function getResultadosPartido($mesa_id){
+
+        $resultados = CierrePartidoVotacion::where("mesa_id", $mesa_id)->with("candidatoPartidoPolitico", "candidatoPartidoPolitico.partidoPolitico", "candidatoPartidoPolitico.candidato")->get();
         return response()->json($resultados);
 
     }

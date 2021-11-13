@@ -164,6 +164,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::view("cierre-mesa/candidatos", "cierreMesa.candidatos.index")->name('cierre-mesa.candidatos');
     Route::view("cierre-mesa/candidatos/cierre", "cierreMesa.candidatos.cierreCandidatos.index")->name('cierre-mesa.candidatos.cierre');
 
+    Route::view("cierre-mesa/partidos", "cierreMesa.partidos.index")->name('cierre-mesa.partidos');
+    Route::view("cierre-mesa/partidos/cierre", "cierreMesa.partidos.cierrePartido.index")->name('cierre-mesa.partidos.cierre');
 
 });
 
