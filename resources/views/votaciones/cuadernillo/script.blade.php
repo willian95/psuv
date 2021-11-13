@@ -13,6 +13,7 @@
 
                 loading:false,
                 emailLoading:false,
+                searchLoader:false,
 
                 selectedMunicipio:"0",
                 selectedParroquia:"0",
@@ -59,10 +60,10 @@
 
                 }
 
-                this.loading = true
+                this.searchLoader = true
                 let res = await axios.get("{{ url('/api/cuadernillo') }}"+"?parroquia_id="+this.selectedParroquia)
                 this.centrosVotacion = res.data.centros
-                this.loading = false
+                this.searchLoader = false
 
             },
 
@@ -89,6 +90,15 @@
 
                 }
                 
+
+            },
+
+            async generateUBCHPDF(municipio_id, parroquia_id, centro_votacion){
+
+                
+                window.location.href = "{{ url('cuadernillo/generate-pdf-ubch') }}"+"?municipio_id="+municipio_id+"&parroquia_id="+parroquia_id+"&centro_votacion_id="+centro_votacion
+
+
 
             },
             async countElectores(centro_votacion){

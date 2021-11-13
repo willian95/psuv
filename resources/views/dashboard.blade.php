@@ -65,7 +65,7 @@
                         
                     </div>
 
-                    <div class="row">
+                    {{--<div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <table class="table">
@@ -86,7 +86,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
 
                     <div class="row mt-10">
                         <div class="col-md-5">

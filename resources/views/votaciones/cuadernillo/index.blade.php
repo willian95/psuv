@@ -39,8 +39,8 @@
                         
                         <div class="col-md-2">
                             <label style="visibility: hidden;">Centro de Votación</label>
-                            <button class="btn btn-primary" @click="getCentrosVotacion()" v-if="!sarchLoader">Buscar</button>
-                            <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="sarchLoader"></div>
+                            <button class="btn btn-primary" @click="getCentrosVotacion()" v-if="!searchLoader">Buscar</button>
+                            <div class="spinner spinner-primary ml-1 mr-13 mt-5" v-if="searchLoader"></div>
                         </div>
                         
                     </div>
@@ -52,7 +52,8 @@
                                     <tr>
                                         <th>Código de centro</th>
                                         <th>Centro</th>
-                                        <th>Descargar</th>
+                                        <th>Descargar REP</th>
+                                        <th>Descargar UBCH</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -63,6 +64,9 @@
                                         <td>@{{ centro.nombre }}</td>
                                         <td>
                                             <button @click="generatePDF(centro.id)" class="btn btn-success">PDF</button>
+                                        </td>
+                                        <td>
+                                            <button @click="generateUBCHPDF(centro.parroquia.municipio.id, centro.parroquia.id, centro.id)" class="btn btn-success">PDF</button>
                                         </td>
                                         <td>
                                 

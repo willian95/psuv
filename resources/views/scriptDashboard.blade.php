@@ -76,7 +76,7 @@
                 let paramsMunicipio = this.searchedMunicipio
                 
 
-                let res = await axios.post("{{ url('api/reporte-carga/generate') }}", {
+                let res = await axios.post("{{ url('api/reporte-dashboard/generate') }}", {
                     centroVotacion: paramsCentroVotacion,
                     parroquia: paramsParroquia,
                     municipio: paramsMunicipio

@@ -127,6 +127,7 @@ Route::group(['middleware' => ['auth']], function() {
     })->name("cuadernillo");
 
     Route::get("cuadernillo/generate-pdf/{centro_votacion_id}", [CuadernilloController::class, "generatePDF"])->name("cuadernillo.pdf");
+    Route::get("cuadernillo/generate-pdf-ubch", [CuadernilloController::class, "generateUBCHPDF"])->name("cuadernillo.ubch.pdf");
 
     Route::get("gestionar-votos", function(){
 

@@ -212,6 +212,7 @@ Route::get("/listado-jefe/download", [ListadoController::class, "download"]);
 
 Route::get("/cuadernillo", [CuadernilloController::class, "centrosVotacion"]);
 Route::get("/cuadernillo/count-electores/{centro_votacion}", [CuadernilloController::class, "countElectores"]);
+Route::get("/cuadernillo/count-electores-ubch/{centro_votacion}", [CuadernilloController::class, "countElectoresUbch"]);
 Route::post("/cuadernillo/store-export-job", [CuadernilloController::class, "storeExportJob"]);
 
 Route::get("/gestionar-votos/get-centros", [GestionarVotosController::class, "getCentrosVotacion"]);
@@ -316,3 +317,5 @@ Route::post("/cierre-mesa/candidato/store-results", [CierreCandidatoController::
 Route::post("/cierre-mesa/partido/store-results", [CierreCandidatoController::class, "storePartidoResults"]);
 Route::get("/cierre-mesa/partido/get-resultadods/{mesa_id}", [CierreCandidatoController::class, "getResultadosPartido"]);
 
+
+Route::post("/reporte-dashboard/generate", [ReporteCargaController::class, "generate"]);
