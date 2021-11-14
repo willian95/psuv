@@ -90,7 +90,7 @@
                 this.cargados = res.data.data.movilizacion
 
                 
-                KTApexChartsDemo.init(this.metaGeneral > 0 ? this.metaGeneral : 1, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
+                KTApexChartsDemo.init(this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
                 //KTApexChartsDemo.init(0, 1, this.clickCount > 0 ? false : true, "#chart_12");
                 
                 this.clickCount++
