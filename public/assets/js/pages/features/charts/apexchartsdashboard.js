@@ -47,7 +47,7 @@ var KTApexChartsDemo = function () {
 		const apexChart = idSelector;
 		console.log(meta, carga, newChart, idSelector)
 		var options = {
-			series: [meta, carga],
+			series: [carga, meta],
 			chart: {
 				width: 380,
 				type: 'pie',
