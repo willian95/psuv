@@ -111,5 +111,15 @@
             </tr>
         @endforeach
     </tbody>
+    
 
 </table>
+
+<script type="text/php">
+    if ( isset($pdf) ) {
+        $pdf->page_script('
+            $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+            $pdf->text(270, 820, "Pág $PAGE_NUM de $PAGE_COUNT", $font, 10);
+        ');
+    }
+</script>
