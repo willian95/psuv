@@ -51,7 +51,7 @@ var KTApexChartsDemo = function () {
 				width: 380,
 				type: 'pie',
 			},
-			labels: ['Meta', 'Carga'],
+			labels: ['Participación', 'Movilización'],
 			responsive: [{
 				breakpoint: 480,
 				options: {
@@ -77,7 +77,7 @@ var KTApexChartsDemo = function () {
 					width: 380,
 					type: 'pie',
 				},
-				labels: ['Meta', 'Carga'],
+				labels: ['Participación', 'Movilización'],
 				responsive: [{
 					breakpoint: 480,
 					options: {
