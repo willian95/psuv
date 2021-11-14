@@ -45,7 +45,7 @@ var KTApexChartsDemo = function () {
 
 	var _demo12 = function (meta, carga, newChart, idSelector) {
 		const apexChart = idSelector;
-		console.log("working")
+		console.log(meta, carga, newChart, idSelector)
 		var options = {
 			series: [meta, carga],
 			chart: {
