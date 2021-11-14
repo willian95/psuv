@@ -531,15 +531,6 @@ License: You must have a valid license purchased only from themeforest(the above
 											</li>
 
 											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('gestionar-voto') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text text-white">Gestionar votos</span>
-												</a>
-											</li>
-
-											<li class="menu-item" aria-haspopup="true">
 												<a href="{{ route('votaciones.centro-votacion') }}" class="menu-link">
 													<i class="menu-bullet menu-bullet-line">
 														<span></span>
