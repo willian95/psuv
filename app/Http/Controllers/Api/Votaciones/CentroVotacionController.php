@@ -22,10 +22,15 @@ class CentroVotacionController extends Controller
         
         }else{
 
+            $municipio_id = $request->municipio_id;
             $centros = CentroVotacion::withCount("electores")->withCount(['votaciones' => function($query) { 
                     $query->where('ejercio_voto', true); // without `order_id`
                 }
-            ])->with("parroquia", "parroquia.municipio")->where("municipio_id", $request->municipio_id)->with("metasUbchs")->paginate(10);
+            ])->with("parroquia", "parroquia.municipio")->whereHas("parroquia", function($q) use($municipio_id){
+
+                $q->where("municipio_id", $municipio_id);
+
+            })->with("metasUbchs")->paginate(10);
 
         }
         
