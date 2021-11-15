@@ -300,6 +300,9 @@ Route::post("/votaciones/centro-votacion/update-voto", [VotacionesCentroVotacion
 Route::post("/votaciones/centro-votacion/update-voto-instituciones", [VotacionesCentroVotacionController::class, "updateEjercioVotoInstitucion"]);
 Route::get("/votaciones/centro-votacion/get-votantes", [VotacionesCentroVotacionController::class, "getVotantesByCentroVotacion"]);
 Route::get("/votaciones/centro-votacion/search-votantes", [VotacionesCentroVotacionController::class, "searchVotantesByCentroVotacion"]);
+Route::get("/votaciones/centro-votacion/get-personal-punto-rojo", [VotacionesCentroVotacionController::class, "getPersonalPuntoRojo"]);
+Route::get("/votaciones/centro-votacion/search-personal-punto-rojo", [VotacionesCentroVotacionController::class, "searchPersonalPuntoRojo"]);
+Route::get("/votaciones/centro-votacion/export-personal-punto-rojo/{centroVotacionId}", [VotacionesCentroVotacionController::class, "exportPersonalPuntoRojo"]);
 Route::post("/votaciones/centro-votacion/delete-voto", [VotacionesCentroVotacionController::class, "deleteVoto"]);
 
 Route::get("/votaciones/centro-votacion/mesa/{centro_votacion_id}", [GestionarParticipacionController::class, "getMesas"]);

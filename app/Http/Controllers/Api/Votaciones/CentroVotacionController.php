@@ -8,6 +8,8 @@ use App\Models\Votacion;
 use App\Models\CentroVotacion;
 use App\Models\ReporteVoto;
 use Carbon\Carbon;
+use App\Models\PersonalPuntoRojo;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class CentroVotacionController extends Controller
 {
@@ -18,7 +20,7 @@ class CentroVotacionController extends Controller
             $centros = CentroVotacion::withCount("electores")->withCount(['votaciones' => function($query) { 
                     $query->where('ejercio_voto', true); // without `order_id`
                 }
-            ])->with("parroquia", "parroquia.municipio")->with("metasUbchs")->paginate(20);
+            ])->with("parroquia", "parroquia.municipio", "jefeUbchs", "jefeUbchs.personalCaracterizacion")->with("metasUbchs")->paginate(20);
         
         }else{
 
@@ -26,7 +28,7 @@ class CentroVotacionController extends Controller
             $centros = CentroVotacion::withCount("electores")->withCount(['votaciones' => function($query) { 
                     $query->where('ejercio_voto', true); // without `order_id`
                 }
-            ])->with("parroquia", "parroquia.municipio")->whereHas("parroquia", function($q) use($municipio_id){
+            ])->with("parroquia", "parroquia.municipio", "jefeUbchs", "jefeUbchs.personalCaracterizacion")->whereHas("parroquia", function($q) use($municipio_id){
 
                 $q->where("municipio_id", $municipio_id);
 
@@ -48,10 +50,15 @@ class CentroVotacionController extends Controller
         
         }else{
 
+            $municipio_id = $request->municipio_id;
             $centros = CentroVotacion::withCount("electores")->withCount(['votaciones' => function($query) { 
                     $query->where('ejercio_voto', true); // without `order_id`
                 }
-            ])->where("nombre", "like","%".strtoupper($request->search)."%")->with("parroquia", "parroquia.municipio")->where("municipio_id", $request->municipio_id)->with("metasUbchs")->paginate(10);
+            ])->where("nombre", "like","%".strtoupper($request->search)."%")->with("parroquia", "parroquia.municipio")->whereHas("parroquia", function($q) use($municipio_id){
+
+                $q->where("municipio_id", $municipio_id);
+
+            })->with("metasUbchs")->paginate(10);
 
         }
         
@@ -178,6 +185,38 @@ class CentroVotacionController extends Controller
         $votacion->update();
         
         return response()->json(["success" => true, "msg" => "Voto eliminado"]);
+
+
+    }
+
+    function getPersonalPuntoRojo(Request $request){
+
+        $personalPuntoRojo = PersonalPuntoRojo::where("centro_votacion_id", $request->centro_votacion_id)->with("centroVotacion")->paginate(20);
+        return response()->json($personalPuntoRojo);
+
+    }
+
+    function searchPersonalPuntoRojo(Request $request){
+
+        $personalPuntoRojo = PersonalPuntoRojo::where("centro_votacion_id", $request->centro_votacion_id)->where("nombre", "like", "%".strtoupper($request->search)."%")->with("centroVotacion")->paginate(20);
+        return response()->json($personalPuntoRojo);
+
+    }
+
+    function exportPersonalPuntoRojo($centroVotacionId){
+
+        $data = PersonalPuntoRojo::where("centro_votacion_id", $centroVotacionId)->with("centroVotacion")->get();
+
+        return  (new FastExcel($data))->download('personalPuntoRojo.xlsx', function ($personal) {
+            
+            //dd($personal);
+            return [
+                'CV' => $personal->centroVotacion->nombre,
+                'NOMBRE' => $personal->fullName,
+                'TELÉFONO PRINCIPAL' => $personal->telefono_principal,
+                'TELÉFONO SECUNDARIO' => $personal->telefono_secundario
+            ];
+        });
 
 
     }

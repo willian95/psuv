@@ -91,7 +91,7 @@
                                         <td>@{{ centro.votaciones_count }}</td>
                                         <td>
                                             <a :href="'{{ url('votaciones/centro-votaciones/voto/') }}'+'/'+centro.id" class="btn btn-primary">Voto</a>
-                                            <a href="#" class="btn btn-success">P. Rojo</a>
+                                            <button  data-toggle="modal" data-target=".marketModal" class="btn btn-success" @click="personalPuntoRojo(centro)">P. Rojo</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -123,7 +123,7 @@
             <!--end::Card-->
         </div>
         <!--end::Container-->
-
+        @include('votaciones.centroVotacion.modal')
 
     </div>
 

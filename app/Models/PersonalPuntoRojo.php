@@ -30,4 +30,12 @@ class PersonalPuntoRojo extends Model
         }
         return $name;
     }
+
+    public function centroVotacion(){
+
+        return $this->belongsTo(CentroVotacion::class);
+
+    }
+
+
 }
