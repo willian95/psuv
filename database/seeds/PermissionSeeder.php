@@ -42,6 +42,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'comandos enlace'],
             ['name' => 'gestion candidatos'],
             ['name' => 'gestion centros de votacion'],
+            ['name' => 'estadistica cierre mesa candidatos'],
         ];
         foreach ($rolesArray as $role) {
             Model::firstOrCreate(

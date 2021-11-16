@@ -158,6 +158,8 @@ Route::prefix('report')->group(function () {
     Route::get("/comandos/parroquial", [PersonalComandoParroquialController::class, "excel"]);
     Route::get("/comandos/enlace", [PersonalEnlaceTerritorialController::class, "excel"]);
     Route::get("/candidatos", [CandidatoController::class, "excel"]);
+    Route::get("/cierre/candidatos", [CandidatoController::class, "cierreCandidato"]);
+    Route::get("/cierre/candidatos/detalle", [CandidatoController::class, "cierreCandidatoDetalle"]);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {

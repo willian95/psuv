@@ -166,6 +166,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::view("cierre-mesa/partidos", "cierreMesa.partidos.index")->name('cierre-mesa.partidos');
     Route::view("cierre-mesa/partidos/cierre", "cierreMesa.partidos.cierrePartido.index")->name('cierre-mesa.partidos.cierre');
 
+    Route::view("estadistica/cierre-mesa", "reports.cierreCandidato.view");
+
 });
 
 
