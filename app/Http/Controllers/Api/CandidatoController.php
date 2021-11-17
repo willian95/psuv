@@ -353,4 +353,122 @@ class CandidatoController extends Controller
         return response()->json($raw,200);
     }//cierreCandidatoDetalle
 
+    
+    public function cierrePartido(Request $request){
+        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
+        $candidato_id=$request->input("candidato_id");
+        $municipio_nombre=$request->input("municipio_nombre");
+        $parroquia_nombre=$request->input("parroquia_nombre");
+        $centro_votacion_nombre=$request->input("centro_votacion_nombre");
+        $condition="eleccion.id={$eleccion->id}";
+        if($candidato_id){
+            $condition.=" AND candidatos.id={$candidato_id}";
+        }
+        if($municipio_nombre){
+            $condition.=" AND mu.nombre='{$municipio_nombre}'";
+        }
+        if($parroquia_nombre){
+            $condition.=" AND pa.nombre='{$parroquia_nombre}'";
+        }
+        if($centro_votacion_nombre){
+            $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
+        }
+        $raw=DB::select(DB::raw("SELECT eleccion.nombre comando_campaña, eleccion.nivel eleccion, (candidatos.nombre||' '||candidatos.apellido) candidato, candidatos.id candidato_id,
+        cargo_eleccion, pp.nombre partido_politico, sum(cantidad_voto) total_votos
+        FROM public.cierre_partido_votacion cpv
+        join public.candidatos_partido_politico cpp on cpp.id=cpv.candidatos_partido_politico_id
+        join public.mesa on mesa.id=cpv.mesa_id
+        join public.candidatos on candidatos.id=cpp.candidatos_id
+        join public.partido_politico pp on pp.id=cpp.partido_politico_id
+        join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
+        join public.parroquia pa on pa.id=cv.parroquia_id
+        join public.municipio mu on mu.id=pa.municipio_id
+        join public.eleccion on eleccion.id=cpv.eleccion_id
+            where {$condition}
+        group by candidato, cargo_eleccion, pp.nombre, eleccion.nombre, eleccion.nivel,candidatos.id
+        order by cargo_eleccion desc, total_votos desc;"
+        ));
+        return response()->json($raw,200);
+
+    }//cierrePartido
+
+    
+    public function cierrePartidoDetalle(Request $request){
+        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
+        $candidato_id=$request->input("candidato_id");
+        $tipo_detalle=$request->input("tipo_detalle");
+        $condition="eleccion.id={$eleccion->id}";
+        if($candidato_id){
+            $condition.=" AND candidatos.id={$candidato_id}";
+        }
+        $raw=null;
+        if($tipo_detalle=="municipio"){
+            $raw=DB::select(DB::raw("SELECT mu.nombre categoria, (candidatos.nombre||' '||candidatos.apellido) candidato, 
+            cargo_eleccion, pp.nombre partido_politico, sum(cantidad_voto) total_votos
+            FROM public.cierre_partido_votacion cpv
+            join public.candidatos_partido_politico cpp on cpp.id=cpv.candidatos_partido_politico_id
+            join public.mesa on mesa.id=cpv.mesa_id
+            join public.candidatos on candidatos.id=cpp.candidatos_id
+            join public.partido_politico pp on pp.id=cpp.partido_politico_id
+            join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
+            join public.parroquia pa on pa.id=cv.parroquia_id
+            join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=cpv.eleccion_id
+            where {$condition}
+            group by mu.nombre, candidato, cargo_eleccion, pp.nombre
+            order by mu.nombre;"
+            ));
+        }elseif($tipo_detalle=="parroquia"){
+            $raw=DB::select(DB::raw("SELECT mu.nombre municipio, pa.nombre categoria, (candidatos.nombre||' '||candidatos.apellido) candidato, 
+            cargo_eleccion, pp.nombre partido_politico, sum(cantidad_voto) total_votos
+            FROM public.cierre_partido_votacion cpv
+            join public.candidatos_partido_politico cpp on cpp.id=cpv.candidatos_partido_politico_id
+            join public.mesa on mesa.id=cpv.mesa_id
+            join public.candidatos on candidatos.id=cpp.candidatos_id
+            join public.partido_politico pp on pp.id=cpp.partido_politico_id
+            join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
+            join public.parroquia pa on pa.id=cv.parroquia_id
+            join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=cpv.eleccion_id
+            where {$condition}
+            group by mu.nombre, pa.nombre, candidato, cargo_eleccion, pp.nombre
+            order by mu.nombre, pa.nombre asc;"
+            ));
+        }elseif($tipo_detalle=="centro_votacion"){
+            $raw=DB::select(DB::raw("SELECT mu.nombre municipio, pa.nombre parroquia, cv.nombre categoria, (candidatos.nombre||' '||candidatos.apellido) candidato, 
+            cargo_eleccion, pp.nombre partido_politico, sum(cantidad_voto) total_votos
+            FROM public.cierre_partido_votacion cpv
+            join public.candidatos_partido_politico cpp on cpp.id=cpv.candidatos_partido_politico_id
+            join public.mesa on mesa.id=cpv.mesa_id
+            join public.candidatos on candidatos.id=cpp.candidatos_id
+            join public.partido_politico pp on pp.id=cpp.partido_politico_id
+            join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
+            join public.parroquia pa on pa.id=cv.parroquia_id
+            join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=cpv.eleccion_id
+            where {$condition}
+            group by mu.nombre, pa.nombre, cv.nombre, candidato, cargo_eleccion, pp.nombre
+            order by mu.nombre, pa.nombre, cv.nombre asc;"
+            ));
+        }else{
+            //Mesa
+            $raw=DB::select(DB::raw("SELECT mu.nombre municipio, pa.nombre parroquia, cv.nombre centro_votacion, (candidatos.nombre||' '||candidatos.apellido) candidato, 
+            cargo_eleccion, pp.nombre partido_politico, numero_mesa, cantidad_voto total_votos
+            FROM public.cierre_partido_votacion cpv
+            join public.candidatos_partido_politico cpp on cpp.id=cpv.candidatos_partido_politico_id
+            join public.mesa on mesa.id=cpv.mesa_id
+            join public.candidatos on candidatos.id=cpp.candidatos_id
+            join public.partido_politico pp on pp.id=cpp.partido_politico_id
+            join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
+            join public.parroquia pa on pa.id=cv.parroquia_id
+            join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=cpv.eleccion_id
+            where {$condition}
+            group by mu.nombre, pa.nombre, cv.nombre, candidato, cargo_eleccion, numero_mesa, pp.nombre, cantidad_voto
+            order by mu.nombre, pa.nombre, cv.nombre, numero_mesa;"
+            ));
+        }
+        return response()->json($raw,200);
+    }//cierrePartidoDetalle
+
 }

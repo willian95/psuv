@@ -698,6 +698,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								
 								@canany([
 									"estadistica cierre mesa candidatos",
+									"estadistica cierre mesa partidos",
 								])
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
@@ -720,6 +721,16 @@ License: You must have a valid license purchased only from themeforest(the above
 														<span></span>
 													</i>
 													<span class="menu-text text-white">Cierre de mesa candidatos</span>
+												</a>
+											</li>
+											@endcan
+											@can('estadistica cierre mesa partidos')
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('estadistica/cierre-mesa-partidos') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Cierre de mesa partidos</span>
 												</a>
 											</li>
 											@endcan

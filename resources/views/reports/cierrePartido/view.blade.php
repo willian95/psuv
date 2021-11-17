@@ -100,15 +100,15 @@ $municipios=\App\Models\Municipio::all();
 
                         <br>
                             <div class="text-right my-2">
-                                <button title="Exportar a excel" class="btn btn-info" @click="exportTableToExcel('tblBody','cierre_candidatos')" >
+                                <button title="Exportar a excel" class="btn btn-info" @click="exportTableToExcel('tblBody','cierre_partidos')" >
                                     Exportar <i class="fa fa-file-excel"></i>
                                 </button>
                             </div>
-                            <table border="1" class="table table-bordered"  id="tblBody">
+                            <table class="table table-bordered" border="1" id="tblBody">
                                 <thead>
                                     <tr>
                                         <th>Candidato</th>
-                                        <th>Cargo</th>
+                                        <th>Partido</th>
                                         <th>Total de votos</th>
                                         <th>Acción</th>
                                     </tr>
@@ -116,7 +116,7 @@ $municipios=\App\Models\Municipio::all();
                                 <tbody>
                                     <tr v-for="result in results">
                                         <td>@{{result.candidato}}</td>
-                                        <td>@{{result.cargo_eleccion}}</td>
+                                        <td>@{{result.partido_politico}}</td>
                                         <td>@{{result.total_votos}}</td>
                                         <td>
                                             <button class="btn btn-info" @click="entity=result;"  data-toggle="modal" data-target=".marketModal">
@@ -287,7 +287,7 @@ $municipios=\App\Models\Municipio::all();
                     const response = await axios({
                         method: 'get',
                         responseType: 'json',
-                        url: "{{ url('api/report/cierre/candidatos/detalle') }}",
+                        url: "{{ url('api/report/cierre/candidatos-partido/detalle') }}",
                         params: params
                     });
 
@@ -378,7 +378,7 @@ $municipios=\App\Models\Municipio::all();
                     const response = await axios({
                         method: 'get',
                         responseType: 'json',
-                        url: "{{ url('api/report/cierre/candidatos') }}",
+                        url: "{{ url('api/report/cierre/candidatos-partido') }}",
                         params: params
                     });
 

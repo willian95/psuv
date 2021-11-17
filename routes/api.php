@@ -160,6 +160,8 @@ Route::prefix('report')->group(function () {
     Route::get("/candidatos", [CandidatoController::class, "excel"]);
     Route::get("/cierre/candidatos", [CandidatoController::class, "cierreCandidato"]);
     Route::get("/cierre/candidatos/detalle", [CandidatoController::class, "cierreCandidatoDetalle"]);
+    Route::get("/cierre/candidatos-partido", [CandidatoController::class, "cierrePartido"]);
+    Route::get("/cierre/candidatos-partido/detalle", [CandidatoController::class, "cierrePartidoDetalle"]);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
