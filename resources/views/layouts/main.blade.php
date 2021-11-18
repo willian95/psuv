@@ -592,7 +592,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 								@endcan
 
-								
+								@can('cierre mesa')
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
@@ -629,6 +629,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+								@endcan
 							
 
 								@canany([
