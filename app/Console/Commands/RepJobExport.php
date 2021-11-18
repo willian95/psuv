@@ -243,7 +243,7 @@ class RepJobExport extends Command
 
                 $this->cargarElectoresEnVotacion($job->centro_votacion_id);
 
-                $electores = Votacion::where("centro_votacion_id", $job->centro_votacion_id)->with("elector")->get();
+                $electores = Votacion::where("centro_votacion_id", $job->centro_votacion_id)->with("elector")->orderBy("codigo_cuadernillo")->get();
                 $votaciones = $this->organizar($electores);
                 $jefeUbch = JefeUbch::where("centro_votacion_id", $job->centro_votacion_id)->with("personalCaracterizacion")->first();
                 $centroVotacion = CentroVotacion::with("parroquia", "parroquia.municipio")->find($job->centro_votacion_id);
