@@ -318,6 +318,7 @@
                 this.form.municipio_id="";
                 this.form.partidos_politicos=[];
                 this.action="create";
+                $(".fileinput").val('');
             },
             async obtenerMunicipios() {
                 try {
