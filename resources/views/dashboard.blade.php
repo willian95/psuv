@@ -128,7 +128,9 @@
                                             <th>Entidad</th>
                                             <th>Participación</th>
                                             <th>Movilización</th>
+                                            <th>Gobierno</th>
                                             <th>Oposición</th>
+                                            
                                             
                                         </tr>
                                     </thead>
@@ -137,8 +139,9 @@
                                             <td>@{{ info.nombre }}</td>
                                             <td>@{{ info.participacion }}</td>
                                             <td>@{{ info.movilizacion }}</td>
+                                            <td>@{{ info.movilizacion }} </td>
                                             <td>@{{ (info.participacion - info.movilizacion) > 0 ? (info.participacion - info.movilizacion) : 0  }}</td>
-                                          
+                                            
                                         </tr>
                                     </tbody>
                                 </table>
