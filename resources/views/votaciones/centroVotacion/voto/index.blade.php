@@ -43,7 +43,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group d-flex">
                                         <input id="movilizacion" class="form-control custom-radio" type="radio" v-model="registerType" value="movilizacion" @change="resetName()">
-                                        <label for="movilizacion" class="mt-3 ml-3">Movilización</label>
+                                        <label for="movilizacion" class="mt-3 ml-3">Movimiento</label>
                                         
                                     </div>
                                 </div>

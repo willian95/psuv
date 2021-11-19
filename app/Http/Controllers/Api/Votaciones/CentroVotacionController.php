@@ -100,9 +100,11 @@ class CentroVotacionController extends Controller
         $votacion = Votacion::where("codigo_cuadernillo", $request->codigoCuadernillo)->where("centro_votacion_id", $request->centroVotacionId)->first();
         
         if($votacion){
-            $votacion->ejercio_voto = true;
-            $votacion->hora = Carbon::now()->format('H:i');
-            $votacion->update();
+            if($votacion->ejercio_voto == false){
+                $votacion->ejercio_voto = true;
+                $votacion->hora = Carbon::now()->format('H:i');
+                $votacion->update();
+            }
 
             return response()->json(["success" => true, "msg" => "Voto registrado"]);
 
@@ -123,9 +125,13 @@ class CentroVotacionController extends Controller
         })->where("centro_votacion_id", $request->centroVotacionId)->first();
         
         if($votacion){
-            $votacion->ejercio_voto = true;
-            $votacion->hora = Carbon::now()->format('H:i');
-            $votacion->update();
+
+            if($votacion->ejercio_voto == false){
+                $votacion->ejercio_voto = true;
+                $votacion->hora = Carbon::now()->format('H:i');
+                $votacion->update();
+            }
+            
 
             ReporteVoto::updateOrCreate(
                 [
