@@ -33,7 +33,7 @@
                     links:"",
                     totalPages:"",
 
-                    centroVotacion:"{{ $centro_votacion_id }}",
+                    centroVotacion:"{{ $centro_votacion->id }}",
 
                     authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}"
                 }

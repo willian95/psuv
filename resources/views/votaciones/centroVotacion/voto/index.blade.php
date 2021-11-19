@@ -10,8 +10,15 @@
             <div class="card card-custom">
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                    <div class="card-title">
-                        <h3 class="card-label">Registrar movilización</h3>
+                    <div class="card-title w-100">
+                        <div class="row w-100">
+                            <div class="col-6">
+                                <h3 class="card-label">Registrar movilización</h3>
+                            </div>
+                            <div class="col-6">
+                                <h3 class="card-label">{{ $centro_votacion->nombre }}</h3>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-toolbar">
                        
@@ -212,9 +219,7 @@
                                             <span>Nombre</span>
                                         </th>
 
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Centro de votación</span>
-                                        </th>
+                                   
 
                                         <th class="datatable-cell datatable-cell-sort">
                                             <span>Hora</span>
@@ -225,13 +230,13 @@
                                         <th class="datatable-cell datatable-cell-sort">
                                             <span>Acción</span>
                                         </th>
-                                    </tr>
+                                    </tr>vot
                                 </thead>
                                 <tbody>
                                     <tr v-for="votante in votantes">
                                         <td>@{{ votante.codigo_cuadernillo }}</td>
                                         <td>@{{ votante.elector.primer_nombre }} @{{ votante.elector.primer_apellido }}</td>
-                                        <td>@{{ votante.elector.centro_votacion.nombre }}</td>
+ 
                                         <td>@{{ votante.hora }}</td>
                                         <td>
                                             <button class="btn btn-secondary" @click="remove(votante.id)">
