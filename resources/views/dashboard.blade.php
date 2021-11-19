@@ -129,7 +129,7 @@
                                             <th>Participación</th>
                                             <th>Movilización</th>
                                             <th>Oposición</th>
-                                            <th>% de votación</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,7 +138,7 @@
                                             <td>@{{ info.participacion }}</td>
                                             <td>@{{ info.movilizacion }}</td>
                                             <td>@{{ (info.participacion - info.movilizacion) > 0 ? (info.participacion - info.movilizacion) : 0  }}</td>
-                                            <td>@{{ info.movilizacion }} </td>
+                                          
                                         </tr>
                                     </tbody>
                                 </table>
