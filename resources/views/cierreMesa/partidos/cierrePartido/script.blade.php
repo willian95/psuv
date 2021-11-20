@@ -232,7 +232,7 @@
             }
 
             if(this.authMunicipio != 0){
-                this.disabledMunicipio = false
+                this.disabledMunicipio = true
             }
 
         }
