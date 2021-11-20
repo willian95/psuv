@@ -52,7 +52,9 @@ class DashboardController extends Controller
 
         $movilizacion = Votacion::where("ejercio_voto", true)->where("centro_votacion_id", $centro_votacion_id)->count();
 
-        $participacion = ParticipacionCentroVotacion::sum("cantidad");
+        $participacion = ParticipacionCentroVotacion::whereHas("mesa", function($q) use($centro_votacion_id){
+            $q->where("centro_votacion_id", $centro_votacion_id);
+        })->sum("cantidad");
 
         return ["movilizacion" => $movilizacion, "participacion" => $participacion];
     
@@ -66,7 +68,9 @@ class DashboardController extends Controller
 
         })->count();
 
-        $participacion = ParticipacionCentroVotacion::sum("cantidad");
+        $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion", function($q) use($parroquia_id){
+            $q->where("parroquia_id", $parroquia_id);
+        })->sum("cantidad");
 
         return ["movilizacion" => $movilizacion, "participacion" => $participacion];
     
@@ -106,7 +110,11 @@ class DashboardController extends Controller
 
         })->count();
 
-        $participacion = ParticipacionCentroVotacion::sum("cantidad");
+        $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion.parroquia", function($q) use($municipio_id){
+
+            $q->where("municipio_id", $municipio_id);
+
+        })->sum("cantidad");
 
         return ["movilizacion" => $movilizacion, "participacion" => $participacion];
     
