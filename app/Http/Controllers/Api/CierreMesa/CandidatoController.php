@@ -99,7 +99,7 @@ class CandidatoController extends Controller
 
     function getCandidatos(Request $request){
 
-        $query = "SELECT candidatos.id, foto, (candidatos.nombre||' '||candidatos.apellido) candidato, cargo_eleccion FROM public.candidatos left join municipio on municipio.id=municipio_id where cargo_eleccion='GOBERNADOR' or municipio.id='".$request->municipio_id."' order by candidato";
+        $query = "SELECT candidatos.id, foto, (candidatos.nombre||' '||candidatos.apellido) candidato, cargo_eleccion FROM public.candidatos left join municipio on municipio.id=municipio_id where cargo_eleccion='Gobernador' or municipio.id='".$request->municipio_id."' order by candidato";
         
         $candidatos = DB::select(DB::raw($query));
 
