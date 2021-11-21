@@ -436,6 +436,7 @@ class CandidatoController extends Controller
         $tipo_detalle=$request->input("tipo_detalle");
         $municipio_nombre=$request->input("municipio_nombre");
         $parroquia_nombre=$request->input("parroquia_nombre");
+        $partido_politico_nombre=$request->input("partido_politico_nombre");
         $centro_votacion_nombre=$request->input("centro_votacion_nombre");
         $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
@@ -447,9 +448,10 @@ class CandidatoController extends Controller
         if($parroquia_nombre){
             $condition.=" AND pa.nombre='{$parroquia_nombre}'";
         }
-        if($centro_votacion_nombre){
-            $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
+        if($partido_politico_nombre){
+            $condition.=" AND pp.nombre='{$partido_politico_nombre}'";
         }
+
         $raw=null;
         if($tipo_detalle=="municipio"){
             $raw=DB::select(DB::raw("SELECT mu.nombre categoria, (candidatos.nombre||' '||candidatos.apellido) candidato, 

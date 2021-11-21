@@ -2,7 +2,6 @@
 
 @section("content")
 @php
-$candidatos=\App\Models\Candidato::all();
 $municipios=\App\Models\Municipio::all();
 @endphp
     <div class="d-flex flex-column-fluid" id="content" v-cloak>
