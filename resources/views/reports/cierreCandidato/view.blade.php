@@ -191,8 +191,9 @@ $municipios=\App\Models\Municipio::all();
                                 <tbody>
                                     <tr v-for="rd in resultsDetail">
                                         <td>
-                                            <span v-if="tipo_detalle=='mesa'">Mesa </span>
-                                            @{{rd.categoria}}
+                                            <span v-if="tipo_detalle=='mesa'">Mesa @{{rd.numero_mesa}} </span>
+                                            <span v-else>@{{rd.categoria}}</span>
+                                            
                                         </td>
                                         <td>@{{rd.total_votos}}</td>
                                     </tr>
@@ -268,6 +269,9 @@ $municipios=\App\Models\Municipio::all();
                     let params={
                         tipo_detalle:this.tipo_detalle,
                         candidato_id:this.entity.candidato_id,
+                        municipio_nombre:this.municipio_nombre,
+                        parroquia_nombre:this.parroquia_nombre,
+                        centro_votacion_nombre:this.centro_votacion_nombre,
                     };
                     this.loading = true;
                     const response = await axios({

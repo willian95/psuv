@@ -392,6 +392,7 @@ class CandidatoController extends Controller
         $municipio_nombre=$request->input("municipio_nombre");
         $parroquia_nombre=$request->input("parroquia_nombre");
         $centro_votacion_nombre=$request->input("centro_votacion_nombre");
+        $cargo_eleccion=$request->input("cargo_eleccion");
         $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
         $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
@@ -405,6 +406,9 @@ class CandidatoController extends Controller
         }
         if($centro_votacion_nombre){
             $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
+        }
+        if($cargo_eleccion){
+            $condition.=" AND cargo_eleccion='{$cargo_eleccion}'";
         }
         $raw=DB::select(DB::raw("SELECT eleccion.nombre comando_campaña, eleccion.nivel eleccion, (candidatos.nombre||' '||candidatos.apellido) candidato, candidatos.id candidato_id,
         cargo_eleccion, pp.nombre partido_politico, sum(cantidad_voto) total_votos
@@ -430,9 +434,21 @@ class CandidatoController extends Controller
         $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
         $candidato_id=$request->input("candidato_id");
         $tipo_detalle=$request->input("tipo_detalle");
+        $municipio_nombre=$request->input("municipio_nombre");
+        $parroquia_nombre=$request->input("parroquia_nombre");
+        $centro_votacion_nombre=$request->input("centro_votacion_nombre");
         $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
             $condition.=" AND candidatos.id={$candidato_id}";
+        }
+        if($municipio_nombre){
+            $condition.=" AND mu.nombre='{$municipio_nombre}'";
+        }
+        if($parroquia_nombre){
+            $condition.=" AND pa.nombre='{$parroquia_nombre}'";
+        }
+        if($centro_votacion_nombre){
+            $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
         }
         $raw=null;
         if($tipo_detalle=="municipio"){
