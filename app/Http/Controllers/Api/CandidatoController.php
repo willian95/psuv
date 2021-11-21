@@ -21,6 +21,9 @@ class CandidatoController extends Controller
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $search = $request->input('search');
+            $municipio_id = $request->input('municipio_id');
+            $cargo_eleccion = $request->input('cargo_eleccion');
+            $not_pagination = $request->input('not_pagination');
             $includes= $request->input('includes') ? $request->input('includes') : [];
             //Init query
             $query=Model::query();
@@ -37,11 +40,18 @@ class CandidatoController extends Controller
                 $query->where("nombre", "LIKE", "%".$search."%")
                 ->orWhere("apellido", "LIKE", "%".$search."%");
             }
-
+            if($municipio_id){
+                $query->where('municipio_id',$municipio_id);
+            }
+            if($cargo_eleccion){
+                $query->where('cargo_eleccion',$cargo_eleccion);
+            }
             $query->orderBy("created_at","DESC");
-            $query=$query->paginate(15);
-            return response()->json($query);
-            // $this->addFilters($request, $query);
+            if(!$not_pagination){
+                $query=$query->paginate(15);
+                return response()->json($query);
+            }
+            $this->addFilters($request, $query);
 
             $response = $this->getSuccessResponse(
                $query,
@@ -259,7 +269,9 @@ class CandidatoController extends Controller
         $municipio_nombre=$request->input("municipio_nombre");
         $parroquia_nombre=$request->input("parroquia_nombre");
         $centro_votacion_nombre=$request->input("centro_votacion_nombre");
-        $condition="1=1";
+        $cargo_eleccion=$request->input("cargo_eleccion");
+        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
+        $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
             $condition.=" AND ccv.candidatos_id={$candidato_id}";
         }
@@ -272,6 +284,9 @@ class CandidatoController extends Controller
         if($centro_votacion_nombre){
             $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
         }
+        if($cargo_eleccion){
+            $condition.=" AND cargo_eleccion='{$cargo_eleccion}'";
+        }
         $raw=DB::select(DB::raw("SELECT (candidatos.nombre||' '||candidatos.apellido) candidato, candidatos.id candidato_id,
         cargo_eleccion, sum(cantidad_voto) total_votos
         FROM public.cierre_candidato_votacion ccv
@@ -280,6 +295,7 @@ class CandidatoController extends Controller
         join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
         join public.parroquia pa on pa.id=cv.parroquia_id
         join public.municipio mu on mu.id=pa.municipio_id
+        join public.eleccion on eleccion.id=ccv.eleccion_id
         where {$condition}
         group by candidato, cargo_eleccion,candidato_id
         order by cargo_eleccion desc, total_votos desc"
@@ -291,9 +307,22 @@ class CandidatoController extends Controller
     public function cierreCandidatoDetalle(Request $request){
         $candidato_id=$request->input("candidato_id");
         $tipo_detalle=$request->input("tipo_detalle");
-        $condition="1=1";
+        $municipio_nombre=$request->input("municipio_nombre");
+        $parroquia_nombre=$request->input("parroquia_nombre");
+        $centro_votacion_nombre=$request->input("centro_votacion_nombre");
+        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
+        $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
             $condition.=" AND ccv.candidatos_id={$candidato_id}";
+        }
+        if($municipio_nombre){
+            $condition.=" AND mu.nombre='{$municipio_nombre}'";
+        }
+        if($parroquia_nombre){
+            $condition.=" AND pa.nombre='{$parroquia_nombre}'";
+        }
+        if($centro_votacion_nombre){
+            $condition.=" AND cv.nombre='{$centro_votacion_nombre}'";
         }
         $raw=null;
         if($tipo_detalle=="municipio"){
@@ -305,6 +334,7 @@ class CandidatoController extends Controller
             join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
             join public.parroquia pa on pa.id=cv.parroquia_id
             join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=ccv.eleccion_id
             where {$condition}
             group by mu.nombre, candidato, cargo_eleccion
             order by mu.nombre;"
@@ -318,6 +348,7 @@ class CandidatoController extends Controller
             join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
             join public.parroquia pa on pa.id=cv.parroquia_id
             join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=ccv.eleccion_id
             where {$condition}
             group by mu.nombre, pa.nombre, candidato, cargo_eleccion
             order by mu.nombre, pa.nombre;"
@@ -331,6 +362,7 @@ class CandidatoController extends Controller
             join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
             join public.parroquia pa on pa.id=cv.parroquia_id
             join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=ccv.eleccion_id
             where {$condition}
             group by mu.nombre, pa.nombre, cv.nombre, candidato, cargo_eleccion
             order by mu.nombre, pa.nombre, cv.nombre;"
@@ -345,6 +377,7 @@ class CandidatoController extends Controller
             join public.centro_votacion cv on cv.id=mesa.centro_votacion_id
             join public.parroquia pa on pa.id=cv.parroquia_id
             join public.municipio mu on mu.id=pa.municipio_id
+            join public.eleccion on eleccion.id=ccv.eleccion_id
             where {$condition}
             group by mu.nombre, pa.nombre, cv.nombre, candidato, cargo_eleccion, numero_mesa, cantidad_voto
             order by mu.nombre, pa.nombre, cv.nombre, numero_mesa;"
@@ -355,11 +388,11 @@ class CandidatoController extends Controller
 
     
     public function cierrePartido(Request $request){
-        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
         $candidato_id=$request->input("candidato_id");
         $municipio_nombre=$request->input("municipio_nombre");
         $parroquia_nombre=$request->input("parroquia_nombre");
         $centro_votacion_nombre=$request->input("centro_votacion_nombre");
+        $eleccion=\App\Models\Eleccion::orderBy('id','DESC')->first();
         $condition="eleccion.id={$eleccion->id}";
         if($candidato_id){
             $condition.=" AND candidatos.id={$candidato_id}";

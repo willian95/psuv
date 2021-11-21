@@ -25,26 +25,27 @@ $municipios=\App\Models\Municipio::all();
                 <!--begin::Body-->
                 <div class="card-body">
                     <div class="row">
-                        <!-- Municipio -->
+                        <!-- cargos -->
+                        <div class="col-md-6">
+                            <label for="calle">Cargo</label>
+                            <select class="form-control" v-model="cargo_eleccion" @change="obtenerCandidatos()">
+                                <option value="">Seleccione</option>
+                                <option :value="cargo" v-for="cargo in cargos">@{{cargo }}</option>
+                            </select>
+                        </div>
+                        <!-- End cargos -->
+                        <!-- candidato -->
                         <div class="col-6">
                             <label for="">Candidato</label>
                             <select class="form-control" v-model="candidato_id">
-                                @if(Auth::user()->municipio_id)
-                                    @foreach($candidatos as $candidato)
-                                        @if($candidato->municipio_id==Auth::user()->municipio_id)
-                                            <option value="{{$candidato->id}}">{{$candidato->full_name}}</option>
-                                        @endif
-                                    @endforeach
-                                @else
-                                <option value="">Seleccione</option>
-                                    @foreach($candidatos as $candidato)
-                                            <option value="{{$candidato->id}}">{{$candidato->full_name}}</option>
-                                    @endforeach
-                                @endif
+                            <option value="">Seleccione</option>
+                                <option v-for="candidato in candidatos" :value="candidato.id">
+                                    @{{candidato.fullName}}
+                                </option>
                             </select>
                         </div>
-                        <!-- End municipio -->
-                        <!-- candidato -->
+                        <!-- End candidato -->
+                        <!-- municipio -->
                         <div class="col-6">
                             <label for="">Municipio</label>
                             <select class="form-control" v-model="municipio_nombre" @change="obtenerParroquias()">
@@ -62,7 +63,7 @@ $municipios=\App\Models\Municipio::all();
                                 @endif
                             </select>
                         </div>
-                        <!-- End candidato -->
+                        <!-- End municipio -->
                         <!-- Parroquia -->
                         <div class="col-6">
                             <label for="">Parroquia</label>
@@ -86,17 +87,22 @@ $municipios=\App\Models\Municipio::all();
                         </div>
                         <!-- End Parroquia -->
                         <div class="col-12 text-center my-5">
-                            <button class="btn btn-success" @click="getCandidatos()">
+                            <button class="btn btn-success" @click="getResults()">
                                 Generar
                             </button>
                         </div>
 
                         <!-- Body -->
-                        <div class="col-12 text-center my-5" v-show="results.length>0">
+                        <div class="col-12 my-5" v-show="results.length>0">
 
-                        <br>
+    <br>
 
-                        <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+    <p><div id="chart_12" class="d-flex justify-content-center"></div></p>
+
+
+                        <!-- <br> -->
+
+                        <!-- <div id="chartContainer" style="height: 450px; width: 100%;"></div> -->
 
                         <br>
                             <div class="text-right my-2">
@@ -119,8 +125,17 @@ $municipios=\App\Models\Municipio::all();
                                         <td>@{{result.cargo_eleccion}}</td>
                                         <td>@{{result.total_votos}}</td>
                                         <td>
-                                            <button class="btn btn-info" @click="entity=result;"  data-toggle="modal" data-target=".marketModal">
-                                                Detalle
+                                            <button v-if="!municipio_nombre" class="btn btn-info" @click="entity=result;tipo_detalle='municipio';getDetail()"  data-toggle="modal" data-target=".marketModal">
+                                                Detalle por municipio
+                                            </button>
+                                            <button v-if="municipio_nombre && !parroquia_nombre" class="btn btn-info" @click="entity=result;tipo_detalle='parroquia';getDetail()"  data-toggle="modal" data-target=".marketModal">
+                                                Detalle por parroquia
+                                            </button>
+                                            <button v-if="parroquia_nombre && !centro_votacion_nombre" class="btn btn-info" @click="entity=result;tipo_detalle='centro_votacion';getDetail()"  data-toggle="modal" data-target=".marketModal">
+                                                Detalle por centro de votación
+                                            </button>
+                                            <button v-if="centro_votacion_nombre" class="btn btn-info" @click="entity=result;tipo_detalle='mesa';getDetail()"  data-toggle="modal" data-target=".marketModal">
+                                                Detalle por mesa
                                             </button>
                                         </td>
                                     </tr>
@@ -151,35 +166,14 @@ $municipios=\App\Models\Municipio::all();
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select v-model="tipo_detalle" class="form-control" @change="resultsDetail=[]">
-                                    <option value="">Seleccione el tipo de detalle a visualizar</option>
-                                    <option value="municipio">Por municipio</option>
-                                    <option value="parroquia">Por parroquia</option>
-                                    <option value="centro_votacion">Por centro de votación</option>
-                                    <option value="mesa">Por mesa</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-6 text-center">
-                            <button class="btn btn-success" @click="getDetail()">
-                                Obtener detalle
-                            </button>
-                        </div>
                         
                         <div class="col-12" v-if="resultsDetail.length>0">
                             <div class="text-right my-2">
-                                <button v-if="tipo_detalle=='mesa'" title="Exportar a excel" class="btn btn-info" @click="exportTableToExcel('tableDetail2','detalle_mesa')" >
-                                    Exportar <i class="fa fa-file-excel"></i>
-                                </button>
-                                <button v-else title="Exportar a excel" class="btn btn-info" @click="exportTableToExcel('tableDetail','detalle')" >
+                                <button title="Exportar a excel" class="btn btn-info" @click="exportTableToExcel('tableDetail','detalle')" >
                                     Exportar <i class="fa fa-file-excel"></i>
                                 </button>
                             </div>
-                            <table border="1" class="table table-bordered" id="tableDetail" v-if="tipo_detalle!='mesa'">
+                            <table border="1" class="table table-bordered" id="tableDetail">
                                 <thead>
                                     <tr>
                                         <th colspan="2">Candidato: @{{entity.candidato}}</th>
@@ -189,36 +183,17 @@ $municipios=\App\Models\Municipio::all();
                                             <span class="text-capitalize" v-if="tipo_detalle=='municipio'">Municipio</span>
                                             <span class="text-capitalize" v-if="tipo_detalle=='parroquia'">Parroquia</span>
                                             <span class="text-capitalize" v-if="tipo_detalle=='centro_votacion'">Centro de votación</span>
+                                            <span class="text-capitalize" v-if="tipo_detalle=='mesa'">Mesa</span>
                                         </th>
                                         <th>Total de votos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="rd in resultsDetail">
-                                        <td>@{{rd.categoria}}</td>
-                                        <td>@{{rd.total_votos}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table border="1" class="table table-bordered" id="tableDetail2" v-if="tipo_detalle=='mesa'">
-                                <thead>
-                                    <tr>
-                                        <th colspan="3">Candidato: @{{entity.candidato}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Centro de votación
-                                        </th>
-                                        <th>
-                                            Mesa
-                                        </th>
-                                        <th>Total de votos</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="rd in resultsDetail">
-                                        <td>@{{rd.centro_votacion}}</td>
-                                        <td>Mesa @{{rd.numero_mesa}}</td>
+                                        <td>
+                                            <span v-if="tipo_detalle=='mesa'">Mesa </span>
+                                            @{{rd.categoria}}
+                                        </td>
                                         <td>@{{rd.total_votos}}</td>
                                     </tr>
                                 </tbody>
@@ -241,6 +216,8 @@ $municipios=\App\Models\Municipio::all();
 
 @push('scripts')
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="{{ url('assets/js/pages/features/charts/apexchartsdashboard.js') }}"></script>
+
 <script type="text/javascript">
     /********* VUE ***********/
     var vue_instance = new Vue({
@@ -252,13 +229,22 @@ $municipios=\App\Models\Municipio::all();
             resultsDetail:[],
             municipios:[],
             parroquias:[],
+            candidatos:[],
             centrosVotacion:[],
             municipio_nombre:"{{Auth::user()->municipio ? Auth::user()->municipio->nombre : ''}}",
+            municipio_id:"{{Auth::user()->municipio ? Auth::user()->municipio_id : ''}}",
             candidato_id:"",
             parroquia_nombre:"",
             centro_votacion_nombre:"",
             tipo_detalle:"",
-            entity:null
+            entity:null,
+            cargo_eleccion:"",
+            cargos:[
+                "Gobernador",
+                "Alcalde",
+                // "Concejal",
+            ],
+            clickCount:0
         },
         created: function() {
             this.$nextTick(async function() {
@@ -328,6 +314,7 @@ $municipios=\App\Models\Municipio::all();
                     this.loading = false;
                     this.centrosVotacion = response.data;
                     this.centro_votacion_nombre="";
+                    this.results = [];
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
@@ -360,19 +347,60 @@ $municipios=\App\Models\Municipio::all();
                     this.loading = false;
                     this.parroquias = response.data;
                     this.parroquia_nombre="";
+                    this.results = [];
                 } catch (err) {
                     this.loading = false;
                     console.log(err)
                 }
             },
 
-            async getCandidatos(){
+            async obtenerCandidatos() {
                 try {
+                    if(this.cargo_eleccion==""){
+                        swal({
+                            text:"Debe seleccionar un cargo",
+                            icon:"error"
+                        })
+                        this.candidatos = [];
+                        return false;
+                    }
+                    this.loading = true;
+                    let filters = {
+                        not_pagination:1,
+                        municipio_id:this.municipio_id,
+                        cargo_eleccion:this.cargo_eleccion
+                     }
+                    const response = await axios({
+                        method: 'get',
+                        responseType: 'json',
+                        url: "{{ url('api/candidatos') }}",
+                        params: filters
+                    });
+
+                    this.loading = false;
+                    this.candidatos = response.data.data;
+                } catch (err) {
+                    this.loading = false;
+                    console.log(err)
+                }
+            },
+
+            async getResults(){
+                try {
+                    if(this.cargo_eleccion==""){
+                        swal({
+                            text:"Debe seleccionar un cargo",
+                            icon:"error"
+                        })
+                        this.candidatos = [];
+                        return false;
+                    }
                     let params={
                         candidato_id:this.candidato_id,
                         municipio_nombre:this.municipio_nombre,
                         parroquia_nombre:this.parroquia_nombre,
                         centro_votacion_nombre:this.centro_votacion_nombre,
+                        cargo_eleccion:this.cargo_eleccion,
                     };
                     this.loading = true;
                     const response = await axios({
@@ -384,13 +412,26 @@ $municipios=\App\Models\Municipio::all();
 
                     this.loading = false;
                     this.results = response.data;
+
+
+                    let series=this.results.map(function(obj){
+                        return obj.total_votos;
+                    });
+                    let labels=this.results.map(function(obj){
+                        return obj.candidato;
+                    });
+
+                    apexChartCandidatos.init(series, labels, this.clickCount > 0 ? false : true, "#chart_12");
+                    this.clickCount++;
+/*
                     let dataPie=this.results.map(function(obj){
                         let rObj={};
                         rObj.y=obj.total_votos;
                         rObj.label=obj.candidato;
                         return rObj;
                     });
-                    console.log(dataPie);
+
+                    // console.log(dataPie);
 
                     var chart = new CanvasJS.Chart("chartContainer", {
 	                    theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -412,6 +453,8 @@ $municipios=\App\Models\Municipio::all();
 	                    }]
                     });
                     chart.render();
+
+                    */
                 } catch (err) {
                     this.loading = false;
                     console.log(err)

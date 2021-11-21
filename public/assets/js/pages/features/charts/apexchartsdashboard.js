@@ -104,3 +104,67 @@ var KTApexChartsDemo = function () {
 		}
 	};
 }();
+
+var apexChartCandidatos = function () {
+	// Private functions
+
+	var _demo12 = function (series, labels, newChart, idSelector) {
+		const apexChart = idSelector;
+		var options = {
+			series: series,
+			chart: {
+				width: 380,
+				type: 'pie',
+			},
+			labels: labels,
+			responsive: [{
+				breakpoint: 480,
+				options: {
+					chart: {
+						width: 200
+					},
+					legend: {
+						position: 'bottom'
+					}
+				}
+			}],
+			// colors: [primary,danger]
+		};
+		
+		if(newChart == true){
+			chart = new ApexCharts(document.querySelector(apexChart), options);
+			chart.render();
+		}else{
+
+			chart.updateOptions({
+				series: series,
+				chart: {
+					width: 380,
+					type: 'pie',
+				},
+				labels: labels,
+				responsive: [{
+					breakpoint: 480,
+					options: {
+						chart: {
+							width: 200
+						},
+						legend: {
+							position: 'bottom'
+						}
+					}
+				}],
+				// colors: [primary,danger]
+			})
+
+		}
+		
+	}
+
+	return {
+		// public functions
+		init: function (meta, carga, newChart = true, idSelector) {
+			_demo12(meta, carga, newChart, idSelector);
+		}
+	};
+}();

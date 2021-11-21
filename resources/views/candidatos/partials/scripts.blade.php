@@ -27,7 +27,7 @@
             cargos:[
                 "Gobernador",
                 "Alcalde",
-                "Concejal",
+                // "Concejal",
             ],
             municipios:[],
             partidosPoliticos:[],

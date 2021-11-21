@@ -88,7 +88,7 @@
                 
                 this.metaGeneral = res.data.data.participacion
                 this.cargados = res.data.data.movilizacion
-
+                console.log(this.metaGeneral,this.cargados);
                 
                 KTApexChartsDemo.init(this.metaGeneral == 0 && this.cargados == 0 ? 1 : this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
                 //KTApexChartsDemo.init(0, 1, this.clickCount > 0 ? false : true, "#chart_12");
