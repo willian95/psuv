@@ -91,7 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="{{ url('/') }}">
-				<img alt="Logo" class="w-45px" src="{{ url('psuv.png') }}" style="width: 100%;" />
+				<img alt="Logo" class="w-45px" src="{{ url('gob-logo.jpg') }}" style="width: 100%;" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -129,12 +129,12 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--begin::Page-->
 			<div class="d-flex flex-row flex-column-fluid page">
 				<!--begin::Aside-->
-				<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
+				{{--<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
 					<!--begin::Brand-->
 					<div class="brand flex-column-auto bg-white" id="kt_brand">
 						<!--begin::Logo-->
 						<a href="{{ url('/home') }}">
-							<img alt="Logo" src="{{ url('psuv.png') }}" style="width: 100px;" />
+                            
 						</a>
 					</div>
 					<!--end::Brand-->
@@ -149,7 +149,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<!--end::Menu Container-->
 					</div>
 					<!--end::Aside Menu-->
-				</div>
+				</div>--}}
 				<!--end::Aside-->
 				<!--begin::Wrapper-->
 				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
@@ -173,7 +173,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="topbar-item">
 									<div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle" onclick="toggleUserOptions()">
 										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hola,</span>
-										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ \Auth::user()->name }}</span>
+										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">Admin</span>
 										<!--<span class="symbol symbol-35 symbol-light-success">
 											<span class="symbol-label font-size-h5 font-weight-bold"></span>
 										</span>-->
