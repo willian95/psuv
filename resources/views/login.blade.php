@@ -12,9 +12,10 @@
             </div>
             <div class="login100-form validate-form col-md-6" v-cloak>
 
-                <p class="text-center">
-                    <img src="{{ url('psuv.png') }}" style="width: 250px;">
-                </p>
+                <div class="d-flex pl-5 pr-5 align-items-center">
+                    <img src="{{ url('gob-logo.jpg') }}" style="width: 200px;">
+                    <h2 class="text-center gob-yellow">Sistema Integral para la Gestión de Atención Social</h3>
+                </div>
 
 
                 <div class="wrap-input100 validate-input" style="margin-top: 50px;">
@@ -37,10 +38,18 @@
 
 
 
-                <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" @click="login()" style="background-color: #c0392b;" v-if="loading == false">
-                        Ingresar
-                    </button>
+                <div class="w-100">
+                    <div class="d-flex justify-content-end pr-5">
+                        <button class="login100-form-btn" style="background-color: #025da5; margin-right: 10px; width: 223px !important;" v-if="loading == false">
+                            Recuperar contraseña
+                        </button>
+                        <button class="login100-form-btn" @click="login()" style="background-color: #086e0c;" v-if="loading == false">
+                            Ingresar
+                        </button>
+                    </div>
+                    
+                </div>
+                <div class="w-100">
                     <p class="text-center">
                         <div class="loader-custom" v-if="loading"></div>
                     </p>
@@ -72,38 +81,39 @@ const app = new Vue({
 
         login() {
 
-            this.loading = true
+            window.location.href="{{ url('instituciones-usuario') }}"
+            /*this.loading = true
 
             axios.post("{{ url('/login') }}", {
-                    email: this.email,
-                    password: this.password
+                email: this.email,
+                password: this.password
+            })
+            .then(res => {
+                
+                this.loading = false
+                if (res.data.success == true) {
+
+                    this.email = ""
+                    this.password = ""
+
+                    window.location.href = res.data.url
+
+
+                } else {
+                    alert(res.data.msg)
+                }
+
+            })
+            .catch(err => {
+                this.loading = false
+                swal({
+                    text:"Hay algunos campos que debes revisar",
+                    icon: "error"
                 })
-                .then(res => {
-                 
-                    this.loading = false
-                    if (res.data.success == true) {
 
-                        this.email = ""
-                        this.password = ""
+                this.errors = err.response.data.errors
 
-                        window.location.href = res.data.url
-
-
-                    } else {
-                        alert(res.data.msg)
-                    }
-
-                })
-                .catch(err => {
-                    this.loading = false
-                    swal({
-                        text:"Hay algunos campos que debes revisar",
-                        icon: "error"
-                    })
-
-                    this.errors = err.response.data.errors
-
-                })
+            })*/
 
         }
 

@@ -14,6 +14,11 @@
 <body>
 
     <style>
+
+    .gob-yellow{
+        color: #e5a503 !important;
+    }
+
     /*---------------------------------------------*/
     .login_admin input {
         outline: none;
