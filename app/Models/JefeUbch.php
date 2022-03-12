@@ -8,26 +8,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JefeUbch extends Model
 {
-    protected $table="jefe_ubch";
+    protected $table = 'raas_jefe_ubch';
     use HasFactory;
     use SoftDeletes;
 
-    public function personalCaracterizacion(){
-
+    public function personalCaracterizacion()
+    {
         return $this->belongsTo(PersonalCaracterizacion::class);
-
     }
 
-    public function jefeComunidas(){
-
+    public function jefeComunidas()
+    {
         return $this->hasMany(JefeComunidad::class);
-
     }
 
-    public function centroVotacion(){
-
+    public function centroVotacion()
+    {
         return $this->belongsTo(CentroVotacion::class);
-
     }
-
 }

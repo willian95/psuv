@@ -30,7 +30,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Nueva Jefe de UBCH</button>
+                        </span>Nuevo Jefe de UBCH</button>
                         <!--end::Button-->
 
                     </div>
@@ -105,8 +105,16 @@
                                         <td>@{{ jefeUbch.personal_caracterizacion.primer_nombre }} @{{ jefeUbch.personal_caracterizacion.primer_apellido }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.telefono_principal }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.tipo_voto }}</td>
-                                        <td>@{{ jefeUbch.personal_caracterizacion.partido_politico.nombre }}</td>
-                                        <td>@{{ jefeUbch.personal_caracterizacion.movilizacion.nombre }}</td>
+                                        <td>
+                                            <span v-if="jefeUbch.personal_caracterizacion.partido_politico">
+                                            @{{ jefeUbch.personal_caracterizacion.partido_politico.nombre }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span v-if="jefeUbch.personal_caracterizacion.movilizacion">
+                                                @{{ jefeUbch.personal_caracterizacion.movilizacion.nombre }}
+                                            </span>
+                                        </td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefeUbch, jefeUbch.personal_caracterizacion, jefeUbch.id)">
                                                 <i class="far fa-edit"></i>
@@ -338,7 +346,7 @@ const app = new Vue({
             this.selectedEstado = elector.estado_id
             this.nacionalidad = elector.nacionalidad
 
-            this.primerNombre = elector.primer_nombre
+            this.primerNombre = elector.primer_nombre ? elector.primer_nombre : elector.full_name
             this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
             this.primerApellido = elector.primer_apellido
             this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
@@ -358,7 +366,7 @@ const app = new Vue({
             this.selectedEstado = elector.estado_id
             this.nacionalidad = elector.nacionalidad
 
-            this.primerNombre = elector.primer_nombre
+            this.primerNombre = elector.primer_nombre ? elector.primer_nombre : elector.full_name
             this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
             this.primerApellido = elector.primer_apellido
             this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
@@ -523,18 +531,22 @@ const app = new Vue({
 
         },
         async getParroquias(){
-            
-            this.selectedCentroVotacion = ""
 
-            let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
-            this.parroquias = res.data
+            if(this.selectedMunicipio){
+                let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
+                this.parroquias = res.data
+            }
+                
+            
 
         },
 
         async getCentroVotacion(){
 
-            let res = await axios.get("{{ url('/api/centro-votacion') }}"+"/"+this.selectedParroquia)
-            this.centroVotaciones = res.data
+            if(this.selectedParroquia){
+                let res = await axios.get("{{ url('/api/centro-votacion') }}"+"/"+this.selectedParroquia)
+                this.centroVotaciones = res.data
+            }
 
         },
 
@@ -567,6 +579,7 @@ const app = new Vue({
                     "search": this.cedulaSearch,
                     "_token": "{{ csrf_token() }}"
             }})
+
             this.searchLoading = false
 
             this.jefesUbch = res.data.data

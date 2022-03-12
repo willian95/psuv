@@ -24,13 +24,14 @@ class UBCHStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "centro_votacion_id" => "required|exists:centro_votacion,id",
-            "cedula" => "required|exists:elector,cedula",
-            "tipo_voto" => "required",
-            "telefono_principal" => "nullable|max:11",
-            "telefono_secundario" => "nullable|max:11",
-            "partido_politico_id" => "required|exists:partido_politico,id",
-            "movilizacion_id" => "required|exists:movilizacion,id"
+            'centro_votacion_id' => 'required|exists:centro_votacion,id',
+            'cedula' => 'required',
+            'municipio_id' => 'required|exists:municipio,id',
+            'parroquia_id' => 'required|exists:parroquia,id',
+            'telefono_principal' => 'nullable|max:11',
+            'telefono_secundario' => 'nullable|max:11',
+            'partido_politico_id' => 'nullable|exists:partido_politico,id',
+            'movilizacion_id' => 'nullable|exists:movilizacion,id',
         ];
     }
 }

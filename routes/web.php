@@ -146,4 +146,10 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('instituciones-usuario', function () {
     return view('institucionesUsuario');
+})->middleware('auth');
+
+Route::group(['prefix' => '/clap', 'middleware' => 'auth'], function () {
+    Route::get('/home', function () {
+        return view('dashboard');
+    });
 });

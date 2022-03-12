@@ -36,7 +36,9 @@
                                     
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
-                                    <h3 class="card-label text-white">@{{ module }}</h3>
+                                    <a :href="module.url">
+                                        <h3 class="card-label text-white">@{{ module.name }}</h3>
+                                    </a>
                                 </div>
                             </div>
 
@@ -64,16 +66,24 @@
         data() {
             return {
                 query:"",
-                originalModules:["Modulo-1", "Modulo-2", "Modulo-3", "Modulo-4", "Modulo-5", "Modulo-6"],
-                modules:["Modulo-1", "Modulo-2", "Modulo-3", "Modulo-4", "Modulo-5", "Modulo-6"]
+                originalModules:[{
+                    "name":"CLAP",
+                    "url":"{{ url('/clap/home') }}"
+                }],
+                modules:[
+                    {
+                        "name":"CLAP",
+                        "url":"{{ url('/clap/home') }}"
+                    }
+                ]
             }
         },
         methods: {
 
             search(){
 
-                this.modules = this.originalModules.filter(data => { return data.indexOf(this.query) >= 0  })
-                console.log(this.modules)
+                this.modules = this.originalModules.filter(data => { return data.name.indexOf(this.query) >= 0  })
+
             }
 
         }

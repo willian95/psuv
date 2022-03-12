@@ -59996,9 +59996,9 @@ body {
   .header-fixed .wrapper {
     padding-top: 65px; }
   .header-fixed.subheader-fixed.subheader-enabled .wrapper {
-    padding-top: 60px; }
+    padding-top: 119px; }
   .aside-fixed .wrapper {
-    padding-left: 0px; }
+    padding-left: 150px; }
   .container,
   .container-fluid,
   .container-sm,
@@ -60041,7 +60041,7 @@ body {
       left: 0;
       z-index: 97; }
     .aside-enabled .header.header-fixed {
-      left: 0px; }
+      left: 150px; }
     .header-fixed.subheader-fixed .header {
       -webkit-box-shadow: none !important;
       box-shadow: none !important; } }

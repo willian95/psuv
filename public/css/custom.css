@@ -7,7 +7,7 @@
 }
 
 .bg-main{
-    background-color: #c0392b
+    background-color: #086e0c
 }
 
 .text-danger{
@@ -16,4 +16,10 @@
 
 [v-cloak] {
     display: none;
+  }
+
+  .required-field:before {
+    content:" *";
+    color: red;
+    margin: 6px;
   }

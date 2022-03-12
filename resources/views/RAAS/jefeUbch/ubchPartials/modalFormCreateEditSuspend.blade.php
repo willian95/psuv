@@ -14,7 +14,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="cedula">Cédula</label>
+                                <label for="cedula" class="required-field">Cédula</label>
                                 <div class="d-flex">
                                     <div>
                                         <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula" maxlength="8" @keypress="isNumber($event)">
@@ -32,7 +32,7 @@
 
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="nombre">Nombre Jefe</label>
+                                <label for="nombre" class="required-field">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" v-model="nombre" readonly>
                                 <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
                             </div>
@@ -40,7 +40,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="municipio">Municipio</label>
+                                <label for="municipio" class="required-field">Municipio</label>
                                 <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" :disabled="readonlyMunicipio">
                                     <option value="">Seleccione</option>
                                     <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="parroquia">Parroquia</label>
+                                <label for="parroquia" class="required-field">Parroquia</label>
                                 <select class="form-control" v-model="selectedParroquia" id="parroquia" @change="getCentroVotacion()" :disabled="readonlyParroquia">
                                     <option value="">Seleccione</option>
                                     <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
@@ -61,7 +61,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="centroVotacion">UBCH</label>
+                                <label for="centroVotacion" class="required-field">UBCH</label>
                                 <select class="form-control" v-model="selectedCentroVotacion" id="centroVotacion" :disabled="readonlyCentroVotacion">
                                     <option value="">Seleccione</option>
                                     <option :value="centroVotacion.id" v-for="centroVotacion in centroVotaciones">@{{ centroVotacion.nombre }}</option>
@@ -70,11 +70,27 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="telefonoPrincipal" class="required-field">Teléfono principal</label>
+                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
+                                <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="telefonoSecundario">Teléfono secundario (opcional)</label>
+                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario" maxlength="11" @keypress="isNumber($event)">
+                                <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_secundario')">@{{ errors['telefono_secundario'][0] }}</small>
+                            </div>
+                        </div>
+
                         
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="tipoVoto">Tipo de voto</label>
+                                <label for="tipoVoto">Tipo de voto (pocional)</label>
                                 <select class="form-control" v-model="tipoVoto">
                                     <option value="duro">Duro</option>
                                     <option value="blando">Blando</option>
@@ -84,25 +100,11 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="telefonoPrincipal">Teléfono principal</label>
-                                <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
-                                <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
-                            </div>
-                        </div>
+                        
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefonoSecundario">Teléfono secundario</label>
-                                <input type="tel" class="form-control" id="telefonoSecundario" v-model="telefonoSecundario" maxlength="11" @keypress="isNumber($event)">
-                                <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_secundario')">@{{ errors['telefono_secundario'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="partidoPolitico">Partido político</label>
+                                <label for="partidoPolitico">Partido (opcional)</label>
                                 <select class="form-control" v-model="selectedPartidoPolitico" id="partidoPolitico">
                                     <option value="">Seleccione</option>
                                     <option :value="partidoPolitico.id" v-for="partidoPolitico in partidosPoliticos">@{{ partidoPolitico.nombre }}</option>
@@ -113,7 +115,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="movilizacion">Movilizaciones</label>
+                                <label for="movilizacion">Movilización (opcional)</label>
                                 <select class="form-control" v-model="selectedMovilizacion" id="movilizacion">
                                     <option value="">Seleccione</option>
                                     <option :value="movilizacion.id" v-for="movilizacion in movilizaciones">@{{ movilizacion.nombre }}</option>
@@ -128,14 +130,27 @@
                 </div>                    
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
-                <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
-                <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>
-                <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="suspendLoader"></div>
+
+                <div class="row w-100">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
+
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                
+                        <button type="button" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
+                        <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
+                        <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
+                        <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>
+                        <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="suspendLoader"></div>
+
+                    </div>
+                </div>
+
+                
             </div>
         </div>
     </div>

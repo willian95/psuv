@@ -30,7 +30,7 @@
                 <div class="wrap-input100 validate-input">
                     <input class="input100" type="password" v-model="password">
                     <span class="focus-input100"></span>
-                    <span class="label-input100">Contraseña</span>
+                    <span class="label-input100">Contraseña </span>
                     
                 </div>
                 <small style="color: red; margin-top: 10px;" v-if="errors.hasOwnProperty('password')">@{{ errors['password'][0] }}</small>
@@ -57,7 +57,6 @@
                 
             </div>
 
-
         </div>
 
     </div>
@@ -81,8 +80,8 @@ const app = new Vue({
 
         login() {
 
-            window.location.href="{{ url('instituciones-usuario') }}"
-            /*this.loading = true
+            
+            this.loading = true
 
             axios.post("{{ url('/login') }}", {
                 email: this.email,
@@ -113,7 +112,7 @@ const app = new Vue({
 
                 this.errors = err.response.data.errors
 
-            })*/
+            })
 
         }
 

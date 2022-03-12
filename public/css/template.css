@@ -1,0 +1,4 @@
+.header-fixed.subheader-fixed.subheader-enabled .wrapper {padding-top: 60px; }
+.aside-fixed .wrapper {padding-left: 0px; }
+
+.aside-enabled .header.header-fixed {left: 0px; }

@@ -91,7 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="{{ url('/') }}">
-				<img alt="Logo" class="w-45px" src="{{ url('psuv.png') }}" style="width: 100%;" />
+				<img alt="Logo" class="w-45px" src="{{ url('gob-logo.jpg') }}" style="width: 100%;" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -134,7 +134,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<div class="brand flex-column-auto bg-white" id="kt_brand">
 						<!--begin::Logo-->
 						<a href="{{ url('/home') }}">
-							<img alt="Logo" src="{{ url('psuv.png') }}" style="width: 100px;" />
+							<img alt="Logo" src="{{ url('gob-logo.jpg') }}" style="width: 100px;" />
 						</a>
 					</div>
 					<!--end::Brand-->
