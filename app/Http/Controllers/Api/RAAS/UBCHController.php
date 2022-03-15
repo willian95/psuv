@@ -26,7 +26,7 @@ class UBCHController extends Controller
             return response()->json(['success' => false, 'msg' => 'Esta cédula ya pertenece a un Jefe de UBCH']);
         }
 
-        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, $request->municipio_id);
+        $response = $this->searchPersonalCaracterizacionOrElector($request->cedula, $request->nacionalidad, $request->municipio_id);
 
         return response()->json($response);
     }
@@ -50,13 +50,19 @@ class UBCHController extends Controller
                 } else {
                     $data = [
                         'cedula' => $request->cedula,
-                        'primer_nombre' => $request->primer_nombre,
-                        'nacionalidad' => 'V',
+                        'nombre_apellido' => $request->nombre_apellido,
+                        'nacionalidad' => $request->nacionalidad,
                         'sexo' => 'M',
-                        'estado_id' => 9,
-                        'municipio_id' => $request->municipio_id,
-                        'parroquia_id' => $request->parroquia_id,
-                        'centro_votacion_id' => $request->centro_votacion_id,
+                        'raas_estado_id' => $request->estado_id,
+                        'raas_municipio_id' => $request->municipio_id,
+                        'raas_parroquia_id' => $request->parroquia_id,
+                        'raas_centro_votacion_id' => $request->centro_votacion_id,
+                        'telefono_principal' => $request->telefono_principal,
+                        'telefono_secundario' => $request->telefono_secundario,
+                        'partido_politico_id' => $request->partido_politico_id,
+                        'movilizacion_id' => $request->movilizacion_id,
+                        'tipo_voto' => $request->tipo_voto,
+                        'sexo' => $request->sexo,
                     ];
                     $personalCaracterizacion = $this->storePersonalCaracterizacion($data, true);
                 }
@@ -67,7 +73,7 @@ class UBCHController extends Controller
             $jefeUbch->centro_votacion_id = $request->centro_votacion_id;
             $jefeUbch->save();
 
-            $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
+            //$this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
 
             return response()->json(['success' => true, 'msg' => 'Jefe de UBCH creado']);
         } catch (\Exception $e) {

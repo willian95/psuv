@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estado extends Model
 {
-    protected $table="estado";
+    protected $table = 'raas_estado';
     use HasFactory;
 }

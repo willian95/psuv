@@ -24,10 +24,10 @@ class UBCHStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'centro_votacion_id' => 'required|exists:centro_votacion,id',
+            'centro_votacion_id' => 'required|exists:raas_centro_votacion,id',
             'cedula' => 'required',
-            'municipio_id' => 'required|exists:municipio,id',
-            'parroquia_id' => 'required|exists:parroquia,id',
+            'municipio_id' => 'required|exists:raas_municipio,id',
+            'parroquia_id' => 'required|exists:raas_parroquia,id',
             'telefono_principal' => 'nullable|max:11',
             'telefono_secundario' => 'nullable|max:11',
             'partido_politico_id' => 'nullable|exists:partido_politico,id',

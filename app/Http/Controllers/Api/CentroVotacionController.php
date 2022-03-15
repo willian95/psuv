@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\CentroVotacion;
 use App\Models\CentroVotacion as Model;
+use Illuminate\Http\Request;
 
 class CentroVotacionController extends Controller
 {
-    
-    function centroVotacionByParroquia($parroquia_id){
-
-        return response()->json(CentroVotacion::where("parroquia_id", $parroquia_id)->get());
-
+    public function centroVotacionByParroquia($parroquia_id)
+    {
+        return response()->json(CentroVotacion::where('raas_parroquia_id', $parroquia_id)->get());
     }
 
-    function centroVotacionByParroquiaNombre($parroquia_nombre){
-
-        return response()->json(CentroVotacion::whereHas("parroquia",function($query) use($parroquia_nombre){
-            $query->where("nombre", $parroquia_nombre);
+    public function centroVotacionByParroquiaNombre($parroquia_nombre)
+    {
+        return response()->json(CentroVotacion::whereHas('parroquia', function ($query) use ($parroquia_nombre) {
+            $query->where('nombre', $parroquia_nombre);
         })->get());
-
     }
 
-    public function index( Request $request)
+    public function index(Request $request)
     {
         try {
             //Filters
@@ -34,9 +31,9 @@ class CentroVotacionController extends Controller
             $municipio_id = $request->input('municipio_id');
             $mesasCount = $request->input('mesasCount');
             $electoresCount = $request->input('electoresCount');
-            $includes= $request->input('includes') ? $request->input('includes') : [];
+            $includes = $request->input('includes') ? $request->input('includes') : [];
             //Init query
-            $query=Model::query();
+            $query = Model::query();
             //Includes
             $query->with($includes);
             //Filters
@@ -47,21 +44,22 @@ class CentroVotacionController extends Controller
                 $query->whereDate('created_at', '<=', $end_date);
             }
             if ($search) {
-                $query->where("nombre", "LIKE", "%".$search."%");
+                $query->where('nombre', 'LIKE', '%'.$search.'%');
             }
-            if($mesasCount){
+            if ($mesasCount) {
                 $query->withCount('mesas');
             }
-            if($electoresCount){
+            if ($electoresCount) {
                 $query->withCount('electores');
             }
-            if($municipio_id){
-                $query->whereHas('parroquia',function($query) use($municipio_id){
-                    $query->where('municipio_id',$municipio_id);
+            if ($municipio_id) {
+                $query->whereHas('parroquia', function ($query) use ($municipio_id) {
+                    $query->where('raas_municipio_id', $municipio_id);
                 });
             }
-            $query->orderBy("created_at","DESC");
-            $query=$query->paginate(15);
+            $query->orderBy('created_at', 'DESC');
+            $query = $query->paginate(15);
+
             return response()->json($query);
             // $this->addFilters($request, $query);
 
@@ -72,9 +70,11 @@ class CentroVotacionController extends Controller
             );
         } catch (\Exception $e) {
             $code = $this->getCleanCode($e);
-            $response= $this->getErrorResponse($e, 'Error al Listar los Candidatos');
+            $response = $this->getErrorResponse($e, 'Error al Listar los Candidatos');
         }
-        return $this->response($response, $code ?? 200);
-    }//index()
 
+        return $this->response($response, $code ?? 200);
+    }
+
+    //index()
 }

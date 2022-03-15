@@ -102,7 +102,7 @@
                                     <tr v-for="jefeUbch in jefesUbch">
                                         <td>@{{ jefeUbch.centro_votacion.nombre }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.cedula }}</td>
-                                        <td>@{{ jefeUbch.personal_caracterizacion.primer_nombre }} @{{ jefeUbch.personal_caracterizacion.primer_apellido }}</td>
+                                        <td>@{{ jefeUbch.personal_caracterizacion.nombre_apellido }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.telefono_principal }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.tipo_voto }}</td>
                                         <td>
@@ -189,6 +189,8 @@ const app = new Vue({
             loading:false,
             searchLoading:false,
 
+            estados:[],
+            selectedEstado:"",
             cedulaSearch:"",
             municipios:[],
             selectedMunicipio:"",
@@ -211,12 +213,12 @@ const app = new Vue({
             telefonoSecundario:"",
             tipoVoto:"",
             fechaNacimiento:"",
-            nacionalidad:"",
+            nacionalidad:"V",
             primerNombre:"",
             segundoNombre:"",
             primerApellido:"",
             segundoApellido:"",
-            sexo:"",
+            sexo:"masculino",
 
             modalTitle:"Crear Jefe de UBCH",
             currentPage:1,
@@ -249,8 +251,13 @@ const app = new Vue({
         },
         async edit(jefeUbch, elector, jefeId){
 
-            this.readonlyMunicipio = true
-            this.readonlyParroquia = true
+            await this.getEstados();
+            this.selectedEstado = elector.raas_estado_id
+
+            await this.getMunicipios();
+            this.selectedMunicipio = elector.raas_municipio_id
+            //this.readonlyMunicipio = true
+            //this.readonlyParroquia = true
 
             this.selectedId = jefeId
             this.action = "edit"
@@ -258,12 +265,11 @@ const app = new Vue({
             this.readonlyCedula = false
             this.cedula = elector.cedula
             this.readonlyCentroVotacion = true
-            
-            this.nombre = elector.full_name
-            this.selectedMunicipio = jefeUbch.centro_votacion.parroquia.municipio_id
+
+            this.nombre = elector.nombre_apellido
             await this.getParroquias()
 
-            this.selectedParroquia = jefeUbch.centro_votacion.parroquia_id
+            this.selectedParroquia = jefeUbch.centro_votacion.raas_parroquia_id
             await this.getCentroVotacion()
 
             this.selectedCentroVotacion = jefeUbch.centro_votacion.id
@@ -272,13 +278,12 @@ const app = new Vue({
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
             this.tipoVoto = elector.tipo_voto
-            this.selectedEstado = elector.estado_id
+            
+            
             this.nacionalidad = elector.nacionalidad
+            this.nombre = elector.nombre_apellido
 
-            this.primerNombre = elector.primer_nombre
-            this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
-            this.primerApellido = elector.primer_apellido
-            this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
+           
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id
@@ -304,7 +309,7 @@ const app = new Vue({
 
             this.cedulaSearching = true
 
-            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula, municipio_id: "{{ \Auth::user()->municipio_id }}"})
+            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, municipio_id: "{{ \Auth::user()->municipio_id }}"})
 
             if(res.data.success == false){
                 this.readonlyCedula = false
@@ -330,26 +335,27 @@ const app = new Vue({
         },  
         async setElectorData(elector){
 
-            this.nombre = elector.full_name
-            this.selectedMunicipio = elector.municipio_id
+            await this.getEstados();
+            this.selectedEstado = elector.raas_estado_id
+
+            await this.getMunicipios();
+
+            this.nombre = elector.nombre_apellido
+            this.selectedMunicipio = elector.raas_municipio_id
             await this.getParroquias()
 
-            this.selectedParroquia = elector.parroquia_id
+            this.selectedParroquia = elector.raas_parroquia_id
             await this.getCentroVotacion()
 
-            this.selectedCentroVotacion = elector.centro_votacion_id
+            this.selectedCentroVotacion = elector.raas_centro_votacion_id
 
             this.telefonoPrincipal = elector.telefono_principal
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
             this.tipoVoto = elector.tipo_voto
-            this.selectedEstado = elector.estado_id
-            this.nacionalidad = elector.nacionalidad
 
-            this.primerNombre = elector.primer_nombre ? elector.primer_nombre : elector.full_name
-            this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
-            this.primerApellido = elector.primer_apellido
-            this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
+            this.nacionalidad = elector.nacionalidad ? elector.nacionalidad : this.nacionalidad
+
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id
@@ -357,22 +363,32 @@ const app = new Vue({
         },  
         async setElectorDataEdit(elector){
 
-            this.nombre = elector.full_name
+            this.nombre = elector.nombre_apellido
 
             this.telefonoPrincipal = elector.telefono_principal
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
             this.tipoVoto = elector.tipo_voto
-            this.selectedEstado = elector.estado_id
-            this.nacionalidad = elector.nacionalidad
+            this.selectedEstado = elector.raas_estado_id
+            this.nacionalidad = elector.nacionalidad ? elector.nacionalidad : this.nacionalidad
 
-            this.primerNombre = elector.primer_nombre ? elector.primer_nombre : elector.full_name
-            this.segundoNombre = elector.segundo_nombre == "null" || elector.segundo_nombre == null ? "" : elector.segundo_nombre
-            this.primerApellido = elector.primer_apellido
-            this.segundoApellido = elector.segundo_apellido == "null" || elector.segundo_apellido == null ? "" : elector.segundo_apellido
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id
+
+            await this.getEstados();
+            this.selectedEstado = elector.raas_estado_id
+
+            await this.getMunicipios();
+
+            this.nombre = elector.nombre_apellido
+            this.selectedMunicipio = elector.raas_municipio_id
+            await this.getParroquias()
+
+            this.selectedParroquia = elector.raas_parroquia_id
+            await this.getCentroVotacion()
+
+            this.selectedCentroVotacion = elector.raas_centro_votacion_id
 
         },  
         
@@ -393,7 +409,7 @@ const app = new Vue({
                 this.errors = []
                 this.storeLoader = true
 
-                let res = await axios.post("{{ url('api/raas/ubch/store') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, primer_apellido: this.primerApellido, segundo_apellido: this.segundoApellido, primer_nombre: this.primerNombre, segundo_nombre: this.segundoNombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento})
+                let res = await axios.post("{{ url('api/raas/ubch/store') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, nombre_apellido: this.nombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, estado_id: this.selectedEstado})
                 
                 this.storeLoader = false
 
@@ -442,7 +458,7 @@ const app = new Vue({
                 this.errors = []
                 this.updateLoader = true
 
-                let res = await axios.post("{{ url('api/raas/ubch/update') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, primer_apellido: this.primerApellido, segundo_apellido: this.segundoApellido, primer_nombre: this.primerNombre, segundo_nombre: this.segundoNombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, id: this.selectedId})
+                let res = await axios.post("{{ url('api/raas/ubch/update') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, nombre_apellido: this.nombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, id: this.selectedId})
                 
                 this.updateLoader = false
 
@@ -520,13 +536,24 @@ const app = new Vue({
 
 
         },
-        
-        async getMunicipios(){
 
+        async getEstados(){
+
+            this.selecteMunicipio = ""
             this.selectedParroquia = ""
             this.selectedCentroVotacion = ""
 
-            let res = await axios.get("{{ url('/api/municipios') }}")
+            let res = await axios.get("{{ url('/api/estados') }}")
+            this.estados = res.data
+
+        },
+        
+        async getMunicipios(){
+            this.municipios =[]
+            this.selectedParroquia = ""
+            this.selectedCentroVotacion = ""
+
+            let res = await axios.get("{{ url('/api/municipios') }}"+"/"+this.selectedEstado)
             this.municipios = res.data
 
         },
@@ -594,7 +621,7 @@ const app = new Vue({
     },
     created() {
 
-        this.getMunicipios()
+        this.getEstados()
         this.getPartidosPoliticos()
         this.getMovilizaciones()
         this.fetch()

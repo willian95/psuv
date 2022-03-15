@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Elector extends Model
 {
-    protected $table="elector";
+    protected $table = 'raas_elector';
     use HasFactory;
-    protected $appends=[
-        "full_name"
+    protected $appends = [
+        'full_name',
       ];
-    
+
     public function getFullNameAttribute()
     {
         $name = $this->primer_nombre;
@@ -20,7 +20,7 @@ class Elector extends Model
         //     $name .= ' ' .$this->segundo_nombre;
         // }
         if (!empty($this->primer_apellido)) {
-            $name .= ' ' .$this->primer_apellido;
+            $name .= ' '.$this->primer_apellido;
         }
         // if (!empty($this->segundo_apellido)) {
         //     $name .= ' ' .$this->segundo_apellido;
@@ -28,27 +28,23 @@ class Elector extends Model
         return $name;
     }
 
-    public function municipio(){
-
+    public function municipio()
+    {
         return $this->belongsTo(Municipio::class);
-
     }
 
-    public function parroquia(){
-
+    public function parroquia()
+    {
         return $this->belongsTo(Parroquia::class);
-
     }
 
-    public function centroVotacion(){
-
+    public function centroVotacion()
+    {
         return $this->belongsTo(CentroVotacion::class);
-
     }
 
-    public function electors(){
-
+    public function electors()
+    {
         return $this->hasMany(Votacion::class);
-
     }
 }

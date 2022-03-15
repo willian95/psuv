@@ -7,36 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class Municipio extends Model
 {
-    protected $table="municipio";
+    protected $table = 'raas_municipio';
     use HasFactory;
 
-    public function personalCaracterizacions(){
-
+    public function personalCaracterizacions()
+    {
         return $this->hasMany(PersonalCaracterizacion::class);
-
     }
 
-    public function electores(){
-
+    public function electores()
+    {
         return $this->hasMany(Elector::class);
-
     }
 
-    public function parroquias(){
-
+    public function parroquias()
+    {
         return $this->hasMany(Parroquia::class);
-
     }
 
-    public function metasUbchs(){
-
+    public function metasUbchs()
+    {
         return $this->hasMany(MetasUbch::class);
-
     }
 
-    public function personalSalaTecnicas(){
-
+    public function personalSalaTecnicas()
+    {
         return $this->hasMany(PersonalSalaTecnica::class);
-
     }
 }

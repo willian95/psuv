@@ -17,6 +17,12 @@
                                 <label for="cedula" class="required-field">Cédula</label>
                                 <div class="d-flex">
                                     <div>
+                                        <select class="form-control" v-model="nacionalidad" style="width: 62px;">
+                                            <option value="V">V</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                    </div>
+                                    <div>
                                         <input type="tel" class="form-control" id="cedula" v-model="cedula" :readonly="readonlyCedula" maxlength="8" @keypress="isNumber($event)">
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedula')">@{{ errors['cedula'][0] }}</small>
                                     </div>
@@ -35,6 +41,28 @@
                                 <label for="nombre" class="required-field">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" v-model="nombre" readonly>
                                 <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Sexo</label>
+                                <select class="form-control" v-model="sexo" id="sexo" >
+                                    <option value="masculino">Masculino</option>
+                                    <option value="femenino">Femenino</option>
+                                </select>
+                                <small class="text-danger" v-if="errors.hasOwnProperty('estado')">@{{ errors['estado'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Estado</label>
+                                <select class="form-control" v-model="selectedEstado" id="estado" @change="getMunicipios()" >
+                                    <option value="">Seleccione</option>
+                                    <option :value="estado.id" v-for="estado in estados">@{{ estado.nombre }}</option>
+                                </select>
+                                <small class="text-danger" v-if="errors.hasOwnProperty('estado')">@{{ errors['estado'][0] }}</small>
                             </div>
                         </div>
 

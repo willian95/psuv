@@ -7,31 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class PersonalCaracterizacion extends Model
 {
-    protected $table="personal_caracterizacion";
+    protected $table = 'raas_personal_caracterizacion';
     use HasFactory;
-    protected $appends=[
-        "full_name"
+    protected $appends = [
+        'full_name',
       ];
     protected $fillable = [
-        "cedula",
-        "nacionalidad",
-        "primer_apellido",
-        "segundo_apellido",
-        "primer_nombre",
-        "segundo_nombre",
-        "sexo",
-        "telefono_principal",
-        "telefono_secundario",
-        "fecha_nacimiento",
-        "tipo_voto",
-        "inhabilitado_politicio",
-        "estado_id",
-        "municipio_id",
-        "parroquia_id",
-        "centro_votacion_id",
-        "partido_politico_id",
-        "movilizacion_id",
-        "jefe_familia_id"
+        'cedula',
+        'nacionalidad',
+        'nombre_apellido',
+        'sexo',
+        'telefono_principal',
+        'telefono_secundario',
+        'fecha_nacimiento',
+        'tipo_voto',
+        'inhabilitado_politicio',
+        'raas_estado_id',
+        'raas_municipio_id',
+        'raas_parroquia_id',
+        'raas_centro_votacion_id',
+        'partido_politico_id',
+        'movilizacion_id',
+        'jefe_familia_id',
     ];
 
     public function getFullNameAttribute()
@@ -41,7 +38,7 @@ class PersonalCaracterizacion extends Model
         //     $name .= ' ' .$this->segundo_nombre;
         // }
         if (!empty($this->primer_apellido)) {
-            $name .= ' ' .$this->primer_apellido;
+            $name .= ' '.$this->primer_apellido;
         }
         // if (!empty($this->segundo_apellido)) {
         //     $name .= ' ' .$this->segundo_apellido;
@@ -49,52 +46,43 @@ class PersonalCaracterizacion extends Model
         return $name;
     }
 
-    public function jefeUbchs(){
-
+    public function jefeUbchs()
+    {
         return $this->hasMany(JefeUbch::class);
-
     }
 
-    public function jefeComunidads(){
-
+    public function jefeComunidads()
+    {
         return $this->hasMany(JefeComunidad::class);
-
     }
 
-    public function jefeFamilia(){
-
-        return $this->hasMany(JefeFamilia::class,"jefe_familia_id");
-
+    public function jefeFamilia()
+    {
+        return $this->hasMany(JefeFamilia::class, 'jefe_familia_id');
     }
 
-    public function municipio(){
-
+    public function municipio()
+    {
         return $this->belongsTo(Municipio::class);
-
     }
 
-    public function parroquia(){
-
+    public function parroquia()
+    {
         return $this->belongsTo(Parroquia::class);
-
     }
 
-    public function centroVotacion(){
-
+    public function centroVotacion()
+    {
         return $this->belongsTo(CentroVotacion::class);
-
     }
 
-    public function partidoPolitico(){
-
+    public function partidoPolitico()
+    {
         return $this->belongsTo(PartidoPolitico::class);
-
     }
 
-    public function movilizacion(){
-
+    public function movilizacion()
+    {
         return $this->belongsTo(Movilizacion::class);
-
     }
-
 }
