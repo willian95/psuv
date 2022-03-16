@@ -7,7 +7,7 @@ use App\Models\PersonalCaracterizacion;
 
 trait PersonalCaracterizacionTrait
 {
-    public function storePersonalCaracterizacion($data, $cne = false)
+    public function storePersonalCaracterizacion($data)
     {
         if (!is_array($data)) {
             $data = $data->toArray();
@@ -30,17 +30,19 @@ trait PersonalCaracterizacionTrait
         $personal->sexo = $data['sexo'];
         $personal->save();
 
-        $elector = new Elector();
-        $elector->cedula = $data['cedula'];
-        $elector->nombre_apellido = $data['nombre_apellido'];
-        $elector->sexo = $data['sexo'];
-        $elector->nacionalidad = $data['nacionalidad'];
-        $elector->raas_estado_id = $data['raas_estado_id'];
-        $elector->raas_municipio_id = $data['raas_municipio_id'];
-        $elector->raas_parroquia_id = $data['raas_parroquia_id'];
-        $elector->raas_centro_votacion_id = $data['raas_centro_votacion_id'];
-        $elector->sexo = $data['sexo'];
-        $elector->save();
+        if (!Elector::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first()) {
+            $elector = new Elector();
+            $elector->cedula = $data['cedula'];
+            $elector->nombre_apellido = $data['nombre_apellido'];
+            $elector->sexo = $data['sexo'];
+            $elector->nacionalidad = $data['nacionalidad'];
+            $elector->raas_estado_id = $data['raas_estado_id'];
+            $elector->raas_municipio_id = $data['raas_municipio_id'];
+            $elector->raas_parroquia_id = $data['raas_parroquia_id'];
+            $elector->raas_centro_votacion_id = $data['raas_centro_votacion_id'];
+            $elector->sexo = $data['sexo'];
+            $elector->save();
+        }
 
         return $personal;
     }

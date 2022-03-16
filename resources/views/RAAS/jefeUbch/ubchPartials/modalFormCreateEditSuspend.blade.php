@@ -58,7 +58,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="municipio" class="required-field">Estado</label>
-                                <select class="form-control" v-model="selectedEstado" id="estado" @change="getMunicipios()" >
+                                <select class="form-control" v-model="selectedEstado" id="estado" @change="getMunicipios()" :disabled="readonlyState">
                                     <option value="">Seleccione</option>
                                     <option :value="estado.id" v-for="estado in estados">@{{ estado.nombre }}</option>
                                 </select>

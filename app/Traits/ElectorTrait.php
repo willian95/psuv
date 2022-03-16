@@ -151,6 +151,9 @@ trait ElectorTrait
                 return null;
             }
 
+            Log::info('CNE');
+            Log::info($response);
+
             $name = substr($nameSanitize, 17, strpos($nameSanitize, '</b>') - 17);
 
             if (strlen($name) > 0) {

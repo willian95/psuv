@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Login</title>
+    <title>SIGAS</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('fian.png') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"

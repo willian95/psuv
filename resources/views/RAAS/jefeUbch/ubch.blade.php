@@ -82,18 +82,6 @@
                                         </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
-                                            <span>Tipo voto</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Partido</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Movilización</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Acción</span>
                                         </th>
                                     </tr>
@@ -104,17 +92,7 @@
                                         <td>@{{ jefeUbch.personal_caracterizacion.cedula }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.nombre_apellido }}</td>
                                         <td>@{{ jefeUbch.personal_caracterizacion.telefono_principal }}</td>
-                                        <td>@{{ jefeUbch.personal_caracterizacion.tipo_voto }}</td>
-                                        <td>
-                                            <span v-if="jefeUbch.personal_caracterizacion.partido_politico">
-                                            @{{ jefeUbch.personal_caracterizacion.partido_politico.nombre }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span v-if="jefeUbch.personal_caracterizacion.movilizacion">
-                                                @{{ jefeUbch.personal_caracterizacion.movilizacion.nombre }}
-                                            </span>
-                                        </td>
+
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefeUbch, jefeUbch.personal_caracterizacion, jefeUbch.id)">
                                                 <i class="far fa-edit"></i>
@@ -176,7 +154,8 @@ const app = new Vue({
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
 
-            readonlyCentroVotacion:false,
+            readonlyState:true,
+            readonlyCentroVotacion:true,
             readonlyCedula:false,
             cedulaSearching:false,
             storeLoader:false,
@@ -204,8 +183,8 @@ const app = new Vue({
             selectedMovilizacion:"",
             selectedEstado:"",
             jefesUbch:[],
-            readonlyMunicipio:false,
-            readonlyParroquia:false,
+            readonlyMunicipio:true,
+            readonlyParroquia:true,
 
             cedula:"",
             nombre:"",
@@ -243,10 +222,6 @@ const app = new Vue({
             this.telefonoSecundario=""
             this.tipoVoto=""
             this.municipioId = ""
-            this.readonlyCedula = false
-            this.readonlyCentroVotacion = false
-            this.readonlyMunicipio = false
-            this.readonlyParroquia = false
             this.errors = []
         },
         async edit(jefeUbch, elector, jefeId){
@@ -499,44 +474,60 @@ const app = new Vue({
             this.updateLoader = false
 
         },
+
         async remove(id){
 
-            try{
+            swal({
+                title: "¿Estás seguro?",
+                text: "Eliminarás este jefe de UBCH!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(async (willDelete) => {
 
-                let res = await axios.post("{{ url('api/raas/ubch/suspend') }}", {id: id})
+                if (willDelete) {
 
-                if(res.data.success == true){
+                    try{
 
-                    swal({
-                        text:res.data.msg,
-                        icon: "success"
-                    })
+                        let res = await axios.post("{{ url('api/raas/ubch/suspend') }}", {id: id})
 
-                    this.fetch(this.page)
+                        if(res.data.success == true){
 
-                }else{
-             
-                    swal({
-                        text:res.data.msg,
-                        icon: "error"
-                    })
+                            swal({
+                                text:res.data.msg,
+                                icon: "success"
+                            })
+
+                            this.fetch(this.page)
+
+                        }else{
+
+                            swal({
+                                text:res.data.msg,
+                                icon: "error"
+                            })
+
+                        }
+
+                    }catch(err){
+
+                        swal({
+                            text:"Hay algunos campos que debes revisar",
+                            icon: "error"
+                        })
+
+                        this.errors = err.response.data.errors
+
+                    }
 
                 }
+                
 
-            }catch(err){
-      
-                swal({
-                    text:"Hay algunos campos que debes revisar",
-                    icon: "error"
-                })
 
-                this.errors = err.response.data.errors
-
-            }
-
+            })
 
         },
-
         async getEstados(){
 
             this.selecteMunicipio = ""

@@ -45,7 +45,7 @@ class UBCHController extends Controller
             $personalCaracterizacion = PersonalCaracterizacion::where('cedula', $request->cedula)->first();
 
             if ($personalCaracterizacion == null) {
-                if (Elector::where('cedula', $request->cedula)->first()) {
+                if (Elector::where('cedula', $request->cedula)->where('nacionalidad', $request->nacionalidad)->first()) {
                     $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
                 } else {
                     $data = [
