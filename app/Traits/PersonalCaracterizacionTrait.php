@@ -54,13 +54,13 @@ trait PersonalCaracterizacionTrait
         $personal->cedula = $data->cedula ? $data->cedula : $personal->cedula;
         $personal->nombre_apellido = $data->nombre_apellido;
         $personal->sexo = $data->sexo;
-        $personal->telefono_principal = $data->telefono_principal ? $data->telefono_principal : $personal->telefono_principal;
-        $personal->telefono_secundario = $data->telefono_secundario ? $data->telefono_secundario : $personal->telefono_secundario;
-        $personal->fecha_nacimiento = $data->fecha_nacimiento ? $data->fecha_nacimiento : $personal->fecha_nacimiento;
-        $personal->tipo_voto = $data->tipo_voto ? $data->tipo_voto : $personal->tipo_voto;
-        $personal->inhabilitado_politicio = $data->inhabilitado_politicio ? $data->inhabilitado_politicio : 0;
-        $personal->elecciones_partido_politico_id = $data->partido_politico_id ? $data->partido_politico_id : $personal->partido_politico_id;
-        $personal->elecciones_movilizacion_id = $data->movilizacion_id ? $data->movilizacion_id : $personal->movilizacion_id;
+        $personal->telefono_principal = $data->telefono_principal;
+        $personal->telefono_secundario = $data->telefono_secundario;
+        $personal->fecha_nacimiento = $data->fecha_nacimiento;
+        $personal->tipo_voto = $data->tipo_voto;
+        $personal->inhabilitado_politicio = $data->inhabilitado_politicio;
+        $personal->elecciones_partido_politico_id = $data->partido_politico_id;
+        $personal->elecciones_movilizacion_id = $data->movilizacion_id;
         $personal->update();
     }
 }

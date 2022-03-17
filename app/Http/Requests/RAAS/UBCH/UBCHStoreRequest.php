@@ -28,10 +28,10 @@ class UBCHStoreRequest extends FormRequest
             'cedula' => 'required',
             'municipio_id' => 'required|exists:raas_municipio,id',
             'parroquia_id' => 'required|exists:raas_parroquia,id',
-            'telefono_principal' => 'nullable|max:11',
+            'telefono_principal' => 'required|max:11',
             'telefono_secundario' => 'nullable|max:11',
-            'partido_politico_id' => 'nullable|exists:partido_politico,id',
-            'movilizacion_id' => 'nullable|exists:movilizacion,id',
+            'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',
+            'movilizacion_id' => 'nullable|exists:elecciones_movilizacion,id',
         ];
     }
 }

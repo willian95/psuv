@@ -24,7 +24,7 @@ class UBCHCedulaSearchRequest extends FormRequest
     public function rules()
     {
         return [
-            "cedulaJefe" => "required|exists:personal_caracterizacion,cedula"
+            'cedulaJefe' => 'required|exists:personal_caracterizacion,cedula',
         ];
     }
 }

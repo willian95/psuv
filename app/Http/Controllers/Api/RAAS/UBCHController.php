@@ -58,11 +58,11 @@ class UBCHController extends Controller
                         'raas_parroquia_id' => $request->parroquia_id,
                         'raas_centro_votacion_id' => $request->centro_votacion_id,
                         'telefono_principal' => $request->telefono_principal,
-                        'telefono_secundario' => $request->telefono_secundario,
-                        'partido_politico_id' => $request->partido_politico_id,
-                        'movilizacion_id' => $request->movilizacion_id,
-                        'tipo_voto' => $request->tipo_voto,
-                        'sexo' => $request->sexo,
+                        'telefono_secundario' => $request->telefono_secundario ? $request->telefono_secundario : '',
+                        'partido_politico_id' => $request->partido_politico_id ? $request->partido_politico_id : '',
+                        'movilizacion_id' => $request->movilizacion_id ? $request->movilizacion_id : '',
+                        'tipo_voto' => $request->tipo_voto ? $request->tipo_voto : '',
+                        'sexo' => $request->sexo ? $request->sexo : '',
                     ];
                     $personalCaracterizacion = $this->storePersonalCaracterizacion($data, true);
                 }
@@ -90,7 +90,7 @@ class UBCHController extends Controller
 
     public function verificarUnSoloCentroVotacion($centro_votacion)
     {
-        return  JefeUbch::where('centro_votacion_id', $centro_votacion)->count();
+        return  JefeUbch::where('raas_centro_votacion_id', $centro_votacion)->count();
     }
 
     public function jefeUbchByCedula(UBCHCedulaSearchRequest $request)
