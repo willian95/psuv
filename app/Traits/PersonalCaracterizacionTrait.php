@@ -58,7 +58,7 @@ trait PersonalCaracterizacionTrait
         $personal->telefono_secundario = $data->telefono_secundario;
         $personal->fecha_nacimiento = $data->fecha_nacimiento;
         $personal->tipo_voto = $data->tipo_voto;
-        $personal->inhabilitado_politicio = $data->inhabilitado_politicio;
+        $personal->inhabilitado_politicio = 'no';
         $personal->elecciones_partido_politico_id = $data->partido_politico_id;
         $personal->elecciones_movilizacion_id = $data->movilizacion_id;
         $personal->update();
