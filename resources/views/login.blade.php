@@ -14,7 +14,7 @@
 
                 <div class="d-flex pl-5 pr-5 align-items-center">
                     <img src="{{ url('gob-logo.jpg') }}" style="width: 200px;">
-                    <h2 class="text-center gob-yellow">Sistema Integral para la Gestión de Atención Social</h3>
+                    <h2 class="text-center gob-yellow">Sistema Integral para la Gestión de Atención Social del Estado Falcón</h3>
                 </div>
 
 

@@ -26,8 +26,8 @@ class PersonalCaracterizacion extends Model
         'raas_municipio_id',
         'raas_parroquia_id',
         'raas_centro_votacion_id',
-        'partido_politico_id',
-        'movilizacion_id',
+        'elecciones_partido_politico_id',
+        'elecciones_movilizacion_id',
         'jefe_familia_id',
     ];
 
@@ -78,11 +78,11 @@ class PersonalCaracterizacion extends Model
 
     public function partidoPolitico()
     {
-        return $this->belongsTo(PartidoPolitico::class);
+        return $this->belongsTo(PartidoPolitico::class, 'elecciones_partido_politico_id', 'id');
     }
 
     public function movilizacion()
     {
-        return $this->belongsTo(Movilizacion::class);
+        return $this->belongsTo(Movilizacion::class, 'elecciones_movilizacion_id', 'id');
     }
 }

@@ -25,8 +25,8 @@ trait PersonalCaracterizacionTrait
         $personal->raas_municipio_id = $data['raas_municipio_id'];
         $personal->raas_parroquia_id = $data['raas_parroquia_id'];
         $personal->raas_centro_votacion_id = $data['raas_centro_votacion_id'];
-        $personal->partido_politico_id = $data['partido_politico_id'];
-        $personal->movilizacion_id = $data['movilizacion_id'];
+        $personal->elecciones_partido_politico_id = $data['partido_politico_id'];
+        $personal->elecciones_movilizacion_id = $data['movilizacion_id'];
         $personal->sexo = $data['sexo'];
         $personal->save();
 
@@ -59,8 +59,8 @@ trait PersonalCaracterizacionTrait
         $personal->fecha_nacimiento = $data->fecha_nacimiento ? $data->fecha_nacimiento : $personal->fecha_nacimiento;
         $personal->tipo_voto = $data->tipo_voto ? $data->tipo_voto : $personal->tipo_voto;
         $personal->inhabilitado_politicio = $data->inhabilitado_politicio ? $data->inhabilitado_politicio : 0;
-        $personal->partido_politico_id = $data->partido_politico_id ? $data->partido_politico_id : $personal->partido_politico_id;
-        $personal->movilizacion_id = $data->movilizacion_id ? $data->movilizacion_id : $personal->movilizacion_id;
+        $personal->elecciones_partido_politico_id = $data->partido_politico_id ? $data->partido_politico_id : $personal->partido_politico_id;
+        $personal->elecciones_movilizacion_id = $data->movilizacion_id ? $data->movilizacion_id : $personal->movilizacion_id;
         $personal->update();
     }
 }

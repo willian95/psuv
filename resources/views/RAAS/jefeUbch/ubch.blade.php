@@ -154,8 +154,8 @@ const app = new Vue({
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
 
-            readonlyState:true,
-            readonlyCentroVotacion:true,
+            readonlyState:false,
+            readonlyCentroVotacion:false,
             readonlyCedula:false,
             cedulaSearching:false,
             storeLoader:false,
@@ -183,8 +183,8 @@ const app = new Vue({
             selectedMovilizacion:"",
             selectedEstado:"",
             jefesUbch:[],
-            readonlyMunicipio:true,
-            readonlyParroquia:true,
+            readonlyMunicipio:false,
+            readonlyParroquia:false,
 
             cedula:"",
             nombre:"",
@@ -223,23 +223,30 @@ const app = new Vue({
             this.tipoVoto=""
             this.municipioId = ""
             this.errors = []
+
+            this.readonlyState = false
+            this.readonlyMunicipio = false
+            this.readonlyParroquia = false
+            this.readonlyCentroVotacion = false
+
         },
         async edit(jefeUbch, elector, jefeId){
+
+            this.readonlyState = true
+            this.readonlyMunicipio = true
+            this.readonlyParroquia = true
+            this.readonlyCentroVotacion = true
 
             await this.getEstados();
             this.selectedEstado = elector.raas_estado_id
 
             await this.getMunicipios();
             this.selectedMunicipio = elector.raas_municipio_id
-            //this.readonlyMunicipio = true
-            //this.readonlyParroquia = true
 
             this.selectedId = jefeId
             this.action = "edit"
             this.modalTitle = "Editar Jefe de UBCH",
-            this.readonlyCedula = false
             this.cedula = elector.cedula
-            this.readonlyCentroVotacion = true
 
             this.nombre = elector.nombre_apellido
             await this.getParroquias()
@@ -260,8 +267,8 @@ const app = new Vue({
 
            
             this.sexo = elector.sexo
-            this.selectedPartidoPolitico = elector.partido_politico_id
-            this.selectedMovilizacion = elector.movilizacion_id
+            this.selectedPartidoPolitico = elector.elecciones_partido_politico_id
+            this.selectedMovilizacion = elector.elecciones_movilizacion_id
             
 
 

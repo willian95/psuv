@@ -14,7 +14,7 @@ class JefeUbch extends Model
 
     public function personalCaracterizacion()
     {
-        return $this->belongsTo(PersonalCaracterizacion::class);
+        return $this->belongsTo(PersonalCaracterizacion::class, 'raas_personal_caracterizacion_id', 'id');
     }
 
     public function jefeComunidas()
@@ -24,6 +24,6 @@ class JefeUbch extends Model
 
     public function centroVotacion()
     {
-        return $this->belongsTo(CentroVotacion::class);
+        return $this->belongsTo(CentroVotacion::class, 'raas_centro_votacion_id', 'id');
     }
 }

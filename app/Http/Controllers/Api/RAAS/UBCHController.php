@@ -69,11 +69,9 @@ class UBCHController extends Controller
             }
 
             $jefeUbch = new JefeUbch();
-            $jefeUbch->personal_caracterizacion_id = $personalCaracterizacion->id;
-            $jefeUbch->centro_votacion_id = $request->centro_votacion_id;
+            $jefeUbch->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
+            $jefeUbch->raas_centro_votacion_id = $request->centro_votacion_id;
             $jefeUbch->save();
-
-            //$this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
 
             return response()->json(['success' => true, 'msg' => 'Jefe de UBCH creado']);
         } catch (\Exception $e) {
@@ -130,8 +128,8 @@ class UBCHController extends Controller
                 $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
             }
 
-            $jefeUbch->personal_caracterizacion_id = $personalCaracterizacion->id;
-            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->personal_caracterizacion_id, $request);
+            $jefeUbch->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
+            $personalCaracterizacion = $this->updatePersonalCaracterizacion($jefeUbch->raas_personal_caracterizacion_id, $request);
             $jefeUbch->update();
 
             return response()->json(['success' => true, 'msg' => 'Jefe de UBCH actualizado']);
