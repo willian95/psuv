@@ -113,4 +113,11 @@ class EnlaceMunicipalController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Enlace municipal eliminado']);
     }
+
+    public function fetchAll()
+    {
+        $enlaces = CensoEnlaceMunicipal::with('municipio')->get();
+
+        return response()->json($enlaces);
+    }
 }

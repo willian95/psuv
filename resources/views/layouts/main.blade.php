@@ -221,6 +221,15 @@ License: You must have a valid license purchased only from themeforest(the above
 												</a>
 											</li>
 
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('clap.jefe_clap') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Jefe clap</span>
+												</a>
+											</li>
+
 										</ul>
 									</div>
 								</li>

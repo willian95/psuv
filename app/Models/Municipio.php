@@ -34,4 +34,9 @@ class Municipio extends Model
     {
         return $this->hasMany(PersonalSalaTecnica::class);
     }
+
+    public function enlaceMunicipales()
+    {
+        return $this->hasMany(CensoEnlaceMunicipal::class, 'raas_municipio_id', 'id');
+    }
 }

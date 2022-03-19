@@ -85,4 +85,9 @@ class PersonalCaracterizacion extends Model
     {
         return $this->belongsTo(Movilizacion::class, 'elecciones_movilizacion_id', 'id');
     }
+
+    public function enlaceMunicipales()
+    {
+        return $this->hasMany(CensoEnlaceMunicipal::class, 'censo_enlace_municipal_id', 'id');
+    }
 }

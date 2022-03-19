@@ -146,7 +146,15 @@ Route::get('instituciones-usuario', function () {
 })->middleware('auth');
 
 Route::group(['prefix' => '/clap', 'middleware' => 'auth'], function () {
+    Route::get('/home', function () {
+        return view('dashboard');
+    })->name('home');
+
     Route::get('/enlace-municipal', function () {
         return view('clap.enlace_municipal.index');
     })->name('clap.enlace_municipal');
+
+    Route::get('/jefe-clap', function () {
+        return view('clap.jefe_clap.index');
+    })->name('clap.jefe_clap');
 });
