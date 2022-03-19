@@ -9,28 +9,35 @@ trait PersonalCaracterizacionTrait
 {
     public function storePersonalCaracterizacion($data)
     {
+        $personal = null;
         if (!is_array($data)) {
             $data = $data->toArray();
         }
 
-        $personal = new PersonalCaracterizacion();
-        $personal->cedula = $data['cedula'];
-        $personal->nombre_apellido = $data['nombre_apellido'];
-        $personal->sexo = $data['sexo'];
-        $personal->telefono_principal = $data['telefono_principal'];
-        $personal->telefono_secundario = $data['telefono_secundario'];
-        $personal->nacionalidad = $data['nacionalidad'];
-        $personal->tipo_voto = $data['tipo_voto'];
-        $personal->raas_estado_id = $data['raas_estado_id'];
-        $personal->raas_municipio_id = $data['raas_municipio_id'];
-        $personal->raas_parroquia_id = $data['raas_parroquia_id'];
-        $personal->raas_centro_votacion_id = $data['raas_centro_votacion_id'];
-        $personal->elecciones_partido_politico_id = $data['partido_politico_id'];
-        $personal->elecciones_movilizacion_id = $data['movilizacion_id'];
-        $personal->sexo = $data['sexo'];
-        $personal->save();
+        if (!PersonalCaracterizacion::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first()) {
+            $personal = new PersonalCaracterizacion();
+            $personal->cedula = $data['cedula'];
+            $personal->nombre_apellido = $data['nombre_apellido'];
+            $personal->sexo = $data['sexo'];
+            $personal->telefono_principal = $data['telefono_principal'];
+            $personal->telefono_secundario = $data['telefono_secundario'] ?? null;
+            $personal->nacionalidad = $data['nacionalidad'];
+            $personal->tipo_voto = $data['tipo_voto'] ?? null;
+            $personal->raas_estado_id = $data['raas_estado_id'] ?? null;
+            $personal->raas_municipio_id = $data['raas_municipio_id'] ?? null;
+            $personal->raas_parroquia_id = $data['raas_parroquia_id'] ?? null;
+            $personal->raas_centro_votacion_id = $data['raas_centro_votacion_id'] ?? null;
+            $personal->elecciones_partido_politico_id = $data['partido_politico_id'] ?? null;
+            $personal->elecciones_movilizacion_id = $data['movilizacion_id'] ?? null;
 
-        if (!Elector::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first()) {
+            if (!isset($data['raas_centro_votacion_id'])) {
+                $personal->es_elector = false;
+            }
+
+            $personal->save();
+        }
+
+        if (!Elector::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first() && $data['raas_estado_id']) {
             $elector = new Elector();
             $elector->cedula = $data['cedula'];
             $elector->nombre_apellido = $data['nombre_apellido'];
@@ -62,5 +69,19 @@ trait PersonalCaracterizacionTrait
         $personal->elecciones_partido_politico_id = $data->partido_politico_id;
         $personal->elecciones_movilizacion_id = $data->movilizacion_id;
         $personal->update();
+    }
+
+    public function getPersonalCaracterizacion($cedula, $nacionalidad)
+    {
+        $personalCaracterizacion = PersonalCaracterizacion::where('cedula', $cedula)->where('nacionalidad', $nacionalidad)->first();
+
+        return $personalCaracterizacion;
+    }
+
+    public function getElector($cedula, $nacionalidad)
+    {
+        $elector = Elector::where('cedula', $cedula)->where('nacionalidad', $nacionalidad)->first();
+
+        return $elector;
     }
 }

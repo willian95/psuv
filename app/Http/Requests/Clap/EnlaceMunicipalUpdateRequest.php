@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\RAAS\UBCH;
+namespace App\Http\Requests\Clap;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UBCHStoreRequest extends FormRequest
+class EnlaceMunicipalUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class UBCHStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'raas_centro_votacion_id' => 'required|exists:raas_centro_votacion,id',
             'cedula' => 'required',
-            'raas_municipio_id' => 'required|exists:raas_municipio,id',
-            'raas_parroquia_id' => 'required|exists:raas_parroquia,id',
+            'selectedMunicipioEnlaceMunicipal' => 'required',
             'telefono_principal' => 'required|max:11',
             'telefono_secundario' => 'nullable|max:11',
             'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',

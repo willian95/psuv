@@ -291,7 +291,7 @@ const app = new Vue({
 
             this.cedulaSearching = true
 
-            let res = await axios.post("{{ url('raas/ubch/search-by-cedula') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, municipio_id: "{{ \Auth::user()->municipio_id }}"})
+            let res = await axios.post("{{ url('api/raas/ubch/search-by-cedula') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, municipio_id: "{{ \Auth::user()->municipio_id }}"})
 
             if(res.data.success == false){
                 this.readonlyCedula = false
@@ -391,7 +391,7 @@ const app = new Vue({
                 this.errors = []
                 this.storeLoader = true
 
-                let res = await axios.post("{{ url('api/raas/ubch/store') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, nombre_apellido: this.nombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, estado_id: this.selectedEstado, municipio_id: this.selectedMunicipio, parroquia_id: this.selectedParroquia, centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, estado_id: this.selectedEstado})
+                let res = await axios.post("{{ url('api/raas/ubch/store') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad, nombre_apellido: this.nombre, sexo: this.sexo, telefono_principal: this.telefonoPrincipal, telefono_secundario: this.telefonoSecundario, tipo_voto: this.tipoVoto, raas_estado_id: this.selectedEstado, raas_municipio_id: this.selectedMunicipio, raas_parroquia_id: this.selectedParroquia, raas_centro_votacion_id: this.selectedCentroVotacion, partido_politico_id: this.selectedPartidoPolitico, movilizacion_id: this.selectedMovilizacion, fecha_nacimiento: this.fechaNacimiento, estado_id: this.selectedEstado})
                 
                 this.storeLoader = false
 

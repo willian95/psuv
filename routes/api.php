@@ -98,8 +98,15 @@ Route::prefix('participacion-movimientos')->group(function () {
     require base_path('routes/apiRoutes/ParticipacionMovimientosApiRoutes.php');
 });
 
+//Participacion movimientos Routes
+Route::prefix('clap')->group(function () {
+    require base_path('routes/apiRoutes/Clap.php');
+});
+
 //raas Routes
 Route::prefix('raas')->group(function () {
+    Route::post('ubch/search-by-cedula', [UBCHController::class, 'searchByCedula']);
+
     Route::prefix('jefe-calle')->group(function () {
         Route::get('/', [JefeCalleController::class, 'index'])->name('api.jefe-calle.index');
         Route::get('/{cedula}', [JefeCalleController::class, 'searchByCedulaField'])->name('api.jefe-calle.search-by-cedula')->middleware('web');

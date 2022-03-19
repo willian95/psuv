@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RAAS\UBCH\UBCHCedulaSearchRequest;
 use App\Http\Requests\RAAS\UBCH\UBCHStoreRequest;
 use App\Http\Requests\RAAS\UBCH\UBCHUpdateRequest;
-use App\Models\Elector;
 use App\Models\JefeComunidad;
 use App\Models\JefeUbch;
-use App\Models\PersonalCaracterizacion;
 use App\Traits\ElectorTrait;
 use App\Traits\PersonalCaracterizacionTrait;
 use Illuminate\Http\Request;
@@ -42,35 +40,15 @@ class UBCHController extends Controller
                 return response()->json(['success' => false, 'msg' => 'Ya existe otro jefe para ésta UBCH']);
             }
 
-            $personalCaracterizacion = PersonalCaracterizacion::where('cedula', $request->cedula)->first();
+            $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
 
             if ($personalCaracterizacion == null) {
-                if (Elector::where('cedula', $request->cedula)->where('nacionalidad', $request->nacionalidad)->first()) {
-                    $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
-                } else {
-                    $data = [
-                        'cedula' => $request->cedula,
-                        'nombre_apellido' => $request->nombre_apellido,
-                        'nacionalidad' => $request->nacionalidad,
-                        'sexo' => 'M',
-                        'raas_estado_id' => $request->estado_id,
-                        'raas_municipio_id' => $request->municipio_id,
-                        'raas_parroquia_id' => $request->parroquia_id,
-                        'raas_centro_votacion_id' => $request->centro_votacion_id,
-                        'telefono_principal' => $request->telefono_principal,
-                        'telefono_secundario' => $request->telefono_secundario ? $request->telefono_secundario : '',
-                        'partido_politico_id' => $request->partido_politico_id ? $request->partido_politico_id : '',
-                        'movilizacion_id' => $request->movilizacion_id ? $request->movilizacion_id : '',
-                        'tipo_voto' => $request->tipo_voto ? $request->tipo_voto : '',
-                        'sexo' => $request->sexo ? $request->sexo : '',
-                    ];
-                    $personalCaracterizacion = $this->storePersonalCaracterizacion($data, true);
-                }
+                $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
             }
 
             $jefeUbch = new JefeUbch();
             $jefeUbch->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
-            $jefeUbch->raas_centro_votacion_id = $request->centro_votacion_id;
+            $jefeUbch->raas_centro_votacion_id = $request->raas_centro_votacion_id;
             $jefeUbch->save();
 
             return response()->json(['success' => true, 'msg' => 'Jefe de UBCH creado']);
@@ -122,7 +100,7 @@ class UBCHController extends Controller
 
             $jefeUbch = JefeUbch::find($request->id);
 
-            $personalCaracterizacion = PersonalCaracterizacion::where('cedula', $request->cedula)->first();
+            $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
 
             if ($personalCaracterizacion == null) {
                 $personalCaracterizacion = $this->storePersonalCaracterizacion($request);
@@ -172,7 +150,7 @@ class UBCHController extends Controller
             });
         }
 
-        $jefeUbch = $query->orderBy('id', 'desc')->paginate(15);
+        $jefeUbch = $query->orderBy('id', 'desc')->paginate(20);
 
         return response()->json($jefeUbch);
     }

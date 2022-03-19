@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\RAAS\JefeComunidadController as JefeComunidadAPIController;
-use App\Http\Controllers\Api\RAAS\UBCHController as UBCHAPIController;
 use App\Http\Controllers\Api\Votaciones\CuadernilloController;
 use App\Http\Controllers\Api\{
     ElectorController
@@ -39,8 +38,6 @@ Route::get('/', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
-
-Route::post('raas/ubch/search-by-cedula', [UBCHAPIController::class, 'searchByCedula']);
 
 Route::post('raas/jefe-comunidad/search-by-cedula', [JefeComunidadAPIController::class, 'searchByCedula']);
 Route::post('raas/jefe-comunidad/search-by-cedula-field', [JefeComunidadAPIController::class, 'searchByCedulaField']);
@@ -149,7 +146,7 @@ Route::get('instituciones-usuario', function () {
 })->middleware('auth');
 
 Route::group(['prefix' => '/clap', 'middleware' => 'auth'], function () {
-    Route::get('/home', function () {
-        return view('dashboard');
-    });
+    Route::get('/enlace-municipal', function () {
+        return view('clap.enlace_municipal.index');
+    })->name('clap.enlace_municipal');
 });
