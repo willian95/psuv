@@ -110,4 +110,23 @@ class JefeComunidadClapController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Jefe comunidad eliminado']);
     }
+
+    public function searchJefeComunidadClapByCedula(Request $request)
+    {
+        $jefeComunidadClap = RaasJefeComunidad::whereHas('personalCaracterizacions', function ($query) use ($request) {
+            $query->where('cedula', $request->cedula);
+            $query->where('nacionalidad', $request->nacionalidad);
+        })->with('personalCaracterizacions', 'comunidad')->first();
+
+        if (is_null($jefeComunidadClap)) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Jefe comunidad clap no encontrado',
+                ]
+            );
+        }
+
+        return response()->json(['success' => true, 'jefe' => $jefeComunidadClap]);
+    }
 }

@@ -129,7 +129,7 @@ class JefeClapController extends Controller
         if (is_null($jefeClap)) {
             return response()->json(
                 [
-                    'successs' => false,
+                    'success' => false,
                     'message' => 'Jefe clap no encontrado',
                 ]
             );

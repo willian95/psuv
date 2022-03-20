@@ -22,7 +22,7 @@ class Parroquia extends Model
 
     public function municipio()
     {
-        return $this->belongsTo(Municipio::class);
+        return $this->belongsTo(Municipio::class, 'raas_municipio_id', 'id');
     }
 
     public function comunidades()

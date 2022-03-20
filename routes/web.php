@@ -161,4 +161,8 @@ Route::group(['prefix' => '/clap', 'middleware' => 'auth'], function () {
     Route::get('/jefe-comunidad-clap', function () {
         return view('clap.jefe_comunidad_clap.index');
     })->name('clap.jefe_comunidad_clap');
+
+    Route::get('/jefe-calle-clap', function () {
+        return view('clap.jefe_calle_clap.index');
+    })->name('clap.jefe_calle_clap');
 });
