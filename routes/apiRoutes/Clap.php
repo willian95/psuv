@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Clap\EnlaceMunicipalController;
 use App\Http\Controllers\Api\Clap\JefeClapController;
+use App\Http\Controllers\Api\Clap\JefeComunidadClapController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'enlace-municipal'], function () {
@@ -19,4 +20,13 @@ Route::group(['prefix' => 'jefe-clap'], function () {
     Route::get('index', [JefeClapController::class, 'fetch']);
     Route::delete('/{id}', [JefeClapController::class, 'delete']);
     Route::put('/{id}', [JefeClapController::class, 'update']);
+    Route::post('search-jefe-by-cedula', [JefeClapController::class, 'searchJefeClapByCedula']);
+});
+
+Route::group(['prefix' => 'jefe-comunidad-clap'], function () {
+    Route::post('search-by-cedula', [JefeComunidadClapController::class, 'searchByCedula']);
+    Route::post('/', [JefeComunidadClapController::class, 'store']);
+    Route::get('index', [JefeComunidadClapController::class, 'fetch']);
+    Route::delete('/{id}', [JefeComunidadClapController::class, 'delete']);
+    Route::put('/{id}', [JefeComunidadClapController::class, 'update']);
 });

@@ -118,4 +118,23 @@ class JefeClapController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Jefe clap eliminado']);
     }
+
+    public function searchJefeClapByCedula(Request $request)
+    {
+        $jefeClap = CensoJefeClap::whereHas('personalCaracterizacions', function ($query) use ($request) {
+            $query->where('cedula', $request->cedula);
+            $query->where('nacionalidad', $request->nacionalidad);
+        })->with('personalCaracterizacions', 'enlaceMunicipal.municipio')->first();
+
+        if (is_null($jefeClap)) {
+            return response()->json(
+                [
+                    'successs' => false,
+                    'message' => 'Jefe clap no encontrado',
+                ]
+            );
+        }
+
+        return response()->json(['success' => true, 'jefe' => $jefeClap]);
+    }
 }

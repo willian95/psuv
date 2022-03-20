@@ -7,19 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comunidad extends Model
 {
-    protected $table="comunidad";
+    protected $table = 'raas_comunidad';
     use HasFactory;
 
-    public function jefeComunidads(){
-
+    public function jefeComunidads()
+    {
         return $this->belongsTo(JefeComunidad::class);
-
     }
 
-    public function parroquia(){
-
-        return $this->belongsTo(Parroquia::class,"parroquia_id");
-
+    public function parroquia()
+    {
+        return $this->belongsTo(Parroquia::class, 'parroquia_id');
     }
-
 }
