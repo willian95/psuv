@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="login100-more mask col-md-6"
-                style="background-image: url('psuv-login.jpg');">
+                style="background-image: url('clap_Credenciales.png');">
 
 
                <!---- <p>Bienvenido a Aidacaceres CMS</p>--->
@@ -39,20 +39,20 @@
 
 
                 <div class="w-100">
-                    <div class="d-flex justify-content-end pr-5">
-                        <button class="login100-form-btn" style="background-color: #025da5; margin-right: 10px; width: 223px !important;" v-if="loading == false">
-                            Recuperar contraseña
-                        </button>
+                    <div class="d-flex justify-content-center">
                         <button class="login100-form-btn" @click="login()" style="background-color: #086e0c;" v-if="loading == false">
                             Ingresar
                         </button>
                     </div>
                     
                 </div>
+                <div class="text-center pt-3">
+                    <a href="#" class="text-secondary">¿Olvidaste tu contraseña?</a>
+                </div>
                 <div class="w-100">
-                    <p class="text-center">
+                    <div class="d-flex justify-content-center">
                         <div class="loader-custom" v-if="loading"></div>
-                    </p>
+                    </div>
                 </div>
                 
             </div>
