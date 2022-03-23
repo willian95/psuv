@@ -4594,8 +4594,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #ffffff;
-  background-color: #3699FF;
-  border-color: #3699FF; }
+  background-color: #025da5;
+  border-color: #025da5; }
 
 .page-item.disabled .page-link {
   color: #7E8299;
@@ -37413,8 +37413,8 @@ button {
 
 .btn.btn-primary {
   color: #FFFFFF;
-  background-color: #3699FF;
-  border-color: #3699FF; }
+  background-color: #025da5;
+  border-color: #025da5; }
   .btn.btn-primary i {
     color: #FFFFFF; }
   .btn.btn-primary .svg-icon svg g [fill] {
@@ -38525,8 +38525,8 @@ button {
 
 .btn.btn-success {
   color: #ffffff;
-  background-color: #1BC5BD;
-  border-color: #1BC5BD; }
+  background-color: #086e0c;
+  border-color: #086e0c; }
   .btn.btn-success i {
     color: #ffffff; }
   .btn.btn-success .svg-icon svg g [fill] {
