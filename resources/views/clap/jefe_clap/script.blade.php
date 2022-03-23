@@ -122,6 +122,7 @@ const app = new Vue({
             this.disabledStoreButton = true
             this.action = "create"
             this.readonlySelectedMunicipioEnlaceMunicipal = false
+            this.modalTitle = "Crear jefe clap"
             
             this.clearForm()
             
