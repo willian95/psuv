@@ -20,7 +20,7 @@ const app = new Vue({
             enlacesMunicipales:[],
             jefeClaps:[],
 
-            modalTitle:"Crear enlace municipal",
+            modalTitle:"Crear jefe clap",
             disabledStoreButton:true,
             readonlySelectedMunicipioEnlaceMunicipal:false,
 
