@@ -38,6 +38,7 @@ class EnlaceMunicipalController extends Controller
 
             $this->storePersonalCaracterizacion($request);
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
             $censoEnlaceMunicipal = new CensoEnlaceMunicipal();
             $censoEnlaceMunicipal->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
@@ -72,6 +73,7 @@ class EnlaceMunicipalController extends Controller
 
             $this->storePersonalCaracterizacion($request);
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
             $censoEnlaceMunicipal->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
             $censoEnlaceMunicipal->update();

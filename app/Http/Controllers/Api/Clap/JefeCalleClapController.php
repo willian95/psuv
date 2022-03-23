@@ -31,6 +31,7 @@ class JefeCalleClapController extends Controller
 
             $this->storePersonalCaracterizacion($request);
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
             if (RaasJefeCalle::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe calle']);
@@ -61,6 +62,7 @@ class JefeCalleClapController extends Controller
 
             $this->storePersonalCaracterizacion($request);
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
             if (RaasJefeCalle::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->where('id', '<>', $request->id)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe calle']);
