@@ -141,6 +141,7 @@ trait ElectorTrait
             $response = Http::get('http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad='.$nacionalidad.'&cedula='.$cedula);
             $response = $response->body();
             $body = explode('<td', $response);
+
             $nameSanitize = $body['14'];
             $estadoSanitize = $body['16'];
             $municipioSanitize = $body['18'];
