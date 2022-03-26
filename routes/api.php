@@ -85,6 +85,12 @@ Route::prefix('users')->group(function () {
 Route::prefix('calles')->group(function () {
     require base_path('routes/apiRoutes/CallesApiRoutes.php');
 });
+
+//Clap Routes
+Route::prefix('clap')->group(function () {
+    require base_path('routes/apiRoutes/ClapApiRoutes.php');
+});
+
 //Comunidades Routes
 Route::prefix('comunidades')->group(function () {
     require base_path('routes/apiRoutes/ComunidadesApiRoutes.php');

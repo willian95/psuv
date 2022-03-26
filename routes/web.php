@@ -58,6 +58,10 @@ Route::group(['middleware' => ['auth']], function () {
             return view('admin.calles.view');
         });
 
+        Route::get('/clap', function () {
+            return view('admin.clap.view');
+        });
+
         Route::get('/comunidad', function () {
             return view('comunidad.index');
         });
