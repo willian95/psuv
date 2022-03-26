@@ -19,6 +19,8 @@
                 selectedId:"",
                 nombre:"",
                 errors:[],
+                readonlyMunicipio:false,
+                readonlyParroquia:false,
 
                 nombreSearch:"",
                 loading:false,
@@ -41,6 +43,8 @@
                 this.selecteMunicipio = ""
                 this.selectedParroquia = ""
                 this.nombre=""
+                this.readonlyMunicipio=false
+                this.readonlyParroquia=false
                 this.errors = []
             },
             async edit(comunidad){
@@ -51,6 +55,8 @@
                 this.action = "edit"
                 this.modalTitle = "Editar comunidad"
                 this.nombre = comunidad.nombre
+                this.readonlyMunicipio=true
+                this.readonlyParroquia=true
             },
             async searchCedula(){
 

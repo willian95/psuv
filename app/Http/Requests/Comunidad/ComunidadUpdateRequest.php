@@ -24,8 +24,8 @@ class ComunidadUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "nombre" => "required",
-            "parroquia_id" => "required|exists:parroquia,id"
+            'nombre' => 'required',
+            'parroquia_id' => 'required|exists:raas_parroquia,id',
         ];
     }
 }

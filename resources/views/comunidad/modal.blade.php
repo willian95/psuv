@@ -15,7 +15,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="municipio">Municipio</label>
-                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" :disabled="authMunicipio != ''">
+                                <select class="form-control" v-model="selectedMunicipio" id="municipio" @change="getParroquias()" :disabled="authMunicipio != '' || readonlyMunicipio">
                                     <option value="">Seleccione</option>
                                     <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
                                 </select>
@@ -25,7 +25,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="parroquia">Parroquia</label>
-                                <select class="form-control" v-model="selectedParroquia" id="parroquia">
+                                <select class="form-control" v-model="selectedParroquia" id="parroquia" :disabled="readonlyParroquia">
                                     <option value="">Seleccione</option>
                                     <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
                                 </select>

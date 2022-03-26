@@ -18,7 +18,7 @@ class ComunidadController extends Controller
 
     public function verificarNombreDuplicado($nombre, $parroquia_id)
     {
-        return Comunidad::where('parroquia_id', $parroquia_id)->where('nombre', strtoupper($nombre))->count();
+        return Comunidad::where('raas_parroquia_id', $parroquia_id)->where('nombre', strtoupper($nombre))->count();
     }
 
     public function store(ComunidadStoreRequest $request)
@@ -29,7 +29,7 @@ class ComunidadController extends Controller
             }
 
             $comunidad = new Comunidad();
-            $comunidad->parroquia_id = $request->parroquia_id;
+            $comunidad->raas_parroquia_id = $request->parroquia_id;
             $comunidad->nombre = strtoupper($request->nombre);
             $comunidad->save();
 
@@ -42,12 +42,12 @@ class ComunidadController extends Controller
     public function update(ComunidadUpdateRequest $request)
     {
         try {
-            if (Comunidad::where('parroquia_id', $request->parroquia_id)->where('nombre', strtoupper($request->nombre))->where('id', '<>', $request->id)->count() > 0) {
+            if (Comunidad::where('raas_parroquia_id', $request->parroquia_id)->where('nombre', strtoupper($request->nombre))->where('id', '<>', $request->id)->count() > 0) {
                 return response()->json(['success' => false, 'msg' => 'Ésta comunidad ya existe']);
             }
 
             $comunidad = Comunidad::find($request->id);
-            $comunidad->parroquia_id = $request->parroquia_id;
+            $comunidad->raas_parroquia_id = $request->parroquia_id;
             $comunidad->nombre = strtoupper($request->nombre);
             $comunidad->update();
 
@@ -60,7 +60,7 @@ class ComunidadController extends Controller
     public function delete(Request $request)
     {
         try {
-            if (Calle::where('comunidad_id', $request->id)->count() > 0) {
+            if (Calle::where('raas_comunidad_id', $request->id)->count() > 0) {
                 return response()->json(['success' => false, 'msg' => 'No es posible eliminar debido a que hay calles asociadas']);
             }
 

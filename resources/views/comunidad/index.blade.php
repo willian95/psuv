@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <button style="cursor: pointer;" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="create()">
+                        <button style="cursor: pointer;" class="btn btn-warning font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="create()">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -66,6 +66,10 @@
                                     <tr>
 
                                         <th class="datatable-cell datatable-cell-sort">
+                                            <span>Municipio</span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Nombre</span>
                                         </th>
 
@@ -73,9 +77,7 @@
                                             <span>Parroquia</span>
                                         </th>
 
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Municipio</span>
-                                        </th>
+                                        
 
                                         <th class="datatable-cell datatable-cell-sort">
                                             <span>Acción</span>
@@ -84,9 +86,10 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="comunidad in comunidades">
+                                        <td>@{{ comunidad.parroquia.municipio.nombre }}</td>
                                         <td>@{{ comunidad.nombre }}</td>
                                         <td>@{{ comunidad.parroquia.nombre }}</td>
-                                        <td>@{{ comunidad.parroquia.municipio.nombre }}</td>
+                                        
         
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(comunidad)">
