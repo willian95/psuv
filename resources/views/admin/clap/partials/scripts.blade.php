@@ -177,7 +177,7 @@
                                 const response = await axios({
                                     method: 'DELETE',
                                     responseType: 'json',
-                                    url: "{{ url('api/calles') }}"+"/"+entityId,
+                                    url: "{{ url('api/clap') }}"+"/"+entityId,
                                     data: this.form
                                 });
                                 this.loading = false;
