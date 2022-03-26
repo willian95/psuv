@@ -47,9 +47,17 @@
                 </div>                    
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                
+                <div class="d-flex w-100" style="justify-content: space-between">
+                    <button type="button" class="btn btn-warning" @click="clearForm()">Limpiar</button>
+                    <div>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                    </div>
+                </div>
+                
+                
                 
                 <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
                 <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>

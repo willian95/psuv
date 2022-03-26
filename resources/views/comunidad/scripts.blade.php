@@ -35,12 +35,19 @@
             }
         },
         methods: {
+            
+            clearForm(){
+                this.selectedMunicipio = ""
+                this.selectedParroquia = ""
+                this.nombre=""
+                this.errors = []
+            },
 
             create(){
                 this.selectedId = ""
                 this.action = "create"
                 this.modalTitle = "Crear comunidad",
-                this.selecteMunicipio = ""
+                this.selectedMunicipio = ""
                 this.selectedParroquia = ""
                 this.nombre=""
                 this.readonlyMunicipio=false
