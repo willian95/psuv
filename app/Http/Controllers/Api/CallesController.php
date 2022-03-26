@@ -85,7 +85,7 @@ class CallesController extends Controller
             DB::beginTransaction();
             //Get data
             $data = $request->all();
-            $exist = Model::where('nombre', $data['nombre'])
+            $exist = Model::where('nombre', strtoupper($data['nombre']))
             ->where('raas_comunidad_id', $data['raas_comunidad_id'])
             ->first();
             if ($exist) {
@@ -115,6 +115,15 @@ class CallesController extends Controller
             if (!$entity) {
                 throw new \Exception('Calle no encontrada', 404);
             }
+
+            $exist = Model::where('nombre', strtoupper($data['nombre']))
+            ->where('raas_comunidad_id', $data['raas_comunidad_id'])
+            ->where('id', '<>', $id)
+            ->first();
+            if ($exist) {
+                throw new \Exception('Ya existe una calle con este nombre en la comunidad seleccionada', 404);
+            }
+
             //Update data
             $entity->update($data);
             DB::commit();
