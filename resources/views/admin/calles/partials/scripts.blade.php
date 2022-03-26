@@ -56,7 +56,7 @@
 
                 this.selectedMunicipio =""
                 this.selectedParroquia= ""
-                this.selectedComunidad = ""
+                this.form.raas_comunidad_id = ""
 
                 this.action="create";
 

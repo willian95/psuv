@@ -92,7 +92,13 @@ class CallesController extends Controller
                 throw new \Exception('Ya existe una calle con este nombre en la comunidad seleccionada', 404);
             }
             //Create entity
-            $entity = Model::create($data);
+            $entity = new Model();
+            $entity->nombre = strtoupper($request->nombre);
+            $entity->raas_comunidad_id = $data['raas_comunidad_id'];
+            $entity->tipo = '--';
+            $entity->sector = '--';
+            $entity->save();
+
             DB::commit();
             $response = $this->getSuccessResponse($entity, 'Registro exitoso');
         } catch (\Exception $e) {
@@ -125,7 +131,8 @@ class CallesController extends Controller
             }
 
             //Update data
-            $entity->update($data);
+            $entity->nombre = strtoupper($request->nombre);
+            $entity->save();
             DB::commit();
             $response = $this->getSuccessResponse($entity, 'Actualización exitosa');
         } catch (\Exception $e) {
