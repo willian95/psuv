@@ -58,7 +58,7 @@
                 this.selectedComunidad = ""
                 this.selectedMunicipio = ""
                 this.selectedParroquia = ""
-
+                this.modalTitle = "Crear Clap"
 
                 this.action="create";
 
