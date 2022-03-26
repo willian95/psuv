@@ -29,7 +29,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" v-if="action == 'create'">
                             <div class="form-group">
                                 <label for="calle">Comunidad</label>
                                 <select class="form-control" v-model="selectedComunidad" :disabled="readonlyComunidad" @change="toggleSelectComunidad()">
@@ -39,10 +39,20 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="d-flex w-100 flex-wrap">
-                                <div class="card" v-for="comunidad in selectedComunidades" :disabled="readonlyComunidad" @click="toggleSelectComunidad(comunidad)" style="cursor: pointer;">
+                            <div class="d-flex w-100 flex-wrap" v-if="action == 'create'">
+                                <div class="card" v-for="comunidad in selectedComunidades" @click="toggleSelectComunidad(comunidad)" style="cursor: pointer;">
                                     <div class="card-body">
                                         @{{ comunidades.filter(data => data.id == comunidad)[0].nombre }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="d-flex w-100 flex-wrap" v-if="action == 'edit'">
+                                <div class="card" v-for="comunidad in selectedComunidades">
+                                    <div class="card-body">
+                                        @{{ comunidad.nombre}}
                                     </div>
                                 </div>
                             </div>

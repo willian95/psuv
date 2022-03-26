@@ -156,6 +156,7 @@
 
                 this.selectedComunidad = entity.comunidades[0].id
                 this.form.nombre = entity.nombre
+                this.selectedComunidades = entity.comunidades
                 
             },
             async suspend(entityId){
