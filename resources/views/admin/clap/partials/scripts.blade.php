@@ -54,6 +54,12 @@
                 this.readonlyMunicipio = false
                 this.readonlyParroquia = false
                 this.readonlyComunidad = false
+
+                this.selectedComunidad = ""
+                this.selectedMunicipio = ""
+                this.selectedParroquia = ""
+
+
                 this.action="create";
 
             },
@@ -78,13 +84,7 @@
             },
             async store(){
                 //Validations
-                if(this.form.raas_comunidad_id=="0"){
-                    swal({
-                        text:"Debe seleccionar una comunidad",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.nombre==""){
+               if(this.form.nombre==""){
                     swal({
                         text:"Debe ingresar el nombre",
                         icon:"error"
@@ -145,7 +145,7 @@
                 this.readonlyMunicipio = true
                 this.readonlyParroquia = true
                 this.readonlyComunidad = true
-
+                this.modalTitle = "Editar Clap"
                 this.action="edit";
                 this.entityId=entity.id;
                 this.selectedMunicipio = entity.comunidades[0].parroquia.municipio.id
@@ -162,7 +162,7 @@
 
                 swal({
                         title: "¿Estás seguro?",
-                        text: "Eliminarás esta calle!",
+                        text: "Eliminarás este clap!",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -211,13 +211,7 @@
             async update(){
               //Validations
                 //Validations
-                if(this.form.raas_comunidad_id=="0"){
-                    swal({
-                        text:"Debe seleccionar una comunidad",
-                        icon:"error"
-                    });
-                    return false;
-                }else if(this.form.nombre==""){
+                if(this.form.nombre==""){
                     swal({
                         text:"Debe ingresar el nombre",
                         icon:"error"

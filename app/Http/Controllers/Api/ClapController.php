@@ -26,14 +26,11 @@ class ClapController extends Controller
             //Includes
             $query->with($includes);
             //Filters
-            if ($comunidad_id) {
-                $query->where('raas_comunidad_id', $comunidad_id);
-            }
             if ($search) {
                 $query->where('nombre', 'LIKE', "%{$search}%");
             }
             if ($municipio_id) {
-                $query->whereHas('comunidad', function ($query) use ($municipio_id) {
+                $query->whereHas('comunidades', function ($query) use ($municipio_id) {
                     $query->whereHas('parroquia', function ($query) use ($municipio_id) {
                         $query->where('municipio_id', $municipio_id);
                     });
@@ -93,8 +90,10 @@ class ClapController extends Controller
 
             foreach ($request->comunidades as $comunidad) {
                 $comunidadModel = Comunidad::find($comunidad);
-                $comunidadModel->censo_clap_id = $censo->id;
-                $comunidadModel->update();
+                if ($comunidadModel->censo_clap_id == null) {
+                    $comunidadModel->censo_clap_id = $censo->id;
+                    $comunidadModel->update();
+                }
             }
 
             DB::commit();

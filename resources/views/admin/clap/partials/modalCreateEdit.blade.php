@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="d-flex w-100 flex-wrap">
-                                <div class="card" v-for="comunidad in selectedComunidades" @click="toggleSelectComunidad(comunidad)" style="cursor: pointer;">
+                                <div class="card" v-for="comunidad in selectedComunidades" :disabled="readonlyComunidad" @click="toggleSelectComunidad(comunidad)" style="cursor: pointer;">
                                     <div class="card-body">
                                         @{{ comunidades.filter(data => data.id == comunidad)[0].nombre }}
                                     </div>
