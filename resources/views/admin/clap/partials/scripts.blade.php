@@ -51,6 +51,9 @@
         methods: {
             create(){
 
+                this.action="create";
+
+                this.selectedComunidades = []
                 this.readonlyMunicipio = false
                 this.readonlyParroquia = false
                 this.readonlyComunidad = false
@@ -60,7 +63,7 @@
                 this.selectedParroquia = ""
                 this.modalTitle = "Crear Clap"
 
-                this.action="create";
+                
 
             },
             async fetch(link = ""){

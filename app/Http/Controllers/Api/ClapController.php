@@ -147,6 +147,9 @@ class ClapController extends Controller
             if ($jefeCalle) {
                 throw new \Exception('Este Clap no puede ser eliminado, ya que uno o mas jefes de calles están asociados a ella.', 404);
             }
+
+            Comunidad::where('censo_clap_id', $id)->update(['censo_clap_id' => null]);
+
             $entity->delete();
             DB::commit();
             $response = $this->getSuccessResponse('', 'Eliminación exitosa');
