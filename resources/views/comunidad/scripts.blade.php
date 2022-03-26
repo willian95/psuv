@@ -204,25 +204,36 @@
 
                 try{
 
-                    let res = await axios.post("{{ url('api/comunidad/delete') }}", {id: id})
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Eliminarás esta comunidad!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then(async (willDelete) => {
+                        if (willDelete) {
+                            let res = await axios.post("{{ url('api/comunidad/delete') }}", {id: id})
 
-                    if(res.data.success == true){
+                            if(res.data.success == true){
 
-                        swal({
-                            text:res.data.msg,
-                            icon: "success"
-                        })
+                                swal({
+                                    text:res.data.msg,
+                                    icon: "success"
+                                })
 
-                        this.fetch(this.page)
+                                this.fetch(this.page)
 
-                    }else{
-                
-                        swal({
-                            text:res.data.msg,
-                            icon: "error"
-                        })
+                            }else{
+                        
+                                swal({
+                                    text:res.data.msg,
+                                    icon: "error"
+                                })
 
-                    }
+                            }
+                        }
+                    })
 
                 }catch(err){
         
