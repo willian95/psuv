@@ -27,7 +27,8 @@ class ClapController extends Controller
             $query->with($includes);
             //Filters
             if ($search) {
-                $query->where('nombre', 'LIKE', "%{$search}%");
+                $searchUpper = strtoupper($search);
+                $query->where('nombre', 'LIKE', "%{$searchUpper}%");
             }
             if ($municipio_id) {
                 $query->whereHas('comunidades', function ($query) use ($municipio_id) {
@@ -85,7 +86,7 @@ class ClapController extends Controller
             $data = $request->all();
 
             $censo = new CensoClap();
-            $censo->nombre = $request->nombre;
+            $censo->nombre = strtoupper($request->nombre);
             $censo->save();
 
             foreach ($request->comunidades as $comunidad) {
@@ -120,7 +121,7 @@ class ClapController extends Controller
             }
             //Update data
 
-            $entity->nombre = $request->nombre;
+            $entity->nombre = strtoupper($request->nombre);
             $entity->update();
 
             DB::commit();
