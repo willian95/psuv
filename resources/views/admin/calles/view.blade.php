@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <button style="cursor: pointer;" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="action = 'create'">
+                        <button style="cursor: pointer;" class="btn btn-warning font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="action = 'create'">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -62,7 +62,13 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th class="datatable-cell datatable-cell-sort">
+                                            <span>Municipio</span>
+                                        </th>
 
+                                        <th class="datatable-cell datatable-cell-sort">
+                                            <span>Parroquia</span>
+                                        </th>
                                         <th class="datatable-cell datatable-cell-sort">
                                             <span>Comunidad</span>
                                         </th>
@@ -72,24 +78,16 @@
                                         </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
-                                            <span>Tipo</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
-                                            <span>Sector</span>
-                                        </th>
-
-                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Acción</span>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="result in results">
+                                        <td>@{{ result.comunidad.parroquia.municipio.nombre }}</td>
+                                        <td>@{{ result.comunidad.parroquia.nombre }}</td>
                                         <td>@{{ result.comunidad.nombre }}</td>
                                         <td>@{{ result.nombre }}</td>
-                                        <td>@{{ result.tipo }}</td>
-                                        <td>@{{ result.sector }}</td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(result)">
                                                 <i class="far fa-edit"></i>

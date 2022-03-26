@@ -86,7 +86,7 @@ class CallesController extends Controller
             //Get data
             $data = $request->all();
             $exist = Model::where('nombre', $data['nombre'])
-            ->where('comunidad_id', $data['comunidad_id'])
+            ->where('raas_comunidad_id', $data['raas_comunidad_id'])
             ->first();
             if ($exist) {
                 throw new \Exception('Ya existe una calle con este nombre en la comunidad seleccionada', 404);

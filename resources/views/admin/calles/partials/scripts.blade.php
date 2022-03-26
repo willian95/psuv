@@ -9,10 +9,19 @@
             //Class
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
+            municipios:[],
+            parroquias:[],
+            selectedMunicipio:"",
+            selectedParroquia:"",
+            comunidades:[],
+
+            readonlyMunicipio:false,
+            readonlyParroquia:false,
+            readonlyComunidad:false,
 
             //Form
             form:{
-                comunidad_id:"0",
+                raas_comunidad_id:"0",
                 tipo:"---",
                 sector:"---",
                 nombre:"",
@@ -20,7 +29,7 @@
             entityId:null,
             searchText:"",
             //Array data
-            comunidades:[],
+            
             results:[],
 
 
@@ -34,16 +43,24 @@
         created: function() {
             this.$nextTick(async function() {
                 await this.fetch();
-                await this.obtenerComunidades();
+                await this.getMunicipios()
                 this.loading = false;
             });
         },
         methods: {
+            create(){
+
+                this.readonlyMunicipio = false
+                this.readonlyParroquia = false
+                this.readonlyComunidad = false
+                this.action="create";
+
+            },
             async fetch(link = ""){
                 this.loading = true;
                 let filters={
                     municipio_id:"{{Auth::user()->municipio_id ? Auth::user()->municipio_id : 0}}",
-                    includes:"comunidad",
+                    includes:"comunidad.parroquia.municipio",
                     search:this.searchText
                 };
                 if(link==""){
@@ -60,7 +77,7 @@
             },
             async store(){
                 //Validations
-                if(this.form.comunidad_id=="0"){
+                if(this.form.raas_comunidad_id=="0"){
                     swal({
                         text:"Debe seleccionar una comunidad",
                         icon:"error"
@@ -119,52 +136,80 @@
 
                 }
             },
-            edit(entity){
+            async edit(entity){
+
+                this.readonlyMunicipio = true
+                this.readonlyParroquia = true
+                this.readonlyComunidad = true
+
                 this.action="edit";
                 this.entityId=entity.id;
-                this.form.comunidad_id=entity.comunidad.id;
+                this.selectedMunicipio = entity.comunidad.parroquia.municipio.id
+                await this.getParroquias()
+
+                this.selectedParroquia = entity.comunidad.parroquia.id
+                await this.getComunidades()
+
+                this.selectedComunidad = entity.comunidad.id
+                this.form.raas_comunidad_id=entity.comunidad.id;
                 this.form.nombre=entity.nombre;
                 this.form.tipo=entity.tipo;
                 this.form.sector=entity.sector;
             },
             async suspend(entityId){
-                try {
-                    this.loading = true;
-                    const response = await axios({
-                        method: 'DELETE',
-                        responseType: 'json',
-                        url: "{{ url('api/calles') }}"+"/"+entityId,
-                        data: this.form
-                    });
-                    this.loading = false;
-                    swal({
-                        text:response.data.message,
-                        icon: "success"
-                    }).then(ans => {
-                        $('.marketModal').modal('hide')
-                        $('.modal-backdrop').remove()
 
+                swal({
+                        title: "¿Estás seguro?",
+                        text: "Eliminarás esta calle!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
                     })
-                    this.clearForm();
-                    this.fetch();
-                } catch (error) {
-                    this.loading = false;
-                    let msg=error.response.data.message;
-                    if(msg=="The given data was invalid."){
-                        msg="Los datos proporcionados no son válidos.";
-                    }
-                    swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+                    .then(async (willDelete) => {
+                        try {
 
-                    // swal({
-                    //     text:error.response.data.message,
-                    //     icon:"error"
-                    // });
-                }
+                            if(willDelete){
+
+                                this.loading = true;
+                                const response = await axios({
+                                    method: 'DELETE',
+                                    responseType: 'json',
+                                    url: "{{ url('api/calles') }}"+"/"+entityId,
+                                    data: this.form
+                                });
+                                this.loading = false;
+                                swal({
+                                    text:response.data.message,
+                                    icon: "success"
+                                }).then(ans => {
+                                    $('.marketModal').modal('hide')
+                                    $('.modal-backdrop').remove()
+
+                                })
+                                this.clearForm();
+                                this.fetch();
+
+                            }
+                            
+                        } catch (error) {
+                            this.loading = false;
+                            let msg=error.response.data.message;
+                            if(msg=="The given data was invalid."){
+                                msg="Los datos proporcionados no son válidos.";
+                            }
+                            swalAlert("error",msg, errorsToHtmlList(error.response.data.errors));
+
+                            // swal({
+                            //     text:error.response.data.message,
+                            //     icon:"error"
+                            // });
+                        }
+                    })
             },
             async update(){
               //Validations
                 //Validations
-                if(this.form.comunidad_id=="0"){
+                if(this.form.raas_comunidad_id=="0"){
                     swal({
                         text:"Debe seleccionar una comunidad",
                         icon:"error"
@@ -218,11 +263,17 @@
                 }
             },
             clearForm(){
-                this.form.comunidad_id="0";
+
+                if(this.action == "create"){
+                    this.selectedMunicipio = "";
+                    this.selectedParroquia= "";
+                    this.form.raas_comunidad_id="0";
+                }
+                
                 this.form.nombre="";
                 this.form.sector="---";
                 this.form.tipo="---";
-                this.action="create";
+                
             },
             async obtenerComunidades() {
                 try {
@@ -256,6 +307,27 @@
                     console.log(err)
                 }
             },
+            async getMunicipios(){
+                const falconStateId=9
+                this.municipios =[]
+
+                let res = await axios.get("{{ url('/api/municipios') }}"+"/"+falconStateId)
+                this.municipios = res.data
+
+            },
+            async getParroquias(){
+                
+                this.selectedParroquia = "0"
+                this.selectedCentroVotacion = "0"
+
+                let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
+                this.parroquias = res.data
+
+            },
+            async getComunidades(){
+                const response = await axios.get("{{ url('api/comunidades/') }}"+"/"+this.selectedParroquia)
+                this.comunidades = response.data
+            }
 
         } //methods
     });

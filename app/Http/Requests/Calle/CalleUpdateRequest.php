@@ -24,10 +24,10 @@ class CalleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "nombre" => "required|max:140|min:2",
-            "tipo" => "required|max:50|min:2",
-            "sector" => "required|max:100|min:2",
-            "comunidad_id" => "required|exists:comunidad,id"
+            'nombre' => 'required|max:140|min:2',
+            'tipo' => 'required|max:50|min:2',
+            'sector' => 'required|max:100|min:2',
+            'raas_comunidad_id' => 'required|exists:raas_comunidad,id',
         ];
     }
 }

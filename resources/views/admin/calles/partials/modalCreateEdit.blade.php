@@ -11,21 +11,35 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="calle">Municipios </label>
+                                <select class="form-control" v-model="selectedMunicipio" @change="getParroquias()" :disabled="readonlyMunicipio">
+                                    <option value="0">Seleccione</option>
+                                    <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="calle">Parroquias </label>
+                                <select class="form-control" v-model="selectedParroquia" @change="getComunidades()" :disabled="readonlyParroquia">
+                                    <option value="0">Seleccione</option>
+                                    <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="calle">Comunidad</label>
-                                <select class="form-control" v-model="form.comunidad_id" v-if="comunidades.length>0">
+                                <select class="form-control" v-model="form.raas_comunidad_id" :disabled="readonlyComunidad">
                                     <option value="0">Seleccione</option>
                                     <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
-                                </select>
-                                <select class="form-control" v-else disabled>
-                                    <option value="" selected>Seleccione</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label >Nombre</label>
                                 <input type="text" class="form-control" maxlength="150" v-model="form.nombre" >
@@ -53,12 +67,20 @@
                 </div>                    
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal" @click="clearForm()">Cerrar</button>
-                <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !loading">Limpiar</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !loading">Crear</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !loading">Actualizar</button>
-                <button type="button" class="btn btn-primary font-weight-bold"  @click="suspend()" v-if="action == 'suspend' && !loading">Eliminar</button>
-                <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="loading"></div>
+                <div class="w-100 d-flex" style="justify-content: space-between">
+
+                    <button type="button" class="btn btn-warning font-weight-bold" @click="clearForm()">Limpiar</button>
+
+                    <div>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal" @click="clearForm()">Cerrar</button>
+                        
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="store()" v-if="action == 'create' && !loading">Crear</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="update()" v-if="action == 'edit' && !loading">Actualizar</button>
+                        <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="loading"></div>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
