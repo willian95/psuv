@@ -53,6 +53,11 @@
                 this.readonlyMunicipio = false
                 this.readonlyParroquia = false
                 this.readonlyComunidad = false
+
+                this.selectedMunicipio =""
+                this.selectedParroquia= ""
+                this.selectedComunidad = ""
+
                 this.action="create";
 
             },
