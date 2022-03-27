@@ -97,6 +97,11 @@ class ClapController extends Controller
                 }
             }
 
+            if (Comunidad::where('censo_clap_id', $censo->id)->count() == 0) {
+                $censo->delete();
+                throw new \Exception('Este CLAP posee comunidades duplicadas', 301);
+            }
+
             DB::commit();
             $response = $this->getSuccessResponse($censo, 'Registro exitoso');
         } catch (\Exception $e) {
