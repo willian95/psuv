@@ -33,7 +33,7 @@
                             <div class="card-header border-0">
                                 <div class="card-title d-flex justify-content-center  w-100">
                                     <a :href="module.url">
-                                        <img src="{{ url('logo_clap.png') }}" alt="" style="width: 70px;">
+                                        <img src="{{ url('logo_clap.png') }}" alt="" style="width: 100%;">
                                     </a>
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
