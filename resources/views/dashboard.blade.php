@@ -17,9 +17,9 @@
         <!--begin::Container-->
         <div class="container" v-cloak>
             <!--begin::Card-->
-            <div class="card card-custom">
-                <img src="{{ url('dashboard.jpeg') }}" alt="" class="w-100">
-            </div>
+            
+                <img src="{{ url('dashboard.png') }}" alt="" class="w-100">
+          
             <!--end::Card-->
         </div>
         <!--end::Container-->
