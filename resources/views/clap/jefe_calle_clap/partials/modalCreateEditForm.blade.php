@@ -45,7 +45,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="cedula" class="required-field">Cédula jefe comunidad</label>
+                                <label for="cedula" class="required-field">Cédula jefe de calle</label>
                                 <div class="d-flex">
                                     <div>
                                         <select class="form-control" v-model="nacionalidad" style="width: 62px;">
