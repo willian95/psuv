@@ -193,7 +193,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</li>
 
 	
-                                <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                                {{--<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-group text-white"></i>
 										<span class="menu-text text-white">RAAS</span>
@@ -239,7 +239,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											@endcan
 										</ul>
 									</div>
-								</li>
+								</li>--}}
 	
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
