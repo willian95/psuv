@@ -32,7 +32,7 @@
                         <div class="card card-custom pt-4 pb-4">
                             <div class="card-header border-0">
                                 <div class="card-title d-flex justify-content-center  w-100">
-                                    <img src="{{ url('logo-clap.png') }}" alt="" style="width: 70px;">
+                                    <img src="{{ url('logo_clap.png') }}" alt="" style="width: 70px;">
                                     
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
