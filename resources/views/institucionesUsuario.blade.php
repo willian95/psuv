@@ -32,13 +32,14 @@
                         <div class="card card-custom pt-4 pb-4">
                             <div class="card-header border-0">
                                 <div class="card-title d-flex justify-content-center  w-100">
-                                    <img src="{{ url('logo_clap.png') }}" alt="" style="width: 70px;">
-                                    
+                                    <a :href="module.url">
+                                        <img src="{{ url('logo_clap.png') }}" alt="" style="width: 70px;">
+                                    </a>
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
-                                    <a :href="module.url">
+                                   
                                         <h3 class="card-label text-white">@{{ module.name }}</h3>
-                                    </a>
+                                    
                                 </div>
                             </div>
 
