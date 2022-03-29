@@ -29,10 +29,10 @@
 
                     <div class="col-lg-3 col-md-6 mt-3 mb-3" v-for="module in modules">
                         
-                        <div class="card card-custom bg-success  pt-4 pb-4">
+                        <div class="card card-custom pt-4 pb-4">
                             <div class="card-header border-0">
                                 <div class="card-title d-flex justify-content-center  w-100">
-                                    <img src="{{ url('gob-logo.jpg') }}" alt="" style="width: 70px;">
+                                    <img src="{{ url('logo-clap.png') }}" alt="" style="width: 70px;">
                                     
                                 </div>
                                 <div class="card-body d-flex justify-content-center">
