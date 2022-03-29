@@ -159,16 +159,16 @@
 
                 <div class="row w-100">
                     <div class="col-6">
-                        <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
+                        <button type="button" class="btn btn-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
 
                     </div>
                     <div class="col-6 d-flex justify-content-end">
 
-                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
                 
                         <button type="button" :disabled="disabledStoreButton" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="suspendLoader"></div>

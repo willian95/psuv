@@ -37,13 +37,13 @@ class JefeClapController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe de un CLAP']);
             }
 
-            if (CensoJefeClap::where('censo_enlace_municipal_id', $request->selectedMunicipioEnlaceMunicipal)->count() > 0) {
+            if (CensoJefeClap::where('censo_clap_id', $request->selectedCensoClap)->count() > 0) {
                 return response()->json(['success' => false, 'message' => 'Ya existe un jefe para este CLAP']);
             }
 
             $censoJefeClap = new CensoJefeClap();
             $censoJefeClap->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
-            $censoJefeClap->censo_enlace_municipal_id = $request->selectedMunicipioEnlaceMunicipal;
+            $censoJefeClap->censo_clap_id = $request->selectedCensoClap;
             $censoJefeClap->save();
 
             DB::commit();
@@ -80,7 +80,7 @@ class JefeClapController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe de un CLAP']);
             }
 
-            if (CensoJefeClap::where('id', '<>', $id)->where('censo_enlace_municipal_id', $request->selectedMunicipioEnlaceMunicipal)->count() > 0) {
+            if (CensoJefeClap::where('id', '<>', $id)->where('censo_clap_id', $request->selectedCensoClap)->count() > 0) {
                 return response()->json(['success' => false, 'message' => 'Ya existe un jefe para este CLAP']);
             }
 
@@ -101,7 +101,7 @@ class JefeClapController extends Controller
 
     public function fetch(Request $request)
     {
-        $query = CensoJefeClap::with('personalCaracterizacions', 'enlaceMunicipal.municipio');
+        $query = CensoJefeClap::with('personalCaracterizacions', 'censoClap.comunidades.parroquia.municipio');
 
         if (isset($request->searchCedula)) {
             $query->whereHas('personalCaracterizacions', function ($query) use ($request) {
@@ -126,7 +126,7 @@ class JefeClapController extends Controller
         $jefeClap = CensoJefeClap::whereHas('personalCaracterizacions', function ($query) use ($request) {
             $query->where('cedula', $request->cedula);
             $query->where('nacionalidad', $request->nacionalidad);
-        })->with('personalCaracterizacions', 'enlaceMunicipal.municipio')->first();
+        })->with('personalCaracterizacions', 'censoClap.comunidades')->first();
 
         if (is_null($jefeClap)) {
             return response()->json(

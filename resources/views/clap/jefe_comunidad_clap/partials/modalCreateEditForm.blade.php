@@ -35,11 +35,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="nombre" class="required-field">Nombre jefe clap</label>
+                                <label for="jefeClapNombre" class="required-field">Nombre jefe clap</label>
                                 <input type="text" class="form-control" id="jefeClapNombre" v-model="jefeClapNombre" :disabled="readonlyJefeClap">
                                 <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nombreClap" class="required-field">Nombre CLAP</label>
+                                <input type="text" class="form-control" id="nombreClap" v-model="nombreClap" :disabled="nombreClap">
                             </div>
                         </div>
 
@@ -67,11 +74,22 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nombre" class="required-field">Nombre jefe comunidad</label>
                                 <input type="text" class="form-control" id="nombre" v-model="nombre">
                                 <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Comunidades</label>
+                                <select class="form-control" v-model="selectedComunidad" id="comunidad" :disabled="readonlyComunidad">
+                                    <option value="">Seleccione</option>
+                                    <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
+                                </select>
+                                <small  class="text-danger" v-if="errors.hasOwnProperty('comunidadId')">@{{ errors['comunidadId'][0] }}</small>
                             </div>
                         </div>
 
@@ -83,27 +101,6 @@
                                     <option value="femenino">Femenino</option>
                                 </select>
                                 <small class="text-danger" v-if="errors.hasOwnProperty('estado')">@{{ errors['estado'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="municipio" class="required-field">Parroquias</label>
-                                <select class="form-control" v-model="selectedClapParroquia" @change="getComunidades()" id="parroquia">
-                                    <option value="">Seleccione</option>
-                                    <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="municipio" class="required-field">Comunidades</label>
-                                <select class="form-control" v-model="selectedComunidad" id="comunidad">
-                                    <option value="">Seleccione</option>
-                                    <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
-                                </select>
-                                <small  class="text-danger" v-if="errors.hasOwnProperty('comunidadId')">@{{ errors['comunidadId'][0] }}</small>
                             </div>
                         </div>
 
@@ -170,16 +167,16 @@
 
                 <div class="row w-100">
                     <div class="col-6">
-                        <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
+                        <button type="button" class="btn btn-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
 
                     </div>
                     <div class="col-6 d-flex justify-content-end">
 
-                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
                 
-                        <button type="button" :disabled="disabledStoreButton" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
+                        <button type="button" :disabled="disabledStoreButton" class="btn btn-success font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="suspendLoader"></div>

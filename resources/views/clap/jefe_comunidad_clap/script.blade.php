@@ -26,6 +26,7 @@ const app = new Vue({
             modalTitle:"Crear jefe comunidad clap",
             disabledStoreButton:true,
             readonlyJefeClap:false,
+            readonlyComunidad:false,
 
             id:"",
             isSearchingCedula:false,
@@ -49,6 +50,7 @@ const app = new Vue({
             tipoVoto:"",
             partidoPolitico:"",
             searchCedulaQuery:"",
+            nombreClap:"",
             
             selectedMunicipio:"",
             selectedClapMunicipio:"",
@@ -120,7 +122,9 @@ const app = new Vue({
             this.jefeClapId = response.data?.jefe?.id
             this.jefeClapNacionalidad = response.data?.jefe?.personal_caracterizacions?.nacionalidad
             this.jefeClapNombre = response.data?.jefe?.personal_caracterizacions?.nombre_apellido
-            this.selectedClapMunicipio = response.data?.jefe?.enlace_municipal?.municipio?.id
+            this.nombreClap = response.data?.jefe?.censo_clap?.nombre
+            this.comunidades = response.data?.jefe?.censo_clap?.comunidades
+
             this.getParroquias()
 
         },
@@ -166,6 +170,7 @@ const app = new Vue({
             this.disabledStoreButton = true
             this.action = "create"
             this.readonlyJefeClap = false
+            this.readonlyComunidad = false
             this.jefeClapCedula = ""
             this.jefeClapNombre = ""
             
@@ -204,11 +209,6 @@ const app = new Vue({
             this.selectedEstado = elector.raas_estado_id
 
             this.nombre = elector.nombre_apellido
-            this.selectedMunicipio = elector.raas_municipio_id
-            this.selectedParroquia = elector.raas_parroquia_id 
-
-            this.selectedCentroVotacion = elector.raas_centro_votacion_id
-
             this.telefonoPrincipal = elector.telefono_principal
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
@@ -219,6 +219,10 @@ const app = new Vue({
             this.sexo = elector.sexo
             this.selectedPartidoPolitico = elector.partido_politico_id
             this.selectedMovilizacion = elector.movilizacion_id
+
+            this.raasSelectedMunicipio = elector.raas_municipio_id
+            this.raasSelectedParroquia = elector.raas_parroquia_id
+            this.raasSelectedCentroVotacion = elector.raas_centro_votacion_id
 
         },  
 
@@ -293,13 +297,12 @@ const app = new Vue({
                 this.errors = []
                 this.updateLoader = true
                 
-                let res = await axios.put("{{ url('api/clap/jefe-comunidad-clap') }}"+"/"+this.id, {
+                const response = await axios.put("{{ url('api/clap/jefe-comunidad-clap') }}"+"/"+this.id, {
                     cedula: this.cedula, 
                     nacionalidad: this.nacionalidad, 
                     nombre_apellido: this.nombre, 
                     sexo: this.sexo, 
-                    telefono_principal: 
-                    this.telefonoPrincipal, 
+                    telefono_principal: this.telefonoPrincipal, 
                     telefono_secundario: this.telefonoSecundario, 
                     tipo_voto: this.tipoVoto, 
                     raas_estado_id: this.selectedEstado, 
@@ -315,10 +318,10 @@ const app = new Vue({
 
                 this.updateLoader = false
 
-                if(res.data.success == true){
+                if(response.data.success == true){
 
                     swal({
-                        text:res.data.message,
+                        text:response.data.message,
                         icon: "success"
                     }).then(ans => {
 
@@ -332,13 +335,14 @@ const app = new Vue({
                 }else{
 
                     swal({
-                        text:res.data.message,
+                        text:response.data.message,
                         icon: "error"
                     })
 
                 }
 
             }catch(err){
+                console.log(err)
                 this.storeLoader = false
                 swal({
                     text:"Hay algunos campos que debes revisar",
@@ -420,6 +424,7 @@ const app = new Vue({
         async edit(jefe){
 
             this.readonlyJefeClap = true
+            this.readonlyComunidad = true
             this.action = "edit"
             this.modalTitle = "Editar Jefe clap"
             this.id = jefe.id
@@ -428,13 +433,8 @@ const app = new Vue({
             this.jefeClapNacionalidad  = jefe.jefe_clap.personal_caracterizacions.nacionalidad
             this.jefeClapCedula  = jefe.jefe_clap.personal_caracterizacions.cedula
             this.jefeClapNombre  = jefe.jefe_clap.personal_caracterizacions.nombre_apellido
-            this.selectedClapMunicipio = jefe.jefe_clap.enlace_municipal.raas_municipio_id
-
-            await this.getParroquias()
-
-            this.selectedClapParroquia = jefe.comunidad.raas_parroquia_id
-
-            await this.getComunidades()
+            this.nombreClap = jefe.jefe_clap.censo_clap.nombre
+            this.comunidades = jefe.jefe_clap.censo_clap.comunidades
 
             this.selectedComunidad = jefe.comunidad.id
 
@@ -457,6 +457,10 @@ const app = new Vue({
             this.sexo = personalCaracterizacion.sexo
             this.selectedPartidoPolitico = personalCaracterizacion.partido_politico_id
             this.selectedMovilizacion = personalCaracterizacion.movilizacion_id
+
+            this.raasSelectedMunicipio = personalCaracterizacion.raas_municipio_id
+            this.raasSelectedParroquia = personalCaracterizacion.raas_parroquia_id
+            this.raasSelectedCentroVotacion = personalCaracterizacion.raas_centro_votacion_id
 
         }
 

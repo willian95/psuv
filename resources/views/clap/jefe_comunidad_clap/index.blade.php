@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <button style="cursor: pointer;" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="create()">
+                        <button style="cursor: pointer;" class="btn btn-warning font-weight-bolder" data-toggle="modal" data-target=".marketModal" @click="create()">
                         <span class="svg-icon svg-icon-md">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -96,7 +96,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefe in jefeComunidades">
-                                        <td>@{{ jefe?.jefe_clap?.enlace_municipal?.municipio?.nombre }}</td>
+                                        <td>@{{ jefe?.comunidad?.parroquia?.municipio?.nombre }}</td>
                                         <td>@{{ jefe?.jefe_clap?.personal_caracterizacions?.nombre_apellido }}</td>
                                         <td>@{{ jefe?.comunidad?.nombre }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>

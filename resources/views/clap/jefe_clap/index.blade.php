@@ -39,7 +39,7 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
-                    <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
+                    <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable">
                         
                         <div class="container">
                             <div class="row">
@@ -70,6 +70,14 @@
                                         </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
+                                            <span>Comunidad</span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort">
+                                            <span>CLAP</span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort">
                                             <span>Cédula</span>
                                         </th>
 
@@ -88,15 +96,17 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefe in jefeClaps">
-                                        <td>@{{ jefe?.enlace_municipal.municipio.nombre }}</td>
-                                        <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>
+                                        <td>@{{ jefe?.censo_clap?.comunidades[0]?.parroquia.municipio.nombre }}</td>
+                                        <td>@{{ jefe?.censo_clap?.comunidades?.map(data => data.nombre) }}</td>
+                                        <td>@{{ jefe?.censo_clap?.nombre }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.nombre_apellido }}</td>
+                                        <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.telefono_principal }}</td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefe)">
                                                 <i class="far fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary" @click="remove(jefe?.id)">
+                                            <button class="btn btn-secondary" @click="remove(jefe.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

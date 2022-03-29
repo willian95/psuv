@@ -37,6 +37,10 @@ class JefeComunidadClapController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe comunidad CLAP']);
             }
 
+            if (RaasJefeComunidad::where('raas_comunidad_id', $request->comunidadId)->first()) {
+                return response()->json(['success' => false, 'message' => 'Esta comunidad ya posee Jefe comunidad CLAP']);
+            }
+
             $censoJefeClap = new RaasJefeComunidad();
             $censoJefeClap->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
             $censoJefeClap->censo_jefe_clap_id = $request->jefeClapId;
@@ -68,6 +72,10 @@ class JefeComunidadClapController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe comunidad CLAP']);
             }
 
+            if (RaasJefeComunidad::where('raas_comunidad_id', $request->comunidadId)->where('id', '<>', $request->id)->first()) {
+                return response()->json(['success' => false, 'message' => 'Esta comunidad ya posee Jefe comunidad CLAP']);
+            }
+
             $censoJefeClap = RaasJefeComunidad::find($id);
 
             if (is_null($censoJefeClap)) {
@@ -93,7 +101,7 @@ class JefeComunidadClapController extends Controller
 
     public function fetch(Request $request)
     {
-        $query = RaasJefeComunidad::with('personalCaracterizacions', 'jefeClap.personalCaracterizacions', 'jefeClap.enlaceMunicipal.municipio', 'comunidad');
+        $query = RaasJefeComunidad::with('personalCaracterizacions', 'jefeClap.personalCaracterizacions', 'jefeClap.censoClap.comunidades', 'comunidad.parroquia.municipio');
 
         if (isset($request->searchCedula)) {
             $query->whereHas('personalCaracterizacions', function ($query) use ($request) {

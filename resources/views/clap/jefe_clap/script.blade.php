@@ -16,9 +16,12 @@ const app = new Vue({
             errors:[],
             municipios:[],
             partidosPoliticos:[],
+            parroquias:[],
+            comunidades:[],
             movilizaciones:[],
             enlacesMunicipales:[],
             jefeClaps:[],
+            claps:[],
 
             modalTitle:"Crear jefe clap",
             disabledStoreButton:true,
@@ -44,11 +47,18 @@ const app = new Vue({
             
             selectedMunicipioEnlaceMunicipal:"",
             selectedEstado:"",
+            selectedComunidad:"",
             selectedMunicipio:"",
             selectedParroquia:"",
             selectedCentroVotacion:"",
             selectedPartidoPolitico:"",
             selectedMovilizacion:"",
+            selectedClap:"",
+
+            raasSelectedMunicipio:"",
+            raasSelectedParroquia:"",
+            raasSelectedComunidad:"",
+            raasSelectedCentroVotacion:"",
 
             totalPages:"",
             links:[],
@@ -123,6 +133,11 @@ const app = new Vue({
             this.action = "create"
             this.readonlySelectedMunicipioEnlaceMunicipal = false
             this.modalTitle = "Crear jefe clap"
+
+            this.readonlySelectedCensoClap=false
+            this.readonlySelectedMunicipio=false
+            this.readonlySelectedParroquia=false
+            this.readonlySelectedComunidad=false
             
             this.clearForm()
             
@@ -158,15 +173,15 @@ const app = new Vue({
             this.selectedEstado = elector.raas_estado_id
 
             this.nombre = elector.nombre_apellido
-            this.selectedMunicipio = elector.raas_municipio_id
-            this.selectedParroquia = elector.raas_parroquia_id
-
-            this.selectedCentroVotacion = elector.raas_centro_votacion_id
 
             this.telefonoPrincipal = elector.telefono_principal
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
             this.tipoVoto = elector.tipo_voto
+
+            this.raasSelectedMunicipio = elector.raas_municipio_id
+            this.raasSelectedParroquia = elector.raas_parroquia_id
+            this.raasSelectedCentroVotacion = elector.raas_centro_votacion_id
 
             this.nacionalidad = elector.nacionalidad ? elector.nacionalidad : this.nacionalidad
 
@@ -193,12 +208,13 @@ const app = new Vue({
                     telefono_secundario: this.telefonoSecundario, 
                     tipo_voto: this.tipoVoto, 
                     raas_estado_id: this.selectedEstado, 
-                    raas_municipio_id: this.selectedMunicipio, 
-                    raas_parroquia_id: this.selectedParroquia, 
-                    raas_centro_votacion_id: this.selectedCentroVotacion, 
+                    raas_municipio_id: this.raasSelectedMunicipio, 
+                    raas_parroquia_id: this.raasSelectedParroquia, 
+                    raas_centro_votacion_id: this.raasSelectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
-                    selectedMunicipioEnlaceMunicipal: this.selectedMunicipioEnlaceMunicipal
+                    selectedCensoClap: this.selectedClap,
+                    
                 })
 
                 this.storeLoader = false
@@ -255,12 +271,12 @@ const app = new Vue({
                     telefono_secundario: this.telefonoSecundario, 
                     tipo_voto: this.tipoVoto, 
                     raas_estado_id: this.selectedEstado, 
-                    raas_municipio_id: this.selectedMunicipio, 
-                    raas_parroquia_id: this.selectedParroquia, 
-                    raas_centro_votacion_id: this.selectedCentroVotacion, 
+                    raas_municipio_id: this.raasSelectedMunicipio, 
+                    raas_parroquia_id: this.raasSelectedParroquia, 
+                    raas_centro_votacion_id: this.raasSelectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
-                    selectedMunicipioEnlaceMunicipal: this.selectedMunicipioEnlaceMunicipal
+                    selectedCensoClap: this.selectedClap
                 })
 
                 this.updateLoader = false
@@ -367,25 +383,29 @@ const app = new Vue({
             })
         },
 
-        edit(jefe){
+        async edit(jefe){
 
             this.action = "edit"
             this.modalTitle = "Editar Jefe clap"
             this.id = jefe.id
-            this.readonlySelectedMunicipioEnlaceMunicipal = true
+            this.readonlySelectedCensoClap = true
+            this.readonlySelectedMunicipio=true
+            this.readonlySelectedParroquia=true
+            this.readonlySelectedComunidad=true
 
             const personalCaracterizacion = jefe.personal_caracterizacions
-
-            this.selectedMunicipioEnlaceMunicipal = jefe.enlace_municipal.id
 
             this.cedula = personalCaracterizacion.cedula
             this.selectedEstado = personalCaracterizacion.raas_estado_id
 
             this.nombre = personalCaracterizacion.nombre_apellido
-            this.selectedMunicipio = personalCaracterizacion.raas_municipio_id
-            this.selectedParroquia = personalCaracterizacion.raas_parroquia_id
-
-            this.selectedCentroVotacion = personalCaracterizacion.raas_centro_votacion_id
+            this.selectedMunicipio = jefe.censo_clap.comunidades[0].parroquia.municipio.id
+            await this.getParroquias()
+            this.selectedParroquia = jefe.censo_clap.comunidades[0].parroquia.id
+            await this.getComunidades()
+            this.selectedComunidad = jefe.censo_clap.comunidades[0].id
+            await this.getClaps()
+            this.selectedClap = jefe.censo_clap_id
 
             this.telefonoPrincipal = personalCaracterizacion.telefono_principal
             this.telefonoSecundario = personalCaracterizacion.telefono_secundario
@@ -398,13 +418,47 @@ const app = new Vue({
             this.selectedPartidoPolitico = personalCaracterizacion.partido_politico_id
             this.selectedMovilizacion = personalCaracterizacion.movilizacion_id
 
+            this.raasSelectedMunicipio = personalCaracterizacion.raas_municipio_id
+          
+            this.raasSelectedParroquia = personalCaracterizacion.raas_parroquia_id
+            
+
         },
 
         async getEnlacesMunicipales(){
 
             const res = await axios.get("{{ url('api/clap/enlace-municipal/all') }}")
             this.enlacesMunicipales = res.data
-        }
+        },
+        async getParroquias(){
+                
+            this.selectedComunidad = "0"
+
+            let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
+            this.parroquias = res.data
+
+        },
+        async getComunidades(){
+
+            this.selectedClap = "0"
+
+            const response = await axios.get("{{ url('api/comunidades/') }}"+"/"+this.selectedParroquia)
+            this.comunidades = response.data
+        },
+        async getMunicipios(){
+
+            this.selectedParroquia = "0"
+
+            let res = await axios.get("{{ url('/api/municipios') }}")
+            this.municipios = res.data
+
+        },
+        async getClaps(){
+
+            let res = await axios.get("{{ url('/api/clap') }}"+"/comunidad/"+this.selectedComunidad)
+            this.claps = res.data
+
+        },
 
         
 

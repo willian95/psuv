@@ -14,6 +14,42 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="municipio" class="required-field">Municipio</label>
+                                <select class="form-control" v-model="selectedMunicipio" @change="getParroquias()" :disabled="readonlySelectedMunicipio">
+                                    <option :value="municipio.id" v-for="municipio in municipios">@{{ municipio.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Parroquia</label>
+                                <select class="form-control" v-model="selectedParroquia" @change="getComunidades()" :disabled="readonlySelectedParroquia">
+                                    <option :value="parroquia.id" v-for="parroquia in parroquias">@{{ parroquia.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Comunidad</label>
+                                <select class="form-control" v-model="selectedComunidad" @change="getClaps()" :disabled="readonlySelectedComunidad">
+                                    <option :value="comunidad.id" v-for="comunidad in comunidades">@{{ comunidad.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="municipio" class="required-field">Nombre del CLAP</label>
+                                <select class="form-control" v-model="selectedClap" :disabled="readonlySelectedCensoClap">
+                                    <option :value="clap.id" v-for="clap in claps">@{{ clap.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
                                 <label for="cedula" class="required-field">Cédula</label>
                                 <div class="d-flex">
                                     <div>
@@ -129,16 +165,16 @@
 
                 <div class="row w-100">
                     <div class="col-6">
-                        <button type="button" class="btn btn-light-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
+                        <button type="button" class="btn btn-warning font-weight-bold" @click="clearForm()" v-if="action == 'create' && !storeLoader">Limpiar</button>
 
                     </div>
                     <div class="col-6 d-flex justify-content-end">
 
-                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
                 
-                        <button type="button" :disabled="disabledStoreButton" class="btn btn-primary font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
-                        <button type="button" class="btn btn-primary font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
+                        <button type="button" :disabled="disabledStoreButton" class="btn btn-success font-weight-bold"  @click="store()" v-if="action == 'create' && !storeLoader">Crear</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="update()" v-if="action == 'edit' && !updateLoader">Actualizar</button>
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="remove()" v-if="action == 'suspend' && !suspendLoader">Suspender</button>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="storeLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="updateLoader"></div>
                         <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="suspendLoader"></div>

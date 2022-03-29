@@ -37,6 +37,10 @@ class JefeCalleClapController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe calle']);
             }
 
+            if (RaasJefeCalle::where('raas_calle_id', $request->calleId)->first()) {
+                return response()->json(['success' => false, 'message' => 'Esta calle ya posee Jefe calle']);
+            }
+
             $raasJefeCalle = new RaasJefeCalle();
             $raasJefeCalle->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
             $raasJefeCalle->raas_jefe_comunidad_id = $request->jefeComunidadId;
@@ -66,6 +70,10 @@ class JefeCalleClapController extends Controller
 
             if (RaasJefeCalle::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->where('id', '<>', $request->id)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe calle']);
+            }
+
+            if (RaasJefeCalle::where('raas_calle_id', $request->calleId)->where('id', '<>', $request->id)->first()) {
+                return response()->json(['success' => false, 'message' => 'Esta calle ya posee Jefe calle']);
             }
 
             $raasJefeCalle = RaasJefeCalle::find($id);

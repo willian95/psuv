@@ -18,8 +18,8 @@ class CensoJefeClap extends Model
         return $this->belongsTo(PersonalCaracterizacion::class, 'raas_personal_caracterizacion_id', 'id');
     }
 
-    public function enlaceMunicipal()
+    public function censoClap()
     {
-        return $this->belongsTo(CensoEnlaceMunicipal::class, 'censo_enlace_municipal_id', 'id');
+        return $this->belongsTo(CensoClap::class, 'censo_clap_id', 'id');
     }
 }

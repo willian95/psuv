@@ -169,4 +169,12 @@ class ClapController extends Controller
     }
 
     //destroy()
+
+    public function getClapsByComunidad($comunidad_id)
+    {
+        $comunidad = Comunidad::where('id', $comunidad_id)->first();
+        $clap = CensoClap::where('id', $comunidad->censo_clap_id)->get();
+
+        return $clap;
+    }
 }
