@@ -99,8 +99,8 @@
                                         <td>@{{ jefe?.censo_clap?.comunidades[0]?.parroquia.municipio.nombre }}</td>
                                         <td>@{{ jefe?.censo_clap?.comunidades?.map(data => data.nombre) }}</td>
                                         <td>@{{ jefe?.censo_clap?.nombre }}</td>
-                                        <td>@{{ jefe?.personal_caracterizacions?.nombre_apellido }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>
+                                        <td>@{{ jefe?.personal_caracterizacions?.nombre_apellido }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.telefono_principal }}</td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefe)">
