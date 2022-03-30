@@ -89,6 +89,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="municipio" class="required-field">Calles</label>
+                                <button class="btn btn-success" data-toggle="modal" data-target=".calleModal" :disabled="!selectedClapComunidad" v-if="action == 'create'">+</button>
                                 <select class="form-control" v-model="selectedClapCalle" id="selectedClapCalle" :disabled="readonlyJefeComunidad">
                                     <option value="">Seleccione</option>
                                     <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
@@ -177,6 +178,47 @@
                 </div>
 
                 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade calleModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+            
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Nombre</label>
+                                <input type="text" class="form-control" maxlength="150" v-model="calleNombre" >
+                            </div>
+                        </div>
+
+                    </div>
+                </div>                    
+            </div>
+            <div class="modal-footer">
+                <div class="w-100 d-flex" style="justify-content: space-between">
+
+                    <div>
+                        <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Cerrar</button>
+                        
+                        <button type="button" class="btn btn-success font-weight-bold"  @click="storeCalle()" v-if="calleAction == 'create' && !calleLoading">Crear</button>
+                        <div class="spinner spinner-primary ml-1 mr-13 mt-2" v-if="loading"></div>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

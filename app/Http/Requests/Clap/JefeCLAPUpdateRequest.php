@@ -26,6 +26,7 @@ class JefeCLAPUpdateRequest extends FormRequest
         return [
             'cedula' => 'required',
             'selectedCensoClap' => 'required|exists:censo_clap,id',
+            'sugerido' => 'required',
             'telefono_principal' => 'required|max:11',
             'telefono_secundario' => 'nullable|max:11',
             'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',

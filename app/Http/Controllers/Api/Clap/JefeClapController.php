@@ -44,6 +44,7 @@ class JefeClapController extends Controller
             $censoJefeClap = new CensoJefeClap();
             $censoJefeClap->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
             $censoJefeClap->censo_clap_id = $request->selectedCensoClap;
+            $censoJefeClap->sugerido = $request->sugerido;
             $censoJefeClap->save();
 
             DB::commit();
@@ -85,6 +86,7 @@ class JefeClapController extends Controller
             }
 
             $censoJefeClap->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
+            $censoJefeClap->sugerido = $request->sugerido;
             $censoJefeClap->update();
 
             DB::commit();

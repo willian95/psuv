@@ -44,6 +44,7 @@ const app = new Vue({
             tipoVoto:"",
             partidoPolitico:"",
             searchCedulaQuery:"",
+            sugerido:"",
             
             selectedMunicipioEnlaceMunicipal:"",
             selectedEstado:"",
@@ -161,6 +162,7 @@ const app = new Vue({
             this.selectedMunicipio = ""
             this.selectedParroquia = ""
             this.selectedCentroVotacion = ""
+            this.sugerido = ""
 
             if(this.action != 'edit'){
                 this.selectedMunicipioEnlaceMunicipal = ""
@@ -214,6 +216,7 @@ const app = new Vue({
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
                     selectedCensoClap: this.selectedClap,
+                    sugerido:this.sugerido
                     
                 })
 
@@ -276,7 +279,8 @@ const app = new Vue({
                     raas_centro_votacion_id: this.raasSelectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
-                    selectedCensoClap: this.selectedClap
+                    selectedCensoClap: this.selectedClap,
+                    sugerido:this.sugerido
                 })
 
                 this.updateLoader = false
@@ -392,6 +396,7 @@ const app = new Vue({
             this.readonlySelectedMunicipio=true
             this.readonlySelectedParroquia=true
             this.readonlySelectedComunidad=true
+            this.sugerido = jefe.sugerido
 
             const personalCaracterizacion = jefe.personal_caracterizacions
 

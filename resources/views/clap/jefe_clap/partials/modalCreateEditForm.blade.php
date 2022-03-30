@@ -93,18 +93,15 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="municipio" class="required-field">Enlace municipal</label>
-                                <select class="form-control" v-model="selectedMunicipioEnlaceMunicipal" id="municipio" :disabled="readonlySelectedMunicipioEnlaceMunicipal">
-                                    <option value="">Seleccione</option>
-                                    <option :value="enlace.id" v-for="enlace in enlacesMunicipales">@{{ enlace?.municipio.nombre }}</option>
-                                </select>
-                                <small class="text-danger" v-if="errors.hasOwnProperty('selectedMunicipioEnlaceMunicipal')">@{{ errors['selectedMunicipioEnlaceMunicipal'][0] }}</small>
+                                <label for="municipio" class="required-field">Sugerido</label>
+                                <input type="text" class="form-control" v-model="sugerido" @keypress="isNumber($event)">
+                                <small class="text-danger" v-if="errors.hasOwnProperty('sugerido')">@{{ errors['sugerido'][0] }}</small>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefonoPrincipal" class="required-field">Teléfono principal</label>
+                                <label for="telefonoPrincipal">Teléfono principal (opcional)</label>
                                 <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
                             </div>

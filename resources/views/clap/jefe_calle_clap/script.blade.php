@@ -13,6 +13,10 @@ const app = new Vue({
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
 
+            calleAction:"create",
+            calleLoading:false,
+            calleNombre:"",
+
             errors:[],
             municipios:[],
             partidosPoliticos:[],
@@ -59,6 +63,9 @@ const app = new Vue({
             selectedCentroVotacion:"",
             selectedPartidoPolitico:"",
             selectedMovilizacion:"",
+            selectedCalleMunicipio:"",
+            selectedCalleParroquia:"",
+            selectedCalleComunidad:"",
 
             totalPages:"",
             links:[],
@@ -341,6 +348,44 @@ const app = new Vue({
             }
             this.storeLoader = false
         },
+        async storeCalle(){
+
+            if(this.calleNombre == ""){
+
+                swal({
+                    text:"Debes agregar el nombre de la calle",
+                    icon: "error"
+                })
+
+                return 
+            }
+
+            let form = {
+                "raas_comunidad_id":this.selectedClapComunidad,
+                "nombre":this.calleNombre,
+                "tipo":"---",
+                "sector":"---"
+            }
+
+            const response = await axios({
+                method: 'POST',
+                responseType: 'json',
+                url: "{{ route('api.calles.store') }}",
+                data: form
+            });
+            this.loading = false;
+            swal({
+                text:response.data.message,
+                icon: "success"
+            }).then(ans => {
+                $('.calleModal').modal('hide')
+                $('.modal-backdrop').remove()
+
+                this.getCalles()
+
+            })
+
+        },
         isNumber(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -446,7 +491,7 @@ const app = new Vue({
             this.selectedPartidoPolitico = personalCaracterizacion.partido_politico_id
             this.selectedMovilizacion = personalCaracterizacion.movilizacion_id
 
-        }
+        },
 
         
 
@@ -458,7 +503,6 @@ const app = new Vue({
 
         this.getMovilizaciones()
         this.getPartidosPoliticos()
-        
 
     }
 });
