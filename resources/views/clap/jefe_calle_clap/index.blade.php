@@ -96,8 +96,8 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefe in jefeCalles">
-                                        <td>@{{ jefe?.jefe_comunidad?.comunidad?.parroquia?.municipio?.nombre }}</td>
-                                        <td>@{{ jefe?.jefe_comunidad?.comunidad?.nombre }}</td>
+                                        <td>@{{ jefe?.calle?.comunidad?.parroquia?.municipio?.nombre }}</td>
+                                        <td>@{{ jefe?.calle?.comunidad?.nombre }}</td>
                                         <td>@{{ jefe?.calle?.nombre }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>
                                         <td>@{{ jefe?.personal_caracterizacions?.nombre_apellido }}</td>

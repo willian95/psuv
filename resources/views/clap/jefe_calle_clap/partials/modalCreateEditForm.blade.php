@@ -77,23 +77,35 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="selectedClapComunidad" class="required-field">Comunidades</label>
+                                <select class="form-control" v-model="selectedClapComunidad" id="selectedClapComunidad" @change="getCalles()" :disabled="readonlyClapComunidad">
+                                    <option value="">Seleccione</option>
+                                    <option :value="comunidad.id" v-for="comunidad in clapComunidades">@{{ comunidad.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="d-flex" style="justify-content: space-between; align-items: center; ">
+                                    <label for="municipio" class="required-field">Calles</label>
+                                    <button class="btn btn-success" data-toggle="modal" data-target=".calleModal" :disabled="!selectedClapComunidad" v-if="action == 'create'" style="padding-top: 1px; padding-right: 8px; padding-bottom: 1px; padding-left: 8px;">+</button>
+                                </div>
+                                <select class="form-control" v-model="selectedClapCalle" id="selectedClapCalle" :disabled="readonlyJefeComunidad">
+                                    <option value="">Seleccione</option>
+                                    <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="municipio" class="required-field">Sexo</label>
                                 <select class="form-control" v-model="sexo" id="sexo" >
                                     <option value="masculino">Masculino</option>
                                     <option value="femenino">Femenino</option>
                                 </select>
                                 <small class="text-danger" v-if="errors.hasOwnProperty('estado')">@{{ errors['estado'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="municipio" class="required-field">Calles</label>
-                                <button class="btn btn-success" data-toggle="modal" data-target=".calleModal" :disabled="!selectedClapComunidad" v-if="action == 'create'">+</button>
-                                <select class="form-control" v-model="selectedClapCalle" id="selectedClapCalle" :disabled="readonlyJefeComunidad">
-                                    <option value="">Seleccione</option>
-                                    <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
-                                </select>
                             </div>
                         </div>
 

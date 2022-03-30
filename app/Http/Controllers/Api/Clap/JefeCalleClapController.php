@@ -101,7 +101,7 @@ class JefeCalleClapController extends Controller
 
     public function fetch(Request $request)
     {
-        $query = RaasJefeCalle::with('personalCaracterizacions', 'jefeComunidad.personalCaracterizacions', 'jefeComunidad.comunidad.parroquia.municipio', 'calle');
+        $query = RaasJefeCalle::with('personalCaracterizacions', 'jefeComunidad.personalCaracterizacions', 'jefeComunidad.comunidad.parroquia.municipio', 'calle.comunidad.parroquia.municipio');
 
         if (isset($request->searchCedula)) {
             $query->whereHas('personalCaracterizacions', function ($query) use ($request) {

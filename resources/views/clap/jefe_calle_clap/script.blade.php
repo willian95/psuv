@@ -30,6 +30,7 @@ const app = new Vue({
             modalTitle:"Crear jefe calle clap",
             disabledStoreButton:true,
             readonlyJefeComunidad:false,
+            readonlyClapComunidad:false,
 
             id:"",
             isSearchingCedula:false,
@@ -63,9 +64,7 @@ const app = new Vue({
             selectedCentroVotacion:"",
             selectedPartidoPolitico:"",
             selectedMovilizacion:"",
-            selectedCalleMunicipio:"",
-            selectedCalleParroquia:"",
-            selectedCalleComunidad:"",
+            clapComunidades:[],
 
             totalPages:"",
             links:[],
@@ -114,12 +113,12 @@ const app = new Vue({
                 return
             }
 
-            this.jefeComunidadCedula = response.data?.jefe?.personal_caracterizacions?.cedula
-            this.jefeComunidadId = response.data?.jefe?.id
-            this.jefeComunidadNacionalidad = response.data?.jefe?.personal_caracterizacions?.nacionalidad
-            this.jefeComunidadNombre = response.data?.jefe?.personal_caracterizacions?.nombre_apellido
-            this.selectedClapComunidad = response.data?.jefe?.comunidad.id
-            this.getCalles()
+            this.jefeComunidadCedula = response.data?.jefe[0]?.personal_caracterizacions?.cedula
+            this.jefeComunidadNacionalidad = response.data?.jefe[0]?.personal_caracterizacions?.nacionalidad
+            this.jefeComunidadNombre = response.data?.jefe[0]?.personal_caracterizacions?.nombre_apellido
+            this.jefeComunidadId = response.data?.jefe[0]?.id
+            this.clapComunidades = response.data.jefe.map(data => data.comunidad)
+
 
         },
 
@@ -166,6 +165,7 @@ const app = new Vue({
             this.readonlyJefeComunidad = false
             this.jefeComunidadCedula = ""
             this.jefeComunidadNombre = ""
+            this.readonlyClapComunidad = false
             
             this.clearForm()
             
@@ -455,6 +455,7 @@ const app = new Vue({
 
         async edit(jefe){
 
+            this.readonlyClapComunidad = true
             this.readonlyJefeComunidad = true
             this.action = "edit"
             this.modalTitle = "Editar Jefe calle"
@@ -465,7 +466,9 @@ const app = new Vue({
             this.jefeComunidadCedula  = jefe.jefe_comunidad.personal_caracterizacions.cedula
             this.jefeComunidadNombre  = jefe.jefe_comunidad.personal_caracterizacions.nombre_apellido
 
-            this.selectedClapComunidad = jefe.jefe_comunidad.comunidad.id
+            await this.searchJefeComunidadByCedula()
+
+            this.selectedClapComunidad = jefe.calle.comunidad.id
 
             await this.getCalles()
 

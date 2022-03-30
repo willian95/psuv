@@ -33,10 +33,6 @@ class JefeComunidadClapController extends Controller
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
             $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
-            if (RaasJefeComunidad::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->first()) {
-                return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe comunidad CLAP']);
-            }
-
             if (RaasJefeComunidad::where('raas_comunidad_id', $request->comunidadId)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta comunidad ya posee Jefe comunidad CLAP']);
             }
@@ -67,10 +63,6 @@ class JefeComunidadClapController extends Controller
             $this->storePersonalCaracterizacion($request);
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
             $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
-
-            if (RaasJefeComunidad::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->where('id', '<>', $request->id)->first()) {
-                return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe comunidad CLAP']);
-            }
 
             if (RaasJefeComunidad::where('raas_comunidad_id', $request->comunidadId)->where('id', '<>', $request->id)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta comunidad ya posee Jefe comunidad CLAP']);
@@ -126,7 +118,7 @@ class JefeComunidadClapController extends Controller
         $jefeComunidadClap = RaasJefeComunidad::whereHas('personalCaracterizacions', function ($query) use ($request) {
             $query->where('cedula', $request->cedula);
             $query->where('nacionalidad', $request->nacionalidad);
-        })->with('personalCaracterizacions', 'comunidad')->first();
+        })->with('personalCaracterizacions', 'comunidad')->get();
 
         if (is_null($jefeComunidadClap)) {
             return response()->json(
