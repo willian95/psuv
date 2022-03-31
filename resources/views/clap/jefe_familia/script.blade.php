@@ -13,19 +13,27 @@ const app = new Vue({
             linkClass:"page-link",
             activeLinkClass:"page-link active-link bg-main",
 
+            calleAction:"create",
+            calleLoading:false,
+            calleNombre:"",
+            tipoCasa:"",
+            numeroFamilias:"",
+
             errors:[],
             municipios:[],
             partidosPoliticos:[],
-            parroquias:[],
-            comunidades:[],
             movilizaciones:[],
             enlacesMunicipales:[],
-            jefeClaps:[],
-            claps:[],
+            jefeCalles:[],
+            parroquias:[],
+            calles:[],
+            jefeFamilias:[],
 
-            modalTitle:"Crear jefe clap",
+            modalTitle:"Crear jefe de familia",
             disabledStoreButton:true,
-            readonlySelectedMunicipioEnlaceMunicipal:false,
+            readonlyJefeComunidad:false,
+            readonlyClapComunidad:false,
+            readonlyJefeCalle:false,
 
             id:"",
             isSearchingCedula:false,
@@ -35,6 +43,14 @@ const app = new Vue({
             suspendLoader:false,
             loading:false,
 
+            jefeCalleId:"",
+            jefeCalleNacionalidad:"V",
+            jefeCalleCedula:"",
+            jefeCalleNombre:"",
+            nombreCalle:"",
+            descripcion:"",
+            fechaNacimiento:"",
+            
             nacionalidad:"V",
             cedula:"",
             nombre:"",
@@ -44,22 +60,16 @@ const app = new Vue({
             tipoVoto:"",
             partidoPolitico:"",
             searchCedulaQuery:"",
-            sugerido:"",
             
-            selectedMunicipioEnlaceMunicipal:"",
-            selectedEstado:"",
-            selectedComunidad:"",
             selectedMunicipio:"",
+            selectedClapCalle:"",
+            selectedEstado:"",
             selectedParroquia:"",
+            selectedClapComunidad:"",
+            selectedComunidad:"",
             selectedCentroVotacion:"",
             selectedPartidoPolitico:"",
             selectedMovilizacion:"",
-            selectedClap:"",
-
-            raasSelectedMunicipio:"",
-            raasSelectedParroquia:"",
-            raasSelectedComunidad:"",
-            raasSelectedCentroVotacion:"",
 
             totalPages:"",
             links:[],
@@ -83,12 +93,36 @@ const app = new Vue({
 
         },
 
-        async getMunicipios(){
-            const falconStateId=9
-            this.municipios =[]
+        async getCalles(){
 
-            let res = await axios.get("{{ url('/api/municipios') }}"+"/"+falconStateId)
-            this.municipios = res.data
+            if(this.selectedClapComunidad){
+                let res = await axios.get("{{ url('/api/calles') }}"+"?comunidad_id="+this.selectedClapComunidad)
+                this.calles = res.data
+            }
+
+        },
+
+        async searchJefeCalleByCedula(){
+
+            const response = await axios.post("{{ url('/api/clap/jefe-calle-clap/search-jefe-by-cedula') }}", {
+                "cedula": this.jefeCalleCedula,
+                "nacionalidad": this.jefeCalleNacionalidad
+            })
+
+            if(response.data.success == false){
+                swal({
+                    text:response.data.message,
+                    icon:'error'
+                })
+
+                return
+            }
+
+            this.jefeCalleCedula = response.data?.jefe?.personal_caracterizacions?.cedula
+            this.jefeCalleId = response.data?.jefe?.id
+            this.jefeCalleNacionalidad = response.data?.jefe?.personal_caracterizacions?.nacionalidad
+            this.jefeCalleNombre = response.data?.jefe?.personal_caracterizacions?.nombre_apellido
+            this.calleNombre = response.data?.jefe?.calle?.nombre
 
         },
 
@@ -106,7 +140,7 @@ const app = new Vue({
 
             this.isSearchingCedula = true
 
-            let res = await axios.post("{{ url('api/clap/enlace-municipal/search-by-cedula') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad})
+            let res = await axios.post("{{ url('api/clap/jefe-calle-clap/search-by-cedula') }}", {cedula: this.cedula, nacionalidad: this.nacionalidad})
             
             this.isSearchingCedula = false
             this.disabledStoreButton = false
@@ -132,17 +166,10 @@ const app = new Vue({
             this.id = ""
             this.disabledStoreButton = true
             this.action = "create"
-            this.readonlySelectedMunicipioEnlaceMunicipal = false
-            this.modalTitle = "Crear jefe clap"
-
-            this.readonlySelectedCensoClap=false
-            this.readonlySelectedMunicipio=false
-            this.readonlySelectedParroquia=false
-            this.readonlySelectedComunidad=false
-            this.nacionalidad = "V"
-            this.selectedComunidad = ""
-            this.selectedClap = ""
-            this.errors = []
+            this.readonlyJefeComunidad = false
+            this.jefeComunidadCedula = ""
+            this.jefeComunidadNombre = ""
+            this.readonlyClapComunidad = false
             
             this.clearForm()
             
@@ -162,14 +189,14 @@ const app = new Vue({
             this.tipoVoto = ""
             this.partidoPolitico = ""
             this.selectedMovilizacion = ""
-            this.selectedEstado = ""
-            this.selectedMunicipio = ""
-            this.selectedParroquia = ""
-            this.selectedCentroVotacion = ""
-            this.sugerido = ""
 
             if(this.action != 'edit'){
-                this.selectedMunicipioEnlaceMunicipal = ""
+                this.jefeComunidadId = ""
+                this.selectedEstado = ""
+                this.selectedMunicipio = ""
+                this.selectedParroquia = ""
+                this.selectedCentroVotacion = ""
+                this.selectedComunidad = ""
             }
 
         },
@@ -179,15 +206,15 @@ const app = new Vue({
             this.selectedEstado = elector.raas_estado_id
 
             this.nombre = elector.nombre_apellido
+            this.selectedMunicipio = elector.raas_municipio_id
+            this.selectedParroquia = elector.raas_parroquia_id
+
+            this.selectedCentroVotacion = elector.raas_centro_votacion_id
 
             this.telefonoPrincipal = elector.telefono_principal
             this.telefonoSecundario = elector.telefono_secundario
             this.fechaNacimiento = elector.fecha_nacimiento
             this.tipoVoto = elector.tipo_voto
-
-            this.raasSelectedMunicipio = elector.raas_municipio_id
-            this.raasSelectedParroquia = elector.raas_parroquia_id
-            this.raasSelectedCentroVotacion = elector.raas_centro_votacion_id
 
             this.nacionalidad = elector.nacionalidad ? elector.nacionalidad : this.nacionalidad
 
@@ -204,7 +231,7 @@ const app = new Vue({
                 this.errors = []
                 this.storeLoader = true
                 
-                let res = await axios.post("{{ url('api/clap/jefe-clap') }}", {
+                let res = await axios.post("{{ url('api/clap/jefe-calle-clap') }}", {
                     cedula: this.cedula, 
                     nacionalidad: this.nacionalidad, 
                     nombre_apellido: this.nombre, 
@@ -214,14 +241,14 @@ const app = new Vue({
                     telefono_secundario: this.telefonoSecundario, 
                     tipo_voto: this.tipoVoto, 
                     raas_estado_id: this.selectedEstado, 
-                    raas_municipio_id: this.raasSelectedMunicipio, 
-                    raas_parroquia_id: this.raasSelectedParroquia, 
-                    raas_centro_votacion_id: this.raasSelectedCentroVotacion, 
+                    raas_municipio_id: this.selectedMunicipio, 
+                    raas_parroquia_id: this.selectedParroquia, 
+                    raas_centro_votacion_id: this.selectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
-                    selectedCensoClap: this.selectedClap,
-                    sugerido:this.sugerido
-                    
+                    jefeComunidadId: this.jefeComunidadId,
+                    calleId:this.selectedClapCalle
+
                 })
 
                 this.storeLoader = false
@@ -268,7 +295,7 @@ const app = new Vue({
                 this.errors = []
                 this.updateLoader = true
                 
-                let res = await axios.put("{{ url('api/clap/jefe-clap') }}"+"/"+this.id, {
+                let res = await axios.put("{{ url('api/clap/jefe-calle-clap') }}"+"/"+this.id, {
                     cedula: this.cedula, 
                     nacionalidad: this.nacionalidad, 
                     nombre_apellido: this.nombre, 
@@ -278,13 +305,14 @@ const app = new Vue({
                     telefono_secundario: this.telefonoSecundario, 
                     tipo_voto: this.tipoVoto, 
                     raas_estado_id: this.selectedEstado, 
-                    raas_municipio_id: this.raasSelectedMunicipio, 
-                    raas_parroquia_id: this.raasSelectedParroquia, 
-                    raas_centro_votacion_id: this.raasSelectedCentroVotacion, 
+                    raas_municipio_id: this.selectedMunicipio, 
+                    raas_parroquia_id: this.selectedParroquia, 
+                    raas_centro_votacion_id: this.selectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
                     movilizacion_id: this.selectedMovilizacion, 
-                    selectedCensoClap: this.selectedClap,
-                    sugerido:this.sugerido
+                    selectedMunicipioEnlaceMunicipal: this.selectedMunicipioEnlaceMunicipal,
+                    jefeComunidadId: this.jefeComunidadId,
+                    calleId:this.selectedClapCalle
                 })
 
                 this.updateLoader = false
@@ -322,7 +350,45 @@ const app = new Vue({
                 this.errors = err.response.data.errors
 
             }
-            this.updateLoader = false
+            this.storeLoader = false
+        },
+        async storeCalle(){
+
+            if(this.calleNombre == ""){
+
+                swal({
+                    text:"Debes agregar el nombre de la calle",
+                    icon: "error"
+                })
+
+                return 
+            }
+
+            let form = {
+                "raas_comunidad_id":this.selectedClapComunidad,
+                "nombre":this.calleNombre,
+                "tipo":"---",
+                "sector":"---"
+            }
+
+            const response = await axios({
+                method: 'POST',
+                responseType: 'json',
+                url: "{{ route('api.calles.store') }}",
+                data: form
+            });
+            this.loading = false;
+            swal({
+                text:response.data.message,
+                icon: "success"
+            }).then(ans => {
+                $('.calleModal').modal('hide')
+                $('.modal-backdrop').remove()
+
+                this.getCalles()
+
+            })
+
         },
         isNumber(evt) {
             evt = (evt) ? evt : window.event;
@@ -333,7 +399,7 @@ const app = new Vue({
                 return true;
             }
         },
-        async fetch(link = "{{ url('api/clap/jefe-clap/index') }}"){
+        async fetch(link = "{{ url('api/clap/jefe-calle-clap/index') }}"){
 
 
             this.searchLoading = true
@@ -346,7 +412,7 @@ const app = new Vue({
 
             this.searchLoading = false
 
-            this.jefeClaps = res.data.data
+            this.jefeCalles = res.data.data
             this.links = res.data.links
             this.currentPage = res.data.current_page
             this.totalPages = res.data.last_page
@@ -357,7 +423,7 @@ const app = new Vue({
 
             swal({
                 title: "¿Estás seguro?",
-                text: "Eliminarás este Jefe de clap!",
+                text: "Eliminarás este Jefe de calle!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -366,7 +432,7 @@ const app = new Vue({
 
                 if (willDelete) {
 
-                    let res = await axios.delete("{{ url('api/clap/jefe-clap') }}"+"/"+id)
+                    let res = await axios.delete("{{ url('api/clap/jefe-calle-clap') }}"+"/"+id)
 
                     if(res.data.success == true){
 
@@ -393,14 +459,24 @@ const app = new Vue({
 
         async edit(jefe){
 
+            this.readonlyClapComunidad = true
+            this.readonlyJefeComunidad = true
             this.action = "edit"
-            this.modalTitle = "Editar Jefe clap"
+            this.modalTitle = "Editar Jefe calle"
             this.id = jefe.id
-            this.readonlySelectedCensoClap = true
-            this.readonlySelectedMunicipio=true
-            this.readonlySelectedParroquia=true
-            this.readonlySelectedComunidad=true
-            this.sugerido = jefe.sugerido
+
+            this.jefeComunidadId = jefe.jefe_comunidad.id
+            this.jefeComunidadNacionalidad  = jefe.jefe_comunidad.personal_caracterizacions.nacionalidad
+            this.jefeComunidadCedula  = jefe.jefe_comunidad.personal_caracterizacions.cedula
+            this.jefeComunidadNombre  = jefe.jefe_comunidad.personal_caracterizacions.nombre_apellido
+
+            await this.searchJefeComunidadByCedula()
+
+            this.selectedClapComunidad = jefe.calle.comunidad.id
+
+            await this.getCalles()
+
+            this.selectedClapCalle = jefe.raas_calle_id
 
             const personalCaracterizacion = jefe.personal_caracterizacions
 
@@ -408,13 +484,8 @@ const app = new Vue({
             this.selectedEstado = personalCaracterizacion.raas_estado_id
 
             this.nombre = personalCaracterizacion.nombre_apellido
-            this.selectedMunicipio = jefe.censo_clap.comunidades[0].parroquia.municipio.id
-            await this.getParroquias()
-            this.selectedParroquia = jefe.censo_clap.comunidades[0].parroquia.id
-            await this.getComunidades()
-            this.selectedComunidad = jefe.censo_clap.comunidades[0].id
-            await this.getClaps()
-            this.selectedClap = jefe.censo_clap_id
+
+            this.selectedCentroVotacion = personalCaracterizacion.raas_centro_votacion_id
 
             this.telefonoPrincipal = personalCaracterizacion.telefono_principal
             this.telefonoSecundario = personalCaracterizacion.telefono_secundario
@@ -426,46 +497,6 @@ const app = new Vue({
             this.sexo = personalCaracterizacion.sexo
             this.selectedPartidoPolitico = personalCaracterizacion.partido_politico_id
             this.selectedMovilizacion = personalCaracterizacion.movilizacion_id
-
-            this.raasSelectedMunicipio = personalCaracterizacion.raas_municipio_id
-          
-            this.raasSelectedParroquia = personalCaracterizacion.raas_parroquia_id
-            
-
-        },
-
-        async getEnlacesMunicipales(){
-
-            const res = await axios.get("{{ url('api/clap/enlace-municipal/all') }}")
-            this.enlacesMunicipales = res.data
-        },
-        async getParroquias(){
-                
-            this.selectedComunidad = "0"
-
-            let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
-            this.parroquias = res.data
-
-        },
-        async getComunidades(){
-
-            this.selectedClap = "0"
-
-            const response = await axios.get("{{ url('api/comunidades/') }}"+"/"+this.selectedParroquia)
-            this.comunidades = response.data
-        },
-        async getMunicipios(){
-
-            this.selectedParroquia = "0"
-
-            let res = await axios.get("{{ url('/api/municipios') }}")
-            this.municipios = res.data
-
-        },
-        async getClaps(){
-
-            let res = await axios.get("{{ url('/api/clap') }}"+"/comunidad/"+this.selectedComunidad)
-            this.claps = res.data
 
         },
 
@@ -479,19 +510,6 @@ const app = new Vue({
 
         this.getMovilizaciones()
         this.getPartidosPoliticos()
-        this.getEnlacesMunicipales()
-        
-        const authUserMunicipio= "{{ Auth::user()->municipio_id }}"
-
-        if(authUserMunicipio == ""){
-            this.getMunicipios()
-            return
-        }
-
-        @if(Auth::user()->municipio_id)
-            const authUserMunicipioNombre = "{{ App\Models\Municipio::where('id', Auth::user()->municipio_id)->first()->nombre }}"
-        @endif
-        this.municipios.push({"nombre": authUserMunicipio, "id": authUserMunicipio})
 
     }
 });
