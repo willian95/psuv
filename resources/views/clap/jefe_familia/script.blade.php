@@ -28,6 +28,7 @@ const app = new Vue({
             parroquias:[],
             calles:[],
             jefeFamilias:[],
+            estatus:[],
 
             modalTitle:"Crear jefe de familia",
             disabledStoreButton:true,
@@ -70,6 +71,7 @@ const app = new Vue({
             selectedCentroVotacion:"",
             selectedPartidoPolitico:"",
             selectedMovilizacion:"",
+            selectedEstatus:"",
 
             totalPages:"",
             links:[],

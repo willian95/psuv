@@ -27,7 +27,7 @@ class JefeCLAPStoreRequest extends FormRequest
             'cedula' => 'required',
             'selectedCensoClap' => 'required|exists:censo_clap,id',
             'sugerido' => 'required',
-            'telefono_principal' => 'required|max:11',
+            'telefono_principal' => 'nullable|max:11',
             'telefono_secundario' => 'nullable|max:11',
             'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',
             'movilizacion_id' => 'nullable|exists:elecciones_movilizacion,id',

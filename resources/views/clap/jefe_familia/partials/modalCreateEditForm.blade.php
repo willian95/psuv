@@ -101,9 +101,9 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="jefeFamiliaNombre" class="required-field">Nombre jefe familia</label>
-                                <input type="text" class="form-control" id="jefeFamiliaNombre" v-model="jefeFamiliaNombre">
-                                <small v-if="errors.hasOwnProperty('jefeFamiliaNombre')">@{{ errors['jefeFamiliaNombre'][0] }}</small>
+                                <label for="nombre" class="required-field">Nombre jefe familia</label>
+                                <input type="text" class="form-control" id="nombre" v-model="nombre">
+                                <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="municipio" class="required-field">Estadus</label>
+                                <label for="municipio" class="required-field">Estatus</label>
                                 <select class="form-control" v-model="estatus" id="estatus" >
                                    
                                 </select>

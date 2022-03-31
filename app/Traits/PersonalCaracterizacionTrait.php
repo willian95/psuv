@@ -20,13 +20,15 @@ trait PersonalCaracterizacionTrait
             $personal->cedula = $data['cedula'];
             $personal->nombre_apellido = $data['nombre_apellido'];
             $personal->sexo = $data['sexo'];
-            $personal->telefono_principal = $data['telefono_principal'];
+            $personal->telefono_principal = $data['telefono_principal'] ?? null;
             $personal->telefono_secundario = $data['telefono_secundario'] ?? null;
             $personal->nacionalidad = $data['nacionalidad'];
             $personal->tipo_voto = $data['tipo_voto'] ?? null;
+            $personal->fecha_nacimiento = $data['fecha_nacimiento'] ?? null;
             $personal->raas_estado_id = $data['raas_estado_id'] ?? null;
             $personal->raas_municipio_id = $data['raas_municipio_id'] ?? null;
             $personal->raas_parroquia_id = $data['raas_parroquia_id'] ?? null;
+            $personal->raas_estatus_personal_id = $data['raas_estatus_personal_id'] ?? null;
             $personal->raas_centro_votacion_id = $data['raas_centro_votacion_id'] ?? null;
             $personal->elecciones_partido_politico_id = $data['partido_politico_id'] ?? null;
             $personal->elecciones_movilizacion_id = $data['movilizacion_id'] ?? null;
@@ -69,6 +71,7 @@ trait PersonalCaracterizacionTrait
         $personal->fecha_nacimiento = $data->fecha_nacimiento ? $data->fecha_nacimiento : $personal->fecha_nacimiento;
         $personal->tipo_voto = $data->tipo_voto ? $data->tipo_voto : $personal->tipo_voto;
         $personal->inhabilitado_politicio = 'no';
+        $personal->raas_estatus_personal_id = $data->raas_estatus_personal_id ? $data->raas_estatus_personal_id : $personal->raas_estatus_personal_id;
         $personal->elecciones_partido_politico_id = $data->partido_politico_id ? $data->elecciones_partido_politico_id : $personal->elecciones_partido_politico_id;
         $personal->elecciones_movilizacion_id = $data->movilizacion_id ? $data->elecciones_movilizacion_id : $personal->elecciones_movilizacion_id;
         $personal->update();
