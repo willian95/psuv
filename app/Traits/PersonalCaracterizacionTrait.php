@@ -59,7 +59,6 @@ trait PersonalCaracterizacionTrait
 
     public function updatePersonalCaracterizacion($id, $data)
     {
-        Log::info('entre');
 
         $personal = PersonalCaracterizacion::find($id);
         $personal->nombre_apellido = $data->nombre_apellido;
