@@ -56,6 +56,8 @@ Route::group(['prefix' => 'jefe-familia-clap'], function () {
     Route::get("/get-casas/{id}", [JefeFamiliaController::class, 'getCasasByCalle']);
     Route::post('store-nucleo', [JefeFamiliaController::class, 'storeNucleoFamiliar']);
     Route::get("/nucleo/{jefe_familia}", [JefeFamiliaController::class, 'getFamiliaresByJefeFamilia']);
+    Route::delete("/nucleo-delete/{jefe_familia}", [JefeFamiliaController::class, 'deleteNucleoFamiliar']);
+    
 });
 
 

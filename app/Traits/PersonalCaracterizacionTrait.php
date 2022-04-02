@@ -18,7 +18,7 @@ trait PersonalCaracterizacionTrait
         if (!PersonalCaracterizacion::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first()) {
             $personal = new PersonalCaracterizacion();
             $personal->cedula = $data['cedula'];
-            $personal->nombre_apellido = $data['nombre_apellido'];
+            $personal->nombre_apellido = strtoupper($data['nombre_apellido']);
             $personal->sexo = $data['sexo'];
             $personal->telefono_principal = $data['telefono_principal'] ?? null;
             $personal->telefono_secundario = $data['telefono_secundario'] ?? null;
@@ -43,7 +43,7 @@ trait PersonalCaracterizacionTrait
         if (!Elector::where('cedula', $data['cedula'])->where('nacionalidad', $data['nacionalidad'])->first() && $data['raas_estado_id']) {
             $elector = new Elector();
             $elector->cedula = $data['cedula'];
-            $elector->nombre_apellido = $data['nombre_apellido'];
+            $elector->nombre_apellido = strtoupper($data['nombre_apellido']);
             $elector->sexo = $data['sexo'];
             $elector->nacionalidad = $data['nacionalidad'];
             $elector->raas_estado_id = $data['raas_estado_id'];

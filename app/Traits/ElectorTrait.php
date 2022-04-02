@@ -152,6 +152,10 @@ trait ElectorTrait
                 return null;
             }
 
+            if (strpos($nameSanitize, 'planilla')) {
+                return null;
+            }
+
             $name = substr($nameSanitize, 17, strpos($nameSanitize, '</b>') - 17);
 
             if (strlen($name) > 0) {

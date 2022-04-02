@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Clap\JefeFamilia;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class StoreNucleoFamiliarRequest extends FormRequest
 {
@@ -25,12 +26,15 @@ class StoreNucleoFamiliarRequest extends FormRequest
     {
         return [
             'jefeFamiliaId' => 'required',
-            'cedula' => 'required',
+            'cedula' => new RequiredIf($this->tipoPersona == '1' || $this->tipoPersona == '3'),
+            'tipoPersona' => 'required',
             'telefono_principal' => 'nullable|max:11',
             'telefono_secundario' => 'nullable|max:11',
             'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',
             'movilizacion_id' => 'nullable|exists:elecciones_movilizacion,id',
             'fecha_nacimiento' => 'required',
+            'sexo' => 'required',
+            'nombre_apellido' => 'required',
             'raas_estatus_personal_id' => 'required'
         ];
     }

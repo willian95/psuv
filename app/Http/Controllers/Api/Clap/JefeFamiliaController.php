@@ -149,7 +149,7 @@ class JefeFamiliaController extends Controller
         $query = JefeFamilia::with('personalCaracterizacion', 'vivienda', 'JefeCalle.personalCaracterizacions', 'JefeCalle.calle.comunidad.parroquia.municipio');
 
         if (isset($request->searchCedula)) {
-            $query->whereHas('personalCaracterizacions', function ($query) use ($request) {
+            $query->whereHas('personalCaracterizacion', function ($query) use ($request) {
                 $query->where('cedula', 'like', '%'.$request->searchCedula.'%');
             });
         }
@@ -179,6 +179,10 @@ class JefeFamiliaController extends Controller
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe de familia']);
             }
 
+            $vivienda = CensoVivienda::where("raas_jefe_familia_id", $id)->first();
+            $vivienda->cantidad_familias = $request->numeroFamilia;
+            $vivienda->update();
+
             $raasJefeFamilia = JefeFamilia::find($id);
             $raasJefeFamilia->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
             $raasJefeFamilia->update();
@@ -200,31 +204,84 @@ class JefeFamiliaController extends Controller
         try {
             DB::beginTransaction();
 
-            $this->storePersonalCaracterizacion($request);
-            $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
-            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
+            if($request->tipoPersona == 1 || $request->tipoPersona == 3){
+                $this->storePersonalCaracterizacion($request);
+                $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+                $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
-            if(JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first()){
-                return response()->json(["success" => false, "message" => "Esta persona es jefe de familia"]);
+                if(JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first()){
+                    return response()->json(["success" => false, "message" => "Esta persona es jefe de familia"]);
+                }
+    
+                if($personalCaracterizacion->raas_jefe_familia_id != null && $personalCaracterizacion->raas_jefe_familia_id != $request->jefeFamiliaId){
+                    return response()->json(["success" => false, "message" => "Esta persona ya posee jefe de familia"]);
+                }
+    
+                $personalCaracterizacion = PersonalCaracterizacion::find($personalCaracterizacion->id);
+                $personalCaracterizacion->raas_jefe_familia_id = $request->jefeFamiliaId;
+                $personalCaracterizacion->update();
+
             }
 
-            if($personalCaracterizacion->raas_jefe_familia_id != null && $personalCaracterizacion->raas_jefe_familia_id != $request->jefeFamiliaId){
-                return response()->json(["success" => false, "message" => "Esta persona ya posee jefe de familia"]);
-            }
+            else if($request->tipoPersona == 2 || $request->tipoPersona == 4){
 
-            $personalCaracterizacion = PersonalCaracterizacion::find($personalCaracterizacion->id);
-            $personalCaracterizacion->raas_jefe_familia_id = $request->jefeFamiliaId;
-            $personalCaracterizacion->update();
+                $personal = PersonalCaracterizacion::where('nombre_apellido', strtoupper($request->nombre_apellido))->whereDate('fecha_nacimiento', $request->fecha_nacimiento)->whereNull("cedula")->first();
+                
+                if(is_null($personal)){
+                   
+                    $personalModel = new PersonalCaracterizacion();
+                    $personalModel->nombre_apellido = strtoupper($request['nombre_apellido']);
+                    $personalModel->sexo = $request['sexo'];
+                    $personalModel->nacionalidad = $request['nacionalidad'];
+                    $personalModel->fecha_nacimiento = $request['fecha_nacimiento'] ?? null;
+                    $personalModel->raas_estatus_personal_id = $request['raas_estatus_personal_id'] ?? null;
+                    $personalModel->telefono_principal = $request['telefono_principal'] ?? null;
+                    $personalModel->es_elector = false;
+                    $personalModel->raas_jefe_familia_id = $request->jefeFamiliaId;
+                    $personalModel->save();
+                }
+
+                else{
+
+                    if($personal->raas_jefe_familia_id == null){
+                        $personal->raas_jefe_familia_id = $request->jefeFamiliaId;
+                        $personal->update();
+                    }
+                    else{
+
+                        return response()->json(["success" => false, "message" => "Esta persona ya posee jefe de familia"]);
+
+                    }
+
+                }
+
+            }
 
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => 'Familiar añadido']);
+            return response()->json(['success' => true, 'message' => 'Familiar agregado']);
+            
         } catch (\Exception $e) {
             Log::error($e);
 
             DB::rollBack();
 
             return response()->json(['success' => false, 'message' => 'Hubo un problema']);
+        }
+
+    }
+
+    public function deleteNucleoFamiliar($id){
+
+        try{
+
+            PersonalCaracterizacion::where("id", $id)->update(["raas_jefe_familia_id" => null]);
+            return response()->json(["success" => true, "message" => "Eliminado persona del nucleo familiar"]);
+
+        }catch(\Exception $e){
+            Log::error($e);
+            return response()->json(["success" => false, "message" => "Hubo un problema"]);
+
         }
 
     }

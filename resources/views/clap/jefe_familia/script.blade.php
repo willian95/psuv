@@ -79,8 +79,9 @@ const app = new Vue({
 
             totalPages:"",
             links:[],
-            currentPage:"",
+            currentPage:"", 
 
+            nucleoFamiliarErrors:[],
             nucleoFamiliarJefeFamiliaNombre:"",
             nucleoFamiliarJefeFamiliaId:"",
             nucleoFamiliarTipoPersona:"",
@@ -174,8 +175,6 @@ const app = new Vue({
 
             if(res.data.success == false){
 
-                this.clearForm(false)
-
                 swal({
                     text:"Esta cédula no está registrada en el CNE, sin embargo puedes añadir a la persona",
                     icon:"warning"
@@ -204,6 +203,7 @@ const app = new Vue({
             this.fechaNacimiento = ""
             this.selectedEstatus = ""
             this.selectedCasa = ""
+            this.errors = []
             
             this.clearForm()
             
@@ -497,6 +497,7 @@ const app = new Vue({
 
         async edit(jefe){
 
+            this.errors = []
             this.readonlyJefeCalle = true
             this.action = "edit"
             this.modalTitle = "Editar Jefe familia"
@@ -555,8 +556,27 @@ const app = new Vue({
 
         showNucleoFamiliar(jefe){
 
+            this.nucleoFamiliarErrors = []
             this.nucleoFamiliarJefeFamiliaId = jefe.id
             this.nucleoFamiliarJefeFamiliaNombre = jefe.personal_caracterizacion.nombre_apellido
+
+            this.nucleoFamiliarTipoPersona = ""
+            this.nucleoFamiliarCedula = ""
+            this.nucleoFamiliarNombre = ""
+            this.nucleoFamiliarNacionalidad = ""
+            this.nucleoFamiliarSexo = ""
+            this.nucleoFamiliarFechaNacimiento = ""
+            this.nucleoFamiliarEstatusPersonal = ""
+            this.nucleoFamiliarTelefonoPrincipal = ""
+            this.nucleoFamiliarTelefonoSecundario = ""
+            this.nucleoFamiliarPartido = ""
+            this.nucleoFamiliarMovilizacion = ""
+            this.nucleoFamiliarTipoVoto = ""
+            this.nucleoFamiliarRaasEstadoId = ""
+            this.nucleoFamiliarRaasMunicipioId = ""
+            this.nucleoFamiliarRaasParroquiaId = ""
+            this.nucleoFamiliarRaasCentroVotacionId =  ""
+
             this.getFamiliares()
 
         },
@@ -591,9 +611,7 @@ const app = new Vue({
                 return
             }
 
-            this.nucleoFamiliarCedula = res.data.elector.cedula
             this.nucleoFamiliarNombre = res.data.elector.nombre_apellido
-            this.nucleoFamiliarNacionalidad = res.data.elector.nacionalidad
             this.nucleoFamiliarSexo = res.data.elector.sexo
             this.nucleoFamiliarFechaNacimiento = res.data.elector.fecha_nacimiento
             this.nucleoFamiliarEstatusPersonal = res.data.elector.raas_estatus_personal_id
@@ -611,26 +629,73 @@ const app = new Vue({
 
         async storeNucleoFamiliar(){
 
-            const response = await axios.post("{{ url('api/clap/jefe-familia-clap/store-nucleo') }}", {
+            try{
 
-                'jefeFamiliaId':this.nucleoFamiliarJefeFamiliaId,
-                'cedula':this.nucleoFamiliarCedula,
-                'nombre_apellido':this.nucleoFamiliarNombre,
-                'sexo':this.nucleoFamiliarSexo,
-                'telefono_principal':this.nucleoFamiliarTelefonoPrincipal,
-                'telefono_secundario':this.nucleoFamiliarTelefonoSecundario,
-                'nacionalidad':this.nucleoFamiliarNacionalidad,
-                'tipo_voto': this.nucleoFamiliarTipoVoto,
-                'fecha_nacimiento': this.nucleoFamiliarFechaNacimiento,
-                'raas_estado_id': this.nucleoFamiliarRaasEstadoId,
-                'raas_municipio_id': this.nucleoFamiliarRaasMunicipioId,
-                'raas_parroquia_id': this.nucleoFamiliarRaasParroquiaId,
-                'raas_centro_votacion_id': this.nucleoFamiliarRaasCentroVotacionId,
-                'raas_estatus_personal_id': this.nucleoFamiliarEstatusPersonal,
-                'partido_politico_id': this.nucleoFamiliarPartido,
-                'movilizacion_id': this.nucleoFamiliarMovilizacion
+                const response = await axios.post("{{ url('api/clap/jefe-familia-clap/store-nucleo') }}", {
 
-            })
+                    'jefeFamiliaId':this.nucleoFamiliarJefeFamiliaId,
+                    'cedula':this.nucleoFamiliarCedula,
+                    'nombre_apellido':this.nucleoFamiliarNombre,
+                    'sexo':this.nucleoFamiliarSexo,
+                    'telefono_principal':this.nucleoFamiliarTelefonoPrincipal,
+                    'telefono_secundario':this.nucleoFamiliarTelefonoSecundario,
+                    'nacionalidad':this.nucleoFamiliarNacionalidad,
+                    'tipo_voto': this.nucleoFamiliarTipoVoto,
+                    'fecha_nacimiento': this.nucleoFamiliarFechaNacimiento,
+                    'raas_estado_id': this.nucleoFamiliarRaasEstadoId,
+                    'raas_municipio_id': this.nucleoFamiliarRaasMunicipioId,
+                    'raas_parroquia_id': this.nucleoFamiliarRaasParroquiaId,
+                    'raas_centro_votacion_id': this.nucleoFamiliarRaasCentroVotacionId,
+                    'raas_estatus_personal_id': this.nucleoFamiliarEstatusPersonal,
+                    'partido_politico_id': this.nucleoFamiliarPartido,
+                    'movilizacion_id': this.nucleoFamiliarMovilizacion,
+                    'tipoPersona':this.nucleoFamiliarTipoPersona
+
+                })
+
+                if(response.data.success == false){
+                    swal({
+                        text:response.data.message,
+                        icon:"error"
+                    })
+
+                    return
+                }
+
+                swal({
+                    text: response.data.message,
+                    icon:"success"
+                })
+
+                this.nucleoFamiliarTipoPersona = ""
+                this.nucleoFamiliarCedula = ""
+                this.nucleoFamiliarNombre = ""
+                this.nucleoFamiliarNacionalidad = ""
+                this.nucleoFamiliarSexo = ""
+                this.nucleoFamiliarFechaNacimiento = ""
+                this.nucleoFamiliarEstatusPersonal = ""
+                this.nucleoFamiliarTelefonoPrincipal = ""
+                this.nucleoFamiliarTelefonoSecundario = ""
+                this.nucleoFamiliarPartido = ""
+                this.nucleoFamiliarMovilizacion = ""
+                this.nucleoFamiliarTipoVoto = ""
+                this.nucleoFamiliarRaasEstadoId = ""
+                this.nucleoFamiliarRaasMunicipioId = ""
+                this.nucleoFamiliarRaasParroquiaId = ""
+                this.nucleoFamiliarRaasCentroVotacionId =  ""
+
+                this.getFamiliares()
+
+            }catch(err){
+
+                swal({
+                    text:"Hay algunos campos que debes revisar",
+                    icon: "error"
+                })
+
+                this.nucleoFamiliarErrors = err.response.data.errors
+
+            }
 
         },
 
@@ -638,6 +703,45 @@ const app = new Vue({
 
             const response = await axios.get("{{ url('api/clap/jefe-familia-clap/nucleo') }}"+"/"+this.nucleoFamiliarJefeFamiliaId)
             this.nucleoFamiliares = response.data
+        },
+
+        async nucleoFamiliarRemove(id){
+
+            swal({
+                title: "¿Estás seguro?",
+                text: "Eliminarás este familiar!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(async (willDelete) => {
+
+                if (willDelete) {
+
+                    let res = await axios.delete("{{ url('api/clap/jefe-familia-clap/nucleo-delete') }}"+"/"+id)
+
+                    if(res.data.success == true){
+
+                        swal({
+                            text:res.data.message,
+                            icon: "success"
+                        })
+
+                        this.getFamiliares()
+
+                    }else{
+
+                        swal({
+                            text:res.data.message,
+                            icon: "error"
+                        })
+
+                    }
+
+                }
+
+            })
+
         }
 
     },
