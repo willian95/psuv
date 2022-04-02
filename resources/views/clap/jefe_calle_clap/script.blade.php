@@ -45,7 +45,7 @@ const app = new Vue({
             jefeComunidadCedula:"",
             jefeComunidadNombre:"",
             
-            nacionalidad:"V",
+            nacionalidad:"",
             cedula:"",
             nombre:"",
             sexo:"M",
@@ -162,6 +162,7 @@ const app = new Vue({
             this.id = ""
             this.disabledStoreButton = true
             this.action = "create"
+            this.modalTitle = "Crear jefe calle"
             this.readonlyJefeComunidad = false
             this.jefeComunidadCedula = ""
             this.jefeComunidadNombre = ""
@@ -175,7 +176,7 @@ const app = new Vue({
             
             if(clearCedula == true){
                 this.cedula = ""
-                this.nacionalidad = "V"
+                this.nacionalidad = ""
             }
             
             this.nombre = ""
