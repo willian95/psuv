@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JefeFamilia extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table="raas_jefe_familia";
     protected $fillable=[
         "personal_caraterizacion_id",

@@ -103,6 +103,9 @@
                                         <td>@{{ jefe?.personal_caracterizacion?.nombre_apellido }}</td>
                                         <td>@{{ jefe?.personal_caracterizacion?.telefono_principal }}</td>
                                         <td>
+                                        <button class="btn btn-warning" data-toggle="modal" data-target=".nucleoFamilia" @click="showNucleoFamiliar(jefe)">
+                                                <i class="far fa-user"></i>
+                                            </button>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefe)">
                                                 <i class="far fa-edit"></i>
                                             </button>
@@ -142,6 +145,7 @@
         <!--end::Container-->
 
         @include('clap.jefe_familia.partials.modalCreateEditForm')
+        @include('clap.jefe_familia.partials.nucleoFamiliarModal')
         
 
     </div>

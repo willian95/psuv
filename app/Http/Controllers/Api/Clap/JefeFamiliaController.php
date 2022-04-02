@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Clap;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Clap\JefeFamilia\StoreNucleoFamiliarRequest;
 use App\Traits\ElectorTrait;
 use App\Traits\PersonalCaracterizacionTrait;
 use App\Http\Requests\Clap\JefeFamilia\StoreRequest;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\JefeFamilia;
 use Illuminate\Support\Facades\DB;
 use App\Models\CensoVivienda;
+use App\Models\PersonalCaracterizacion;
 use App\Models\RaasEstatusPersonal;
 use App\Models\RaasJefeCalle;
 use Illuminate\Support\Facades\Log;
@@ -107,7 +109,11 @@ class JefeFamiliaController extends Controller
 
         })->count();
         
-        if(CensoVivienda::where("codigo", str_pad($amount + 1, 5, "0", STR_PAD_LEFT))->first()){
+        if(CensoVivienda::whereHas("calle", function($query) use($comunidad){
+
+            $query->where("raas_comunidad_id", $comunidad);
+
+        })->where("codigo", str_pad($amount + 1, 5, "0", STR_PAD_LEFT))->first()){
 
             $amount = $amount + 2;
             return $amount;
@@ -169,7 +175,7 @@ class JefeFamiliaController extends Controller
             $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
             $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
 
-            if (JefeFamilia::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->first()) {
+            if (JefeFamilia::where('raas_personal_caracterizacion_id', $personalCaracterizacion->id)->where("id", "<>", $id)->first()) {
                 return response()->json(['success' => false, 'message' => 'Esta persona ya es Jefe de familia']);
             }
 
@@ -187,6 +193,60 @@ class JefeFamiliaController extends Controller
 
             return response()->json(['success' => false, 'message' => 'Hubo un problema']);
         }
+    }
+
+    public function storeNucleoFamiliar(StoreNucleoFamiliarRequest $request){
+
+        try {
+            DB::beginTransaction();
+
+            $this->storePersonalCaracterizacion($request);
+            $personalCaracterizacion = $this->getPersonalCaracterizacion($request->cedula, $request->nacionalidad);
+            $this->updatePersonalCaracterizacion($personalCaracterizacion->id, $request);
+
+            if(JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first()){
+                return response()->json(["success" => false, "message" => "Esta persona es jefe de familia"]);
+            }
+
+            if($personalCaracterizacion->raas_jefe_familia_id != null && $personalCaracterizacion->raas_jefe_familia_id != $request->jefeFamiliaId){
+                return response()->json(["success" => false, "message" => "Esta persona ya posee jefe de familia"]);
+            }
+
+            $personalCaracterizacion = PersonalCaracterizacion::find($personalCaracterizacion->id);
+            $personalCaracterizacion->raas_jefe_familia_id = $request->jefeFamiliaId;
+            $personalCaracterizacion->update();
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Familiar añadido']);
+        } catch (\Exception $e) {
+            Log::error($e);
+
+            DB::rollBack();
+
+            return response()->json(['success' => false, 'message' => 'Hubo un problema']);
+        }
+
+    }
+
+    public function getFamiliaresByJefeFamilia($jefe_familia){
+
+        $familiares = PersonalCaracterizacion::where("raas_jefe_familia_id", $jefe_familia)->get();
+        return response()->json($familiares);
+
+    }
+
+    public function delete($id){
+
+        if(PersonalCaracterizacion::where("raas_jefe_familia_id", $id)->count() > 0){
+            return response()->json(["success" => false, "message" => "No puedes eliminar debido a que posees personas en tu nucleo familiar"]);
+        }
+
+        CensoVivienda::where("raas_jefe_familia_id", $id)->delete();
+        JefeFamilia::where("id", $id)->delete();
+
+        return response()->json(['success' => true, "message" => "Jefe de familia eliminado"]);
+        
     }
 
 }

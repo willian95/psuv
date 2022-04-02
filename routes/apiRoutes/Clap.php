@@ -54,6 +54,8 @@ Route::group(['prefix' => 'jefe-familia-clap'], function () {
     Route::post('search-jefe-by-cedula', [JefeFamiliaController::class, 'searchJefeCalleClapByCedula']);
     Route::get("estatus-personal", [JefeFamiliaController::class, 'getEstatusPersonal']);
     Route::get("/get-casas/{id}", [JefeFamiliaController::class, 'getCasasByCalle']);
+    Route::post('store-nucleo', [JefeFamiliaController::class, 'storeNucleoFamiliar']);
+    Route::get("/nucleo/{jefe_familia}", [JefeFamiliaController::class, 'getFamiliaresByJefeFamilia']);
 });
 
 

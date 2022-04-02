@@ -132,7 +132,7 @@ class JefeCalleClapController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Jefe comunidad clap no encontrado',
+                    'message' => 'Jefe calle no encontrado',
                 ]
             );
         }

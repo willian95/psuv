@@ -79,8 +79,26 @@ const app = new Vue({
 
             totalPages:"",
             links:[],
-            currentPage:""
+            currentPage:"",
 
+            nucleoFamiliarJefeFamiliaNombre:"",
+            nucleoFamiliarJefeFamiliaId:"",
+            nucleoFamiliarTipoPersona:"",
+            nucleoFamiliarNacionalidad:"",
+            nucleoFamiliarCedula:"",
+            nucleoFamiliarNombre:"",
+            nucleoFamiliarSexo:"",
+            nucleoFamiliarFechaNacimiento:"",
+            nucleoFamiliarEstatusPersonal:"",
+            nucleoFamiliarTelefonoPrincipal:"",
+            nucleoFamiliarTelefonoSecundario:"",
+            nucleoFamiliarPartido:"",
+            nucleoFamiliarMovilizacion:"",
+            nucleoFamiliarRaasEstadoId:"",
+            nucleoFamiliarRaasMunicipioId:"",
+            nucleoFamiliarRaasParroquiaId:"",
+            nucleoFamiliarRaasCentroVotacionId:"",
+            nucleoFamiliares:[]
 
         }
     },
@@ -195,7 +213,7 @@ const app = new Vue({
             
             if(clearCedula == true){
                 this.cedula = ""
-                this.nacionalidad = "V"
+                this.nacionalidad = ""
             }
             
             this.nombre = ""
@@ -205,15 +223,13 @@ const app = new Vue({
             this.tipoVoto = ""
             this.partidoPolitico = ""
             this.selectedMovilizacion = ""
-
-            if(this.action != 'edit'){
-                this.jefeComunidadId = ""
-                this.selectedEstado = ""
-                this.selectedMunicipio = ""
-                this.selectedParroquia = ""
-                this.selectedCentroVotacion = ""
-                this.selectedComunidad = ""
-            }
+            this.direccion = ""
+            this.numeroFamilias = ""
+            this.tipoCasa = ""
+            this.calleNombre = ""
+            this.jefeCalleNombre = ""
+            this.jefeCalleNacionalidad = ""
+            this.jefeCalleCedula = ""
 
         },
 
@@ -445,7 +461,7 @@ const app = new Vue({
 
             swal({
                 title: "¿Estás seguro?",
-                text: "Eliminarás este Jefe de calle!",
+                text: "Eliminarás este Jefe de familia!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -454,7 +470,7 @@ const app = new Vue({
 
                 if (willDelete) {
 
-                    let res = await axios.delete("{{ url('api/clap/jefe-calle-clap') }}"+"/"+id)
+                    let res = await axios.delete("{{ url('api/clap/jefe-familia-clap') }}"+"/"+id)
 
                     if(res.data.success == true){
 
@@ -535,6 +551,93 @@ const app = new Vue({
             const response = await axios.get("{{ url('api/clap/jefe-familia-clap/get-casas') }}"+"/"+this.calleId)
             this.casas = response.data
 
+        },
+
+        showNucleoFamiliar(jefe){
+
+            this.nucleoFamiliarJefeFamiliaId = jefe.id
+            this.nucleoFamiliarJefeFamiliaNombre = jefe.personal_caracterizacion.nombre_apellido
+            this.getFamiliares()
+
+        },
+        async nucleoFamiliarSearchCedula(){
+
+            if(this.nucleoFamiliarCedula == ""){
+
+                swal({
+                    text:"Debes ingresar una cédula",
+                    icon:"error"
+                })
+
+                return
+            }
+
+            this.isSearchingCedula = true
+
+            const res = await axios.post("{{ url('api/clap/jefe-familia-clap/search-by-cedula') }}", {cedula: this.nucleoFamiliarCedula, nacionalidad: this.nucleoFamiliarNacionalidad})
+
+            this.isSearchingCedula = false
+            this.disabledStoreButton = false
+
+            if(res.data.success == false){
+
+                this.clearForm(false)
+
+                swal({
+                    text:"Esta cédula no está registrada en el CNE, sin embargo puedes añadir a la persona",
+                    icon:"warning"
+                })
+
+                return
+            }
+
+            this.nucleoFamiliarCedula = res.data.elector.cedula
+            this.nucleoFamiliarNombre = res.data.elector.nombre_apellido
+            this.nucleoFamiliarNacionalidad = res.data.elector.nacionalidad
+            this.nucleoFamiliarSexo = res.data.elector.sexo
+            this.nucleoFamiliarFechaNacimiento = res.data.elector.fecha_nacimiento
+            this.nucleoFamiliarEstatusPersonal = res.data.elector.raas_estatus_personal_id
+            this.nucleoFamiliarTelefonoPrincipal = res.data.elector.telefono_principal
+            this.nucleoFamiliarTelefonoSecundario = res.data.elector.telefono_secundario
+            this.nucleoFamiliarPartido = res.data.elector.elecciones_partido_politico_id
+            this.nucleoFamiliarMovilizacion = res.data.elector.elecciones_movilizacion_id
+            this.nucleoFamiliarTipoVoto = res.data.elector.tipo_voto
+            this.nucleoFamiliarRaasEstadoId = res.data.elector.raas_estado_id
+            this.nucleoFamiliarRaasMunicipioId = res.data.elector.raas_municipio_id
+            this.nucleoFamiliarRaasParroquiaId = res.data.elector.raas_parroquia_id
+            this.nucleoFamiliarRaasCentroVotacionId =  res.data.elector.raas_centro_votacion_id
+
+        },
+
+        async storeNucleoFamiliar(){
+
+            const response = await axios.post("{{ url('api/clap/jefe-familia-clap/store-nucleo') }}", {
+
+                'jefeFamiliaId':this.nucleoFamiliarJefeFamiliaId,
+                'cedula':this.nucleoFamiliarCedula,
+                'nombre_apellido':this.nucleoFamiliarNombre,
+                'sexo':this.nucleoFamiliarSexo,
+                'telefono_principal':this.nucleoFamiliarTelefonoPrincipal,
+                'telefono_secundario':this.nucleoFamiliarTelefonoSecundario,
+                'nacionalidad':this.nucleoFamiliarNacionalidad,
+                'tipo_voto': this.nucleoFamiliarTipoVoto,
+                'fecha_nacimiento': this.nucleoFamiliarFechaNacimiento,
+                'raas_estado_id': this.nucleoFamiliarRaasEstadoId,
+                'raas_municipio_id': this.nucleoFamiliarRaasMunicipioId,
+                'raas_parroquia_id': this.nucleoFamiliarRaasParroquiaId,
+                'raas_centro_votacion_id': this.nucleoFamiliarRaasCentroVotacionId,
+                'raas_estatus_personal_id': this.nucleoFamiliarEstatusPersonal,
+                'partido_politico_id': this.nucleoFamiliarPartido,
+                'movilizacion_id': this.nucleoFamiliarMovilizacion
+
+            })
+
+        },
+
+        async getFamiliares(){
+
+            const response = await axios.get("{{ url('api/clap/jefe-familia-clap/nucleo') }}"+"/"+this.nucleoFamiliarJefeFamiliaId)
+            this.nucleoFamiliares = response.data
         }
 
     },

@@ -145,7 +145,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefonoPrincipal" class="required-field">Teléfono principal</label>
+                                <label for="telefonoPrincipal">Teléfono principal</label>
                                 <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
                             </div>
@@ -153,7 +153,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="tipoVoto">Tipo de voto (pocional)</label>
+                                <label for="tipoVoto">Tipo de voto (opcional)</label>
                                 <select class="form-control" v-model="tipoVoto">
                                     <option value="duro">Duro</option>
                                     <option value="blando">Blando</option>
