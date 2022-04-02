@@ -37,7 +37,7 @@ const app = new Vue({
             loading:false,
 
             jefeClapId:"",
-            jefeClapNacionalidad:"V",
+            jefeClapNacionalidad:"",
             jefeClapCedula:"",
             jefeClapNombre:"",
             
@@ -150,8 +150,6 @@ const app = new Vue({
 
             if(res.data.success == false){
 
-                this.clearForm(false)
-
                 swal({
                     text:"Esta cédula no está registrada en el CNE, sin embargo puedes añadir a la persona",
                     icon:"warning"
@@ -169,6 +167,7 @@ const app = new Vue({
             this.id = ""
             this.disabledStoreButton = true
             this.action = "create"
+            this.modalTitle = "Crear Jefe Comunidad"
             this.readonlyJefeClap = false
             this.readonlyComunidad = false
             this.jefeClapCedula = ""
@@ -182,9 +181,13 @@ const app = new Vue({
             
             if(clearCedula == true){
                 this.cedula = ""
-                this.nacionalidad = "V"
+                this.nacionalidad = ""
             }
+
+            this.jefeClapCedula = ""
+            this.jefeClapNombre = ""
             
+            this.nombreClap = ""
             this.nombre = ""
             this.sexo = ""
             this.telefonoPrincipal = ""
@@ -426,7 +429,7 @@ const app = new Vue({
             this.readonlyJefeClap = true
             this.readonlyComunidad = true
             this.action = "edit"
-            this.modalTitle = "Editar Jefe clap"
+            this.modalTitle = "Editar Jefe Comunidad"
             this.id = jefe.id
 
             this.jefeClapId = jefe.jefe_clap.id
