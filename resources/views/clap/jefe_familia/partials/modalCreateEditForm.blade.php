@@ -23,7 +23,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <input type="tel" :disabled="readonlyJefeCalle" class="form-control" id="jefeCalleCedula" v-model="jefeCalleCedula" maxlength="8" @keypress="isNumber($event)">
+                                        <input type="tel" :disabled="readonlyJefeCalle" class="form-control" id="jefeCalleCedula" v-model="jefeCalleCedula" maxlength="8" @keypress="isNumber($event)" :disabled="readonlyJefeCalle">
                                         <small class="text-danger" v-if="errors.hasOwnProperty('cedula')">@{{ errors['jefeClapId'][0] }}</small>
                                     </div>
                                     <div >
@@ -38,7 +38,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="jefeCalleNombre" class="required-field">Nombre jefe calle</label>
-                                <input type="text" class="form-control" id="jefeCalleNombre" v-model="jefeCalleNombre">
+                                <input type="text" class="form-control" id="jefeCalleNombre" v-model="jefeCalleNombre" :disabled="readonlyJefeCalle">
                                 <small v-if="errors.hasOwnProperty('nombre')">@{{ errors['nombre'][0] }}</small>
                             </div>
                         </div>
@@ -51,27 +51,34 @@
                         </div>
 
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Tipo de vivienda</label>
-                            <select class="form-control" v-model="tipoCasa">
+                            <select class="form-control" v-model="tipoCasa" :disabled="readonlyJefeCalle">
                                 <option value="casa">Casa</option>
                                 <option value="anexo">Anexo</option>
                             </select>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4" v-if="tipoCasa == 'anexo'">
+                            <label for="">Casas</label>
+                            <select class="form-control" v-model="selectedCasa" :disabled="readonlyJefeCalle">
+                                <option :value="casa.id" v-for="casa in casas">@{{ casa.codigo }}</option>
+                            </select>
+                            <small v-if="errors.hasOwnProperty('selectedCasa')">@{{ errors['selectedCasa'][0] }}</small>
+                        </div>
+
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="numeroFamilias" class="required-field">Número de familas</label>
-                                <input type="text" class="form-control" id="numeroFamilias" v-model="numeroFamilias">
+                                <input type="text" class="form-control" id="numeroFamilias" v-model="numeroFamilias" @keypress="isNumber($event)">
                                 <small v-if="errors.hasOwnProperty('numeroFamilias')">@{{ errors['numeroFamilias'][0] }}</small>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="numeroFamilias">Descripción (opcional)</label>
-                                <textarea class="form-control" v-model="descripcion"></textarea>
-                                <small v-if="errors.hasOwnProperty('numeroFamilias')">@{{ errors['numeroFamilias'][0] }}</small>
+                                <label for="numeroFamilias">Dirección de la casa (opcional)</label>
+                                <input class="form-control" v-model="direccion">
                             </div>
                         </div>
 
@@ -122,15 +129,15 @@
                             <div class="form-group">
                                 <label for="fechaNacimiento" class="required-field">Fecha de nacimiento</label>
                                 <input type="date" class="form-control" id="fechaNacimiento" v-model="fechaNacimiento">
-                                <small v-if="errors.hasOwnProperty('fechaNacimiento')">@{{ errors['fechaNacimiento'][0] }}</small>
+                                <small v-if="errors.hasOwnProperty('fecha_nacimiento')">@{{ errors['fecha_nacimiento'][0] }}</small>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="municipio" class="required-field">Estatus</label>
-                                <select class="form-control" v-model="estatus" id="estatus" >
-                                   
+                                <select class="form-control" v-model="selectedEstatus" id="estatus" >
+                                   <option :value="estat.id" v-for="estat in estatus">@{{ estat.estatus }}</option>
                                 </select>
                                 <small class="text-danger" v-if="errors.hasOwnProperty('estatus')">@{{ errors['estatus'][0] }}</small>
                             </div>

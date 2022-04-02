@@ -10,4 +10,7 @@ class RaasEstatusPersonal extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = "raas_estatus_personal";
+
 }

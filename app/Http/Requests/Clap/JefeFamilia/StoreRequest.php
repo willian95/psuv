@@ -24,7 +24,17 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            
+            'jefeCalleId' => 'required',
+            'cedula' => 'required',
+            'telefono_principal' => 'nullable|max:11',
+            'telefono_secundario' => 'nullable|max:11',
+            'partido_politico_id' => 'nullable|exists:elecciones_partido_politico,id',
+            'movilizacion_id' => 'nullable|exists:elecciones_movilizacion,id',
+            'fecha_nacimiento' => 'required',
+            'raas_estatus_personal_id' => 'required',
+            'tipoCasa' => 'required',
+            'selectedCasa' => 'required_if:tipoCasa,anexo',
+            'numeroFamilia' => 'required'
         ];
     }
 }

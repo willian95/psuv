@@ -185,6 +185,10 @@ const app = new Vue({
             this.tipoVoto = ""
             this.partidoPolitico = ""
             this.selectedMovilizacion = ""
+            this.jefeComunidadCedula = ""
+            this.jefeComunidadNombre = ""
+            this.selectedClapComunidad = ""
+            this.selectedClapCalle = ""
 
             if(this.action != 'edit'){
                 this.jefeComunidadId = ""

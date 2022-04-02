@@ -48,7 +48,7 @@
                                         <div class="form-group">
                                             <label>Buscar</label>
                                             <div class="d-flex">
-                                                <input class="form-control" placeholder="cedula" @keypress="isNumber($event)" v-model="searchCedulaQuery">
+                                                <input class="form-control" placeholder="cedula" v-model="searchCedulaQuery">
                                                 <button class="btn btn-primary" v-if="!searchLoading" @click="fetch()">
                                                     <i class="fas fa-search"></i>
                                                 </button>
@@ -96,12 +96,12 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefe in jefeFamilias">
-                                        <td>@{{ jefe?.comunidad?.parroquia?.municipio?.nombre }}</td>
-                                        <td>@{{ jefe?.jefe_clap?.personal_caracterizacions?.nombre_apellido }}</td>
-                                        <td>@{{ jefe?.comunidad?.nombre }}</td>
-                                        <td>@{{ jefe?.personal_caracterizacions?.cedula }}</td>
-                                        <td>@{{ jefe?.personal_caracterizacions?.nombre_apellido }}</td>
-                                        <td>@{{ jefe?.personal_caracterizacions?.telefono_principal }}</td>
+                                        <td>@{{ jefe?.jefe_calle?.calle?.comunidad?.parroquia?.municipio?.nombre }}</td>
+                                        <td>@{{ jefe?.jefe_calle?.calle?.comunidad?.nombre }}</td>
+                                        <td>@{{ jefe?.vivienda?.tipo_vivienda }}</td>
+                                        <td>@{{ jefe?.personal_caracterizacion?.cedula }}</td>
+                                        <td>@{{ jefe?.personal_caracterizacion?.nombre_apellido }}</td>
+                                        <td>@{{ jefe?.personal_caracterizacion?.telefono_principal }}</td>
                                         <td>
                                             <button class="btn btn-success" data-toggle="modal" data-target=".marketModal" @click="edit(jefe)">
                                                 <i class="far fa-edit"></i>

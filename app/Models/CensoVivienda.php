@@ -11,6 +11,8 @@ class CensoVivienda extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "censo_vivienda";
+
     public function censoTipoVivienda()
     {
         return $this->belongsTo(CensoTipoVivienda::class, 'censo_tipo_vivienda_id', 'id');

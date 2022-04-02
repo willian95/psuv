@@ -95,6 +95,7 @@
                                     <option value="">Seleccione</option>
                                     <option :value="calle.id" v-for="calle in calles">@{{ calle.nombre }}</option>
                                 </select>
+                                <small class="text-danger" v-if="errors.hasOwnProperty('calleId')">@{{ errors['calleId'][0] }}</small>
                             </div>
                         </div>
 
@@ -111,7 +112,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefonoPrincipal" class="required-field">Teléfono principal</label>
+                                <label for="telefonoPrincipal">Teléfono principal</label>
                                 <input type="tel" class="form-control" id="telefonoPrincipal" v-model="telefonoPrincipal" maxlength="11" @keypress="isNumber($event)">
                                 <small  class="text-danger" v-if="errors.hasOwnProperty('telefono_principal')">@{{ errors['telefono_principal'][0] }}</small>
                             </div>

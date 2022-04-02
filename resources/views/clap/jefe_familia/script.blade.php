@@ -18,6 +18,7 @@ const app = new Vue({
             calleNombre:"",
             tipoCasa:"",
             numeroFamilias:"",
+            calleId:"",
 
             errors:[],
             municipios:[],
@@ -29,6 +30,9 @@ const app = new Vue({
             calles:[],
             jefeFamilias:[],
             estatus:[],
+            selectedCasa:"",
+            casas:[],
+            showCasas:"",
 
             modalTitle:"Crear jefe de familia",
             disabledStoreButton:true,
@@ -49,7 +53,7 @@ const app = new Vue({
             jefeCalleCedula:"",
             jefeCalleNombre:"",
             nombreCalle:"",
-            descripcion:"",
+            direccion:"",
             fechaNacimiento:"",
             
             nacionalidad:"V",
@@ -125,6 +129,9 @@ const app = new Vue({
             this.jefeCalleNacionalidad = response.data?.jefe?.personal_caracterizacions?.nacionalidad
             this.jefeCalleNombre = response.data?.jefe?.personal_caracterizacions?.nombre_apellido
             this.calleNombre = response.data?.jefe?.calle?.nombre
+            this.calleId = response.data?.jefe?.calle?.id
+
+            this.getCasas()
 
         },
 
@@ -164,14 +171,21 @@ const app = new Vue({
         },  
 
         create(){
-       
+            
+            this.modalTitle = "Crear Jefe de familia"
             this.id = ""
             this.disabledStoreButton = true
             this.action = "create"
-            this.readonlyJefeComunidad = false
-            this.jefeComunidadCedula = ""
-            this.jefeComunidadNombre = ""
-            this.readonlyClapComunidad = false
+            this.readonlyJefeCalle = false
+            this.jefeCalleCedula = ""
+            this.jefeCalleNombre = ""
+            this.calleNombre = ""
+            this.tipoCasa = ""
+            this.numeroFamilias = ""
+            this.direccion = ""
+            this.fechaNacimiento = ""
+            this.selectedEstatus = ""
+            this.selectedCasa = ""
             
             this.clearForm()
             
@@ -233,7 +247,7 @@ const app = new Vue({
                 this.errors = []
                 this.storeLoader = true
                 
-                let res = await axios.post("{{ url('api/clap/jefe-calle-clap') }}", {
+                let res = await axios.post("{{ url('api/clap/jefe-familia-clap') }}", {
                     cedula: this.cedula, 
                     nacionalidad: this.nacionalidad, 
                     nombre_apellido: this.nombre, 
@@ -247,9 +261,14 @@ const app = new Vue({
                     raas_parroquia_id: this.selectedParroquia, 
                     raas_centro_votacion_id: this.selectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
-                    movilizacion_id: this.selectedMovilizacion, 
-                    jefeComunidadId: this.jefeComunidadId,
-                    calleId:this.selectedClapCalle
+                    movilizacion_id: this.selectedMovilizacion,
+                    tipoCasa: this.tipoCasa,
+                    jefeCalleId: this.jefeCalleId,
+                    fecha_nacimiento: this.fechaNacimiento,
+                    raas_estatus_personal_id: this.selectedEstatus,
+                    numeroFamilia:this.numeroFamilias,
+                    direccion:this.direccion,
+                    selectedCasa: this.selectedCasa
 
                 })
 
@@ -297,7 +316,7 @@ const app = new Vue({
                 this.errors = []
                 this.updateLoader = true
                 
-                let res = await axios.put("{{ url('api/clap/jefe-calle-clap') }}"+"/"+this.id, {
+                let res = await axios.put("{{ url('api/clap/jefe-familia-clap') }}"+"/"+this.id, {
                     cedula: this.cedula, 
                     nacionalidad: this.nacionalidad, 
                     nombre_apellido: this.nombre, 
@@ -311,10 +330,11 @@ const app = new Vue({
                     raas_parroquia_id: this.selectedParroquia, 
                     raas_centro_votacion_id: this.selectedCentroVotacion, 
                     partido_politico_id: this.selectedPartidoPolitico, 
-                    movilizacion_id: this.selectedMovilizacion, 
-                    selectedMunicipioEnlaceMunicipal: this.selectedMunicipioEnlaceMunicipal,
-                    jefeComunidadId: this.jefeComunidadId,
-                    calleId:this.selectedClapCalle
+                    movilizacion_id: this.selectedMovilizacion,
+                    fecha_nacimiento:this.fechaNacimiento,
+                    raas_estatus_personal_id: this.selectedEstatus,
+                    numeroFamilia:this.numeroFamilias,
+                    direccion:this.direccion,
                 })
 
                 this.updateLoader = false
@@ -401,7 +421,7 @@ const app = new Vue({
                 return true;
             }
         },
-        async fetch(link = "{{ url('api/clap/jefe-calle-clap/index') }}"){
+        async fetch(link = "{{ url('api/clap/jefe-familia-clap/index') }}"){
 
 
             this.searchLoading = true
@@ -414,7 +434,7 @@ const app = new Vue({
 
             this.searchLoading = false
 
-            this.jefeCalles = res.data.data
+            this.jefeFamilias = res.data.data
             this.links = res.data.links
             this.currentPage = res.data.current_page
             this.totalPages = res.data.last_page
@@ -461,29 +481,30 @@ const app = new Vue({
 
         async edit(jefe){
 
-            this.readonlyClapComunidad = true
-            this.readonlyJefeComunidad = true
+            this.readonlyJefeCalle = true
             this.action = "edit"
-            this.modalTitle = "Editar Jefe calle"
+            this.modalTitle = "Editar Jefe familia"
             this.id = jefe.id
 
-            this.jefeComunidadId = jefe.jefe_comunidad.id
-            this.jefeComunidadNacionalidad  = jefe.jefe_comunidad.personal_caracterizacions.nacionalidad
-            this.jefeComunidadCedula  = jefe.jefe_comunidad.personal_caracterizacions.cedula
-            this.jefeComunidadNombre  = jefe.jefe_comunidad.personal_caracterizacions.nombre_apellido
+            this.jefeCalleId = jefe.jefe_calle.id
+            this.jefeCalleNacionalidad  = jefe.jefe_calle.personal_caracterizacions.nacionalidad
+            this.jefeCalleCedula  = jefe.jefe_calle.personal_caracterizacions.cedula
+            this.jefeCalleNombre  = jefe.jefe_calle.personal_caracterizacions.nombre_apellido
+            this.calleNombre = jefe.jefe_calle.calle.nombre
+            this.calleId = jefe.jefe_calle.calle.id
 
-            await this.searchJefeComunidadByCedula()
+            await this.getCasas()
 
-            this.selectedClapComunidad = jefe.calle.comunidad.id
+            this.tipoCasa = jefe.vivienda.tipo_vivienda
+            this.numeroFamilias = jefe.vivienda.cantidad_familias
+            this.selectedCasa = jefe.vivienda.vivienda_id
+            this.direccion = jefe.vivienda.direccion
 
-            await this.getCalles()
-
-            this.selectedClapCalle = jefe.raas_calle_id
-
-            const personalCaracterizacion = jefe.personal_caracterizacions
+            const personalCaracterizacion = jefe.personal_caracterizacion
 
             this.cedula = personalCaracterizacion.cedula
             this.selectedEstado = personalCaracterizacion.raas_estado_id
+            this.selectedEstatus = personalCaracterizacion.raas_estatus_personal_id
 
             this.nombre = personalCaracterizacion.nombre_apellido
 
@@ -502,7 +523,19 @@ const app = new Vue({
 
         },
 
-        
+        async getEstatusPersonal(){
+
+            const response = await axios.get("{{ url('api/clap/jefe-familia-clap/estatus-personal') }}")
+            this.estatus = response.data
+
+        },
+
+        async getCasas(){
+
+            const response = await axios.get("{{ url('api/clap/jefe-familia-clap/get-casas') }}"+"/"+this.calleId)
+            this.casas = response.data
+
+        }
 
     },
     created(){
@@ -512,6 +545,7 @@ const app = new Vue({
 
         this.getMovilizaciones()
         this.getPartidosPoliticos()
+        this.getEstatusPersonal()
 
     }
 });

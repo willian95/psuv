@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\Clap\EnlaceMunicipalController;
 use App\Http\Controllers\Api\Clap\JefeCalleClapController;
 use App\Http\Controllers\Api\Clap\JefeClapController;
 use App\Http\Controllers\Api\Clap\JefeComunidadClapController;
+use App\Http\Controllers\Api\Clap\JefeFamiliaController;
+use App\Models\JefeFamilia;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'enlace-municipal'], function () {
@@ -40,6 +42,18 @@ Route::group(['prefix' => 'jefe-calle-clap'], function () {
     Route::delete('/{id}', [JefeCalleClapController::class, 'delete']);
     Route::put('/{id}', [JefeCalleClapController::class, 'update']);
     Route::post('search-jefe-by-cedula', [JefeCalleClapController::class, 'searchJefeCalleClapByCedula']);
+});
+
+
+Route::group(['prefix' => 'jefe-familia-clap'], function () {
+    Route::post('search-by-cedula', [JefeFamiliaController::class, 'searchByCedula']);
+    Route::post('/', [JefeFamiliaController::class, 'store']);
+    Route::get('index', [JefeFamiliaController::class, 'fetch']);
+    Route::delete('/{id}', [JefeFamiliaController::class, 'delete']);
+    Route::put('/{id}', [JefeFamiliaController::class, 'update']);
+    Route::post('search-jefe-by-cedula', [JefeFamiliaController::class, 'searchJefeCalleClapByCedula']);
+    Route::get("estatus-personal", [JefeFamiliaController::class, 'getEstatusPersonal']);
+    Route::get("/get-casas/{id}", [JefeFamiliaController::class, 'getCasasByCalle']);
 });
 
 
