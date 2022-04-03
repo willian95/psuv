@@ -30,7 +30,7 @@ class JefeEnlaceMunicipal implements FromView
         WHERE rju.deleted_at is null ".$this->condition."
         order by municipio, parroquia, cedula;");
 
-        dump($this->condition);
+        dump($data);
 
         return view('exports.listados.jefeEnlaceMunicipal', ["data" => $data]);
     }
