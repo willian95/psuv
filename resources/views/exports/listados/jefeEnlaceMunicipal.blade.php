@@ -1,6 +1,14 @@
 <table class="table">
     <thead>
         <tr>
+            <td colspan="1">
+                <img src="{{ url('gob-logo.jpg') }}" alt="">
+            </td>
+            <td colspan="4">
+                <h3>Gobernación del Estado Falcón</h3>
+            </td>
+        </tr>
+        <tr>
             <td colspan="5" style="text-align:center; color: #FFFFFF; background-color: #e5a503">Listado de enlace municipal</td>
         </tr>
         <tr>
