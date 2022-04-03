@@ -188,6 +188,15 @@ License: You must have a valid license purchased only from themeforest(the above
 												</a>
 											</li>
 
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ url('admin/orden-operaciones') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text text-white">Orden de operaciones</span>
+												</a>
+											</li>
+
 										</ul>
 									</div>
 								</li>

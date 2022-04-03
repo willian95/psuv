@@ -62,6 +62,10 @@ Route::group(['middleware' => ['auth']], function () {
             return view('admin.clap.view');
         });
 
+        Route::get('/orden-operaciones', function () {
+            return view('admin.ordenOperaciones.index');
+        });
+
         Route::get('/comunidad', function () {
             return view('comunidad.index');
         });

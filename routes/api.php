@@ -47,6 +47,7 @@ use App\Http\Controllers\Api\Votaciones\GestionarVotosController;
 use App\Http\Controllers\{
     DashboardController
 };
+use App\Http\Controllers\Api\OrderOperacionesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -321,3 +322,7 @@ Route::post('/cierre-mesa/partido/store-results', [CierreCandidatoController::cl
 Route::get('/cierre-mesa/partido/get-resultadods/{mesa_id}', [CierreCandidatoController::class, 'getResultadosPartido']);
 
 Route::post('/reporte-dashboard/generate', [DashboardController::class, 'generate']);
+
+Route::post("admin/orden-operaciones", [OrderOperacionesController::class, 'store']);
+Route::get("admin/orden-operaciones", [OrderOperacionesController::class, 'fetch']);
+Route::delete("admin/orden-operaciones/{id}", [OrderOperacionesController::class, 'delete']);
