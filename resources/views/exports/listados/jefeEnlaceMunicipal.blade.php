@@ -5,7 +5,7 @@
                 <img src="{{ public_path('gob-logo80.jpg') }}" alt="" style="width: 80px;">
             </td>
             <td colspan="4">
-                <p style="text-align:center; font-size: 30px;">Gobernación del Estado Falcón</h3>
+                <p style="text-align:center; font-size: 30px; margin-bottom: 20px;">Gobernación del Estado Falcón</p>
             </td>
         </tr>
         <tr>
