@@ -1,11 +1,14 @@
 <table class="table">
     <thead>
         <tr>
-            <th style="width: 150px;">Municipio</th>
-            <th style="width: 150px;">Parroquia</th>
-            <th style="width: 150px;">Cédula</th>
-            <th style="width: 150px;">Nombre</th>
-            <th style="width: 150px;">Teléfono principal</th>
+            <td colspan="5" style="text-align:center; color: #FFF; background-color: #e5a503">Listado de enlace municipal</td>
+        </tr>
+        <tr>
+            <th style="width: 150px; text-align:center;">Municipio</th>
+            <th style="width: 150px; text-align:center;">Parroquia</th>
+            <th style="width: 150px; text-align:center;">Cédula</th>
+            <th style="width: 150px; text-align:center;">Nombre</th>
+            <th style="width: 150px; text-align:center;">Teléfono principal</th>
         </tr>
     </thead>
 
