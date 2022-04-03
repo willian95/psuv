@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Reportes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JefeUbch;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -40,7 +41,18 @@ class ListadoController extends Controller
             $data = $this->jefeEnlaceMunicipalType($request);
             $name = "ListadoEnlaceMunicipal";
 
-            return  (new FastExcel($data))->download($name.'.xlsx', function ($jefe) {
+            $header_style = (new StyleBuilder())->setFontBold()->build();
+
+            $rows_style = (new StyleBuilder())
+                ->setFontSize(15)
+                ->setShouldWrapText()
+                ->setBackgroundColor("FFFFFF")
+                ->build();
+
+            return  (new FastExcel($data))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->download($name.'.xlsx', function ($jefe) {
             
                 return [
                     'MUNICIPIO' => $jefe->municipio,
