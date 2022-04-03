@@ -40,11 +40,6 @@ class ListadoController extends Controller
         else if($request->type == "2"){
             
             $condition = "";
-
-            if($request->parroquia != "0"){
-            
-                $condition = ' AND pa.id='.$request->parroquia;
-            }
             
             if($request->municipio != "0"){
 
