@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\Reportes;
 
+use App\Exports\listados\JefeEnlaceMunicipal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JefeUbch;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ListadoController extends Controller
@@ -38,31 +40,7 @@ class ListadoController extends Controller
 
         else if($request->type == "2"){
             
-            $data = $this->jefeEnlaceMunicipalType($request);
-            $name = "ListadoEnlaceMunicipal";
-
-            $header_style = (new StyleBuilder())->setFontBold()->build();
-
-            $rows_style = (new StyleBuilder())
-                ->setFontSize(15)
-                ->setShouldWrapText()
-                ->setBackgroundColor("FFFFFF")
-                ->build();
-
-            return  (new FastExcel($data))
-            ->headerStyle($header_style)
-            ->rowsStyle($rows_style)
-            ->download($name.'.xlsx', function ($jefe) {
-            
-                return [
-                    'MUNICIPIO' => $jefe->municipio,
-                    'PARROQUIA' => $jefe->parroquia,
-                    'CEDULA' => $jefe->cedula,
-                    'NOMBRE' => $jefe->nombre_apellido,
-                    'TELEFONO PRINCIPAL' => $jefe->telefono_principal,
-                    
-                ];
-            });
+            $this->jefeEnlaceMunicipalType($request);
         }
 
         else if($request->type == "3"){
@@ -102,19 +80,8 @@ class ListadoController extends Controller
 
         }  
        
-        $data = DB::select("SELECT mu.nombre municipio, pa.nombre parroquia, cv.nombre ubch, cedula, nombre_apellido, telefono_principal
-        FROM public_original.raas_jefe_ubch rju
-        left join public_original.raas_centro_votacion cv on cv.id=rju.raas_centro_votacion_id
-        left join public_original.raas_personal_caracterizacion pc on pc.id=rju.raas_personal_caracterizacion_id
-        left join public_original.raas_parroquia pa on pa.id=cv.raas_parroquia_id
-        left join public_original.raas_municipio mu on mu.id=pa.raas_municipio_id
-        WHERE rju.deleted_at is null ".$condition."
-        order by municipio, parroquia, cedula;");
+        return Excel::download((new JefeEnlaceMunicipal)->forCondition($condition), 'ListadoEnlaceMunicipal'.uniqid().'.xlsx');
 
-        
-  
-
-        return $data;
     }
 
     function jefeEnlaceMunicipalType($request){
