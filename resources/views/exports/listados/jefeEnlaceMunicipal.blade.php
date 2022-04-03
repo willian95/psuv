@@ -1,7 +1,7 @@
 <table class="table">
     <thead>
         <tr>
-            <td colspan="5" style="text-align:center; color: #FFF; background-color: #e5a503">Listado de enlace municipal</td>
+            <td colspan="5" style="text-align:center; color: #FFFFFF; background-color: #e5a503">Listado de enlace municipal</td>
         </tr>
         <tr>
             <th style="width: 150px; text-align:center;">Municipio</th>
