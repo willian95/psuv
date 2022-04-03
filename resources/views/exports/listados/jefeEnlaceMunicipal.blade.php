@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <td colspan="1">
-                <img src="{{ public_path('gob-logo.jpg') }}" alt="" style="width: 150px;">
+                <img src="{{ public_path('gob-logo.jpg') }}" alt="" style="width: 80px;">
             </td>
             <td colspan="4">
                 <h3 style="text-align:center;">Gobernación del Estado Falcón</h3>
