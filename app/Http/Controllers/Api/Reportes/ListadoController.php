@@ -45,8 +45,7 @@ class ListadoController extends Controller
                 return [
                     'MUNICIPIO' => $jefe->municipio,
                     'PARROQUIA' => $jefe->parroquia,
-                    'COMUNIDAD' => $jefe->comunidad,
-                    'CEDULA' => $jefe->cedula_jefe_comunidad,
+                    'CEDULA' => $jefe->cedula,
                     'NOMBRE' => $jefe->jefe_comunidad,
                     'TELEFONO PRINCIPAL' => $jefe->telefono1_jefe_comunidad,
                     
@@ -67,8 +66,8 @@ class ListadoController extends Controller
                     'COMUNIDAD' => $jefe->comunidad,
                     'CALLE' => $jefe->calle,
                     'CEDULA' => $jefe->cedula_jefe_calle,
-                    'NOMBRE' => $jefe->jefe_calle,
-                    'TELEFONO PRINCIPAL' => $jefe->telefono1_jefe_calle,
+                    'NOMBRE' => $jefe->nombre_apellido,
+                    'TELEFONO PRINCIPAL' => $jefe->telefono_principal,
                     
                 ];
             });
