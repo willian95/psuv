@@ -40,7 +40,7 @@ class ListadoController extends Controller
 
         else if($request->type == "2"){
             
-            $this->jefeEnlaceMunicipalType($request);
+            return $this->jefeEnlaceMunicipalType($request);
         }
 
         else if($request->type == "3"){
