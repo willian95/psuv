@@ -24,8 +24,9 @@
                                 <label>Tipo de jefe</label>
                                 <select class="form-control" v-model="selectedTipoJefe">
                                     <option value="1">Jefe UBCH</option>
-                                    <option value="2">Jefe Comunidad</option>
-                                    <option value="3">Jefe Calle</option>
+                                    <option value="2">Enlace municipal</option>
+                                    <option value="3">Jefe Clap</option>
+                                    <option value="4">Jefe calle</option>
                                 </select>
                             </div>
                         </div>
@@ -50,12 +51,13 @@
                         <div class="col-lg-3" >
                             <div class="form-group">
                                 <label>Comunidad</label>
-                                <select class="form-control" v-model="selectedComunidad" :disabled="selectedTipoJefe == 1">
+                                <select class="form-control" v-model="selectedComunidad">
                                     <option value="0">Todos las comunidades</option>
                                     <option v-for="comunidad in comunidades" :value="comunidad.id">@{{ comunidad.nombre }}</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-lg-2">
                             <label style="visibility: hidden;">Centro de Votación</label>
                             <button class="btn btn-primary" @click="downloadExcel()" v-if="loading == false">Descargar excel</button>

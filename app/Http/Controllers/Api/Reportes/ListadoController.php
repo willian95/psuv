@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Reportes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JefeUbch;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class ListadoController extends Controller
@@ -37,8 +37,8 @@ class ListadoController extends Controller
 
         else if($request->type == "2"){
             
-            $data = $this->jefeComunidadType($request);
-            $name = "ListadoJefeComunidad";
+            $data = $this->jefeEnlaceMunicipalType($request);
+            $name = "ListadoEnlaceMunicipal";
 
             return  (new FastExcel($data))->download($name.'.xlsx', function ($jefe) {
             
@@ -91,16 +91,41 @@ class ListadoController extends Controller
 
         }  
        
-        $data = DB::select("SELECT mu.nombre municipio, pa.nombre parroquia, cv.nombre as nombre_ubch, pc.cedula, (pc.primer_apellido||' '||primer_nombre) as jefe_ubch, telefono_principal telefono1_jefe_ubch
-        FROM public.centro_votacion cv
-        join public.jefe_ubch ju on cv.id=ju.centro_votacion_id
-        join public.personal_caracterizacion pc on ju.personal_caracterizacion_id=pc.id
-        join public.parroquia pa on pa.id=CV.parroquia_id
-        join public.municipio mu on mu.id=pa.municipio_id
-        WHERE ju.deleted_at::text is null ".$condition."
-        order by mu.nombre, pa.nombre, cv.nombre;");
+        $data = DB::select("SELECT mu.nombre municipio, pa.nombre parroquia, cv.nombre ubch, cedula, nombre_apellido, telefono_principal
+        FROM public_original.raas_jefe_ubch rju
+        left join public_original.raas_centro_votacion cv on cv.id=rju.raas_centro_votacion_id
+        left join public_original.raas_personal_caracterizacion pc on pc.id=rju.raas_personal_caracterizacion_id
+        left join public_original.raas_parroquia pa on pa.id=cv.raas_parroquia_id
+        left join public_original.raas_municipio mu on mu.id=pa.raas_municipio_id
+        WHERE rju.deleted_at is null ".$condition."
+        order by municipio, parroquia, cedula;");
+
+        
+  
 
         return $data;
+    }
+
+    function jefeEnlaceMunicipalType($request){
+
+        $condition = "";
+
+        if($request->municipio != "0"){
+
+            $condition .= ' AND mu.id='.$request->municipio;
+
+        }  
+
+        $data = DB::select("SELECT mu.nombre municipio, pa.nombre parroquia, cedula, nombre_apellido, telefono_principal
+        FROM public_original.censo_enlace_municipal em
+        left join public_original.raas_personal_caracterizacion pc on pc.id=em.raas_personal_caracterizacion_id
+        left join public_original.raas_municipio mu on mu.id=em.raas_municipio_id
+        left join public_original.raas_parroquia pa on pa.raas_municipio_id=mu.id
+        where em.deleted_at is null ".$condition."
+        order by municipio, parroquia, cedula;");
+
+        return $data;
+
     }
 
 
