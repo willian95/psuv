@@ -2,10 +2,10 @@
     <thead>
         <tr>
             <td colspan="1">
-                <img src="{{ public_path('gob-logo.jpg') }}" alt="">
+                <img src="{{ public_path('gob-logo.jpg') }}" alt="" style="width: 150px;">
             </td>
             <td colspan="4">
-                <h3>Gobernación del Estado Falcón</h3>
+                <h3 style="text-align:center;">Gobernación del Estado Falcón</h3>
             </td>
         </tr>
         <tr>
