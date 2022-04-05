@@ -6,34 +6,27 @@
         data() {
             return {
 
-                linkClass:"page-link",
-                activeLinkClass:"page-link active-link bg-main",
-                currentPage:1,
-                links:"",
-                totalPages:"",
-
-                clickCount:0,
-                secondaryGraphic:0,
-                type:"",
-                metaGeneral:0,
-                cargados:0,
-                centroVotacionMetas:[],
-                loading:false,
-                secondaryInfo:"",
 
                 selectedMunicipio:"0",
                 selectedParroquia:"0",
-                selectedCentroVotacion:"0",
-                searchedMunicipio:"0",
-                searchedParroquia:"0",
-                searchedCentroVotacion:"0",
+                selectedComunidad:"0",
+                selectedCalle:"0",
                 municipios:[],
                 parroquias:[],
-                centrosVotacion:[],
-                email:"",
-                emailError:"",
+                comunidades:[],
+                calles:[],
                 loading:false,
-                authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}"
+                authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}",
+
+                jefesFamilia: 0,
+                mujeres:0,
+                hombres:0,
+                ninos:0,
+                ninas:0,
+                anexos:0,
+                cantidadHabitantes:0,
+                familias:0,
+                casas:0
             }
         },
         methods: {
@@ -41,7 +34,8 @@
             async getMunicipios(){
 
                 this.selectedParroquia = "0"
-                this.selectedCentroVotacion = "0"
+                this.selectedComunidad = "0",
+                this.selectedCalle = "0"
 
                 let res = await axios.get("{{ url('/api/municipios') }}")
                 this.municipios = res.data
@@ -49,105 +43,53 @@
             },
             async getParroquias(){
                 
-                this.selectedParroquia = "0"
-                this.selectedCentroVotacion = "0"
+                this.selectedComunidad = "0",
+                this.selectedCalle = "0"
 
                 let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
                 this.parroquias = res.data
 
             },
 
-            async getCentroVotacion(){
-                this.selectedCentroVotacion = "0"
-                let res = await axios.get("{{ url('/api/centro-votacion') }}"+"/"+this.selectedParroquia)
-                this.centrosVotacion = res.data
+            async getComunidades(){
+                this.selectedCalle = "0"
+                const response = await axios.get("{{ url('api/comunidades/') }}"+"/"+this.selectedParroquia)
+                this.comunidades = response.data
+            },
 
+            async getCalles(){
+                let res = await axios.get("{{ url('/api/calles') }}"+"?comunidad_id="+this.selectedComunidad)
+                this.calles = res.data
             },
             async generate(){
 
+                this.jefesFamilia = 0
+                this.mujeres = 0
+                this.hombres = 0
+                this.ninos = 0
+                this.ninas = 0
+                this.anexos = 0
+                this.cantidadHabitantes = 0
+                this.familias = 0
+                this.casas = 0
+
                 this.loading = true
-
-                this.searchedCentroVotacion = this.selectedCentroVotacion
-                this.searchedParroquia = this.selectedParroquia
-                this.searchedMunicipio = this.selectedMunicipio
-
-                let paramsCentroVotacion = this.searchedCentroVotacion
-                let paramsParroquia = this.searchedParroquia
-                let paramsMunicipio = this.searchedMunicipio
                 
 
                 let res = await axios.post("{{ url('api/reporte-dashboard/generate') }}", {
-                    centroVotacion: paramsCentroVotacion,
-                    parroquia: paramsParroquia,
-                    municipio: paramsMunicipio
+                    municipio: this.selectedMunicipio,
+                    parroquia: this.selectedParroquia,
+                    comunidad: this.selectedComunidad,
+                    calle: this.selectedCalle
                 })
-
-                this.loading = false
-                this.secondaryInfo = res.data.entities
-                this.type = res.data.type
-                
-                this.metaGeneral = res.data.data.participacion
-                this.cargados = res.data.data.movilizacion
-                console.log(this.metaGeneral,this.cargados);
-                
-                KTApexChartsDemo.init(this.metaGeneral == 0 && this.cargados == 0 ? 1 : this.metaGeneral, this.cargados, this.clickCount > 0 ? false : true, "#chart_12");
-                //KTApexChartsDemo.init(0, 1, this.clickCount > 0 ? false : true, "#chart_12");
-                //
-                this.clickCount++
+         
+                this.jefesFamilia = res.data[0].jefe_familia
+                this.mujeres = res.data[0].mujeres
+                this.hombres = res.data[0].hombres
+                this.ninos = res.data[0].menor_edad_masculino
+                this.ninas = res.data[0].menor_edad_femenino
                 
             },
-            async fetch(link){
-
-                this.loading = true
-
-                let paramsCentroVotacion = this.searchedCentroVotacion
-                let paramsParroquia = this.searchedParroquia
-                let paramsMunicipio = this.searchedMunicipio
-                
-
-                let res = await axios.post(link.url, {
-                    centroVotacion: paramsCentroVotacion,
-                    parroquia: paramsParroquia,
-                    municipio: paramsMunicipio
-                })
-
-                this.loading = false
-                
-                this.centroVotacionMetas = res.data.data.centroVotacionMetas.data
-
-                this.links = res.data.data.centroVotacionMetas.links
-                this.currentPage = res.data.data.centroVotacionMetas.current_page
-                this.totalPages = res.data.data.centroVotacionMetas.last_page
-
-            },
-
-
-            generateCharts(entities){
-
-                for(var i = 0; i < entities.length; i++){
-
-                    KTApexChartsDemo.init(entities[i].meta, entities[i].cargados, true, "#graphic-"+i);
-
-                }
-
-                this.secondaryGraphic++;
-
-            },
-            
-            validateCorreo(email){
-                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(String(email).toLowerCase());
-            },
-
-            downloadExcel(){
-
-                let paramsCentroVotacion = this.selectedParroquia != "0" ? "&centroVotacion="+this.selectedCentroVotacion : "&centroVotacion=0"
-                let paramsParroquia = this.selectedMunicipio != "0" ? "&parroquia="+this.selectedParroquia : "&parroquia=0"
-                let paramsMunicipio = "municipio="+this.selectedMunicipio
-
-                window.location.href="{{ url('api/reporte-carga/download') }}"+"?"+paramsMunicipio+paramsParroquia+paramsCentroVotacion
-
-            }
 
 
         },

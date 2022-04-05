@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CentroVotacion;
-use App\Models\Votacion;
-use App\Models\ParticipacionCentroVotacion;
-use App\Models\PersonalCaracterizacion;
-use App\Models\Municipio;
-use App\Models\Parroquia;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -17,178 +12,48 @@ class DashboardController extends Controller
 
         ini_set('max_execution_time', 300);
 
+        $condition = "";
+        if($request->has("municipio")){
 
-        if($request->centroVotacion != "0"){
-       
-            $data = $this->selectedCentroVotacion($request->centroVotacion);
-            $data = ["data" => $data, "entities" => [], "type" => " "];
+            $condition .= " AND raas_municipio.id = ".$request->municipio;
+
         }
-        else if($request->parroquia != "0"){
-           
-            $data = $this->selectedParroquia($request->parroquia);
-            $todosCentroVotacion = $this->todosCentroVotacionGraficas($request->parroquia);
 
-            $data = ["data" => $data, "entities" => $todosCentroVotacion, "type" => "Centros de votación de ".Parroquia::find($request->parroquia)->nombre];
+        if($request->has("parroquia")){
+
+            $condition .= " AND raas_parroquia.id = ".$request->parroquia;
+
         }
-        else if($request->municipio != "0"){
-            $data = $this->selectedMunicipio($request->municipio);
-            $todasParroquias = $this->todasParroquiasGraficas($request->municipio);
 
-            $data = ["data" => $data, "entities" => $todasParroquias, "type" => "Parroquias de ".Municipio::find($request->municipio)->nombre];
-        }  
-        else if($request->municipio == "0"){
-            
-            $data = $this->selectedAll();
-            $todosMunicipios = $this->todosMunicipiosGraficas();
+        if($request->has("comunidad")){
 
-            $data = ["data" => $data, "entities" => $todosMunicipios, "type" => "Todos los municipios"];
-        }  
+            $condition .= " AND raas_comunidad.id = ".$request->comunidad;
+
+        }
+
+        if($request->has("calle")){
+
+            $condition .= " AND raas_calle.id = ".$request->calle;
+
+        }
+
+        $data = DB::select(DB::raw("Select sum(cantidad_familias) familias, (select count(*)from public_original.censo_vivienda where tipo_vivienda='casa' and deleted_at is null) casas,
+        (select count(*)from public_original.censo_vivienda where tipo_vivienda='anexo' and deleted_at is null) anexos, count(*) jefe_familia,
+        (select count(*) from public_original.raas_personal_caracterizacion where raas_jefe_familia_id is not null) cantidad_habitantes,
+        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))>=18 and sexo='femenino') mujeres,
+        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))>=18 and sexo='masculino') hombres,
+        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))<18 and sexo='femenino') menor_edad_femenino,
+        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))<18 and sexo='masculino') menor_edad_masculino
+        from public_original.censo_vivienda
+        join public_original.raas_jefe_familia jf on jf.id=censo_vivienda.raas_jefe_familia_id
+        join public_original.raas_jefe_calle rjca on rjca.id=jf.raas_jefe_calle_id
+        join public_original.raas_calle on raas_calle.id=rjca.raas_calle_id
+        join public_original.raas_comunidad on raas_comunidad.id=raas_calle.raas_comunidad_id
+        join public_original.raas_parroquia on raas_parroquia.id=raas_comunidad.raas_parroquia_id
+        join public_original.raas_municipio on raas_municipio.id=raas_parroquia.raas_municipio_id
+        where jf.deleted_at is null and rjca.deleted_at is null ".$condition.";"));
 
         return response()->json($data);
-
-    }
-
-    function selectedCentroVotacion($centro_votacion_id){
-
-        $movilizacion = Votacion::where("ejercio_voto", true)->where("centro_votacion_id", $centro_votacion_id)->count();
-
-        $participacion = ParticipacionCentroVotacion::whereHas("mesa", function($q) use($centro_votacion_id){
-            $q->where("centro_votacion_id", $centro_votacion_id);
-        })->sum("cantidad");
-
-        return ["movilizacion" => $movilizacion, "participacion" => $participacion];
-    
-    }
-
-    function selectedParroquia($parroquia_id){
-
-        $movilizacion = Votacion::where("ejercio_voto", true)->whereHas("centroVotacion", function($q) use($parroquia_id){
-
-            $q->where("parroquia_id", $parroquia_id);
-
-        })->count();
-
-        $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion", function($q) use($parroquia_id){
-            $q->where("parroquia_id", $parroquia_id);
-        })->sum("cantidad");
-
-        return ["movilizacion" => $movilizacion, "participacion" => $participacion];
-    
-    }
-
-    function todosCentroVotacionGraficas($parroquia_id){
-
-        $estadisticas = [];
-        $centros = CentroVotacion::where("parroquia_id", $parroquia_id)->get();
-
-        foreach($centros as $centro){        
-
-            $centroId = $centro->id;
-            $movilizacion = Votacion::where("ejercio_voto", true)->where("centro_votacion_id", $centroId)->count();
-
-            $participacion = ParticipacionCentroVotacion::whereHas("mesa", function($q) use($centroId){
-                $q->where("centro_votacion_id", $centroId);
-            })->sum("cantidad");
-
-            $estadisticas[] = [
-                "nombre" => $centro->nombre,
-                "movilizacion" => $movilizacion,
-                "participacion" => $participacion
-            ];
-
-        }
-
-        return $estadisticas;
-
-    }
-
-    function selectedMunicipio($municipio_id){
-
-        $movilizacion = Votacion::where("ejercio_voto", true)->whereHas("centroVotacion.parroquia", function($q) use($municipio_id){
-
-            $q->where("municipio_id", $municipio_id);
-
-        })->count();
-
-        $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion.parroquia", function($q) use($municipio_id){
-
-            $q->where("municipio_id", $municipio_id);
-
-        })->sum("cantidad");
-
-        return ["movilizacion" => $movilizacion, "participacion" => $participacion];
-    
-    }
-
-    function todasParroquiasGraficas($municipio_id){
-
-        $estadisticas = [];
-        $parroquias = Parroquia::where("municipio_id", $municipio_id)->get();
-
-        foreach($parroquias as $parroquia){        
-
-            $parroquia_id = $parroquia->id;
-            $movilizacion = Votacion::where("ejercio_voto", true)->whereHas("centroVotacion", function($q) use($parroquia_id){
-
-                $q->where("parroquia_id", $parroquia_id);
-
-            })->count();
-
-            $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion", function($q) use($parroquia_id){
-                $q->where("parroquia_id", $parroquia_id);
-            })->sum("cantidad");
-
-            $estadisticas[] = [
-                "nombre" => $parroquia->nombre,
-                "movilizacion" => $movilizacion,
-                "participacion" => $participacion
-            ];
-
-        }
-
-        return $estadisticas;
-
-    }
-
-
-    function selectedAll(){
-
-        $movilizacion = Votacion::where("ejercio_voto", true)->count();
-        $participacion = ParticipacionCentroVotacion::sum("cantidad");
-
-        return ["movilizacion" => $movilizacion, "participacion" => $participacion];
-    
-    }
-
-
-    
-
-    function todosMunicipiosGraficas(){
-
-        $estadisticasMunicipio = [];
-
-        foreach(Municipio::all() as $municipio){        
-
-            $municipio_id = $municipio->id;
-            $movilizacion = Votacion::where("ejercio_voto", true)->whereHas("centroVotacion.parroquia", function($q) use($municipio_id){
-
-                $q->where("municipio_id", $municipio_id);
-
-            })->count();
-
-            $participacion = ParticipacionCentroVotacion::whereHas("mesa.centroVotacion.parroquia", function($q) use($municipio_id){
-                $q->where("municipio_id", $municipio_id);
-            })->sum("cantidad");
-
-            $estadisticasMunicipio[] = [
-                "nombre" => $municipio->nombre,
-                "movilizacion" => $movilizacion,
-                "participacion" => $participacion
-            ];
-
-        }
-
-        return $estadisticasMunicipio;
 
     }
 
