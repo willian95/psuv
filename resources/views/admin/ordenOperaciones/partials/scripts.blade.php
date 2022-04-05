@@ -39,6 +39,7 @@
                 this.selectedOperacion = "entre"
                 this.rangoMenor = ""
                 this.rangoMayor = ""
+                this.cantidadBolsas = ""
 
             },
             async store(){
