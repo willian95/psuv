@@ -256,8 +256,6 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByMunicipio($entity->id);
 
-            dump($callesId);
-
             $sugerido = 0;
             $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
@@ -290,7 +288,7 @@ class DashboardController extends Controller
             ];
 
         }
-        dd($data);
+
         return $data;
 
     }
