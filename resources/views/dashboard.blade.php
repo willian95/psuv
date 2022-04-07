@@ -64,7 +64,7 @@
 
                         <div class="row mt-5">
                             <div class="col-lg-6">
-
+                                <img src="{{ url('falcon.png') }}" alt="" class="w-100">
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
@@ -111,18 +111,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>@{{ selectedMunicipio == 0 ? 'Todos' : municipios.find(data => data.id == selectedMunicipio).nombre }}</td>
+                                        <tr v-for="dat in datas">
+                                            <td>@{{ dat.entity }}</td>
                                             <td></td>
-                                            <td>@{{ casas }}</td>
-                                            <td>@{{ anexos }}</td>
-                                            <td>@{{ cantidadHabitantes }}</td>
-                                            <td>@{{ familias }}</td>
-                                            <td>@{{ jefesFamilia }}</td>
-                                            <td>@{{ mujeres }}</td>
-                                            <td>@{{ hombres }}</td>
-                                            <td>@{{ ninos }}</td>
-                                            <td>@{{ ninas }}</td>
+                                            <td>@{{ dat.casas }}</td>
+                                            <td>@{{ dat.anexos }}</td>
+                                            <td>@{{ dat.habitantes }}</td>
+                                            <td>@{{ dat.familias }}</td>
+                                            <td>@{{ dat.jefesFamilias }}</td>
+                                            <td>@{{ dat.mujeres }}</td>
+                                            <td>@{{ dat.hombres }}</td>
+                                            <td>@{{ dat.ninos }}</td>
+                                            <td>@{{ dat.ninas }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

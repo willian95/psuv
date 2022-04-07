@@ -15,6 +15,7 @@
                 parroquias:[],
                 comunidades:[],
                 calles:[],
+                datas:[],
                 loading:false,
                 authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}",
 
@@ -23,10 +24,7 @@
                 hombres:0,
                 ninos:0,
                 ninas:0,
-                anexos:0,
-                cantidadHabitantes:0,
-                familias:0,
-                casas:0
+                
             }
         },
         methods: {
@@ -83,12 +81,13 @@
                     calle: this.selectedCalle
                 })
          
-                this.jefesFamilia = res.data[0].jefe_familia
-                this.mujeres = res.data[0].mujeres
-                this.hombres = res.data[0].hombres
-                this.ninos = res.data[0].menor_edad_masculino
-                this.ninas = res.data[0].menor_edad_femenino
-                
+                this.jefesFamilia = res.data.jefesFamiliaCount
+                this.mujeres = res.data.mujeresCount
+                this.hombres = res.data.hombresCount
+                this.ninos = res.data.ninosCount
+                this.ninas = res.data.ninasCount
+                this.datas = res.data.data
+
             },
 
 
