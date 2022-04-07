@@ -79,7 +79,7 @@ class DashboardController extends Controller
     private function selectedCalle($request){
 
         $entity = Calle::where("id",$request->calle)->first();
-        $sugerido = 0;
+        $sugerido = $this->jefeClapSugeridoSum("raas_calle.id = ".$entity->id);
         $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
         $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
         $habitantesCount = DB::table("raas_personal_caracterizacion")
@@ -120,7 +120,7 @@ class DashboardController extends Controller
 
         foreach($entities as $entity){
 
-            $sugerido = 0;
+            $sugerido = $this->jefeClapSugeridoSum("raas_calle.id = ".$entity->id);
             $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
             $habitantesCount = DB::table("raas_personal_caracterizacion")
@@ -328,6 +328,19 @@ class DashboardController extends Controller
         ->count();
 
         return $jefesFamiliaCount;
+    }
+
+    private function jefeClapSugeridoSum($condition = null){
+
+        $jefeClapSugeridoSum = DB::table("censo_jefe_clap")
+        ->join("censo_clap", "censo_jefe_clap.censo_clap_id","=", "censo_clap.id")
+        ->join("raas_comunidad","raas_comunidad.censo_clap_id", "=", "censo_clap.id")
+        ->join("raas_calle", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->whereNull("censo_jefe_clap.deleted_at")
+        ->whereRaw($condition ? $condition : '1=1')
+        ->sum('censo_jefe_clap.sugerido');
+
+        return $jefeClapSugeridoSum;
     }
 
     private function mujeresCount($condition = null){
