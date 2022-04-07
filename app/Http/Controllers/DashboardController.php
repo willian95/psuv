@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JefeFamilia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -12,48 +15,104 @@ class DashboardController extends Controller
 
         ini_set('max_execution_time', 300);
 
-        $condition = "";
-        if($request->has("municipio")){
+        $jefesFamiliaCount = 0;
+        $mujeresCount = 0;
+        $hombresCount = 0;
+        $ninosCount = 0;
 
-            $condition .= " AND raas_municipio.id = ".$request->municipio;
+        $condition = "";
+        if($request->municipio > 0){
+
+            $condition .= " raas_municipio.id = ".$request->municipio;
 
         }
 
-        if($request->has("parroquia")){
+        if($request->parroquia > 0){
 
             $condition .= " AND raas_parroquia.id = ".$request->parroquia;
 
         }
 
-        if($request->has("comunidad")){
+        if($request->comunidad > 0){
 
             $condition .= " AND raas_comunidad.id = ".$request->comunidad;
 
         }
 
-        if($request->has("calle")){
+        if($request->calle > 0){
 
             $condition .= " AND raas_calle.id = ".$request->calle;
 
         }
 
-        $data = DB::select(DB::raw("Select sum(cantidad_familias) familias, (select count(*)from public_original.censo_vivienda where tipo_vivienda='casa' and deleted_at is null) casas,
-        (select count(*)from public_original.censo_vivienda where tipo_vivienda='anexo' and deleted_at is null) anexos, count(*) jefe_familia,
-        (select count(*) from public_original.raas_personal_caracterizacion where raas_jefe_familia_id is not null) cantidad_habitantes,
-        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))>=18 and sexo='femenino') mujeres,
-        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))>=18 and sexo='masculino') hombres,
-        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))<18 and sexo='femenino') menor_edad_femenino,
-        (select count(date_part('year',age(fecha_nacimiento))) from public_original.raas_personal_caracterizacion where fecha_nacimiento is not null and date_part('year',age(fecha_nacimiento))<18 and sexo='masculino') menor_edad_masculino
-        from public_original.censo_vivienda
-        join public_original.raas_jefe_familia jf on jf.id=censo_vivienda.raas_jefe_familia_id
-        join public_original.raas_jefe_calle rjca on rjca.id=jf.raas_jefe_calle_id
-        join public_original.raas_calle on raas_calle.id=rjca.raas_calle_id
-        join public_original.raas_comunidad on raas_comunidad.id=raas_calle.raas_comunidad_id
-        join public_original.raas_parroquia on raas_parroquia.id=raas_comunidad.raas_parroquia_id
-        join public_original.raas_municipio on raas_municipio.id=raas_parroquia.raas_municipio_id
-        where jf.deleted_at is null and rjca.deleted_at is null ".$condition.";"));
+        $jefesFamiliaCount = DB::table("raas_jefe_familia")
+        ->join("raas_jefe_calle", "raas_jefe_familia.raas_jefe_calle_id", "=", "raas_jefe_calle.id")
+        ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
+        ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
+        ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->whereRaw($condition ? $condition : '1=1')
+        ->count();
 
-        return response()->json($data);
+        $mujeresCount = DB::table("raas_personal_caracterizacion")
+        ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
+        ->join("raas_jefe_calle", "raas_jefe_familia.raas_jefe_calle_id", "=", "raas_jefe_calle.id")
+        ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
+        ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
+        ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->where("raas_personal_caracterizacion.sexo", '=', 'femenino')
+        ->whereRaw($condition ? $condition : '1=1')
+        ->count();
+
+        $hombresCount = DB::table("raas_personal_caracterizacion")
+        ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
+        ->join("raas_jefe_calle", "raas_jefe_familia.raas_jefe_calle_id", "=", "raas_jefe_calle.id")
+        ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
+        ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
+        ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->where("raas_personal_caracterizacion.sexo", '=', 'masculino')
+        ->whereRaw($condition ? $condition : '1=1')
+        ->count();
+
+        $ninosCount = DB::table("raas_personal_caracterizacion")
+        ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
+        ->join("raas_jefe_calle", "raas_jefe_familia.raas_jefe_calle_id", "=", "raas_jefe_calle.id")
+        ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
+        ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
+        ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->where("raas_personal_caracterizacion.sexo", '=', 'masculino')
+        ->whereRaw("date_part('year',age(fecha_nacimiento))<18")
+        ->whereRaw($condition ? $condition : '1=1')
+        ->count();
+
+        $ninasCount = DB::table("raas_personal_caracterizacion")
+        ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
+        ->join("raas_jefe_calle", "raas_jefe_familia.raas_jefe_calle_id", "=", "raas_jefe_calle.id")
+        ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
+        ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
+        ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
+        ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->where("raas_personal_caracterizacion.sexo", '=', 'femenino')
+        ->whereRaw("date_part('year',age(fecha_nacimiento))<18")
+        ->whereRaw($condition ? $condition : '1=1')
+        ->count();
+
+        
+
+
+        $response = [
+            "jefesFamiliaCount" => $jefesFamiliaCount,
+            "mujeresCount" => $mujeresCount,
+            "hombresCount" => $hombresCount,
+            "ninosCount" => $ninosCount,
+            "ninasCount" => $ninasCount,
+            "casasCount" => $casasCount
+        ];
+
+        return response()->json($response);
 
     }
 
