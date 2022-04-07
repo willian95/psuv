@@ -50,7 +50,7 @@ class JefeFamiliaController extends Controller
             $raasJefeFamilia->save();
 
             $personal = PersonalCaracterizacion::where("id", $personalCaracterizacion->id)->first();
-            $personal->raas_jefe_familia_if = $raasJefeFamilia->id;
+            $personal->raas_jefe_familia_id = $raasJefeFamilia->id;
             $personal->update();
 
             $this->storeVivienda($request, $raasJefeFamilia);
