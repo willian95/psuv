@@ -268,6 +268,8 @@ class DashboardController extends Controller
             ->whereIn("raas_calle.id", $callesId)
             ->count();
             
+            dd($callesId);
+
             $jefesFamiliaCount = $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")");
             $mujeresCount = $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")");
             $hombresCount = $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")");
