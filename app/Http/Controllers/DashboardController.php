@@ -176,12 +176,11 @@ class DashboardController extends Controller
             ->whereIn("raas_calle.id", $callesId)
             ->count();
             
-            $jefesFamiliaCount = $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $mujeresCount = $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $hombresCount = $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninosCount = $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninasCount = $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")");
-
+            $jefesFamiliaCount = $callesId ? $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $mujeresCount =  $callesId ? $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $hombresCount =  $callesId ? $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninosCount =  $callesId ? $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninasCount =  $callesId ? $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
 
             $data[] = [
                 "entity" => $entity->nombre,
@@ -222,12 +221,11 @@ class DashboardController extends Controller
             ->whereIn("raas_calle.id", $callesId)
             ->count();
             
-            $jefesFamiliaCount = $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $mujeresCount = $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $hombresCount = $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninosCount = $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninasCount = $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")");
-
+            $jefesFamiliaCount = $callesId ? $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $mujeresCount =  $callesId ? $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $hombresCount =  $callesId ? $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninosCount =  $callesId ? $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninasCount =  $callesId ? $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
 
             $data[] = [
                 "entity" => $entity->nombre,
@@ -267,14 +265,12 @@ class DashboardController extends Controller
             ->join("raas_calle", "raas_jefe_calle.raas_calle_id", "=", "raas_calle.id")
             ->whereIn("raas_calle.id", $callesId)
             ->count();
-            
-            dd($callesId);
 
-            $jefesFamiliaCount = $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $mujeresCount = $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $hombresCount = $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninosCount = $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")");
-            $ninasCount = $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")");
+            $jefesFamiliaCount = $callesId ? $this->jefeFamiliaCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $mujeresCount =  $callesId ? $this->mujeresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $hombresCount =  $callesId ? $this->hombresCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninosCount =  $callesId ? $this->ninosCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $ninasCount =  $callesId ? $this->ninasCount("raas_calle.id IN (".implode(",", $callesId).")") : 0;
 
 
             $data[] = [
