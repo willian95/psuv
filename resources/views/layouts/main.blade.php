@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Head-->
 	<head><base href="../../../">
 		<meta charset="utf-8" />
-		<title>SIGAS</title>
+		<title>CLAP FALCON</title>
 		<link rel="shortcut icon" type="image/x-icon" href="{{ url('fian.png') }}">
 		<meta name="description" content="User datatable listing" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
