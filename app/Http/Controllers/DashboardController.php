@@ -314,7 +314,7 @@ class DashboardController extends Controller
         return Calle::join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
         ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
         ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
-        ->where("raas_parroquia.id", $municipioId)->pluck("raas_calle.id")->toArray();
+        ->where("raas_municipio.id", $municipioId)->pluck("raas_calle.id")->toArray();
 
     }
 
