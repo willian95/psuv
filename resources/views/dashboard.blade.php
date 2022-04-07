@@ -94,38 +94,40 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Municipio</th>
-                                            <th>Sugerido</th>
-                                            <th>Casas</th>
-                                            <th>Anexos</th>
-                                            <th>Habitantes</th>
-                                            <th>Familias</th>
-                                            <th>Jefes de familia</th>
-                                            <th>Mujeres</th>
-                                            <th>Hombres</th>
-                                            <th>Niños</th>
-                                            <th>Niñas</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="dat in datas">
-                                            <td>@{{ dat.entity }}</td>
-                                            <td></td>
-                                            <td>@{{ dat.casas }}</td>
-                                            <td>@{{ dat.anexos }}</td>
-                                            <td>@{{ dat.habitantes }}</td>
-                                            <td>@{{ dat.familias }}</td>
-                                            <td>@{{ dat.jefesFamilias }}</td>
-                                            <td>@{{ dat.mujeres }}</td>
-                                            <td>@{{ dat.hombres }}</td>
-                                            <td>@{{ dat.ninos }}</td>
-                                            <td>@{{ dat.ninas }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Municipio</th>
+                                                <th>Sugerido</th>
+                                                <th>Casas</th>
+                                                <th>Anexos</th>
+                                                <th>Habitantes</th>
+                                                <th>Familias</th>
+                                                <th>Jefes de familia</th>
+                                                <th>Mujeres</th>
+                                                <th>Hombres</th>
+                                                <th>Niños</th>
+                                                <th>Niñas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="dat in datas">
+                                                <td>@{{ dat.entity }}</td>
+                                                <td></td>
+                                                <td>@{{ dat.casas }}</td>
+                                                <td>@{{ dat.anexos }}</td>
+                                                <td>@{{ dat.habitantes }}</td>
+                                                <td>@{{ dat.familias }}</td>
+                                                <td>@{{ dat.jefesFamilias }}</td>
+                                                <td>@{{ dat.mujeres }}</td>
+                                                <td>@{{ dat.hombres }}</td>
+                                                <td>@{{ dat.ninos }}</td>
+                                                <td>@{{ dat.ninas }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
