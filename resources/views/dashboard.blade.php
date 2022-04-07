@@ -114,7 +114,7 @@
                                         <tbody>
                                             <tr v-for="dat in datas">
                                                 <td>@{{ dat.entity }}</td>
-                                                <td></td>
+                                                <td>@{{ dat.sugerido }}</td>
                                                 <td>@{{ dat.casas }}</td>
                                                 <td>@{{ dat.anexos }}</td>
                                                 <td>@{{ dat.habitantes }}</td>
