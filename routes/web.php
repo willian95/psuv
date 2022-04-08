@@ -50,6 +50,8 @@ Route::view('/reporte-carga', 'reporteCarga.reporte');
 
 Route::view('/listado-jefes', 'reports.listados.listado');
 
+Route::view('/listado-estructura-clap', 'reports.estructuraClap.estructuraClap');
+
 //Auth routes
 Route::group(['middleware' => ['auth']], function () {
     //Admin modules

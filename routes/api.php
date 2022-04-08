@@ -213,6 +213,7 @@ Route::post('/reporte-carga/generate', [ReporteCargaController::class, 'generate
 Route::get('/reporte-carga/download', [ReporteCargaController::class, 'download']);
 
 Route::get('/listado-jefe/download', [ListadoController::class, 'download']);
+Route::get('/listado-estructura-clap/download', [ListadoController::class, 'downloadEstructuraClap']);
 
 Route::get('/cuadernillo', [CuadernilloController::class, 'centrosVotacion']);
 Route::get('/cuadernillo/count-electores/{centro_votacion}', [CuadernilloController::class, 'countElectores']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Reportes;
 
+use App\Exports\listados\EstructuraCLAP;
 use App\Exports\listados\JefeCalle;
 use App\Exports\listados\JefeCLAP;
 use App\Exports\listados\JefeComunidad;
@@ -67,6 +68,29 @@ class ListadoController extends Controller
         
             return Excel::download((new JefeComunidad)->forCondition($condition), 'ListadoJefeComunidad'.uniqid().'.xlsx');
         }
+
+    }
+
+
+    function downloadEstructuraClap(Request $request){
+
+        ini_set('max_execution_time', '0'); 
+
+        $condition = "";
+            
+        if($request->municipio != "0"){
+
+            $condition .= ' AND mu.id='.$request->municipio;
+
+        }
+        
+        if($request->parroquia != "0"){
+
+            $condition .= ' AND pa.id='.$request->parroquia;
+
+        }
+
+        return Excel::download((new EstructuraCLAP)->forCondition($condition), 'EstructuraCLAP'.uniqid().'.xlsx');
 
     }
 
