@@ -27,6 +27,7 @@
                                     <option value="2">Enlace municipal</option>
                                     <option value="3">Jefe Clap</option>
                                     <option value="4">Jefe calle</option>
+                                    <option value="5">Jefe comunidad</option>
                                 </select>
                             </div>
                         </div>
