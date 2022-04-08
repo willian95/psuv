@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Reportes;
 
+use App\Exports\listados\CensoPoblacional;
 use App\Exports\listados\EstructuraCLAP;
 use App\Exports\listados\JefeCalle;
 use App\Exports\listados\JefeCLAP;
@@ -91,6 +92,40 @@ class ListadoController extends Controller
         }
 
         return Excel::download((new EstructuraCLAP)->forCondition($condition), 'EstructuraCLAP'.uniqid().'.xlsx');
+
+    }
+
+    function downloadCensoPoblacional(Request $request){
+
+        ini_set('max_execution_time', '0'); 
+            
+        $condition = "";
+            
+        if($request->municipio != "0"){
+
+            $condition .= ' AND mu.id='.$request->municipio;
+
+        }
+        
+        if($request->parroquia != "0"){
+
+            $condition .= ' AND pa.id='.$request->parroquia;
+
+        }
+
+        if($request->comunidad != "0"){
+
+            $condition .= ' AND co.id='.$request->comunidad;
+
+        }
+
+        if($request->calle != "0"){
+
+            $condition .= ' AND raas_calle.id='.$request->calle;
+
+        }
+
+        return Excel::download((new CensoPoblacional)->forCondition($condition), 'CensoPoblacional'.uniqid().'.xlsx');
 
     }
 
