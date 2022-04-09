@@ -85,7 +85,7 @@ class DashboardController extends Controller
     private function selectedCalle($request){
 
         $entity = Calle::where("id",$request->calle)->first();
-        $sugerido = $this->jefeClapSugeridoSum("raas_calle.id = ".$entity->id);
+        $sugerido = $this->jefeClapSugeridoSum(" AND raas_comunidad.id=".$request->comunidad);
         $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
         $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
         $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
@@ -127,7 +127,7 @@ class DashboardController extends Controller
 
         foreach($entities as $entity){
 
-            $sugerido = $this->jefeClapSugeridoSum("raas_calle.id = ".$entity->id);
+            $sugerido = $this->jefeClapSugeridoSum(" AND raas_comunidad.id=".$request->comunidad);
             $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
@@ -174,7 +174,7 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByComunidad($entity->id);
 
-            $sugerido = $callesId ?  $sugerido = $this->jefeClapSugeridoSum("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $sugerido = $this->jefeClapSugeridoSum(" AND raas_parroquia.id=".$request->municipio);
             $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
@@ -220,7 +220,7 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByParroquia($entity->id);
 
-            $sugerido = $callesId ?  $sugerido = $this->jefeClapSugeridoSum("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $sugerido = $this->jefeClapSugeridoSum(" AND raas_municipio.id=".$request->municipio);
             $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
@@ -266,7 +266,7 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByMunicipio($entity->id);
 
-            $sugerido = $callesId ?  $sugerido = $this->jefeClapSugeridoSum("raas_calle.id IN (".implode(",", $callesId).")") : 0;
+            $sugerido = $this->jefeClapSugeridoSum();
             $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
@@ -343,16 +343,15 @@ class DashboardController extends Controller
 
     private function jefeClapSugeridoSum($condition = null){
 
-        $jefeClapSugeridoSum = DB::table("censo_jefe_clap")
-        ->join("censo_clap", "censo_jefe_clap.censo_clap_id","=", "censo_clap.id")
-        ->join("raas_comunidad","raas_comunidad.censo_clap_id", "=", "censo_clap.id")
-        ->join("raas_calle", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
-        ->whereNull("censo_jefe_clap.deleted_at")
-        ->whereRaw($condition ? $condition : '1=1')
-        ->groupBy("censo_jefe_clap.id")
-        ->sum('censo_jefe_clap.sugerido');
+        $jefeClapSugeridoSum = DB::select("select sum(sugerido) sugeridos
+        from public_original.censo_jefe_clap cjclap
+        join public_original.raas_jefe_comunidad rjco on rjco.censo_jefe_clap_id=cjclap.id
+        join public_original.raas_comunidad co on co.id=rjco.raas_comunidad_id
+        join public_original.raas_parroquia on raas_parroquia.id=co.raas_parroquia_id
+        join public_original.raas_municipio on raas_municipio.id=raas_parroquia.raas_municipio_id
+        where cjclap.deleted_at is null and rjco.deleted_at is null");
 
-        return $jefeClapSugeridoSum;
+        return $jefeClapSugeridoSum[0]->sugeridos;
     }
 
     private function mujeresCount($condition = null){
