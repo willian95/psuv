@@ -26,6 +26,7 @@ class DashboardController extends Controller
         $hombresCount = 0;
         $ninosCount = 0;
         $data = [];
+        $entidad = "Municipios";
 
         $condition = "";
 
@@ -37,24 +38,28 @@ class DashboardController extends Controller
 
             $condition .= " raas_municipio.id = ".$request->municipio;
             $data = $this->selectedMunicipio($request);
+            $entidad = "Parroquias";
         }
 
         if($request->parroquia > 0){
 
             $condition .= " AND raas_parroquia.id = ".$request->parroquia;
             $data = $this->selectedParroquia($request);
+            $entidad = "Comunidades";
         }
 
         if($request->comunidad > 0){
 
             $condition .= " AND raas_comunidad.id = ".$request->comunidad;
             $data  = $this->selectedComunidad($request);
+            $entidad = "Calles";
         }
 
         if($request->calle > 0){
 
             $condition .= " AND raas_calle.id = ".$request->calle;
             $data = $this->selectedCalle($request);
+            $entidad = "Calle";
         }
 
         $jefesFamiliaCount = $this->jefeFamiliaCount($condition);
@@ -69,7 +74,8 @@ class DashboardController extends Controller
             "hombresCount" => $hombresCount,
             "ninosCount" => $ninosCount,
             "ninasCount" => $ninasCount,
-            "data" => $data
+            "data" => $data,
+            "entidad" => $entidad
         ];
 
         return response()->json($response);
@@ -343,6 +349,7 @@ class DashboardController extends Controller
         ->join("raas_calle", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
         ->whereNull("censo_jefe_clap.deleted_at")
         ->whereRaw($condition ? $condition : '1=1')
+        ->groupBy("censo_jefe_clap.id")
         ->sum('censo_jefe_clap.sugerido');
 
         return $jefeClapSugeridoSum;

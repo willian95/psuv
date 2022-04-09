@@ -24,10 +24,11 @@
                                 <label>Tipo de jefe</label>
                                 <select class="form-control" v-model="selectedTipoJefe">
                                     <option value="1">Jefe UBCH</option>
-                                    <option value="2">Enlace municipal</option>
+                                    <option value="2">Enlace Municipal</option>
                                     <option value="3">Jefe Clap</option>
-                                    <option value="4">Jefe calle</option>
-                                    <option value="5">Jefe comunidad</option>
+                                    <option value="5">Jefe Comunidad</option>
+                                    <option value="4">Jefe Calle</option>
+                                   
                                 </select>
                             </div>
                         </div>

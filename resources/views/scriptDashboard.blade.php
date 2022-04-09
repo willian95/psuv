@@ -17,6 +17,7 @@
                 calles:[],
                 datas:[],
                 loading:false,
+                entidad:"Municipio",
                 authMunicipio:"{{ \Auth::user()->municipio_id ? \Auth::user()->municipio_id : 0}}",
 
                 jefesFamilia: 0,
@@ -87,6 +88,7 @@
                 this.ninos = res.data.ninosCount
                 this.ninas = res.data.ninasCount
                 this.datas = res.data.data
+                this.entidad = res.data.entidad
 
             },
 

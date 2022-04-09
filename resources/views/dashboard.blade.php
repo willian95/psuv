@@ -98,7 +98,9 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Municipio</th>
+                                                <th>
+                                                    @{{ entidad }}
+                                                </th>
                                                 <th>Sugerido</th>
                                                 <th>Casas</th>
                                                 <th>Anexos</th>

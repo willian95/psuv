@@ -9,7 +9,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="6" style="text-align:center; color: #FFFFFF; background-color: #e5a503">Listado de Jefes de Calles</td>
+            <td colspan="7" style="text-align:center; color: #FFFFFF; background-color: #e5a503">Listado de Jefes de Calles</td>
         </tr>
         <tr>
             <th style="width: 150px; text-align:center;">Municipio</th>
