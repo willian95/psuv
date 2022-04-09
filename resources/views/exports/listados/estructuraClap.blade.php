@@ -50,6 +50,19 @@
                     {{ $data->parroquia }}
                 </td>
                 <td>
+                    {{ $data->cedula_enlace_municipal }}
+                </td>
+                <td>
+                    {{ $data->enlace_municipal }}
+                </td>
+                <td>
+                    {{ $data->telefono_enlace_municipal }}
+                </td>
+                <td>
+                    {{ $data->clap }}
+                    
+                </td>
+                <td>
                     {{ $data->cedula_jefe_clap }}
                 </td>
                 <td>
@@ -63,6 +76,8 @@
                 </td>
                 <td>
                     {{ $data->cedula_jefe_comunidad }}
+                    
+                    
                 </td>
                 <td>
                     {{ $data->jefe_comunidad }}
