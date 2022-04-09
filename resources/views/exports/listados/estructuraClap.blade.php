@@ -10,7 +10,6 @@
         </tr>
         <tr>
             <td colspan="3" style="background-color:#c0c0c0; color: #FFFFFF; text-align:center;"></td>
-            <td colspan="4" style="text-align:center; color: #FFFFFF; background-color: #808080">JEFE DE UBCH</td>
             <td colspan="3" style="text-align:center; color: #FFFFFF; background-color: #ffcc00">ENLACE MUNICIPAL</td>
             <td colspan="4" style="text-align:center; color: #FFFFFF; background-color: #008000">JEFE DE CLAP</td>
             <td colspan="4" style="text-align:center; color: #FFFFFF; background-color: #003366">JEFE DE COMUNIDAD</td>
@@ -20,10 +19,6 @@
             <th style="width: 150px; text-align:center; background-color:#c0c0c0; color: #FFFFFF;">Estado</th>
             <th style="width: 150px; text-align:center; background-color:#c0c0c0; color: #FFFFFF;">Municipio</th>
             <th style="width: 150px; text-align:center; background-color:#c0c0c0; color: #FFFFFF;">Parroquia</th>
-            <th style="width: 150px; text-align:center; background-color:#808080; color: #FFFFFF;">UBCH</th>
-            <th style="width: 150px; text-align:center; background-color:#808080; color: #FFFFFF;">Cédula</th>
-            <th style="width: 150px; text-align:center; background-color:#808080; color: #FFFFFF;">Nombre y apellido</th>
-            <th style="width: 150px; text-align:center; background-color:#808080; color: #FFFFFF;">Teléfono</th>
             <th style="width: 150px; text-align:center; background-color:#ffcc00; color: #FFFFFF;">Cédula</th>
             <th style="width: 150px; text-align:center; background-color:#ffcc00; color: #FFFFFF;">Nombre y apellido</th>
             <th style="width: 150px; text-align:center; background-color:#ffcc00; color: #FFFFFF;">Teléfono</th>
@@ -53,18 +48,6 @@
                 </td>
                 <td>
                     {{ $data->parroquia }}
-                </td>
-                <td> 
-                    {{ $data->cedula_enlace_municipal }}
-                </td>
-                <td>
-                    {{ $data->enlace_municipal }}
-                </td>
-                <td>
-                    {{ $data->telefono_enlace_municipal }}
-                </td>
-                <td>
-                    {{ $data->clap }}
                 </td>
                 <td>
                     {{ $data->cedula_jefe_clap }}
