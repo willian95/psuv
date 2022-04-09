@@ -44,7 +44,7 @@
             },
             async store(){
                 if(this.selectedOperacion == "entre"){
-                    if(this.rangoMayor < this.rangoMenor){
+                    if(parseInt(this.rangoMayor) < parseInt(this.rangoMenor)){
                         swal({
                             text:"Rango mayor debe ser mayor que rango menor",
                             icon:"error"
