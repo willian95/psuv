@@ -52,7 +52,7 @@
                                 <label>Calles</label>
                                 <select class="form-control" v-model="selectedCalle">
                                     <option value="0">Todas las calles</option>
-                                    <option v-for="calle in calles" :value="comunidad.id">@{{ calle.nombre }}</option>
+                                    <option v-for="calle in calles" :value="calle.id">@{{ calle.nombre }}</option>
                                 </select>
                             </div>
                         </div>

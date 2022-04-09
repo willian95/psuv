@@ -42,6 +42,7 @@
 
                 this.selectedParroquia = "0"
                 this.selectedComunidad = "0"
+                this.selectedCalle = "0"
 
                 let res = await axios.get("{{ url('/api/municipios') }}")
                 this.municipios = res.data
@@ -49,8 +50,9 @@
             },
             async getParroquias(){
                 
-                this.selectedParroquia = "0"
+                
                 this.selectedComunidad = "0"
+                this.selectedCalle = "0"
 
                 let res = await axios.get("{{ url('/api/parroquias') }}"+"/"+this.selectedMunicipio)
                 this.parroquias = res.data
@@ -71,6 +73,8 @@
 
             async getComunidades(){
 
+                this.selectedCalle = "0"
+
                 let res = await axios.get("{{ url('/api/comunidades') }}"+"/"+this.selectedParroquia)
                 this.comunidades = res.data
 
@@ -79,7 +83,7 @@
             async getCalles(){
 
              
-                let res = await axios.get("{{ url('/api/calles') }}"+"?comunidad_id="+this.paramsComunidad)
+                let res = await axios.get("{{ url('/api/calles') }}"+"?comunidad_id="+this.selectedComunidad)
                 this.calles = res.data
                 
 
