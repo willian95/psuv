@@ -89,8 +89,6 @@
                         $censoVivienda = App\Models\CensoVivienda::where("codigo",$data->num_casa)->first();
                     @endphp
 
-                     
-                    {{ $censoVivienda->cantidad_habitantes }}
 
                     @foreach($ordenOperaciones as $operacion)
                         
