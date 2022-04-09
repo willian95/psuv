@@ -90,7 +90,7 @@
                     @endphp
 
                      
-                    {{ $data->censoVivienda }}
+                    {{ $censoVivienda->cantidad_habitantes }}
 
                     @foreach($ordenOperaciones as $operacion)
                         
