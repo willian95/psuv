@@ -84,8 +84,8 @@ class DashboardController extends Controller
 
     private function selectedCalle($request){
 
-        $entity = Calle::where("id",$request->calle)->first();
-        $sugerido = $this->jefeClapSugeridoSum(" AND raas_comunidad.id=".$request->comunidad);
+        $entity = Calle::where("id",$request->calle)->orderBy("nombre")->first();
+        $sugerido = $this->jefeClapSugeridoSum(" AND co.id=".$request->comunidad);
         $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
         $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
         $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
@@ -105,7 +105,7 @@ class DashboardController extends Controller
         return [
             [
                 "entity" => $entity->nombre,
-                "sugerido" => $sugerido,
+                "sugerido" => $sugerido ? $sugerido : 0,
                 "casas" => $casasCount,
                 "anexos" => $anexosCount,
                 "habitantes" => $habitantesCount,
@@ -122,12 +122,12 @@ class DashboardController extends Controller
 
     private function selectedComunidad($request){
 
-        $entities = Calle::where("raas_comunidad_id",$request->comunidad)->get();
+        $entities = Calle::where("raas_comunidad_id",$request->comunidad)->orderBy("nombre")->get();
         $data = [];
 
         foreach($entities as $entity){
 
-            $sugerido = $this->jefeClapSugeridoSum(" AND raas_comunidad.id=".$request->comunidad);
+            $sugerido = $this->jefeClapSugeridoSum(" AND co.id=".$request->comunidad);
             $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
             $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
@@ -147,7 +147,7 @@ class DashboardController extends Controller
 
             $data[] = [
                 "entity" => $entity->nombre,
-                "sugerido" => $sugerido,
+                "sugerido" => $sugerido ? $sugerido : 0,
                 "casas" => $casasCount,
                 "anexos" => $anexosCount,
                 "habitantes" => $habitantesCount,
@@ -167,7 +167,7 @@ class DashboardController extends Controller
 
     private function selectedParroquia($request){
 
-        $entities = Comunidad::where("raas_parroquia_id",$request->parroquia)->get();
+        $entities = Comunidad::where("raas_parroquia_id",$request->parroquia)->orderBy("nombre")->get();
         $data = [];
 
         foreach($entities as $entity){
@@ -193,7 +193,7 @@ class DashboardController extends Controller
 
             $data[] = [
                 "entity" => $entity->nombre,
-                "sugerido" => $sugerido,
+                "sugerido" => $sugerido ? $sugerido : 0,
                 "casas" => $casasCount,
                 "anexos" => $anexosCount,
                 "habitantes" => $habitantesCount,
@@ -213,7 +213,7 @@ class DashboardController extends Controller
 
     private function selectedMunicipio($request){
 
-        $entities = Parroquia::where("raas_municipio_id",$request->municipio)->get();
+        $entities = Parroquia::where("raas_municipio_id",$request->municipio)->orderBy("nombre")->get();
         $data = [];
 
         foreach($entities as $entity){
@@ -239,7 +239,7 @@ class DashboardController extends Controller
 
             $data[] = [
                 "entity" => $entity->nombre,
-                "sugerido" => $sugerido,
+                "sugerido" => $sugerido ? $sugerido : 0,
                 "casas" => $casasCount,
                 "anexos" => $anexosCount,
                 "habitantes" => $habitantesCount,
@@ -259,7 +259,7 @@ class DashboardController extends Controller
 
     private function allMunicipios(){
 
-        $entities = Municipio::get();
+        $entities = Municipio::orderBy("nombre")->get();
         $data = [];
 
         foreach($entities as $entity){
@@ -286,7 +286,7 @@ class DashboardController extends Controller
 
             $data[] = [
                 "entity" => $entity->nombre,
-                "sugerido" => $sugerido,
+                "sugerido" => $sugerido ? $sugerido : 0,
                 "casas" => $casasCount,
                 "anexos" => $anexosCount,
                 "habitantes" => $habitantesCount,
@@ -341,15 +341,18 @@ class DashboardController extends Controller
         return $jefesFamiliaCount;
     }
 
-    private function jefeClapSugeridoSum($condition = null){
+    private function jefeClapSugeridoSum($condition = ""){
 
-        $jefeClapSugeridoSum = DB::select("select sum(sugerido) sugeridos
-        from public_original.censo_jefe_clap cjclap
+        $jefeClapSugeridoSum = DB::select("SELECT sum(sugerido) sugeridos
+        FROM public_original.censo_jefe_clap cjclap
+        where id in (SELECT DISTINCT cjclap.id
+        FROM public_original.censo_jefe_clap cjclap
         join public_original.raas_jefe_comunidad rjco on rjco.censo_jefe_clap_id=cjclap.id
         join public_original.raas_comunidad co on co.id=rjco.raas_comunidad_id
+        join public_original.raas_calle ca on ca.raas_comunidad_id=co.id
         join public_original.raas_parroquia on raas_parroquia.id=co.raas_parroquia_id
         join public_original.raas_municipio on raas_municipio.id=raas_parroquia.raas_municipio_id
-        where cjclap.deleted_at is null and rjco.deleted_at is null");
+        where cjclap.deleted_at is null and rjco.deleted_at is null and sugerido is not null ".$condition.")");
 
         return $jefeClapSugeridoSum[0]->sugeridos;
     }

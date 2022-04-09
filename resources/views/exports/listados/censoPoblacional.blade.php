@@ -15,6 +15,7 @@
             <th style="width: 150px; text-align:center; background-color:#00b0f0; ">Parroquia</th>
             <th style="width: 150px; text-align:center; background-color:#00b0f0; ">Nombre del CLAP</th>
             <th style="width: 150px; text-align:center; background-color:#00b0f0; ">Comunidad</th>
+            <th style="width: 150px; text-align:center; background-color:#00b0f0;">Jefe de calle</th>
             <th style="width: 150px; text-align:center; background-color:#00b0f0;">Calle</th>
             <th style="width: 150px; text-align:center; background-color:#00b0f0;">N° Casa CLAP</th>
             <th style="width: 150px; text-align:center; background-color:#00b0f0;">Tipo de vivienda</th>
@@ -50,6 +51,9 @@
                 </td>
                 <td>
                     {{ $data->comunidad }}
+                </td>
+                <td>
+                    {{ $data->jefe_calle }}
                 </td>
                 <td>
                     {{ $data->calle }}
@@ -119,7 +123,7 @@
             </tr>
         @endforeach
         <tr>
-            <td colspan="15"></td>
+            <td colspan="16"></td>
             <td style="background-color: #e5a503;">{{ $combosTotales }}</td>
         </tr>
     </tbody>
