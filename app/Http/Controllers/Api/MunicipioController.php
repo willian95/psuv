@@ -15,7 +15,7 @@ class MunicipioController extends Controller
         if ($municipio_id) {
             $query->where('id', $municipio_id);
         }
-        $result->orderBy('nombre');
+        $result->where("raas_estado_id", 9)->orderBy('nombre');
         $result = $result->get();
 
         return response()->json($result);

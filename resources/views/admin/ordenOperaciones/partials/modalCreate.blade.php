@@ -25,14 +25,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="calle" class="required-field">Rango menor </label>
-                                <input type="text" class="form-control" v-model="rangoMenor" @keypress="isNumber($event)" :disabled="selectedOperacion == 'mayor'">
+                                <input type="text" class="form-control" v-model="rangoMenor" @keypress="isNumber($event)" :disabled="selectedOperacion == 'menor'">
                                 <small class="text-danger" v-if="errors.hasOwnProperty('rangoMenor')">@{{ errors['rangoMenor'][0] }}</small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="calle">Rango mayor </label>
-                                <input type="text" class="form-control" v-model="rangoMayor" :disabled="selectedOperacion == 'menor'" @keypress="isNumber($event)">
+                                <input type="text" class="form-control" v-model="rangoMayor" :disabled="selectedOperacion == 'mayor'" @keypress="isNumber($event)">
                                 <small class="text-danger" v-if="errors.hasOwnProperty('rangoMayor')">@{{ errors['rangoMayor'][0] }}</small>
                             </div>
                         </div>

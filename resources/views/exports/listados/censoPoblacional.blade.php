@@ -27,6 +27,9 @@
             <th style="width: 150px; text-align:center; background-color:#00b0f0;">Cantidad de combos clap</th>
         </tr>
         <tbody>
+        @php
+            $ordenOperaciones = App\Models\CensoOrdenOperaciones::all();
+        @endphp
         @foreach($data as $data)
             <tr>
                 <td>
@@ -72,10 +75,34 @@
                     {{ $data->sexo }}
                 </td>
                 <td>
-                    @if($data->cedula == $data->cedula_jefe_familia) X @endif
+                    @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null) X @endif
                 </td>
                 <td>
-                    0
+                @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null)
+
+                    @php
+                        $censoVivienda = App\Models\CensoVivienda::where("codigo",$data->num_casa)->first();
+                    @endphp
+
+                    @foreach($ordenOperaciones as $operacion)
+
+                        @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
+                        
+                            {{ $operacion->cantidad_bolsas }} combos
+
+                        @elseif($operacion->operacion == 'entre' && ($censoVivienda->cantidad_habitantes >= $operacion->valor_inicio && $censoVivienda->cantidad_habitantes <= $operacion->valor_fin))
+                            
+                            {{ $operacion->cantidad_bolsas }} combos
+                        
+                        @elseif($operacion->operacion == 'mayor' && $censoVivienda->cantidad_habitantes > $operacion->valor_inicio)
+
+                            {{ $operacion->cantidad_bolsas }} combos
+
+                        @endif
+
+                    @endforeach
+
+                @endif
                 </td>
 
             </tr>

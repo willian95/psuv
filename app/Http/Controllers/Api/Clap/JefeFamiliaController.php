@@ -74,6 +74,7 @@ class JefeFamiliaController extends Controller
         $vivienda->cantidad_familias = $request->numeroFamilia;
         $vivienda->raas_calle_id = $this->getJefeCalle($request);
         $vivienda->direccion = $request->direccion;
+        $vivienda->cantidad_habitantes = 1;
         $vivienda->tipo_vivienda = $request->tipoCasa;
         $vivienda->raas_jefe_familia_id = $raasJefeFamilia->id;
         if($request->tipoCasa == 'anexo'){
@@ -261,6 +262,10 @@ class JefeFamiliaController extends Controller
 
             }
 
+            $censoVivienda = CensoVivienda::where("raas_jefe_familia_id", $request->jefeFamiliaId)->first();
+            $censoVivienda->cantidad_habitantes = $censoVivienda->cantidad_habitantes + 1;
+            $censoVivienda->update();
+
             DB::commit();
 
             return response()->json(['success' => true, 'message' => 'Familiar agregado']);
@@ -278,6 +283,12 @@ class JefeFamiliaController extends Controller
     public function deleteNucleoFamiliar($id){
 
         try{
+
+            $personal = PersonalCaracterizacion::where("id", $id)->first();
+
+            $censoVivienda = CensoVivienda::where("raas_jefe_familia_id", $personal->raas_jefe_familia_id)->first();
+            $censoVivienda->cantidad_habitantes = $censoVivienda->cantidad_habitantes - 1;
+            $censoVivienda->update();
 
             PersonalCaracterizacion::where("id", $id)->update(["raas_jefe_familia_id" => null]);
             return response()->json(["success" => true, "message" => "Eliminado persona del nucleo familiar"]);

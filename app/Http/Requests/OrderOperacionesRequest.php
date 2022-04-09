@@ -25,8 +25,8 @@ class OrderOperacionesRequest extends FormRequest
     {
         return [
             "selectedOperacion" => "required",
-            "rangoMenor" => "required_if:selectedOperacion,!=,menor|integer|nullable",
-            "rangoMayor" => "required_if:selectedOperacion,!=,mayor|integer|nullable",
+            "rangoMenor" => "required_if:selectedOperacion,!=,mayor|integer|nullable",
+            "rangoMayor" => "required_if:selectedOperacion,!=,menor|integer|nullable",
             "cantidadBolsas" => "required|integer"
         ];
     }
