@@ -101,7 +101,7 @@
                                                 <th>
                                                     @{{ entidad }}
                                                 </th>
-                                                <th>Sugerido</th>
+                                     
                                                 <th>Casas</th>
                                                 <th>Anexos</th>
                                                 <th>Habitantes</th>
@@ -116,7 +116,7 @@
                                         <tbody>
                                             <tr v-for="dat in datas">
                                                 <td>@{{ dat.entity }}</td>
-                                                <td>@{{ dat.sugerido }}</td>
+                                               
                                                 <td>@{{ dat.casas }}</td>
                                                 <td>@{{ dat.anexos }}</td>
                                                 <td>@{{ dat.habitantes }}</td>
