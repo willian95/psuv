@@ -46,9 +46,9 @@
                     </div>
                     
                 </div>
-                <div class="text-center pt-3">
+                {{--<div class="text-center pt-3">
                     <a href="#" class="text-secondary">¿Olvidaste tu contraseña?</a>
-                </div>
+                </div>--}}
                 <div class="w-100">
                     <div class="d-flex justify-content-center">
                         <div class="loader-custom" v-if="loading"></div>
