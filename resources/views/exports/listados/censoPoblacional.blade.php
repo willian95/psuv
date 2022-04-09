@@ -28,6 +28,7 @@
         </tr>
         <tbody>
         @php
+            $combosTotales = 0;
             $ordenOperaciones = App\Models\CensoOrdenOperaciones::all();
         @endphp
         @foreach($data as $data)
@@ -72,7 +73,7 @@
                     {{ $data->fecha_nacimiento }}
                 </td>
                 <td>
-                    {{ $data->sexo }}
+                    {{ strtoupper($data->sexo) }}
                 </td>
                 <td>
                     @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null) X @endif
@@ -87,16 +88,26 @@
                     @foreach($ordenOperaciones as $operacion)
 
                         @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
-                        
+
+                            @php
+                                $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
+                            @endphp
+
                             {{ $operacion->cantidad_bolsas }} combos
 
                         @elseif($operacion->operacion == 'entre' && ($censoVivienda->cantidad_habitantes >= $operacion->valor_inicio && $censoVivienda->cantidad_habitantes <= $operacion->valor_fin))
                             
-                            {{ $operacion->cantidad_bolsas }} combos
+                            {{ $operacion->cantidad_bolsas }} combos    
+                            @php
+                                $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
+                            @endphp
                         
                         @elseif($operacion->operacion == 'mayor' && $censoVivienda->cantidad_habitantes > $operacion->valor_inicio)
 
                             {{ $operacion->cantidad_bolsas }} combos
+                            @php
+                                $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
+                            @endphp
 
                         @endif
 
@@ -107,5 +118,9 @@
 
             </tr>
         @endforeach
+        <tr>
+            <td colspan="15"></td>
+            <td style="background-color: #e5a503;">{{ $combosTotales }}</td>
+        </tr>
     </tbody>
 </table>

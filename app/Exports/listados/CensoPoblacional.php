@@ -38,7 +38,7 @@ class CensoPoblacional implements FromView
         where mu.raas_estado_id=9 ".$this->condition."
         and clap.deleted_at is null and cviv.deleted_at is null and rjf.deleted_at is null
         order by mu.nombre, pa.nombre, clap.nombre, co.nombre, raas_calle.nombre, cviv.codigo;");
-
+        
         return view('exports.listados.censoPoblacional', ["data" => $data]);
     }
 }
