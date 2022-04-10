@@ -21,7 +21,7 @@ class CensoPoblacional implements FromView
     public function view(): View
     {
 
-        $data = DB::select("select 'FALCÓN' estado, mu.nombre municipio, pa.nombre parroquia, clap.nombre clap, co.nombre comunidad, raas_calle.nombre calle,
+        $data = DB::select("select 'FALCÓN' estado, cviv.id vivienda_id, mu.nombre municipio, pa.nombre parroquia, clap.nombre clap, co.nombre comunidad, raas_calle.nombre calle,
         (select cedula from public_original.raas_personal_caracterizacion where id=jca.raas_personal_caracterizacion_id) cedula_jefe_calle,
         (select nombre_apellido from public_original.raas_personal_caracterizacion where id=jca.raas_personal_caracterizacion_id) jefe_calle,
         (select telefono_principal from public_original.raas_personal_caracterizacion where id=jca.raas_personal_caracterizacion_id) telefono_jefe_calle,
