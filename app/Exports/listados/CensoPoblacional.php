@@ -43,8 +43,6 @@ class CensoPoblacional implements FromView
         and clap.deleted_at is null and cviv.deleted_at is null and rjf.deleted_at is null
         order by mu.nombre, pa.nombre, clap.nombre, co.nombre, raas_calle.nombre, cviv.codigo;");
 
-        dd($data);
-
         return view('exports.listados.censoPoblacional', ["data" => $data]);
     }
 }
