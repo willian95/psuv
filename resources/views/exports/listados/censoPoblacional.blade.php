@@ -84,13 +84,11 @@
                 </td>
                 <td>
                 @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null)
-                    {{ $data->vivienda_id }}
+             
                     @php
-                        $censoVivienda = App\Models\CensoVivienda::where("codigo",$data->vivienda_id)->first();
+                        $censoVivienda = App\Models\CensoVivienda::where("id",$data->vivienda_id)->first();
                         
                     @endphp
-                    {{ $censoVivienda }}
-                    @if($censoVivienda)
                         
                     @foreach($ordenOperaciones as $operacion)
                         
@@ -119,7 +117,7 @@
                         @endif
 
                     @endforeach
-                    @endif
+        
 
                 @endif
                 </td>
