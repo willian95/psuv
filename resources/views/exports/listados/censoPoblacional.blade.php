@@ -83,7 +83,7 @@
                     @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null) X @endif
                 </td>
                 <td>
-                @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null)
+                @if($data->cedula == $data->cedula_jefe_familia)
              
                     @php
                         $censoVivienda = App\Models\CensoVivienda::where("id",$data->vivienda_id)->first();
