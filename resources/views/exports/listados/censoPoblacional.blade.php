@@ -83,13 +83,13 @@
                     @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null) X @endif
                 </td>
                 <td>
-                @if($data->cedula == $data->cedula_jefe_familia)
+                @if($data->cedula == $data->cedula_jefe_familia && $data->cedula != null)
              
                     @php
                         $censoVivienda = App\Models\CensoVivienda::where("id",$data->vivienda_id)->first();
                         
                     @endphp
-                    {{ $censoVivienda->cantidad_habitantes }}
+                        
                     @foreach($ordenOperaciones as $operacion)
                         
                         @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
