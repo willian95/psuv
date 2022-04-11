@@ -89,7 +89,7 @@
                         $censoVivienda = App\Models\CensoVivienda::where("id",$data->vivienda_id)->first();
                         
                     @endphp
-                        
+                    {{ $censoVivienda->cantidad_habitantes }}
                     @foreach($ordenOperaciones as $operacion)
                         
                         @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
