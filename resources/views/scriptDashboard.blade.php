@@ -36,7 +36,7 @@
                 this.selectedComunidad = "0",
                 this.selectedCalle = "0"
 
-                let res = await axios.get("{{ url('/api/municipios') }}")
+                let res = await axios.get("{{ url('/api/municipios/9') }}")
                 this.municipios = res.data
 
             },
