@@ -251,7 +251,7 @@ class DashboardController extends Controller
 
     private function allMunicipios(){
 
-        $entities = Municipio::orderBy("nombre")->get();
+        $entities = Municipio::orderBy("nombre")->where("raas_estado_id", 9)->get();
         $data = [];
 
         foreach($entities as $entity){
