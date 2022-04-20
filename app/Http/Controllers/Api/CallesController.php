@@ -95,8 +95,6 @@ class CallesController extends Controller
             $entity = new Model();
             $entity->nombre = strtoupper($request->nombre);
             $entity->raas_comunidad_id = $data['raas_comunidad_id'];
-            $entity->tipo = '--';
-            $entity->sector = '--';
             $entity->save();
 
             DB::commit();
