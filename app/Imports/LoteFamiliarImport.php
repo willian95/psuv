@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use App\Traits\ElectorTrait;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class LoteFamiliarImport implements ToCollection
@@ -135,7 +136,28 @@ class LoteFamiliarImport implements ToCollection
                                     $elector->raas_centro_votacion_id = $response["raas_centro_votacion_id"];
                                     $elector->save();
 
-                                    $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                    $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+
+                                    $jefeCalle = $this->getJefeCalle($this->calleId);
+
+                                    if(strtoupper($row[10]) == "SI"){
+                                    
+                                        $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                        if($jefeFamilia){
+                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                            $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                        }
+                                        
+
+                                    }else{
+
+                                        $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                        if($jefeFamilia){
+                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                        }
+                                        
+
+                                    }
 
                                 }else{
                                     $this->tempRows[] = $row;
@@ -148,7 +170,7 @@ class LoteFamiliarImport implements ToCollection
 
                     }else{
 
-                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[6])->first();
+                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8])))->first();
                         if(!$personalCaracterizacion){
                             $jefeCalle = $this->getJefeCalle($this->calleId);
 
@@ -156,7 +178,7 @@ class LoteFamiliarImport implements ToCollection
                             $personalCaracterizacion->nacionalidad = "v";
                             $personalCaracterizacion->nombre_apellido = $row[5];
                             $personalCaracterizacion->sexo = strtolower($row[9]);
-                            $personalCaracterizacion->fecha_nacimiento = $row[8];
+                            $personalCaracterizacion->fecha_nacimiento = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8]));
                             $personalCaracterizacion->save();
 
                             if(strtoupper($row[10]) == "SI"){
@@ -265,7 +287,7 @@ class LoteFamiliarImport implements ToCollection
         $personalCaracterizacion->cedula = $cedula;
         $personalCaracterizacion->nombre_apellido = $row[5];
         $personalCaracterizacion->sexo = strtolower($row[9]);
-        $personalCaracterizacion->fecha_nacimiento = strtolower($row[8]);
+        $personalCaracterizacion->fecha_nacimiento = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8]));
         $personalCaracterizacion->raas_estado_id = $elector->raas_estado_id;
         $personalCaracterizacion->raas_municipio_id = $elector->raas_municipio_id;
         $personalCaracterizacion->raas_parroquia_id = $elector->raas_parroquia_id;

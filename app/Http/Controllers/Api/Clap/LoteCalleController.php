@@ -17,7 +17,6 @@ class LoteCalleController extends Controller
         $import = (new LoteFamiliarImport)->forCalleId($request->calle);
         Excel::import($import, $path);
         if($import->tempRows){
-            //dd($import->tempRows);
             return Excel::download(new LoteFamiliarExport(
                 $import->tempRows
             ), "Cedulas.xlsx");
