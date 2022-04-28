@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Votaciones\CuadernilloController;
 use App\Http\Controllers\Api\{
     ElectorController
 };
+use App\Http\Controllers\Api\Clap\LoteCalleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Listados\REPController;
 use Illuminate\Support\Facades\Route;
@@ -179,5 +180,11 @@ Route::group(['prefix' => '/clap', 'middleware' => 'auth'], function () {
     Route::get('/jefe-familia', function () {
         return view('clap.jefe_familia.index');
     })->name('clap.jefe_familia');
+
+    Route::get('/lote-calle', function () {
+        return view('clap.lote_calle.index');
+    })->name('clap.lote_calle');
+
+    Route::post("/lote-calle", [LoteCalleController::class, "store"]);
 
 });

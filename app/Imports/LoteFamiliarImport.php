@@ -1,0 +1,279 @@
+<?php
+
+namespace App\Imports;
+
+use App\Models\CensoVivienda;
+use App\Models\Elector;
+use App\Models\JefeFamilia;
+use App\Models\PersonalCaracterizacion;
+use App\Models\RaasJefeCalle;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Traits\ElectorTrait;
+use Illuminate\Support\Facades\Log;
+
+class LoteFamiliarImport implements ToCollection
+{
+    use ElectorTrait;
+
+    public $tempRows = [];
+
+    public function forCalleId($calleId)
+    {
+        $this->calleId = $calleId;
+        
+        return $this;
+    }
+
+    /**
+    * @param Collection $collection
+    */
+    public function collection(Collection $collection)
+    {
+        try{
+
+            
+            $index = 0;
+            foreach ($collection as $row) 
+            {
+             
+               
+                if($index > 0){
+
+                    if($row[6] != null){
+
+                        $nacionalidad = explode("-", $row[6])[0];
+                        $cedula = explode("-", $row[6])[1];
+
+                        $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
+
+                        if($personalCaracterizacion){
+
+                            if($personalCaracterizacion->raas_jefe_familia == null){
+
+                                $jefeCalle = $this->getJefeCalle($this->calleId);
+                                
+                                if(strtoupper($row[10]) == "SI"){
+
+                                   
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                    }else{
+                                        $this->tempRows[] = $row;
+                                    }
+                                    
+                                    
+                                }else{
+
+                                    $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    }else{
+                                        $tempRows[] = $row;
+                                    }
+
+                                    
+                                    
+
+                                }
+
+
+                            }else{
+
+                                //añadir al excel
+            
+                                $this->tempRows[] = $row;
+                            }
+
+                        }else{
+
+                            $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
+
+                            if($elector){
+
+                                $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                
+                                $jefeCalle = $this->getJefeCalle($this->calleId);
+
+                                if(strtoupper($row[10]) == "SI"){
+
+                                   
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                    }
+                                    
+
+                                }else{
+
+                                    $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    }
+                                    
+
+                                }
+
+                            }else{
+
+                                $response = $this->searchInCNE($cedula, $nacionalidad);
+                 
+                                if($response){
+                                    
+                                    $elector = new Elector();
+                                    $elector->nacionalidad = $nacionalidad;
+                                    $elector->cedula = $cedula;
+                                    $elector->nombre_apellido = $row[5];
+                                    $elector->sexo = strtolower($row[9]);
+                                    $elector->raas_estado_id = $response["raas_estado_id"];
+                                    $elector->raas_municipio_id = $response["raas_municipio_id"];
+                                    $elector->raas_parroquia_id = $response["raas_parroquia_id"];
+                                    $elector->raas_centro_votacion_id = $response["raas_centro_votacion_id"];
+                                    $elector->save();
+
+                                    $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+
+                                }else{
+                                    $this->tempRows[] = $row;
+                                }
+
+                            
+                            }
+
+                        }
+
+                    }else{
+
+                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[6])->first();
+                        if(!$personalCaracterizacion){
+                            $jefeCalle = $this->getJefeCalle($this->calleId);
+
+                            $personalCaracterizacion = new PersonalCaracterizacion();
+                            $personalCaracterizacion->nacionalidad = "v";
+                            $personalCaracterizacion->nombre_apellido = $row[5];
+                            $personalCaracterizacion->sexo = strtolower($row[9]);
+                            $personalCaracterizacion->fecha_nacimiento = $row[8];
+                            $personalCaracterizacion->save();
+
+                            if(strtoupper($row[10]) == "SI"){
+
+                                
+                                $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                $this->storeCensoVivienda($row, $jefeFamilia->id);
+
+                            }else{
+
+                                $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                if($jefeFamilia){
+                                    $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                }else{
+                                 
+                                    $this->tempRows[] = $row;
+                                }
+                                
+
+                            }
+                        }else{
+                            
+                            $this->tempRows[] = $row;
+
+                        }
+
+                    }
+        
+
+                }
+                
+                $index++;
+                
+            }
+
+            
+
+            return $this->tempRows;
+
+        }catch(\Exception $e){
+
+            dd($e);
+
+        }
+    }
+
+
+    private function getJefeCalle($calle_id){
+
+        $jefeCalle = RaasJefeCalle::where("raas_calle_id", $calle_id)->first();
+        return $jefeCalle;
+
+    }
+
+    private function storeJefeFamilia($personalCaracterizacion, $jefeCalle){
+        $jefeFamilia = new JefeFamilia();
+        $jefeFamilia->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
+        $jefeFamilia->raas_jefe_calle_id = $jefeCalle->id;
+        $jefeFamilia->save();
+
+        return $jefeFamilia;
+    }
+
+    private function updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia){
+        $personalCaracterizacion->raas_jefe_familia_id = $jefeFamilia->id;
+        $personalCaracterizacion->update();
+    }
+
+    private function storeCensoVivienda($row, $raas_jefe_familia_id){
+
+        $censoVivienda = new CensoVivienda();
+        $censoVivienda->codigo = $row[0];
+        $censoVivienda->cantidad_familias = $row[3];
+        $censoVivienda->raas_calle_id = $this->calleId;
+        $censoVivienda->tipo_vivienda = $row[1];
+        $censoVivienda->cantidad_habitantes = $row[2] ? $row[2] : 0;
+        $censoVivienda->raas_jefe_familia_id = $raas_jefe_familia_id;
+        $censoVivienda->save();
+
+    }
+
+    private function getJefeFamiliaByCedula($row){
+        if($row[4]){
+
+            $nacionalidad = explode("-", $row[4])[0];
+            $cedula = explode("-", $row[4])[1];
+            
+            $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
+            if($personalCaracterizacion){
+                $jefeFamilia = JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first();
+                return $jefeFamilia;
+            }
+
+        }
+        
+        
+        return null;
+
+    }
+
+    private function personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row){
+
+        $personalCaracterizacion = new PersonalCaracterizacion();
+        $personalCaracterizacion->nacionalidad = $nacionalidad;
+        $personalCaracterizacion->cedula = $cedula;
+        $personalCaracterizacion->nombre_apellido = $row[5];
+        $personalCaracterizacion->sexo = strtolower($row[9]);
+        $personalCaracterizacion->fecha_nacimiento = strtolower($row[8]);
+        $personalCaracterizacion->raas_estado_id = $elector->raas_estado_id;
+        $personalCaracterizacion->raas_municipio_id = $elector->raas_municipio_id;
+        $personalCaracterizacion->raas_parroquia_id = $elector->raas_parroquia_id;
+        $personalCaracterizacion->raas_centro_votacion_id = $elector->raas_centro_votacion_id;
+        $personalCaracterizacion->save();
+
+        return $personalCaracterizacion;
+
+    }
+
+}

@@ -142,6 +142,10 @@ trait ElectorTrait
             $response = $response->body();
             $body = explode('<td', $response);
 
+            if(!isset($body)){
+                return null;
+            }
+
             $nameSanitize = $body['14'];
             $estadoSanitize = $body['16'];
             $municipioSanitize = $body['18'];
