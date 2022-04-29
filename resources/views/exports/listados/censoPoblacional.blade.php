@@ -91,9 +91,8 @@
                     @endphp
                         
                     @foreach($ordenOperaciones as $operacion)
-                        {{ $operacion->valor_inicio }}
-                        {{ $operacion->valor_fin }}
-                        {{$censoVivienda->cantidad_habitantes}}
+                        {{ $censoVivienda->cantidad_habitantes >= $operacion->valor_inicio && $censoVivienda->cantidad_habitantes <= $operacion->valor_fin ? true : false }}
+       
                         @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
            
                             @php
