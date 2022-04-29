@@ -94,8 +94,9 @@ class LoteFamiliarImport implements ToCollection
                             $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
 
                             if($elector){
-
-                                $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                if(!PersonalCaracterizacion::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first()){
+                                    $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                }
                                 
                                 $jefeCalle = $this->getJefeCalle($this->calleId);
 
@@ -135,8 +136,9 @@ class LoteFamiliarImport implements ToCollection
                                     $elector->raas_parroquia_id = $response["raas_parroquia_id"];
                                     $elector->raas_centro_votacion_id = $response["raas_centro_votacion_id"];
                                     $elector->save();
-
-                                    $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                    if(!PersonalCaracterizacion::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first()){
+                                        $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                    }
 
                                     $jefeCalle = $this->getJefeCalle($this->calleId);
 
