@@ -102,7 +102,7 @@
                             {{ $operacion->cantidad_bolsas }} combos
 
                         @elseif($operacion->operacion == 'entre' && ($censoVivienda->cantidad_habitantes >= $operacion->valor_inicio && $censoVivienda->cantidad_habitantes <= $operacion->valor_fin))
-                    
+                            {{ "hole" }}
                             {{ $operacion->cantidad_bolsas }} combos    
                             @php
                                 $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
