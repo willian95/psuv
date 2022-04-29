@@ -126,7 +126,7 @@ class LoteFamiliarImport implements ToCollection
                                 if($response){
                                     
                                     $elector = new Elector();
-                                    $elector->nacionalidad = $nacionalidad;
+                                    $elector->nacionalidad = strtoupper($nacionalidad);
                                     $elector->cedula = $cedula;
                                     $elector->nombre_apellido = $row[5];
                                     $elector->sexo = strtolower($row[9]);
@@ -170,12 +170,12 @@ class LoteFamiliarImport implements ToCollection
 
                     }else{
 
-                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8])))->first();
+                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[8])->first();
                         if(!$personalCaracterizacion){
                             $jefeCalle = $this->getJefeCalle($this->calleId);
 
                             $personalCaracterizacion = new PersonalCaracterizacion();
-                            $personalCaracterizacion->nacionalidad = "v";
+                            $personalCaracterizacion->nacionalidad = "V";
                             $personalCaracterizacion->nombre_apellido = $row[5];
                             $personalCaracterizacion->sexo = strtolower($row[9]);
                             $personalCaracterizacion->fecha_nacimiento = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8]));
@@ -283,15 +283,16 @@ class LoteFamiliarImport implements ToCollection
     private function personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row){
 
         $personalCaracterizacion = new PersonalCaracterizacion();
-        $personalCaracterizacion->nacionalidad = $nacionalidad;
+        $personalCaracterizacion->nacionalidad = strtoupper($nacionalidad);
         $personalCaracterizacion->cedula = $cedula;
-        $personalCaracterizacion->nombre_apellido = $row[5];
+        $personalCaracterizacion->nombre_apellido = $elector->nombre_apellido;
         $personalCaracterizacion->sexo = strtolower($row[9]);
-        $personalCaracterizacion->fecha_nacimiento = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8]));
+        $personalCaracterizacion->fecha_nacimiento = $row[8];
         $personalCaracterizacion->raas_estado_id = $elector->raas_estado_id;
         $personalCaracterizacion->raas_municipio_id = $elector->raas_municipio_id;
         $personalCaracterizacion->raas_parroquia_id = $elector->raas_parroquia_id;
         $personalCaracterizacion->raas_centro_votacion_id = $elector->raas_centro_votacion_id;
+        $personalCaracterizacion->es_elector = $elector->raas_centro_votacion_id ? true : false;
         $personalCaracterizacion->save();
 
         return $personalCaracterizacion;
