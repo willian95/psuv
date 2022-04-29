@@ -180,7 +180,7 @@ class LoteFamiliarImport implements ToCollection
                             $personalCaracterizacion->nacionalidad = "V";
                             $personalCaracterizacion->nombre_apellido = $row[5];
                             $personalCaracterizacion->sexo = strtolower($row[9]);
-                            $personalCaracterizacion->fecha_nacimiento = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[8]));
+                            $personalCaracterizacion->fecha_nacimiento = $row[8];
                             $personalCaracterizacion->save();
 
                             if(strtoupper($row[10]) == "SI"){
