@@ -84,10 +84,10 @@
                 </td>
                 <td>
                 
-                    {{ $censoVivienda->cantidad_habitantes }}
+                    
                     @php
                         $censoVivienda = App\Models\CensoVivienda::where("id",$data->vivienda_id)->first();
-                        
+                        {{ $censoVivienda->cantidad_habitantes }}
                     @endphp
                         
                     @foreach($ordenOperaciones as $operacion)
