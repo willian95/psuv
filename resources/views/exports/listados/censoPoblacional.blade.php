@@ -91,9 +91,9 @@
                     @endphp
                         
                     @foreach($ordenOperaciones as $operacion)
-                        
+                        {{ $operacion->operacion }}
                         @if($operacion->operacion == 'menor' && $censoVivienda->cantidad_habitantes < $operacion->valor_fin)
-                            "entre 1"
+           
                             @php
                                 $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
                             @endphp
@@ -101,14 +101,14 @@
                             {{ $operacion->cantidad_bolsas }} combos
 
                         @elseif($operacion->operacion == 'entre' && ($censoVivienda->cantidad_habitantes >= $operacion->valor_inicio && $censoVivienda->cantidad_habitantes <= $operacion->valor_fin))
-                            "entre 2"
+                    
                             {{ $operacion->cantidad_bolsas }} combos    
                             @php
                                 $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
                             @endphp
                         
                         @elseif($operacion->operacion == 'mayor' && $censoVivienda->cantidad_habitantes > $operacion->valor_inicio)
-                            "entre 3"
+                           
                             {{ $operacion->cantidad_bolsas }} combos
                             @php
                                 $combosTotales = $combosTotales + $operacion->cantidad_bolsas;
