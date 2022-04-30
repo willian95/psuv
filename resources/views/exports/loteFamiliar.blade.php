@@ -12,6 +12,7 @@
         <th>Fecha nacimiento</th>
         <th>Sexo</th>
         <th>Es jefe</th>
+        <th>Motivo rechazo</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
             <td>{{ $result[8] }}</td>
             <td>{{ $result[9] }}</td>
             <td>{{ $result[10] }}</td>
+            <td>{{ $result[11] }}</td>
         </tr>
     @endforeach
     </tbody>

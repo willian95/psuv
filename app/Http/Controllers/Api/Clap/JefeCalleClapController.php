@@ -140,4 +140,14 @@ class JefeCalleClapController extends Controller
         return response()->json(['success' => true, 'jefe' => $jefeComunidadClap]);
     }
 
+    function jefeCalleByCalle($calle_id){
+
+        $jefeCalle = RaasJefeCalle::where("raas_calle_id", $calle_id)->first();
+        if($jefeCalle){
+            return response()->json(["success" => true, "jefe" => $jefeCalle]);
+        }else{
+            return response()->json(["success" => false]);
+        }
+    }
+
 }

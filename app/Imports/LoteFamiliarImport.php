@@ -63,6 +63,7 @@ class LoteFamiliarImport implements ToCollection
                                         $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
                                         $this->storeCensoVivienda($row, $jefeFamilia->id);
                                     }else{
+                                        $row[11] = "Jefe de familia no registrado";
                                         $this->tempRows[] = $row;
                                     }
                                     
@@ -73,6 +74,7 @@ class LoteFamiliarImport implements ToCollection
                                     if($jefeFamilia){
                                         $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
                                     }else{
+                                        $row[11] = "Jefe de familia no registrado";
                                         $tempRows[] = $row;
                                     }
 
@@ -162,6 +164,7 @@ class LoteFamiliarImport implements ToCollection
                                     }
 
                                 }else{
+                                    $row[11] = "No encontrado en CNE";
                                     $this->tempRows[] = $row;
                                 }
 
@@ -172,41 +175,47 @@ class LoteFamiliarImport implements ToCollection
 
                     }else{
 
-                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[8])->first();
-                        if(!$personalCaracterizacion){
-                            $jefeCalle = $this->getJefeCalle($this->calleId);
+                        if($row[3] != null && $row[8] != null){
+                            $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[8])->first();
+                           
+                            if(!$personalCaracterizacion){
+                                $jefeCalle = $this->getJefeCalle($this->calleId);
 
-                            $personalCaracterizacion = new PersonalCaracterizacion();
-                            $personalCaracterizacion->nacionalidad = "V";
-                            $personalCaracterizacion->nombre_apellido = $row[5];
-                            $personalCaracterizacion->sexo = strtolower($row[9]);
-                            $personalCaracterizacion->fecha_nacimiento = $row[8];
-                            $personalCaracterizacion->save();
+                                $personalCaracterizacion = new PersonalCaracterizacion();
+                                $personalCaracterizacion->nacionalidad = "V";
+                                $personalCaracterizacion->nombre_apellido = $row[5];
+                                $personalCaracterizacion->sexo = strtolower($row[9]);
+                                $personalCaracterizacion->fecha_nacimiento = $row[8];
+                                $personalCaracterizacion->save();
 
-                            if(strtoupper($row[10]) == "SI"){
+                                if(strtoupper($row[10]) == "SI"){
 
-                                
-                                $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                $this->storeCensoVivienda($row, $jefeFamilia->id);
-
-                            }else{
-
-                                $jefeFamilia = $this->getJefeFamiliaByCedula($row);
-                                if($jefeFamilia){
+                                    
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
                                     $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    $this->storeCensoVivienda($row, $jefeFamilia->id);
+
                                 }else{
-                                 
-                                    $this->tempRows[] = $row;
+
+                                    $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    }else{
+                                        
+                                        $row[11] = "Jefe de familia no registrado";
+                                        $this->tempRows[] = $row;
+                                    }
+                                    
+
                                 }
-                                
+                            }else{
+                                $row[11] = "Persona no cedulada duplicada";
+                                $this->tempRows[] = $row;
 
                             }
-                        }else{
-                            
-                            $this->tempRows[] = $row;
-
                         }
+
+                        
 
                     }
         

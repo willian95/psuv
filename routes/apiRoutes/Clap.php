@@ -39,6 +39,7 @@ Route::group(['prefix' => 'jefe-calle-clap'], function () {
     Route::post('search-by-cedula', [JefeCalleClapController::class, 'searchByCedula']);
     Route::post('/', [JefeCalleClapController::class, 'store']);
     Route::get('index', [JefeCalleClapController::class, 'fetch']);
+    Route::get('by-calle/{calle_id}', [JefeCalleClapController::class, 'jefeCalleByCalle']);
     Route::delete('/{id}', [JefeCalleClapController::class, 'delete']);
     Route::put('/{id}', [JefeCalleClapController::class, 'update']);
     Route::post('search-jefe-by-cedula', [JefeCalleClapController::class, 'searchJefeCalleClapByCedula']);

@@ -52,10 +52,30 @@ const app = new Vue({
             this.calles = res.data
         },
 
-        async store(){
+        async getJefeCalle(){
 
-            const form = document.getElementById("form")
-            form.submit()
+            const res = await axios.get("{{ url('/api/clap/jefe-calle-clap/by-calle/') }}"+"/"+this.selectedCalle)
+
+            return res.data.success
+
+        },
+
+        async store(){
+            if(await this.getJefeCalle()){
+                const form = document.getElementById("form")
+                form.submit()
+            }else{
+
+                swal({
+                    "text" : "Calle no posee jefe",
+                    "icon": "error"
+                })
+
+            }
+            
+            
+
+      
 
         }
 
