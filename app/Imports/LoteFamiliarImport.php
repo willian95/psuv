@@ -125,13 +125,13 @@ class LoteFamiliarImport implements ToCollection
                             }else{
 
                                 $response = $this->searchInCNE($cedula, $nacionalidad);
-                 
+                               
                                 if($response){
                                     
                                     $elector = new Elector();
                                     $elector->nacionalidad = strtoupper($nacionalidad);
                                     $elector->cedula = $cedula;
-                                    $elector->nombre_apellido = $row[5];
+                                    $elector->nombre_apellido = $response["nombre_apellido"];
                                     $elector->sexo = strtolower($row[9]);
                                     $elector->raas_estado_id = $response["raas_estado_id"];
                                     $elector->raas_municipio_id = $response["raas_municipio_id"];
