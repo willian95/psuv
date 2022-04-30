@@ -175,8 +175,8 @@ class LoteFamiliarImport implements ToCollection
 
                     }else{
 
-                        if($row[3] != null && $row[8] != null){
-                            $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[3])->where("fecha_nacimiento", $row[8])->first();
+                        if($row[5] != null && $row[8] != null){
+                            $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[5])->where("fecha_nacimiento", $row[8])->first();
                            
                             if(!$personalCaracterizacion){
                                 $jefeCalle = $this->getJefeCalle($this->calleId);

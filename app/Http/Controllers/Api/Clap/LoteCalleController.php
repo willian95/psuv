@@ -12,7 +12,7 @@ class LoteCalleController extends Controller
 {
     
     function store(Request $request){
-        
+        ini_set('max_execution_time', 300);
         $path = $request->file('nucleo')->store(uniqid());
         $import = (new LoteFamiliarImport)->forCalleId($request->calle);
         Excel::import($import, $path);
