@@ -326,6 +326,7 @@ class DashboardController extends Controller
         ->join("raas_comunidad", "raas_calle.raas_comunidad_id", "=", "raas_comunidad.id")
         ->join("raas_parroquia", "raas_comunidad.raas_parroquia_id", "=", "raas_parroquia.id")
         ->join("raas_municipio", "raas_parroquia.raas_municipio_id", "=", "raas_municipio.id")
+        ->whereNull("deleted_at")
         ->whereRaw($condition ? $condition : '1=1')
         ->count();
 
