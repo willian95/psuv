@@ -183,7 +183,7 @@ class LoteFamiliarImport implements ToCollection
                                         $personalCaracterizacion->fecha_nacimiento = $row[8];
                                         $personalCaracterizacion->es_elector = false;
                                         $personalCaracterizacion->save();
-
+//
                                         $jefeFamilia = $this->getJefeFamiliaByCedula($row);
                                         if($jefeFamilia){
                                             $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
