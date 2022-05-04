@@ -173,7 +173,7 @@ class LoteFamiliarImport implements ToCollection
 
                                 }else{
 
-                                    if(!PersonalCaracterizacion::where("nombre_apellido", $row[5])->where("fecha_nacimiento", $row[8])->first()){
+                                    if(!PersonalCaracterizacion::where("cedula", $cedula)->where("nombre_apellido", $row[5])->where("fecha_nacimiento", $row[8])->first()){
                               
                                         $personalCaracterizacion = new PersonalCaracterizacion();
                                         $personalCaracterizacion->nacionalidad = "V";
