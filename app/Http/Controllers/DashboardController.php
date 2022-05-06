@@ -258,7 +258,7 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByMunicipio($entity->id);
 
-            $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->where("tipo_vivienda","CASA")->count();
+            $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereIn("tipo_vivienda",["CASA", "QUINTA"])->count();
             $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
             $habitantesCount = DB::table("raas_personal_caracterizacion")
