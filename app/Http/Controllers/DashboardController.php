@@ -85,8 +85,8 @@ class DashboardController extends Controller
     private function selectedCalle($request){
 
         $entity = Calle::where("id",$request->calle)->orderBy("nombre")->first();
-        $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereIn("tipo_vivienda", ["CASA","QUINTA"])->count();
-        $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->where("tipo_vivienda", "ANEXO")->count();
+        $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
+        $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
         $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
         $habitantesCount = DB::table("raas_personal_caracterizacion")
         ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
@@ -125,8 +125,8 @@ class DashboardController extends Controller
 
         foreach($entities as $entity){
 
-            $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereIn("tipo_vivienda", ["CASA","QUINTA"])->count();
-            $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->where("tipo_vivienda", "ANEXO")->count();
+            $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNull("vivienda_id")->count();
+            $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::where("raas_calle_id", $entity->id)->sum("cantidad_familias");
             $habitantesCount = DB::table("raas_personal_caracterizacion")
             ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
@@ -170,8 +170,8 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByComunidad($entity->id);
 
-            $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereIn("tipo_vivienda", ["CASA","QUINTA"])->count();
-            $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->where("tipo_vivienda", "ANEXO")->count();
+            $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
+            $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
             $habitantesCount = DB::table("raas_personal_caracterizacion")
             ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
@@ -214,8 +214,8 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByParroquia($entity->id);
 
-            $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereIn("tipo_vivienda", ['CASA','QUINTA'])->count();
-            $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->where("tipo_vivienda", 'ANEXO')->count();
+            $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNull("vivienda_id")->count();
+            $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
             $habitantesCount = DB::table("raas_personal_caracterizacion")
             ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
@@ -258,8 +258,8 @@ class DashboardController extends Controller
 
             $callesId = $this->arrayCallesByMunicipio($entity->id);
 
-            $casasCount = CensoVivienda::where("raas_calle_id", $entity->id)->whereIn("tipo_vivienda", ["CASA","QUINTA"])->count();
-            $anexosCount = CensoVivienda::where("raas_calle_id", $entity->id)->where("tipo_vivienda", "ANEXO")->count();
+            $casasCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->where("tipo_vivienda","CASA")->count();
+            $anexosCount = CensoVivienda::whereIn("raas_calle_id", $callesId)->whereNotNull("vivienda_id")->count();
             $familiasSum = CensoVivienda::whereIn("raas_calle_id", $callesId)->sum("cantidad_familias");
             $habitantesCount = DB::table("raas_personal_caracterizacion")
             ->join("raas_jefe_familia", "raas_personal_caracterizacion.raas_jefe_familia_id", "=", "raas_jefe_familia.id")
