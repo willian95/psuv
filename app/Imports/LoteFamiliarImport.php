@@ -348,7 +348,7 @@ class LoteFamiliarImport implements ToCollection
         $personalCaracterizacion->raas_municipio_id = $elector ? $elector->raas_municipio_id : null;
         $personalCaracterizacion->raas_parroquia_id = $elector ? $elector->raas_parroquia_id : null;
         $personalCaracterizacion->raas_centro_votacion_id = $elector ? $elector->raas_centro_votacion_id : null;
-        $personalCaracterizacion->es_elector = $elector->raas_centro_votacion_id ? true : false;
+        $personalCaracterizacion->es_elector =  $elector ? $elector->raas_centro_votacion_id ? true : false : false;
         $personalCaracterizacion->save();
 
         return $personalCaracterizacion;
