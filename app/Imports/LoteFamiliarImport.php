@@ -57,20 +57,15 @@ class LoteFamiliarImport implements ToCollection
                                 
                                 if(strtoupper($row[10]) == "SI"){
 
-                                    if(!JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->where("raas_jefe_calle_id", $jefeCalle->id)->first()){
-
-                                        $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                        if($jefeFamilia){
-                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                            $this->storeCensoVivienda($row, $jefeFamilia->id);
-                                        }else{
-                                            $row[11] = "Jefe de familia no registrado";
-                                            $this->tempRows[] = $row;
-                                        }
-
+                                   
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                    }else{
+                                        $row[11] = "Jefe de familia no registrado";
+                                        $this->tempRows[] = $row;
                                     }
-
-                                    
                                     
                                     
                                 }else{
@@ -109,14 +104,12 @@ class LoteFamiliarImport implements ToCollection
 
                                 if(strtoupper($row[10]) == "SI"){
 
-                                    if(!JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->where("raas_jefe_calle_id", $jefeCalle->id)->first()){
-                                        $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                        if($jefeFamilia){
-                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                            $this->storeCensoVivienda($row, $jefeFamilia->id);
-                                        }
+                                   
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                    if($jefeFamilia){
+                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
                                     }
-                                    
                                     
 
                                 }else{
@@ -152,14 +145,13 @@ class LoteFamiliarImport implements ToCollection
                                     $jefeCalle = $this->getJefeCalle($this->calleId);
 
                                     if(strtoupper($row[10]) == "SI"){
-                                        
-                                        if(!JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->where("raas_jefe_calle_id", $jefeCalle->id)->first()){
-                                            $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                            if($jefeFamilia){
-                                                $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                                $this->storeCensoVivienda($row, $jefeFamilia->id);
-                                            }
+                                    
+                                        $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                        if($jefeFamilia){
+                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                            $this->storeCensoVivienda($row, $jefeFamilia->id);
                                         }
+                                        
 
                                     }else{
 
@@ -173,23 +165,55 @@ class LoteFamiliarImport implements ToCollection
 
                                 }else{
 
-                                    if(!PersonalCaracterizacion::where("cedula", $cedula)->where("nombre_apellido", $row[5])->where("fecha_nacimiento", $row[8])->first()){
-                              
-                                        $personalCaracterizacion = new PersonalCaracterizacion();
-                                        $personalCaracterizacion->nacionalidad = "V";
-                                        $personalCaracterizacion->cedula = $cedula;
-                                        $personalCaracterizacion->nombre_apellido = $row[5];
-                                        $personalCaracterizacion->sexo = strtolower($row[9]);
-                                        $personalCaracterizacion->fecha_nacimiento = $row[8];
-                                        $personalCaracterizacion->es_elector = false;
-                                        $personalCaracterizacion->save();
-//
-                                        $jefeFamilia = $this->getJefeFamiliaByCedula($row);
-                                        if($jefeFamilia){
-                                            $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    if(intval($cedula) >= 30000000){
+
+                                        if(!Elector::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first()){
+
+                                            $elector = new Elector();
+                                            $elector->nacionalidad = strtoupper($nacionalidad);
+                                            $elector->cedula = $cedula;
+                                            $elector->nombre_apellido = $response["nombre_apellido"];
+                                            $elector->sexo = strtolower($row[9]);
+                                            $elector->raas_estado_id = $response["raas_estado_id"];
+                                            $elector->raas_municipio_id = $response["raas_municipio_id"];
+                                            $elector->raas_parroquia_id = $response["raas_parroquia_id"];
+                                            $elector->raas_centro_votacion_id = $response["raas_centro_votacion_id"];
+                                            $elector->save();
+
+                                            if(!PersonalCaracterizacion::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first()){
+                                                $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                            }
+        
+                                            $jefeCalle = $this->getJefeCalle($this->calleId);
+        
+                                            if(strtoupper($row[10]) == "SI"){
+                                            
+                                                $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                                if($jefeFamilia){
+                                                    $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                                    $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                                }
+                                                
+        
+                                            }else{
+        
+                                                $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                                                if($jefeFamilia){
+                                                    $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                                }
+                                                
+        
+                                            }
+
                                         }
 
+                                        
+
+                                    }else{
+                                        $row[11] = "No encontrado en CNE";
+                                        $this->tempRows[] = $row;
                                     }
+
                                     
                                 }
 
@@ -215,12 +239,10 @@ class LoteFamiliarImport implements ToCollection
 
                                 if(strtoupper($row[10]) == "SI"){
 
-                                    if(!JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->where("raas_jefe_calle_id", $jefeCalle->id)->first()){
-                                        $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
-                                    }
                                     
+                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                    $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    $this->storeCensoVivienda($row, $jefeFamilia->id);
 
                                 }else{
 
@@ -273,6 +295,13 @@ class LoteFamiliarImport implements ToCollection
     }
 
     private function storeJefeFamilia($personalCaracterizacion, $jefeCalle){
+
+        if(JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first()){
+
+            return JefeFamilia::where("raas_personal_caracterizacion_id", $personalCaracterizacion->id)->first();
+
+        }
+
         $jefeFamilia = new JefeFamilia();
         $jefeFamilia->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
         $jefeFamilia->raas_jefe_calle_id = $jefeCalle->id;
