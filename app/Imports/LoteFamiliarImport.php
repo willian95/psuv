@@ -341,13 +341,13 @@ class LoteFamiliarImport implements ToCollection
         $personalCaracterizacion = new PersonalCaracterizacion();
         $personalCaracterizacion->nacionalidad = strtoupper($nacionalidad);
         $personalCaracterizacion->cedula = $cedula;
-        $personalCaracterizacion->nombre_apellido = $elector->nombre_apellido;
+        $personalCaracterizacion->nombre_apellido = $elector ? $elector->nombre_apellido : $row[5];
         $personalCaracterizacion->sexo = strtolower($row[9]);
         $personalCaracterizacion->fecha_nacimiento = $row[8];
-        $personalCaracterizacion->raas_estado_id = $elector->raas_estado_id;
-        $personalCaracterizacion->raas_municipio_id = $elector->raas_municipio_id;
-        $personalCaracterizacion->raas_parroquia_id = $elector->raas_parroquia_id;
-        $personalCaracterizacion->raas_centro_votacion_id = $elector->raas_centro_votacion_id;
+        $personalCaracterizacion->raas_estado_id = $elector ? $elector->raas_estado_id : null;
+        $personalCaracterizacion->raas_municipio_id = $elector ? $elector->raas_municipio_id : null;
+        $personalCaracterizacion->raas_parroquia_id = $elector ? $elector->raas_parroquia_id : null;
+        $personalCaracterizacion->raas_centro_votacion_id = $elector ? $elector->raas_centro_votacion_id : null;
         $personalCaracterizacion->es_elector = $elector->raas_centro_votacion_id ? true : false;
         $personalCaracterizacion->save();
 
