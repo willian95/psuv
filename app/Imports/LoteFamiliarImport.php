@@ -167,18 +167,7 @@ class LoteFamiliarImport implements ToCollection
 
                                     if(intval($cedula) >= 30000000){
 
-                                        if(!Elector::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first()){
-
-                                            $elector = new Elector();
-                                            $elector->nacionalidad = strtoupper($nacionalidad);
-                                            $elector->cedula = $cedula;
-                                            $elector->nombre_apellido = $response["nombre_apellido"];
-                                            $elector->sexo = strtolower($row[9]);
-                                            $elector->raas_estado_id = $response["raas_estado_id"];
-                                            $elector->raas_municipio_id = $response["raas_municipio_id"];
-                                            $elector->raas_parroquia_id = $response["raas_parroquia_id"];
-                                            $elector->raas_centro_votacion_id = $response["raas_centro_votacion_id"];
-                                            $elector->save();
+                                        if(!PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first()){
 
                                             if(!PersonalCaracterizacion::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first()){
                                                 $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
