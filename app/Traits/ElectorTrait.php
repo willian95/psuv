@@ -141,6 +141,7 @@ trait ElectorTrait
      
             $response = Http::withHeaders([
                 'Content-Type' => 'text/html; charset=UTF-8',
+                'Accept' => "*"
             ])->get('http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad='.$nacionalidad.'&cedula='.$cedula);
             $response = $response->body();
             $body = explode('<td', $response);
