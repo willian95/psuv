@@ -140,7 +140,7 @@ trait ElectorTrait
         try {
      
             $response = Http::withHeaders([
-                'Content-Type' => 'text/html; charset=UTF-8',
+                'Content-Type' => 'text/html; charset=UTF-8;',
                 'Accept' => "*",
                 'User-Agent' => "PostmanRuntime/7.29.0"
             ])->get('http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad='.$nacionalidad.'&cedula='.$cedula);
