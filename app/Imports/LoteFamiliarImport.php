@@ -169,6 +169,7 @@ class LoteFamiliarImport implements ToCollection
 
                                         if(!PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first()){
 
+                                            $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
                                             $jefeCalle = $this->getJefeCalle($this->calleId);
         
                                             if(strtoupper($row[10]) == "SI"){
