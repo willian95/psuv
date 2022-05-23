@@ -288,6 +288,8 @@ class LoteFamiliarImport implements ToCollection
 
         }
 
+        Log::info($jefeCalle);
+
         $jefeFamilia = new JefeFamilia();
         $jefeFamilia->raas_personal_caracterizacion_id = $personalCaracterizacion->id;
         $jefeFamilia->raas_jefe_calle_id = $jefeCalle->id;
