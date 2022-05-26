@@ -287,11 +287,11 @@ class LoteFamiliarImport implements ToCollection
                                 
 
                                 }else{
-                                    $row[11] = "Persona duplicada";
+                                    $row[11] = "Persona duplicada en personal caracterizacion Jefe id = ". $personalCaracterizacion->id;
                                     $this->tempRows[] = $row;
                                 }
                             }else{
-                                $row[11] = "Persona duplicada";
+                                $row[11] = "Persona duplicada en elector Jefe id = ". $elector->id;
                                 $this->tempRows[] = $row;
                             }
 
@@ -321,11 +321,11 @@ class LoteFamiliarImport implements ToCollection
                                 
 
                                 }else{
-                                    $row[11] = "Persona duplicada";
+                                    $row[11] = "Persona duplicada en personal caracterizacion no Jefe id = ". $personalCaracterizacion->id;
                                     $this->tempRows[] = $row;
                                 }
                             }else{
-                                $row[11] = "Persona duplicada";
+                                $row[11] = "Persona duplicada en elector no Jefe id = ". $elector->id;
                                 $this->tempRows[] = $row;
                             }
 
