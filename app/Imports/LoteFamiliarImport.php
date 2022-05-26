@@ -265,13 +265,15 @@ class LoteFamiliarImport implements ToCollection
 
                         if(strtoupper($row[10]) == "SI"){
 
-                            $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
-                            if(!$elector){
-                                $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
-                                if(!$personalCaracterizacion){
-                                    $elector = null;
+                            
+                            $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
+                            if(!$personalCaracterizacion){
+
+                                $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
+                                if(!$elector){
+
                                     $response = $this->searchInCNE($cedula, $nacionalidad);
-                                    
+                                
                                     if($response){
                                         $elector = $this->storeElector($nacionalidad, $cedula, $row, $response);
                                         $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
@@ -279,36 +281,48 @@ class LoteFamiliarImport implements ToCollection
                                         $personalCaracterizacion = $this->personalCaracterizacionStoreNoElector($row, $nacionalidad, $cedula);
                                     }
 
-                                    $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
-                                    if($jefeFamilia){
-                                        $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
-                                        $this->storeCensoVivienda($row, $jefeFamilia->id);
-                                    }
-                                
-
                                 }else{
-                                    $row[11] = "Persona duplicada en personal caracterizacion Jefe id = ". $personalCaracterizacion->id;
-                                    $this->tempRows[] = $row;
+                                    $row[11] = "Persona duplicada Jefe elector id = ".$elector->id;
+                                    Log::info("Elector jefe");
+                                    Log::info($row);
                                 }
+                                $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+
+                                $jefeFamilia = $this->storeJefeFamilia($personalCaracterizacion, $jefeCalle);
+                                if($jefeFamilia){
+                                    $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                                    $this->storeCensoVivienda($row, $jefeFamilia->id);
+                                }
+                            
+
                             }else{
-                                $row[11] = "Persona duplicada en elector Jefe id = ". $elector->id;
+                                $row[11] = "Persona duplicada en personal caracterizacion Jefe id = ". $personalCaracterizacion->id;
                                 $this->tempRows[] = $row;
                             }
 
                         }else{
 
-                            $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
-                            if(!$elector){
+                            
                                 $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
                                 if(!$personalCaracterizacion){
-                                    $elector = null;
-                                    $response = $this->searchInCNE($cedula, $nacionalidad);
-                                    
-                                    if($response){
-                                        $elector = $this->storeElector($nacionalidad, $cedula, $row, $response);
-                                        $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+
+                                    $elector = Elector::where("nacionalidad", $nacionalidad)->where("cedula", $cedula)->first();
+                                    if(!$elector){
+                                        
+                                        $elector = null;
+                                        $response = $this->searchInCNE($cedula, $nacionalidad);
+                                        
+                                        if($response){
+                                            $elector = $this->storeElector($nacionalidad, $cedula, $row, $response);
+                                            $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                        }else{
+                                            $personalCaracterizacion = $this->personalCaracterizacionStoreNoElector($row, $nacionalidad, $cedula);
+                                        }
+
                                     }else{
-                                        $personalCaracterizacion = $this->personalCaracterizacionStoreNoElector($row, $nacionalidad, $cedula);
+                                        $row[11] = "Persona duplicada no Jefe elector id = ".$elector->id;
+                                        Log::info("Elector no jefe");
+                                        Log::info($row);
                                     }
 
                                     $jefeFamilia = $this->getJefeFamiliaByCedula($row);
@@ -324,10 +338,7 @@ class LoteFamiliarImport implements ToCollection
                                     $row[11] = "Persona duplicada en personal caracterizacion no Jefe id = ". $personalCaracterizacion->id;
                                     $this->tempRows[] = $row;
                                 }
-                            }else{
-                                $row[11] = "Persona duplicada en elector no Jefe id = ". $elector->id;
-                                $this->tempRows[] = $row;
-                            }
+                            
 
                         }
 
