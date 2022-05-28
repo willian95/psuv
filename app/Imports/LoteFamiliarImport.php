@@ -285,6 +285,10 @@ class LoteFamiliarImport implements ToCollection
                                     $row[11] = "Persona duplicada Jefe elector id = ".$elector->id;
                                     Log::info("Elector jefe");
                                     Log::info($row);
+                                    $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
+                                    if(!$personalCaracterizacion){
+                                        $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                    }
                                 }
                                 $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
                                 if(!$personalCaracterizacion){
@@ -326,6 +330,10 @@ class LoteFamiliarImport implements ToCollection
                                         $row[11] = "Persona duplicada no Jefe elector id = ".$elector->id;
                                         Log::info("Elector no jefe");
                                         Log::info($row);
+                                        $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
+                                        if(!$personalCaracterizacion){
+                                            $personalCaracterizacion = $this->personalCaracterizacionStore($nacionalidad, $cedula, $elector, $row);
+                                        }
                                     }
 
                                     $personalCaracterizacion = PersonalCaracterizacion::where("nacionalidad", strtoupper($nacionalidad))->where("cedula", $cedula)->first();
