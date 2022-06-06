@@ -84,6 +84,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::view('/candidatos', 'candidatos.view');
 
         Route::view('/centros_votacion', 'centrosVotacion.view');
+
+        Route::view('/importacion/jefe_calle', 'RAAS.jefeCalle.importacion.view');
+
     });
 
     //Raas modules

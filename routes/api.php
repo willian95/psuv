@@ -328,3 +328,4 @@ Route::post('/reporte-dashboard/generate', [DashboardController::class, 'generat
 Route::post("admin/orden-operaciones", [OrderOperacionesController::class, 'store']);
 Route::get("admin/orden-operaciones", [OrderOperacionesController::class, 'fetch']);
 Route::delete("admin/orden-operaciones/{id}", [OrderOperacionesController::class, 'delete']);
+Route::post("/importacion/jefe_calle", [JefeCalleController::class, "importacionJefeCalle"]);
