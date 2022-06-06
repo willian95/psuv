@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class JefeComunidad extends Model
 {
-    protected $table="jefe_comunidad";
+    protected $table="raas_jefe_comunidad";
     use SoftDeletes;
     use HasFactory;
 
     public function personalCaracterizacion(){
 
-        return $this->belongsTo(PersonalCaracterizacion::class);
+        return $this->belongsTo(PersonalCaracterizacion::class,"raas_personal_caracterizacion_id");
 
     }
 
