@@ -359,6 +359,24 @@ class LoteFamiliarImport implements ToCollection
                         }
 
 
+                    }else{
+                        
+                        $personalCaracterizacion = PersonalCaracterizacion::where("nombre_apellido", $row[5])->where("sexo", strtolower($row[9]))->where("fecha_nacimiento", $row[8])->first();
+                        if(!$personalCaracterizacion){
+                            $personalCaracterizacion = $this->personalCaracterizacionStoreNoElector($row, "V", "");
+                            $jefeFamilia = $this->getJefeFamiliaByCedula($row);
+                            if($jefeFamilia){
+                                $this->updatePersonalCaracterizacionJefeFamilia($personalCaracterizacion, $jefeFamilia);
+                            }else{
+                                $row[11] = "Persona no posee jefe";
+                                $this->tempRows[] = $row;
+                            }
+                        }else{
+                            $row[11] = "Persona no cedulada duplicada";
+                            $this->tempRows[] = $row;
+                        }
+                        
+                        
                     }
 
                 }
