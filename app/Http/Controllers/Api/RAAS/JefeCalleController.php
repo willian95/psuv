@@ -336,7 +336,7 @@ class JefeCalleController extends Controller
                 break;
             }
             $calle=\App\Models\Calle::where("nombre",$jefe->nombre_calle)
-            ->where("comunidad_id",$comunidad->id)
+            ->where("raas_comunidad_id",$comunidad->id)
             ->first();
             if(!$calle){
                 $response["errores"][]=[
