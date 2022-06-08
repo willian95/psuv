@@ -64,6 +64,9 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th class="datatable-cell datatable-cell-sort">
+                                            <span>N° Casa</span>
+                                        </th>
 
                                         <th class="datatable-cell datatable-cell-sort">
                                             <span>Municipio</span>
@@ -96,6 +99,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="jefe in jefeFamilias">
+                                        <td>@{{ jefe?.vivienda?.codigo }}</td>
                                         <td>@{{ jefe?.jefe_calle?.calle?.comunidad?.parroquia?.municipio?.nombre }}</td>
                                         <td>@{{ jefe?.jefe_calle?.calle?.comunidad?.nombre }}</td>
                                         <td>@{{ jefe?.vivienda?.tipo_vivienda }}</td>
