@@ -365,7 +365,7 @@ class JefeCalleController extends Controller
                 ];
                 break;
             }
-            $jefeCalle=\App\Models\JefeComunidad::whereHas("personalCaracterizacion",function($query)use($jefe){
+            $jefeCalle=\App\Models\PersonalCaracterizacion::whereHas("personalCaracterizacion",function($query)use($jefe){
                 $query->where("cedula",$jefe->cedula_persona);
             })
             ->first();
