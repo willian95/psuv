@@ -327,7 +327,9 @@ class JefeCalleController extends Controller
        ];
        $data['datos']=json_decode(json_encode($data['datos']));
        foreach($data["datos"] as $jefe){
-            $comunidad=\App\Models\Comunidad::where("nombre",$jefe->nombre_comunidad)->first();
+            $comunidad=\App\Models\Comunidad::where("nombre",$jefe->nombre_comunidad)
+            ->where("raas_parroquia_id",$jefe->comunidad_parroquia_id)
+            ->first();
             if(!$comunidad){
                 $response["errores"][]=[
                     "datos"=>$jefe,
