@@ -349,10 +349,11 @@ class JefeCalleController extends Controller
                 // ];
                 // break;
             }
-            $jefeComunidad=\App\Models\JefeComunidad::whereHas("personalCaracterizacion",function($query)use($jefe){
-                $query->where("cedula",$jefe->cedula_jefe_comunidad);
+            $jefeComunidad=\App\Models\JefeComunidad::whereHas("personalCaracterizacion",function($query)use($jefe,$comunidad){
+                $query->where("cedula",$jefe->cedula_jefe_comunidad)
+                ->where("raas_comunidad_id",$comunidad->id)
+                ;
             })
-            ->where("comunidad_id",$comunidad->id)
             ->first();
             if(!$jefeComunidad){
                 $response["errores"][]=[
