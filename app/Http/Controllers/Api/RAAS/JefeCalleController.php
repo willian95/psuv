@@ -339,11 +339,15 @@ class JefeCalleController extends Controller
             ->where("raas_comunidad_id",$comunidad->id)
             ->first();
             if(!$calle){
-                $response["errores"][]=[
-                    "datos"=>$jefe,
-                    "motivo"=>"La calle: ".$jefe->nombre_calle." no existe"
-                ];
-                break;
+                $calle=\App\Models\Calle::create([
+                    "nombre"=>$jefe->nombre_calle,
+                    "raas_comunidad_id"=>$comunidad->id
+                ]);
+                // $response["errores"][]=[
+                //     "datos"=>$jefe,
+                //     "motivo"=>"La calle: ".$jefe->nombre_calle." no existe"
+                // ];
+                // break;
             }
             $jefeComunidad=\App\Models\JefeComunidad::whereHas("personalCaracterizacion",function($query)use($jefe){
                 $query->where("cedula",$jefe->cedula_jefe_comunidad);
