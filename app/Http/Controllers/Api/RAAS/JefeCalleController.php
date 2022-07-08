@@ -365,17 +365,38 @@ class JefeCalleController extends Controller
                 ];
                 break;
             }
-            $jefeCalle=\App\Models\PersonalCaracterizacion::where("cedula",$jefe->cedula_persona)
+            $personalCaracterizacion=\App\Models\PersonalCaracterizacion::where("cedula",$jefe->cedula_persona)
             ->first();
-            if(!$jefeCalle){
-                $response["errores"][]=[
-                    "datos"=>$jefe,
-                    "motivo"=>"No existe personal registrado con esta cédula: ".$jefe->cedula_persona
-                ];
-                break;
+            if(!$personalCaracterizacion){
+                $elector=\App\Models\Elector::where("cedula",$jefe->cedula_persona)->first();
+                if($elector){
+                    $personalCaracterizacion=\App\Models\PersonalCaracterizacion::create([
+                        "cedula"=>$jefe->cedula_persona,
+                        "nombre_apellido"=>$elector->nombre_apellido,
+                        "sexo"=>$elector->sexo,
+                        "nacionalidad"=>$elector->nacionalidad,
+                        "raas_estado_id"=>$elector->raas_estado_id,
+                        "raas_municipio_id"=>$elector->raas_municipio_id,
+                        "raas_parroquia_id"=>$elector->raas_parroquia_id,
+                        "raas_centro_votacion_id"=>$elector->raas_centro_votacion_id,
+                        "telefono_principal"=>null,
+                        "telefono_secundario"=>null,
+                        "tipo_voto"=>null,
+                        "fecha_nacimiento"=>null,
+                        "raas_estatus_personal_id"=>null,
+                        "elecciones_partido_politico_id"=>null,
+                        "elecciones_movilizacion_id"=>null,
+                    ]);
+                }else{
+                    $response["errores"][]=[
+                        "datos"=>$jefe,
+                        "motivo"=>"No existe personal registrado con esta cédula: ".$jefe->cedula_persona
+                    ];
+                    break;
+                }
             }
             $dataJefe=\App\Models\JefeCalle::where("raas_calle_id",$calle->id)
-            ->where("raas_personal_caraterizacion_id",$jefeCalle->id)
+            ->where("raas_personal_caraterizacion_id",$personalCaracterizacion->id)
             ->where("raas_jefe_comunidad_id",$jefeComunidad->id)
             ->first();
             if($dataJefe){
@@ -386,7 +407,7 @@ class JefeCalleController extends Controller
                 break;
             }
             $dataJefe=\App\Models\JefeCalle::create([
-                "raas_personal_caraterizacion_id"=>$jefeCalle->id,
+                "raas_personal_caraterizacion_id"=>$personalCaracterizacion->id,
                 "raas_calle_id"=>$calle->id,
                 "raas_jefe_comunidad_id"=>$jefeComunidad->id,
             ]);
