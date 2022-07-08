@@ -396,7 +396,7 @@ class JefeCalleController extends Controller
                 }
             }
             $dataJefe=\App\Models\JefeCalle::where("raas_calle_id",$calle->id)
-            ->where("raas_personal_caraterizacion_id",$personalCaracterizacion->id)
+            ->where("raas_personal_caracterizacion_id",$personalCaracterizacion->id)
             ->where("raas_jefe_comunidad_id",$jefeComunidad->id)
             ->first();
             if($dataJefe){
@@ -407,7 +407,7 @@ class JefeCalleController extends Controller
                 break;
             }
             $dataJefe=\App\Models\JefeCalle::create([
-                "raas_personal_caraterizacion_id"=>$personalCaracterizacion->id,
+                "raas_personal_caracterizacion_id"=>$personalCaracterizacion->id,
                 "raas_calle_id"=>$calle->id,
                 "raas_jefe_comunidad_id"=>$jefeComunidad->id,
             ]);
