@@ -310,7 +310,7 @@ class JefeCalleController extends Controller
         $data['datos'] = $jefeCalles[0];
         $validation = \Validator::make($data, [
             "datos.*.nombre_comunidad" => 'required|string',
-            "datos.*.comunidad_parroquia_id" => 'required|string',
+            "datos.*.comunidad_parroquia_id" => 'required|numeric',
             "datos.*.nombre_calle" => "required|string",
             "datos.*.cedula_jefe_comunidad" => "required|numeric",
             "datos.*.cedula_persona" => 'required|numeric',
