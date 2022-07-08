@@ -11,14 +11,14 @@ class JefeCalle extends Model
     protected $table="raas_jefe_calle";
     protected $fillable=[
         "raas_calle_id",
-        "raas_personal_caraterizacion_id",
+        "raas_personal_caracterizacion_id",
         "raas_jefe_comunidad_id",
     ];
     public function calle(){
         return $this->belongsTo(Calle::class,"raas_calle_id");
     }
     public function personalCaracterizacion(){
-        return $this->belongsTo(PersonalCaracterizacion::class,"raas_personal_caraterizacion_id");
+        return $this->belongsTo(PersonalCaracterizacion::class,"raas_personal_caracterizacion_id");
     }
     public function JefeComunidad(){
         return $this->belongsTo(JefeComunidad::class,"raas_jefe_comunidad_id");
@@ -28,6 +28,6 @@ class JefeCalle extends Model
     }
 
     public function calles(){
-        return $this->hasMany(JefeCalle::class,"personal_caraterizacion_id","raas_personal_caraterizacion_id");
+        return $this->hasMany(JefeCalle::class,"personal_caraterizacion_id","raas_personal_caracterizacion_id");
     }
 }
