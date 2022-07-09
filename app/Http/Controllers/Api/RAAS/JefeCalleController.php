@@ -314,6 +314,7 @@ class JefeCalleController extends Controller
             "datos.*.nombre_calle" => "required|string",
             "datos.*.cedula_jefe_comunidad" => "required|numeric",
             "datos.*.cedula_persona" => 'required|numeric',
+            "datos.*.jefe_calle_telefono" => 'required',
        ]);
 
        if ($validation->fails()) {
@@ -379,7 +380,7 @@ class JefeCalleController extends Controller
                         "raas_municipio_id"=>$elector->raas_municipio_id,
                         "raas_parroquia_id"=>$elector->raas_parroquia_id,
                         "raas_centro_votacion_id"=>$elector->raas_centro_votacion_id,
-                        "telefono_principal"=>null,
+                        "telefono_principal"=>$jefe->jefe_calle_telefono,
                         "telefono_secundario"=>null,
                         "tipo_voto"=>null,
                         "fecha_nacimiento"=>null,
@@ -394,6 +395,10 @@ class JefeCalleController extends Controller
                     ];
                     break;
                 }
+            }else{
+                \App\Models\PersonalCaracterizacion::where("cedula",$jefe->cedula_persona)->update([
+                "telefono_principal"=>$jefe->jefe_calle_telefono,
+                ]);
             }
             $dataJefe=\App\Models\JefeCalle::where("raas_calle_id",$calle->id)
             ->where("raas_personal_caracterizacion_id",$personalCaracterizacion->id)
